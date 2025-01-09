@@ -1,5 +1,6 @@
 import React from 'react';
 import MainHeader from '../components/Header/MainHeader';
+import Footer from '../components/Footer/Footer';
 
 import { Outlet } from 'react-router-dom';
 import Carousel from '../components/HomePage/homeCarousel/carousel';
@@ -16,7 +17,7 @@ const MainLayout = () => {
         </main>
       </Box>
 
-      {/* <Footer /> */}
+      <Footer />
     </div>
   );
 };

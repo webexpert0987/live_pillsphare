@@ -13,20 +13,20 @@ import { Link } from 'react-router-dom';
 
 const TopHeader = ()=>{
     const theme = useTheme();
-
+    const linkStyle={color: 'white', textDecoration: 'none'}
     return (
-        <AppBar position="static" sx={{ bgcolor: theme.palette.primary.main, minHeight: '40px' }}>
+        <AppBar position="static" sx={{ bgcolor: theme.palette.primary.main, minHeight: '40px',  padding: '1px' }}>
             <Toolbar variant="dense" sx={{marginX: '30px'}}>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
                     <Box>
-                        <Typography variant="body2">
+                        <Typography variant="h4" >
                             Delivering without delay{' '}
                             <Button
-                                size="small"
                                 sx={{
-                                    color: '#fdba74',
+                                    color: 'tertiary.main',
                                     textTransform: 'none',
-                                    '&:hover': { color: '#fed7aa' },
+                                    fontSize: 'inherit',
+                                    padding:'0px'
                                 }}
                             >
                                 Shop now!
@@ -35,11 +35,17 @@ const TopHeader = ()=>{
                     </Box>
                     <Box>
                         <Stack direction="row" spacing={1}>
-                            <Link to='/about' size="small"><Typography sx={{color: 'white'}}>About Us</Typography></Link>
+                            <Link to='/about' style={linkStyle}>
+                                <Typography >About Us</Typography>
+                            </Link>
                             <Divider orientation="vertical" flexItem sx={{ bgcolor: 'rgba(255,255,255,0.3)' }} />
-                            <Button color="inherit" size="small">How it Work</Button>
+                            <Link to='/how-it-work' style={linkStyle}>
+                                <Typography>How it Work</Typography>
+                            </Link>
                             <Divider orientation="vertical" flexItem sx={{ bgcolor: 'rgba(255,255,255,0.3)' }} />
-                            <Button color="inherit" size="small">FAQ's</Button>
+                            <Link to='/faqs' style={linkStyle}>
+                                <Typography >FAQ's</Typography>
+                            </Link>
                         </Stack>
                     </Box>
                 </Box>
