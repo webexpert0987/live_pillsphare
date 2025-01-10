@@ -1,5 +1,6 @@
 import React from "react";
-import { Box, Typography, Button, Grid, Container } from '@mui/material';
+import { Box, Typography, Button, Container } from '@mui/material';
+import Grid  from '@mui/material/Grid2';
 import { Icon } from '@iconify/react';
 
 const WeeklyOffersSection = () => {
@@ -40,27 +41,33 @@ const WeeklyOffersSection = () => {
                     View All <Icon icon="solar:arrow-right-broken" color="#fff" width="24" height="24" />
                 </Button>
             </Box>
-            <Grid container spacing={2}>
-                {categories.map((category) => (
-                    <Grid item xs={6} sm={3} key={category.name} sx={{position: 'relative'}}>
-                        <Box
-                            sx={{
-                                border: '1px solid lightgrey',
-                                textAlign: 'right',
-                                borderRadius: '10px',
-                                backgroundColor: 'secondary.main',
-                                height: '225px',
-                                position: 'relative'
-                            }}
-                        >
-                            <img src={category.image} style={{position: 'absolute', top:'15px', zIndex: 99, right:0, width: '176px', height: '208px'}}/>
-                        </Box>
-                        <Box position={'absolute'} bottom={'10px'} left={'10%'}>
-                            <Typography variant="subtitle1">{category.name}</Typography>
-                            <Typography variant="h6"> {category.discount} off</Typography>
-                            <Button  size="small">
-                                View More <Icon icon="solar:arrow-right-broken" color="primary.main" width="22" height="22" />
-                            </Button>
+            {/* <Grid container spacing={2}> */}
+            <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }} width={'100%'}>
+                {categories.map((category, index) => (
+                    // <Grid item xs={6} sm={3} key={category.name} sx={{position: 'relative'}}>
+                    <Grid key={index} size={{ xs: 2, sm: 4, md: 4 }} sx={{position: 'relative'}}>
+                        <Box>
+                            <Box
+                                sx={{
+                                    border: '1px solid lightgrey',
+                                    textAlign: 'right',
+                                    borderRadius: '10px',
+                                    backgroundColor: 'secondary.main',
+                                    height: '225px',
+                                    position: 'relative',
+                                    width: '100%'
+                                }}
+                            >
+                                {/* <img src={category.image} style={{position: 'absolute', top:'15px', zIndex: 99, right:0, width: '176px', height: '208px'}}/> */}
+                                <img src={category.image} />
+                            </Box>
+                            <Box position={'absolute'} bottom={'10px'} left={'10%'}>
+                                <Typography variant="subtitle1">{category.name}</Typography>
+                                <Typography variant="h6"> {category.discount} off</Typography>
+                                <Button  size="small">
+                                    View More <Icon icon="solar:arrow-right-broken" color="primary.main" width="22" height="22" />
+                                </Button>
+                            </Box>
                         </Box>
                     </Grid>
                 ))}

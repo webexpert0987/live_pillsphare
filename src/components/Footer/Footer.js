@@ -2,8 +2,14 @@ import React from 'react';
 import { Box, Typography, TextField, Button, IconButton, Container, Divider } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import { Facebook, Twitter, LinkedIn } from '@mui/icons-material';
+import { Link } from 'react-router-dom';
 
 export default function Footer() {
+    const linkStyle = {
+        color: '#333',
+        textDecoration: 'none',
+        fontWeight: 500
+    }
   return (
     <Box sx={{ backgroundColor: 'secondary.main', padding: '40px 20px' }}>
         <Container maxWidth='lg'>
@@ -28,15 +34,20 @@ export default function Footer() {
                             paddingRight: 1,
                             position: 'relative',
                             left: '5px',
+                            border: 'none',
                             backgroundColor: '#F5F5F5',
                             borderRadius: '50px',
+                            position: 'relative',
+                            left: '60px',
                             '& .MuiOutlinedInput-root': {
                                 borderRadius: 10,
 
                             },
                             '& .MuiOutlinedInput-input': {
                                 paddingRight: 5,
-                                marginRight: 5 
+                                marginRight: 5,
+                                paddingTop: 2.5,
+                                paddingBottom: 2.5
                             },
                         }}
                     />
@@ -49,6 +60,8 @@ export default function Footer() {
                             '&:hover': {
                                 backgroundColor: '#22432A',
                             },
+                            padding: '0px 30px',
+                            zIndex: 99
                         }}
                         size='small'
                     >
@@ -56,98 +69,178 @@ export default function Footer() {
                     </Button>
                 </Box>
             </Box>
-
+            <Divider/>
             {/* Footer Sections */}
-            <Grid container spacing={4}>
-                {/* Logo Section */}
-                <Grid item xs={12} md={4}>
-                <img src="/path-to-logo.png" alt="Pill Sphere Logo" style={{ maxWidth: '150px' }} />
-                </Grid>
-
-                {/* Categories Section */}
-                <Grid item xs={12} md={4}>
-                <Typography variant="h6" gutterBottom>
-                    Categories
-                </Typography>
-                <Grid container spacing={1}>
-                    <Grid item xs={6}>
-                    <Typography>Men's Health</Typography>
-                    <Typography>Women's Health</Typography>
-                    <Typography>Pediatric Health</Typography>
-                    <Typography>General Wellbeing</Typography>
-                    <Typography>Delivery</Typography>
+            <Box sx={{ flexGrow: 2, marginTop: '40px' }}>
+                <Grid container spacing={5}>
+                    {/* Logo Section */}
+                    <Grid size={{ xs: 6, sm: 10, md: 4, lg: 2.6 }}>
+                        <img src="/Pillsphere_logo-removebg-preview 1.png" alt="Pill Sphere Logo" style={{ maxWidth: '258px' }} />
                     </Grid>
-                    <Grid item xs={6}>
-                    <Typography>How It Works</Typography>
-                    <Typography>Account</Typography>
-                    <Typography>Cart</Typography>
-                    <Typography>Cookies</Typography>
-                    <Typography>Prescribers</Typography>
+                    
+                    {/* Categories Section */}
+                    <Grid size={{ xs: 6, sm: 10, md: 4, lg: 6 }} sx={{marginRight: '20px', width: '50%'}}>
+                        <Typography variant="h6" sx={{fontWeight: '900', fontSize: '24px'}} gutterBottom>
+                            Categories
+                        </Typography>
+                        <Box sx={{ margin: '20px 0px', borderBottom: '2px solid #000' }}>
+                            <Divider />
+                        </Box>
+                        <Box>
+                            <Grid container direction="row" spacing={5}>
+                                  <Grid size={{ xs: 12, sm: 4, md: 4, lg: 4 }}>
+                                      <Typography variant='h4' marginY={1}>
+                                          <Link style={linkStyle}>Men's Health</Link>
+                                      </Typography>
+                                      <Typography variant='h4' marginY={1}>
+                                          <Link style={linkStyle}>Women's Health</Link>
+                                      </Typography>
+                                      <Typography variant='h4' marginY={1}>
+                                          <Link style={linkStyle}>
+                                              Pediatric Health
+                                          </Link>
+                                      </Typography>
+                                      <Typography variant='h4' marginY={1}>
+                                          <Link style={linkStyle}>
+                                              General Wellbeing
+                                          </Link>
+                                      </Typography>
+                                      <Typography variant='h4' marginY={1}>
+                                          <Link style={linkStyle}>
+                                              Delivery
+                                          </Link>
+                                      </Typography>
+                                  </Grid>
+                                  <Grid size={{ xs: 12, sm: 4, md: 4, lg: 4 }}>
+                                      <Typography variant='h4' marginY={1}>
+                                          <Link style={linkStyle}>
+                                              How It Works
+                                          </Link>
+                                      </Typography>
+                                      <Typography variant='h4' marginY={1}>
+                                          <Link style={linkStyle}>
+                                              Account
+                                          </Link>
+                                      </Typography>
+                                      <Typography variant='h4' marginY={1}>
+                                          <Link style={linkStyle}>
+                                              Cart
+                                          </Link>
+                                      </Typography>
+                                      <Typography variant='h4' marginY={1}>
+                                          <Link style={linkStyle}>
+                                              Cookies
+                                          </Link>
+                                      </Typography>
+                                      <Typography variant='h4' marginY={1}>
+                                          <Link style={linkStyle}>
+                                              Prescribers
+                                          </Link>
+                                      </Typography>
+                                  </Grid>
+                                  <Grid size={{ xs: 12, sm: 4, md: 4, lg: 4 }}>
+                                      <Typography variant='h4' marginY={1}>
+                                          <Link style={linkStyle}>
+                                              Contact Us
+                                          </Link></Typography>
+                                      <Typography variant='h4' marginY={1}>
+                                          <Link style={linkStyle}>
+                                              About Us
+                                          </Link></Typography>
+                                      <Typography variant='h4' marginY={1}>
+                                          <Link style={linkStyle}>
+                                              Privacy Policy
+                                          </Link></Typography>
+                                      <Typography variant='h4' marginY={1}>
+                                          <Link style={linkStyle}>
+                                              Terms of Use
+                                          </Link></Typography>
+                                      <Typography variant='h4' marginY={1}>
+                                          <Link style={linkStyle}>
+                                              Terms and Conditions
+                                          </Link></Typography>
+                                  </Grid>
+                            </Grid>
+                        </Box>
+                    </Grid>
+
+                    {/* Contact Us Section */}
+                    <Grid size={{ xs: 6, sm: 10, md: 4, lg: 3 }} >
+                        <Box>
+                            <Typography variant="h6" sx={{fontWeight: '900', fontSize: '24px'}} gutterBottom>
+                                Contact Us
+                            </Typography>
+                            <Box sx={{ margin: '20px 0px', borderBottom: '2px solid #000' }}>
+                                <Divider />
+                            </Box>
+                            <Box>
+                                <Typography variant='h4' marginY={3}>
+                                   <strong> Address: </strong>
+                                   Unit 2a And Unit 2p Building B East Lane, Wembley Commercial Centre, Wembley, Middlesex, HA9 7UR
+                                </Typography>
+                                <Typography variant='h4' marginY={1}><strong>Email:</strong> info@pillsphere.com</Typography>
+                                <Typography variant='h4' marginY={1}><strong>Call:</strong> 555-555-1234</Typography>
+                            </Box>
+                        </Box>
                     </Grid>
                 </Grid>
-                </Grid>
-
-                {/* Contact Us Section */}
-                <Grid item xs={12} md={4}>
-                <Typography variant="h6" gutterBottom>
-                    Contact Us
-                </Typography>
-                <Typography>
-                    Address: Unit 2a And Unit 2p Building B East Lane, Wembley Commercial Centre, Middlesex, HA9 7UR
-                </Typography>
-                <Typography>Email: info@pillsphere.com</Typography>
-                <Typography>Call: 555-555-1234</Typography>
-                </Grid>
-            </Grid>
+            </Box>
             
-            <Box sx={{ backgroundColor: '#F9F5E7', padding: '20px 0', textAlign: 'center' }}>
+            <Box marginY={2}>
+                <Divider/>
+            </Box>
+            <Box sx={{ backgroundColor: 'secondary.main', padding: '20px 0', textAlign: 'center', display: 'flex', justifyContent: 'space-between' }}>
                 {/* Registration Information */}
-                <Grid container spacing={2} justifyContent="center">
-                    <Grid item xs={12} sm={4}>
-                    <Typography variant="subtitle1" fontWeight="bold">
-                        Pharmacy GPHC Registration:
-                    </Typography>
-                    <Typography>Pill Sphere GPHC Number: XXXXXX</Typography>
+                <Grid container spacing={2} >
+                    <Grid xs={12} sm={4} textAlign={'left'}>
+                        <Typography variant="h3" fontWeight="bold">
+                            Pharmacy GPHC Registration:
+                        </Typography>
+                        <Typography>Pill Sphere GPHC Number: XXXXXX</Typography>
                     </Grid>
 
                     <Divider orientation="vertical" flexItem sx={{ display: { xs: 'none', sm: 'block' } }} />
 
-                    <Grid item xs={12} sm={4}>
-                    <Typography variant="subtitle1" fontWeight="bold">
-                        Superintendent Pharmacist:
-                    </Typography>
-                    <Typography>GPHC Number: 2213569</Typography>
+                    <Grid xs={12} sm={4} textAlign={'left'}>
+                        <Typography variant="h3" fontWeight="bold">
+                            Superintendent Pharmacist:
+                        </Typography>
+                        <Typography>GPHC Number: 2213569</Typography>
                     </Grid>
 
                     <Divider orientation="vertical" flexItem sx={{ display: { xs: 'none', sm: 'block' } }} />
 
-                    <Grid item xs={12} sm={4}>
-                    <Typography variant="subtitle1" fontWeight="bold">
-                        Company Registration:
-                    </Typography>
-                    <Typography>Pill Sphere Limited: 16158942</Typography>
+                    <Grid xs={12} sm={4} textAlign={'left'}>
+                        <Typography variant="h3" fontWeight="bold">
+                            Company Registration:
+                        </Typography>
+                        <Typography>Pill Sphere Limited: 16158942</Typography>
                     </Grid>
                 </Grid>
-
+                
+                
                 {/* Certification Logos */}
                 <Box display="flex" justifyContent="center" gap={2} marginY={2}>
-                    <img src="/path-to-legit-logo.png" alt="LegitScript Certified" style={{ height: '40px' }} />
-                    <img src="/path-to-registered-pharmacy.png" alt="Registered Pharmacy" style={{ height: '40px' }} />
-                    <img src="/path-to-cyber-essentials.png" alt="Cyber Essentials Certified Plus" style={{ height: '40px' }} />
-      </Box>
+                    <img src="/images/129361 1.png" alt="LegitScript Certified" style={{ height: '40px' }} />
+                    <img src="/images/pharmacy-badge 1.png" alt="Registered Pharmacy" style={{ height: '40px' }} />
+                    <img src="/images/cyber-essentials 1.png" alt="Cyber Essentials Certified Plus" style={{ height: '40px' }} />
+                </Box>
+            </Box>
 
-      {/* Copyright and Social Icons */}
-      <Typography variant="body2" sx={{ marginTop: 2 }}>
-        © 2025 Pill Sphere LTD. All rights reserved.
-      </Typography>
+            <Box marginY={2}>
+                <Divider/>
+            </Box>
 
-      <Box display="flex" justifyContent="center" gap={1} marginTop={1}>
-        <IconButton><Facebook /></IconButton>
-        <IconButton><Twitter /></IconButton>
-        <IconButton><LinkedIn /></IconButton>
-      </Box>
-    </Box>
-
+            {/* Copyright and Social Icons */}
+            <Typography variant="body2" sx={{ marginTop: 2 }}>
+                © 2025 Pill Sphere LTD. All rights reserved.
+            </Typography>
+            <Box display="flex" justifyContent="center" gap={1} marginTop={1}>
+                <IconButton><Facebook /></IconButton>
+                <IconButton><Twitter /></IconButton>
+                <IconButton><LinkedIn /></IconButton>
+            </Box>
+            
             {/* Footer Bottom
             <Box textAlign="center" marginTop={4}>
                 <Typography variant="body2">

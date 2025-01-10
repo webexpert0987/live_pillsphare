@@ -35,6 +35,7 @@ const theme = createTheme({
   },
   typography: {
     fontFamily: "'Urbanist', sans-serif",
+    color: "#333333",
     h1: {
       fontSize: '2.5rem',
     },
