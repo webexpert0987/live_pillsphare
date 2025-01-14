@@ -14,15 +14,15 @@ export default function Footer() {
     <Box sx={{ backgroundColor: 'secondary.main', padding: '40px 20px' }}>
         <Container maxWidth='lg'>
             {/* Email Subscription Section */}
-            <Box textAlign="center" marginBottom={4} sx={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '50px'}}>
-                <Typography variant="h6" sx={{fontSize: '20px', textAlign: 'left'}} gutterBottom>
+            <Box textAlign="center" marginBottom={4} sx={{display: {xs: 'block', sm: 'block', md: 'flex', lg:'flex', xl: 'flex', xxl: 'flex'}, justifyContent: 'space-between', alignItems: 'center', gap: '50px'}}>
+                <Typography variant="h6" sx={{fontSize: '20px', textAlign: {sm:'center', md:'left'}}} gutterBottom>
                 Join our email subscription now to get updates on new offers and notifications.
                 </Typography>
                 <Box
                     sx={{
                         display: 'flex',
                         borderRadius: '50px',
-                        width: '50%'
+                        width: {xs: '100%', md: '50%'}
                     }}
                 >
                     <TextField
@@ -30,7 +30,8 @@ export default function Footer() {
                         placeholder="Enter Your Email"
                         sx={{
                             flex: 1,
-                            width: '100%',                            
+                            width: '100%',
+                            minWidth: '235px',                      
                             paddingRight: 1,
                             position: 'relative',
                             left: '5px',
@@ -39,6 +40,7 @@ export default function Footer() {
                             borderRadius: '50px',
                             position: 'relative',
                             left: '60px',
+                            whiteSpace: 'nowrap',
                             '& .MuiOutlinedInput-root': {
                                 borderRadius: 10,
 

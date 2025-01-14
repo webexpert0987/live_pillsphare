@@ -1,6 +1,8 @@
 import React from 'react';
-import { Box, Typography, Grid, Button, Container } from '@mui/material';
+import { Box, Typography, Button, Container } from '@mui/material';
+import Grid from '@mui/material/Grid2';
 import { Icon } from '@iconify/react';
+import CustomButton from '../Button/button';
 
 const HowItWorksSection = () => {
   const steps = [
@@ -20,14 +22,14 @@ const HowItWorksSection = () => {
 
   return (
         <Box sx={{ backgroundColor: 'primary.main', marginTop: '50px', textAlign: 'center' }}>
-            <Container sx={{paddingY: '60px'}} >
-                <Box sx={{textAlign: 'center', margin: 'auto', width: '55%'}}>
-                    <Typography variant="h1" sx={{ color: '#fff', fontWeight: '600' }}>How it works</Typography>
+            <Container sx={{paddingY: '80px'}} >
+                <Box sx={{textAlign: 'center', margin: 'auto', width: '47%'}}>
+                    <Typography variant="h1" sx={{ color: '#fff', fontWeight: '600', mb:2 }}>How it works</Typography>
                     <Typography variant="h3" sx={{ color: '#fff', mb: 4 }}>
                         Obtain your prescription medication in just three simple steps. It's fast, easy, and hassle-free. Try our service today and experience the difference - you won't be disappointed.
                     </Typography>
                 </Box>
-                <Grid container spacing={3} sx={{ justifyContent: 'space-between' }}>
+                <Grid container spacing={3} sx={{ justifyContent: 'space-between', paddingX: '100px' }}>
                     {steps.map((step, index) => (
                         <Grid item key={index}>
                             <Box sx={{
@@ -41,9 +43,10 @@ const HowItWorksSection = () => {
                         </Grid>
                     ))}
                 </Grid>
-                <Button variant="contained" sx={{ mt: 4, backgroundColor: 'tertiary.main', borderRadius: '20px' }}>
+                {/* <Button variant="contained" sx={{ mt: 4, backgroundColor: 'tertiary.main', borderRadius: '20px' }}>
                     Read More <Icon icon="solar:arrow-right-broken" color="#fff" width="22" height="22" />
-                </Button>
+                </Button> */}
+                <CustomButton bgColor={"tertiary.main"} txColor={"#fff"} text='Read More'/>
             </Container>
         </Box>
   );

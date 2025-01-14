@@ -1,6 +1,7 @@
 import React from "react";
 import { Box, Button, Card, CardContent, Container, Typography, useTheme } from "@mui/material";
 import { Icon } from '@iconify/react'
+import CustomButton from "../Button/button";
 
 const treatments = [
   {
@@ -41,7 +42,7 @@ const TreatmentSection = () => {
         <Box
             sx={{
                 backgroundColor: "secondary.main",
-                padding: "2rem",
+                padding: "4rem",
                 textAlign: "center",
             }}
         >
@@ -52,14 +53,14 @@ const TreatmentSection = () => {
                         <Typography variant="h2" sx={{ fontWeight: "bold", marginBottom: "1rem", textAlign: 'left' }}>
                             Explore our treatments
                         </Typography>
-                        <Typography variant="h3" sx={{ marginBottom: "1rem", color: "#555" }}>
+                        <Typography variant="h3" sx={{ marginBottom: "1rem", color: "#555", textAlign: 'left' }}>
                             Explore our offerings and find the perfect treatment for your goals
                             today!
                         </Typography>
                     </Box>
 
                     {/* View All Button */}
-                    <Button
+                    {/* <Button
                         variant="contained"
                         sx={{
                             backgroundColor: "primary.main",
@@ -73,7 +74,8 @@ const TreatmentSection = () => {
                         }}
                     >
                         View All <Icon icon="solar:arrow-right-broken" color="#fff" width="24" height="24" />
-                    </Button>
+                    </Button> */}
+                        <CustomButton bgColor={"primary.main"} txColor={"#fff"} text='View All'/>
                 </Box>
 
                 {/* Cards */}
@@ -145,17 +147,19 @@ const TreatmentSection = () => {
                 </Box> */}
 
                 <Box
-                    display={{ xs: "block", sm: "block", md: "flex", lg: "flex" }}
+                    display={{ xs: "flex", sm: "flex", md: "flex", lg: "flex" }}
                     flexWrap="wrap"
                     justifyContent="center"
+                    flexDirection={{xs: "column", sm: "column", md: "row", lg: "row", xl: "row", xxl: 'row' }}
                     gap={{ xs: "1rem", sm: "2rem", md: "2rem", lg: "2rem" }}
                     marginBottom="2rem"
+                    marginTop={'2rem'}
                 >
                     {treatments.map((treatment, index) => (
                         <Card
                             key={index}
                             sx={{
-                                width: { xs: "100%", sm: "45%", md: "10%", lg: '23.2%', },
+                                width: { xs: "100%", sm: "100%", md: "22.8%", lg: '23.2%', },
                                 borderRadius: "16px",
                                 boxShadow: "0px 0px 0px rgb(255, 255, 255)",
                             }}

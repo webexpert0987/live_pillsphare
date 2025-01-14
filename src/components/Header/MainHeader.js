@@ -14,7 +14,9 @@ import {
     Menu,
     MenuItem,
     Badge,
-    Divider
+    Divider,
+    InputAdornment,
+    TextField
   } from '@mui/material';
   import {
     Search as SearchIcon,
@@ -23,47 +25,11 @@ import {
     Person as PersonIcon
   } from '@mui/icons-material';
   import { styled, alpha } from '@mui/material/styles';
-  
-  // Styled search component
-  const Search = styled('div')(({ theme }) => ({
-    position: 'relative',
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: alpha(theme.palette.common.white, 0.15),
-    border: '1px solid #ddd',
-    '&:hover': {
-      backgroundColor: alpha(theme.palette.common.white, 0.25),
-    },
-    marginRight: theme.spacing(2),
-    marginLeft: 0,
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      marginLeft: theme.spacing(3),
-      width: 'auto',
-    },
-  }));
-  
-  const SearchIconWrapper = styled('div')(({ theme }) => ({
-    padding: theme.spacing(0, 2),
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    color: alpha(theme.palette.common.black, 0.54),
-  }));
-  
-  const StyledInputBase = styled(InputBase)(({ theme }) => ({
-    color: 'inherit',
-    '& .MuiInputBase-input': {
-      padding: theme.spacing(1, 1, 1, 0),
-      paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-      transition: theme.transitions.create('width'),
-      width: '100%',
-      [theme.breakpoints.up('md')]: {
-        width: '20ch',
-      },
-    },
+  import { Icon } from '@iconify/react';
+
+
+  const Text = styled(Typography)(({ theme }) => ({
+    color: '#333333', textDecoration: 'none', fontWeight: 600, fontSize: theme.typography.h4.fontSize
   }));
 
 const MainHeader = ()=> {
@@ -77,85 +43,105 @@ const MainHeader = ()=> {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const linkTextStyle={
+    color: '#333333', textDecoration: 'none', fontWeight: 600
+  }
+
     return(
         <Box sx={{ flexGrow: 1 }}>
             {/* Top announcement bar */}
             <TopHeader />
 
             {/* Main header */}
-            <AppBar position="static" color="default" elevation={1} >
-                <Box sx={{marginX: '25px'}}>
+            <AppBar position="static" color="default" elevation={1}>
+                <Box sx={{marginX: '25px', paddingY: '10px'}}>
                     <Toolbar sx={{justifyContent: 'space-between'}}>
-                        {/* Navigation */}
                         <Stack direction="row" spacing={2}>
                             {['Shop', 'Online Clinic', 'Weight Loss'].map((text) => (
                                 <Button
                                     key={text}
                                     endIcon={<KeyboardArrowDownIcon />}
                                     onClick={handleClick}
-                                    sx={{ color: 'text.primary' }}
+                                    sx={{textTransform: 'capitalize'}}
                                 >
-                                    {text}
+                                    <Link to={'/about'} style={{textDecoration: 'none'}}>
+                                        <Text>{text}</Text>
+                                    </Link>
                                 </Button>
                             ))}
-                            <Button><Link to={'/about'}  sx={{ color: 'text.primary' }}>Offers</Link></Button>
-                            <Button><Link to={'/about'} sx={{ color: 'text.primary' }}>Support</Link></Button>
+                            <Button sx={{textTransform: 'capitalize'}}>
+                                <Link to={'/about'} style={{textDecoration: 'none'}}>
+                                    <Text >Offers</Text>
+                                </Link>
+                            </Button>
+                            <Button sx={{textTransform: 'capitalize'}}>
+                                <Link to={'/about'} style={{textDecoration: 'none'}}>
+                                    <Text>Support</Text>
+                                </Link>
+                            </Button>
+
                         </Stack>
 
                         {/* Logo */}
                         <Box sx={{ display: 'flex', alignItems: 'center', mx: 4 }}>
-                            {/* <Box sx={{
-                                width: 32,
-                                height: 32,
-                                bgcolor: 'primary.main',
-                                borderRadius: '50%',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                mr: 1
-                            }}>
-                                <Box sx={{
-                                    width: 24,
-                                    height: 24,
-                                    bgcolor: 'primary.light',
-                                    borderRadius: '50%'
-                                }} />
-                            </Box>
-                            <Box>
-                                <Typography variant="h6" component="div" sx={{ color: 'primary.dark' }}>
-                                    PillSphere
-                                </Typography>
-                                <Typography variant="caption" sx={{ color: 'text.secondary' }}>
-                                    Pharmacy & Private Clinic
-                                </Typography>
-                            </Box> */}
                             <img src='/Pillsphere logo.png'></img>
                         </Box>
 
                         {/* Search, User, Cart */}
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                            <Search>
-                                <SearchIconWrapper>
-                                    <SearchIcon />
-                                </SearchIconWrapper>
-                                <StyledInputBase
-                                    placeholder="Search…"
-                                    inputProps={{ 'aria-label': 'search' }}
-                                />
-                            </Search>
+                            <TextField
+                                variant="standard" 
+                                // variant="outlined"
+                                placeholder="Search"
+                                fullWidth
+                                InputProps={{
+                                    disableUnderline: true,
+                                    endAdornment: (
+                                        <InputAdornment position="end">
+                                            <SearchIcon sx={{ color: 'gray' }} />
+                                        </InputAdornment>
+                                    ),
+                                }}
+                                sx={{
+                                    width: '250px',
+                                    backgroundColor: '#f9f9f9',
+                                    borderRadius: '50px',
+                                    border: '1px solid #fff',
+                                    '& .MuiOutlinedInput-root': {
+                                        border: 'none',
+                                        '& fieldset': {
+                                            border: 'none',
+                                        },
+                                    },
+                                    '& .MuiOutlinedInput-root': {
+                                        borderRadius: '50px',
+                                    },
+                                }}
+                            />
 
-                            <Button
-                                startIcon={<PersonIcon />}
+                            {/* <Button
+                                startIcon={<Icon icon="mdi-light:account" width="40" height="40" />}
                                 sx={{ color: 'text.primary' }}
                             >
-                                Hi, Adam
+                                
+                            </Button> */}
+                            
+                            <Button
+                                startIcon={<Icon icon="mdi-light:account" width="40" height="40" />}
+                                endIcon={<KeyboardArrowDownIcon />}
+                                onClick={handleClick}
+                                sx={{ textTransform: 'capitalize' }}
+                            >
+                                <Typography component={'span'}>|</Typography>
+                                <Typography sx={{marginLeft: '3px'}} component={'span'}>Hi, Adam</Typography> 
                             </Button>
 
                             <IconButton color="inherit">
                                 <Badge badgeContent={0} color="error">
                                     <ShoppingCartIcon />
                                 </Badge>
-                                <Typography variant="body2" sx={{ ml: 1 }}>
+                                <Typography variant="h4" sx={{ ml: 1, fontWeight: '600' }}>
                                     $0.00
                                 </Typography>
                             </IconButton>

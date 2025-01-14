@@ -4,7 +4,7 @@ import TreatmentSection from "../components/HomePage/treatmentSection";
 import DiscreetPackagingSection from "../components/HomePage/discreetPackaging";
 import WeeklyOffersSection from "../components/HomePage/weeklyOfferCategory";
 import HowItWorksSection from "../components/HomePage/HowItWorksSection";
-import FeaturedProducts from "../components/HomePage/FeaturedProduct";
+import FeaturedProducts from "../components/HomePage/featuredProduct/FeaturedProduct";
 
 const HomePage = () => {
     return(
