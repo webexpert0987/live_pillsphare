@@ -30,16 +30,17 @@ const Carousel = () => {
     <Box position="relative" width="100%">
       <Slider {...settings} ref={sliderRef}>
         {slides.map((slide) => (
-          <Box key={slide.id} textAlign="center">
-            <img src={slide.img} alt={slide.text} style={{ width: "100%", height: "auto" }} />
-            <Typography sx={{fontSize: '45px', position: 'absolute', top: 0}}>{slide.text}</Typography>
+          <Box key={slide.id} textAlign="center" position={'relative'}>
+            <img src={slide.img} alt={slide.text} style={{ width: "100%", height: "auto"}} />
+            <Typography sx={{fontSize: '45px', position: 'absolute', top: '50%', left: '10%', color: '#fff'}}>{slide.text}</Typography>
+            <Button sx={{backgroundColor: 'tertiary.main', color:'#fff', position: 'absolute', top: '66%', left: '10%', color: '#fff'}}>Shop Now</Button>
           </Box>
         ))}
       </Slider>
 
       {/* Custom Navigation */}
-      <Box display="flex" justifyContent="center" alignItems="center" mt={2} sx={{position: 'absolute', right: '0px', bottom: '60px'}}>
-        <Button onClick={() => sliderRef.current.slickPrev()} color="#fff"><Icon color="#fff" icon="solar:arrow-left-broken" width="24" height="24" /></Button>
+      <Box display="flex" justifyContent="center" alignItems="center" mt={2} sx={{position: 'absolute', right: '60px', bottom: '60px'}}>
+        {/* <Button onClick={() => sliderRef.current.slickPrev()} color="#fff"><Icon color="#fff" icon="solar:arrow-left-broken" width="24" height="24" /></Button> */}
         {slides.map((_, index) => (
           <Typography
             key={index}
@@ -48,16 +49,14 @@ const Carousel = () => {
             sx={{
               cursor: "pointer",
               fontWeight: currentSlide === index ? "bold" : "normal",
-              // color: currentSlide === index ? "primary.main" : "text.secondary",
-              color: currentSlide === index ? "#fff" : "#fff",
-              textDecoration: currentSlide === index ? "underline" : "none",
+              color: currentSlide === index ? "tertiary.main" : "#fff",
             }}
             onClick={() => sliderRef.current.slickGoTo(index)}
           >
             {index + 1}
           </Typography>
         ))}
-        <Button onClick={() => sliderRef.current.slickNext()} color="#fff"><Icon icon="solar:arrow-right-broken" color="#fff" width="24" height="24" /></Button>
+        {/* <Button onClick={() => sliderRef.current.slickNext()} color="#fff"><Icon icon="solar:arrow-right-broken" color="#fff" width="24" height="24" /></Button> */}
         {/* <Button onClick={() => sliderRef.current.slickNext()}>-&gt;</Button> */}
       </Box>
     </Box>

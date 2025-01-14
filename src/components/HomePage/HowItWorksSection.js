@@ -19,7 +19,7 @@ const HowItWorksSection = () => {
   ];
 
   return (
-        <Box sx={{ backgroundColor: 'primary.main', marginY: '50px', textAlign: 'center' }}>
+        <Box sx={{ backgroundColor: 'primary.main', marginTop: '50px', textAlign: 'center' }}>
             <Container sx={{paddingY: '60px'}} >
                 <Box sx={{textAlign: 'center', margin: 'auto', width: '55%'}}>
                     <Typography variant="h1" sx={{ color: '#fff', fontWeight: '600' }}>How it works</Typography>

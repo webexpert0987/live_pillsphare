@@ -48,6 +48,9 @@ const theme = createTheme({
     h4: {
       fontSize: '1rem',
     },
+    body3: {
+      fontSize: '22px',
+    }
   },
 });
 

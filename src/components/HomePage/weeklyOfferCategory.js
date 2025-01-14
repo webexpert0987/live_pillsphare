@@ -42,10 +42,10 @@ const WeeklyOffersSection = () => {
                 </Button>
             </Box>
             {/* <Grid container spacing={2}> */}
-            <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }} width={'100%'}>
+            <Grid container spacing={{ xs: 2, md: 3, lg: 5 }} columns={{ xs: 4, sm: 8, md: 12, lg: 12 }} width={'100%'}>
                 {categories.map((category, index) => (
                     // <Grid item xs={6} sm={3} key={category.name} sx={{position: 'relative'}}>
-                    <Grid key={index} size={{ xs: 2, sm: 4, md: 4 }} sx={{position: 'relative'}}>
+                    <Grid key={index} size={{ xs: 2, sm: 4, md: 4, lg: 3 }} sx={{position: 'relative'}}>
                         <Box>
                             <Box
                                 sx={{
@@ -59,7 +59,7 @@ const WeeklyOffersSection = () => {
                                 }}
                             >
                                 {/* <img src={category.image} style={{position: 'absolute', top:'15px', zIndex: 99, right:0, width: '176px', height: '208px'}}/> */}
-                                <img src={category.image} />
+                                <img src={category.image} style={{height: 'auto'}}/>
                             </Box>
                             <Box position={'absolute'} bottom={'10px'} left={'10%'}>
                                 <Typography variant="subtitle1">{category.name}</Typography>

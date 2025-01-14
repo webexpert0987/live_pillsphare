@@ -71,7 +71,7 @@ export default function Footer() {
             </Box>
             <Divider/>
             {/* Footer Sections */}
-            <Box sx={{ flexGrow: 2, marginTop: '40px' }}>
+            <Box sx={{ flexGrow: 2, marginY: '40px' }}>
                 <Grid container spacing={5}>
                     {/* Logo Section */}
                     <Grid size={{ xs: 6, sm: 10, md: 4, lg: 2.6 }}>
@@ -189,15 +189,15 @@ export default function Footer() {
             <Box marginY={2}>
                 <Divider/>
             </Box>
-            <Box sx={{ backgroundColor: 'secondary.main', padding: '20px 0', textAlign: 'center', display: 'flex', justifyContent: 'space-between' }}>
+            <Box sx={{ backgroundColor: 'secondary.main', textAlign: 'center', display: 'flex', justifyContent: 'space-between' }}>
                 {/* Registration Information */}
-                <Grid container spacing={2} >
+                <Grid container spacing={6} >
                     <Grid xs={12} sm={4} textAlign={'left'}>
                         <Typography variant="h3" fontWeight="bold">
                             Pharmacy GPHC Registration:
                         </Typography>
-                        <Typography>Pill Sphere GPHC Number: XXXXXX</Typography>
-                    </Grid>
+                        <Typography sx={{marginTop:'20px'}}>Pill Sphere GPHC Number: XXXXXX</Typography>
+                    </Grid> 
 
                     <Divider orientation="vertical" flexItem sx={{ display: { xs: 'none', sm: 'block' } }} />
 
@@ -205,7 +205,7 @@ export default function Footer() {
                         <Typography variant="h3" fontWeight="bold">
                             Superintendent Pharmacist:
                         </Typography>
-                        <Typography>GPHC Number: 2213569</Typography>
+                        <Typography sx={{marginTop:'20px'}}>GPHC Number: 2213569</Typography>
                     </Grid>
 
                     <Divider orientation="vertical" flexItem sx={{ display: { xs: 'none', sm: 'block' } }} />
@@ -214,16 +214,16 @@ export default function Footer() {
                         <Typography variant="h3" fontWeight="bold">
                             Company Registration:
                         </Typography>
-                        <Typography>Pill Sphere Limited: 16158942</Typography>
+                        <Typography sx={{marginTop:'20px'}}>Pill Sphere Limited: 16158942</Typography>
                     </Grid>
                 </Grid>
                 
                 
                 {/* Certification Logos */}
-                <Box display="flex" justifyContent="center" gap={2} marginY={2}>
-                    <img src="/images/129361 1.png" alt="LegitScript Certified" style={{ height: '40px' }} />
+                <Box display="flex" justifyContent="center" gap={4} alignItems={'center'}>
+                    <img src="/images/129361 1.png" alt="LegitScript Certified" />
                     <img src="/images/pharmacy-badge 1.png" alt="Registered Pharmacy" style={{ height: '40px' }} />
-                    <img src="/images/cyber-essentials 1.png" alt="Cyber Essentials Certified Plus" style={{ height: '40px' }} />
+                    <img src="/images/cyber-essentials 1.png" alt="Cyber Essentials Certified Plus"/>
                 </Box>
             </Box>
 
@@ -232,13 +232,20 @@ export default function Footer() {
             </Box>
 
             {/* Copyright and Social Icons */}
-            <Typography variant="body2" sx={{ marginTop: 2 }}>
-                © 2025 Pill Sphere LTD. All rights reserved.
-            </Typography>
-            <Box display="flex" justifyContent="center" gap={1} marginTop={1}>
-                <IconButton><Facebook /></IconButton>
-                <IconButton><Twitter /></IconButton>
-                <IconButton><LinkedIn /></IconButton>
+            <Box display={'flex'} justifyContent='space-between'>
+                <Typography variant="h4" sx={{ marginTop: 2 }}>
+                    © 2025 Pill Sphere LTD. All rights reserved.
+                </Typography>
+                <Box display="flex" justifyContent="center" gap={1} marginTop={1}>
+                    <img src="/images/social/fb.png" alt="Cyber Essentials Certified Plus"/>
+                    <img src="/images/social/x.png" alt="Cyber Essentials Certified Plus"/>
+                    <img src="/images/social/insta.png" alt="Cyber Essentials Certified Plus"/>
+                    <img src="/images/social/linkedin.png" alt="Cyber Essentials Certified Plus"/>
+                    {/* <Icon icon="mdi:facebook" width="24" height="24" />
+                    <IconButton><Facebook /></IconButton>
+                    <IconButton><Twitter /></IconButton>
+                    <IconButton><LinkedIn /></IconButton> */}
+                </Box>
             </Box>
             
             {/* Footer Bottom

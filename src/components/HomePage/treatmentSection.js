@@ -7,28 +7,30 @@ const treatments = [
     title: "Weight Loss",
     description:
       "Changes to diet and exercise are often combined with this medication.",
-    icon: "hugeicons:body-weight",
+    // icon: "hugeicons:body-weight",
+    icon: "/images/weight-loss.png",
     link: "#",
   },
   {
     title: "Mens Health",
     description:
       "Men tend to go less frequently to medical professionals to seek help...",
-    icon: "solar:men-broken",
+    // icon: "solar:men-broken",
+    icon: "/images/mens-health.png",
     link: "#",
   },
   {
     title: "Womens Health",
     description:
       "Women can be the most caring members of the family but can...",
-    icon: "solar:women-broken",
+    // icon: "solar:women-broken",
+    icon: "/images/womens-health.png",
     link: "#",
   },
   {
     title: "General Wellbeing",
-    description:
-      "We at the Medicus Express are passionate about encouraging a...",
-    icon: "/path-to-your-general-wellbeing-icon.svg",
+    description: "We at the Medicus Express are passionate about encouraging a...",
+    icon: "/images/general-wellbeing.png",
     link: "#",
   },
 ];
@@ -47,7 +49,7 @@ const TreatmentSection = () => {
                 <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                     <Box>
                         {/* Section Title */}
-                        <Typography variant="h1" sx={{ fontWeight: "bold", marginBottom: "1rem", textAlign: 'left' }}>
+                        <Typography variant="h2" sx={{ fontWeight: "bold", marginBottom: "1rem", textAlign: 'left' }}>
                             Explore our treatments
                         </Typography>
                         <Typography variant="h3" sx={{ marginBottom: "1rem", color: "#555" }}>
@@ -75,12 +77,11 @@ const TreatmentSection = () => {
                 </Box>
 
                 {/* Cards */}
-                <Box
+                {/* <Box
+                    display={{ xs:'block', sm: "flex", md:'flex', lg:'flex' }}
                     sx={{
-                        display: "flex",
-                        //   flexWrap: "wrap",
                         justifyContent: "center",
-                        gap: "1.5rem",
+                        gap: "2.5rem",
                         marginBottom: "2rem",
                     }}
                 >
@@ -88,33 +89,21 @@ const TreatmentSection = () => {
                         <Card
                             key={index}
                             sx={{
-                                width: "300px",
+                                width: "100%",
                                 borderRadius: "16px",
-                                //   boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
-                                //   transition: "transform 0.3s",
-                                //   "&:hover": {
-                                //       transform: "translateY(-10px)",
-                                //   },
+                                boxShadow: "0px 0px 0px rgb(255, 255, 255)",
                             }}
                         >
-                            <CardContent sx={{ textAlign: 'left' }}>
-                                <Box
-                                    sx={{
-                                        display: "flex",
-                                        justifyContent: "center",
-                                        alignItems: "center",
-                                        marginBottom: "1rem",
-                                    }}
-                                >
-                                    {/* <img
-                    src={treatment.icon}
-                    alt={treatment.title}
-                    style={{ width: "50px", height: "50px" }}
-                    /> */}
-                                    <Icon icon={treatment.icon} width="40" height="40" />
+                            <CardContent sx={{ textAlign: 'left', paddingBottom: '16px !important' }}>
+                                <Box >
+                                    <img
+                                        src={treatment.icon}
+                                        alt={treatment.title}
+                                    />
                                 </Box>
                                 <Typography
-                                    variant="h6"
+                                    variant="body3"
+
                                     sx={{
                                         fontWeight: "bold",
                                         marginBottom: "0.5rem",
@@ -124,7 +113,7 @@ const TreatmentSection = () => {
                                     {treatment.title}
                                 </Typography>
                                 <Typography
-                                    variant="body2"
+                                    variant="h4"
                                     sx={{ marginBottom: "1rem", color: "#777" }}
                                 >
                                     {treatment.description}
@@ -132,7 +121,6 @@ const TreatmentSection = () => {
                                 <Typography
                                     variant="body2"
                                     sx={{
-                                        //   color: "tertiary.main",
                                         fontWeight: "bold",
                                         display: "flex",
                                         alignItems: "center",
@@ -143,12 +131,78 @@ const TreatmentSection = () => {
                                         href={treatment.link}
                                         style={{
                                             textDecoration: "none",
-                                            color: "tertiary.main",
+                                            color: "#FD6400",
                                             display: "flex",
                                             alignItems: "center",
                                         }}
                                     >
                                         Read More <span style={{ marginLeft: "0.5rem" }}><Icon icon="solar:arrow-right-broken" color="primary.main" width="22" height="22" /></span>
+                                    </a>
+                                </Typography>
+                            </CardContent>
+                        </Card>
+                    ))}
+                </Box> */}
+
+                <Box
+                    display={{ xs: "block", sm: "block", md: "flex", lg: "flex" }}
+                    flexWrap="wrap"
+                    justifyContent="center"
+                    gap={{ xs: "1rem", sm: "2rem", md: "2rem", lg: "2rem" }}
+                    marginBottom="2rem"
+                >
+                    {treatments.map((treatment, index) => (
+                        <Card
+                            key={index}
+                            sx={{
+                                width: { xs: "100%", sm: "45%", md: "10%", lg: '23.2%', },
+                                borderRadius: "16px",
+                                boxShadow: "0px 0px 0px rgb(255, 255, 255)",
+                            }}
+                        >
+                            <CardContent sx={{ textAlign: "left", paddingBottom: "16px !important" }}>
+                                <Box>
+                                    <img
+                                        src={treatment.icon}
+                                        alt={treatment.title}
+                                        style={{ width: "50px", height: "50px" }}
+                                    />
+                                </Box>
+                                <Typography
+                                    variant="body3"
+                                    sx={{
+                                        fontWeight: "bold",
+                                        marginBottom: "0.5rem",
+                                        color: "#333",
+                                    }}
+                                >
+                                    {treatment.title}
+                                </Typography>
+                                <Typography variant="h4" sx={{ marginBottom: "1rem", color: "#777" }}>
+                                    {treatment.description}
+                                </Typography>
+                                <Typography
+                                    variant="body2"
+                                    sx={{
+                                        fontWeight: "bold",
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "flex-start",
+                                    }}
+                                >
+                                    <a
+                                        href={treatment.link}
+                                        style={{
+                                            textDecoration: "none",
+                                            color: "#FD6400",
+                                            display: "flex",
+                                            alignItems: "center",
+                                        }}
+                                    >
+                                        Read More{" "}
+                                        <span style={{ marginLeft: "0.5rem" }}>
+                                            <Icon icon="solar:arrow-right-broken" color="primary.main" width="22" height="22" />
+                                        </span>
                                     </a>
                                 </Typography>
                             </CardContent>
