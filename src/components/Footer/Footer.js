@@ -14,15 +14,16 @@ export default function Footer() {
     <Box sx={{ backgroundColor: 'secondary.main', padding: '40px 20px' }}>
         <Container maxWidth='lg'>
             {/* Email Subscription Section */}
-            <Box textAlign="center" marginBottom={4} sx={{display: {xs: 'block', sm: 'block', md: 'flex', lg:'flex', xl: 'flex', xxl: 'flex'}, justifyContent: 'space-between', alignItems: 'center', gap: '50px'}}>
+            <Box textAlign="center" marginBottom={4} sx={{display: {xs: 'block', md: 'flex'}, justifyContent: 'space-between', alignItems: 'center', gap: '50px'}}>
                 <Typography variant="h6" sx={{fontSize: '20px', textAlign: {sm:'center', md:'left'}}} gutterBottom>
                 Join our email subscription now to get updates on new offers and notifications.
                 </Typography>
                 <Box
                     sx={{
-                        display: 'flex',
+                        display: {xs: 'flex', sm: 'flex'},
                         borderRadius: '50px',
-                        width: {xs: '100%', md: '50%'}
+                        width: {xs: '100%', md: '50%'},
+                        position: 'relative'
                     }}
                 >
                     <TextField
@@ -31,39 +32,48 @@ export default function Footer() {
                         sx={{
                             flex: 1,
                             width: '100%',
-                            minWidth: '235px',                      
-                            paddingRight: 1,
+                            minWidth: {xs: '0px', sm: '235px'},
+                            paddingRight: {xs: 11, sm: 17, md: 18},
                             position: 'relative',
                             left: '5px',
                             border: 'none',
-                            backgroundColor: '#F5F5F5',
+                            backgroundColor: 'secondary.main',
                             borderRadius: '50px',
                             position: 'relative',
-                            left: '60px',
+                            // left: '60px',
                             whiteSpace: 'nowrap',
                             '& .MuiOutlinedInput-root': {
                                 borderRadius: 10,
-
                             },
                             '& .MuiOutlinedInput-input': {
-                                paddingRight: 5,
-                                marginRight: 5,
-                                paddingTop: 2.5,
-                                paddingBottom: 2.5
+                                paddingRight: '62px',
+                                // marginRight: 5,
+                                borderRadius: '50px',
+                                backgroundColor: '#F5F5F5',
+                                padding: {xs: '13.5px 54px 13.5px 12px', sm: '20.1px 60px 20.1px 18px'}
+                                // paddingTop: 2.5,
+                                // paddingBottom: 2.5
                             },
                         }}
                     />
                     <Button
                         variant="contained"
                         sx={{
+                            textTransform: 'capitalize',
                             backgroundColor: 'primary.main',
                             borderRadius: '50px',
                             color: '#fff',
                             '&:hover': {
                                 backgroundColor: '#22432A',
                             },
-                            padding: '0px 30px',
-                            zIndex: 99
+                            // padding: '0px 30px',
+                            zIndex: 99,
+                            fontSize: {xs: '14px', sm: '18px'},
+                            width: {xs: '130px', sm: '189px'},
+                            position: 'absolute',
+                            padding: {xs: '13px', sm: '16px'},
+                            // right: {xs: '7px', md: '3%', lg: '13%'}
+                            right: {xs: '0%', md: '0%', lg: '0%'}
                         }}
                         size='small'
                     >
@@ -74,14 +84,14 @@ export default function Footer() {
             <Divider/>
             {/* Footer Sections */}
             <Box sx={{ flexGrow: 2, marginY: '40px' }}>
-                <Grid container spacing={5}>
+                <Grid container spacing={3}>
                     {/* Logo Section */}
-                    <Grid size={{ xs: 6, sm: 10, md: 4, lg: 2.6 }}>
+                    <Grid size={{ xs: 12, sm: 10, md: 3, lg: 2.6 }}>
                         <img src="/Pillsphere_logo-removebg-preview 1.png" alt="Pill Sphere Logo" style={{ maxWidth: '258px' }} />
                     </Grid>
                     
                     {/* Categories Section */}
-                    <Grid size={{ xs: 6, sm: 10, md: 4, lg: 6 }} sx={{marginRight: '20px', width: '50%'}}>
+                    <Grid size={{ xs: 12, sm: 12, md: 4, lg: 6 }} sx={{marginRight: '20px', width: {md: '50%'}}}>
                         <Typography variant="h6" sx={{fontWeight: '900', fontSize: '24px'}} gutterBottom>
                             Categories
                         </Typography>
@@ -167,7 +177,7 @@ export default function Footer() {
                     </Grid>
 
                     {/* Contact Us Section */}
-                    <Grid size={{ xs: 6, sm: 10, md: 4, lg: 3 }} >
+                    <Grid size={{ xs: 12, sm: 12, md: 2.5, lg: 3 }} >
                         <Box>
                             <Typography variant="h6" sx={{fontWeight: '900', fontSize: '24px'}} gutterBottom>
                                 Contact Us
@@ -220,11 +230,9 @@ export default function Footer() {
                     </Grid>
                 </Grid>
                 
-                
-                {/* Certification Logos */}
-                <Box display="flex" justifyContent="center" gap={4} alignItems={'center'}>
+                <Box display={'flex'} flexDirection={{xs: 'column', sm: "row"}} justifyContent="center" gap={{xs: 4, md: 4}} alignItems={'center'}>
                     <img src="/images/129361 1.png" alt="LegitScript Certified" />
-                    <img src="/images/pharmacy-badge 1.png" alt="Registered Pharmacy" style={{ height: '40px' }} />
+                    <img src="/images/pharmacy-badge 1.png" alt="Pharmacy badge" style={{ height: '40px' }} />
                     <img src="/images/cyber-essentials 1.png" alt="Cyber Essentials Certified Plus"/>
                 </Box>
             </Box>
@@ -234,33 +242,17 @@ export default function Footer() {
             </Box>
 
             {/* Copyright and Social Icons */}
-            <Box display={'flex'} justifyContent='space-between'>
+            <Box display={{xs: 'block', sm: 'flex'}} justifyContent='space-between' textAlign={'left'}>
                 <Typography variant="h4" sx={{ marginTop: 2 }}>
                     © 2025 Pill Sphere LTD. All rights reserved.
                 </Typography>
-                <Box display="flex" justifyContent="center" gap={1} marginTop={1}>
-                    <img src="/images/social/fb.png" alt="Cyber Essentials Certified Plus"/>
-                    <img src="/images/social/x.png" alt="Cyber Essentials Certified Plus"/>
-                    <img src="/images/social/insta.png" alt="Cyber Essentials Certified Plus"/>
-                    <img src="/images/social/linkedin.png" alt="Cyber Essentials Certified Plus"/>
-                    {/* <Icon icon="mdi:facebook" width="24" height="24" />
-                    <IconButton><Facebook /></IconButton>
-                    <IconButton><Twitter /></IconButton>
-                    <IconButton><LinkedIn /></IconButton> */}
+                <Box display="flex" justifyContent="left" gap={1} marginTop={{xs: 2, md:1}}>
+                    <img src="/images/social/fb.png" alt="facebook"/>
+                    <img src="/images/social/x.png" alt="x"/>
+                    <img src="/images/social/insta.png" alt="instagram"/>
+                    <img src="/images/social/linkedin.png" alt="linkedin"/>
                 </Box>
             </Box>
-            
-            {/* Footer Bottom
-            <Box textAlign="center" marginTop={4}>
-                <Typography variant="body2">
-                © 2025 Pill Sphere LTD. All rights reserved.
-                </Typography>
-                <Box display="flex" justifyContent="center" gap={2} marginTop={1}>
-                <IconButton><Facebook /></IconButton>
-                <IconButton><Twitter /></IconButton>
-                <IconButton><LinkedIn /></IconButton>
-                </Box>
-            </Box> */}
         </Container>
     </Box>
   );

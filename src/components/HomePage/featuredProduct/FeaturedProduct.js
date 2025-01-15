@@ -97,7 +97,19 @@ function FeaturedProducts() {
         slidesToScroll: 1,
         responsive: [
           {
-            breakpoint: 960,
+            breakpoint: 1280,
+            settings: {
+              slidesToShow: 3,
+            },
+          },
+          {
+            breakpoint: 1080,
+            settings: {
+              slidesToShow: 2,
+            },
+          },
+          {
+            breakpoint: 788,
             settings: {
               slidesToShow: 2,
             },
@@ -112,14 +124,16 @@ function FeaturedProducts() {
       };
   return (
     <Container sx={{ marginY: '50px' }}>
-      <Box sx={{ display: 'flex', gap: '30px' }}>
+      <Box sx={{ display: 'flex', flexDirection: {xs:'column', md:'row'}, gap: {xs:'30px', lg:  '30px'} }}>
         <Box
           sx={{
             backgroundColor: "primary.main",
             color: "white",
             padding: "2rem 1rem 0rem 2rem",
             borderRadius: "8px",
-            position: 'relative'
+            position: 'relative',
+            minWidth: '310px',
+            maxWidth: {xs: '100%', md: '310px'}
           }}
         >
           <Box>
@@ -135,27 +149,28 @@ function FeaturedProducts() {
             >
               View All &nbsp; <Icon icon="solar:arrow-right-broken" color="primary.main" width="22" height="22" />
             </Button> */}
-            <CustomButton bgColor={"tertiary.main"} txColor={"primary.main"} text="View All"/>
+            <CustomButton bgColor={"tertiary.main"} txColor={"primary.main"} text="View All" style={{width: '100%'}}/>
           </Box>
           <Box sx={{
             textAlign: 'center',
             bottom: '-7px',
-            position: 'absolute',
+            position: {xs: 'relative', md:'absolute'},
             textAlign: 'center',
             right: '0px',
             width: '100%',
           }}>
-            <img style={{ width: '260px' }} src="/images/featuredProduct.png" />
+            {/* <img style={{ width: '260px' }} src="/images/featuredProduct.png" /> */}
+            <img style={{ padding:'10px 10px 0px 10px' }} src="/images/featuredProduct.png" />
           </Box>
         </Box>
-        <Container sx={{ width: {sm: '700px', lg: '1030px'}, paddingLeft: '10px' }}>
+        <Container sx={{ width: { md: '740px', lg: '1030px'}, paddingLeft: '10px' }}>
           <Slider
             {...settings}
             prevArrow={<CustomLeftArrow />}
             nextArrow={<CustomRightArrow />}
           >
             {products.map((product, index) => (
-              <Box key={index} sx={{ px: 1, height: '485.26px' }}>
+              <Box key={index} sx={{ px: 1, height: { sm: '535.26px'} }}>
                 <Card sx={{
                   borderRadius: "16px", boxShadow: 'none', minHeight: '413px', display: "flex",
                   flexDirection: "column",

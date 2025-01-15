@@ -1,14 +1,15 @@
 import { Button, useTheme } from "@mui/material";
 import { Icon } from "@iconify/react";
 
-const CustomButton = (props) =>{
+const CustomButton = ({bgColor, txColor, text, style={}}) =>{
     const theme = useTheme();
     return (
         <Button
             variant="contained"
             sx={{ 
-                backgroundColor: props.bgColor,
+                backgroundColor: bgColor,
                 marginTop: "1.5rem",
+                ...style,
                 fontSize: theme.typography.h3.fontSize,
                 [theme.breakpoints.down('md')]: {
                     fontSize: '14px',
@@ -19,7 +20,7 @@ const CustomButton = (props) =>{
                 minWidth: '150px'
             }}
         >
-            {props.text} &nbsp; <Icon icon="solar:arrow-right-broken" color={props.txColor} width="22" height="22" />
+            {text} &nbsp; <Icon icon="solar:arrow-right-broken" color={txColor} width="22" height="22" />
         </Button>
     )
 }

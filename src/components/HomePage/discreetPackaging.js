@@ -1,20 +1,24 @@
 import React from 'react';
 import { Box, Typography, Button, Grid, Container, Stack } from '@mui/material';
 import { Icon } from '@iconify/react';
+import useScreenSize from '../../hooks/screenSizeHook';
 
 const DiscreetPackagingSection = () => {
+  const { width, height } = useScreenSize();
+  
   return (
     <Container >
       <Box
         sx={{
           backgroundColor: 'secondary.main',
-          paddingLeft: '2rem',
+          paddingLeft: {xs:'0px', sm:'2rem'},
           textAlign: 'left',
           marginY: '50px',
-          display: 'flex'
+          display: 'flex',
+          flexDirection: {xs: 'column-reverse', md: 'row'}
         }}
       >
-        <Box>
+        <Box sx={{padding: {xs:'0rem 1rem', md:'0px'}, marginBottom: {xs:'2rem', md:'0rem'}}}>
           <Typography variant="h2" sx={{fontWeight: 700, color:'tertiary.main', marginTop: '2rem'}} gutterBottom>
             Discreet Packaging
           </Typography>
@@ -52,7 +56,14 @@ const DiscreetPackagingSection = () => {
           </Box>
         </Box>
         <Box>
-          <img src='/images/discreet-packing.png'/>
+          {width < 1080?(
+              <img src='/images/discreet-packing.png' style={{width: "100%"}}/>
+            )
+            :
+            (
+              <img src='/images/discreet-packing.png' style={{ position: 'relative', bottom: '-7px'}}/>
+            )
+          }
         </Box>
       </Box>
     </Container>

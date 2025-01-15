@@ -23,15 +23,15 @@ const HowItWorksSection = () => {
   return (
         <Box sx={{ backgroundColor: 'primary.main', marginTop: '50px', textAlign: 'center' }}>
             <Container sx={{paddingY: '80px'}} >
-                <Box sx={{textAlign: 'center', margin: 'auto', width: '47%'}}>
+                <Box sx={{textAlign: 'center', margin: 'auto', width: {xs:'90%', md:'47%'}}}>
                     <Typography variant="h1" sx={{ color: '#fff', fontWeight: '600', mb:2 }}>How it works</Typography>
                     <Typography variant="h3" sx={{ color: '#fff', mb: 4 }}>
                         Obtain your prescription medication in just three simple steps. It's fast, easy, and hassle-free. Try our service today and experience the difference - you won't be disappointed.
                     </Typography>
                 </Box>
-                <Grid container spacing={3} sx={{ justifyContent: 'space-between', paddingX: '100px' }}>
+                <Grid container spacing={3} sx={{ justifyContent: {xs: 'center', md: 'space-between'}, paddingX: {xs:"0px", md:'100px'} }}>
                     {steps.map((step, index) => (
-                        <Grid item key={index}>
+                        <Grid key={index}>
                             <Box sx={{
                                 width: '250px',
                                 padding: '1rem',

@@ -16,7 +16,7 @@ const TopHeader = ()=>{
     const linkStyle={color: 'white', textDecoration: 'none'}
     return (
         <AppBar position="static" sx={{ bgcolor: theme.palette.primary.main, minHeight: '40px',  padding: '1px' }}>
-            <Toolbar variant="dense" sx={{marginX: '30px'}}>
+            <Toolbar variant="dense" sx={{marginX: {xs: '0px', md: '30px'}}}>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
                     <Box>
                         <Typography variant="h4" >
@@ -36,15 +36,15 @@ const TopHeader = ()=>{
                     <Box>
                         <Stack direction="row" spacing={1}>
                             <Link to='/about' style={linkStyle}>
-                                <Typography >About Us</Typography>
+                                <Typography variant='h4'>About Us</Typography>
                             </Link>
                             <Divider orientation="vertical" flexItem sx={{ bgcolor: 'rgba(255,255,255,0.3)' }} />
                             <Link to='/how-it-work' style={linkStyle}>
-                                <Typography>How it Work</Typography>
+                                <Typography variant='h4'>How it Work</Typography>
                             </Link>
                             <Divider orientation="vertical" flexItem sx={{ bgcolor: 'rgba(255,255,255,0.3)' }} />
                             <Link to='/faqs' style={linkStyle}>
-                                <Typography >FAQ's</Typography>
+                                <Typography variant='h4' >FAQ's</Typography>
                             </Link>
                         </Stack>
                     </Box>

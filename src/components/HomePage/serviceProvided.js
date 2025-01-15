@@ -25,7 +25,7 @@ const ServiceProvided = () =>{
 
     return(
         <Container>
-            <Stack direction="row" spacing={2} justifyContent={'space-between'} marginY='10px'>
+            <Stack direction="row" spacing={2} justifyContent={'space-between'} marginY='10px' overflow={'scroll'}>
                 <Item>
                     <Box sx={serviceCirle}>
                         <Icon icon="guidance:more-add-plus" width="22" height="22" color={theme.palette.tertiary.main} />
@@ -55,7 +55,7 @@ const ServiceProvided = () =>{
                         <Icon icon="hugeicons:delivery-truck-02" flip="horizontal" width="24" height="24" color={theme.palette.tertiary.main}/>
                     </Box>
                     <Box>
-                        <Typography variant={'h3'}> <strong> Free Delivery </strong> (Orders Over 20) </Typography>
+                        <Typography variant={'h3'}> <strong style={{whiteSpace: 'nowrap'}}> Free Delivery </strong> (Orders Over 20) </Typography>
                     </Box>
                 </Item>
             </Stack>

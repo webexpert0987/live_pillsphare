@@ -42,18 +42,18 @@ const TreatmentSection = () => {
         <Box
             sx={{
                 backgroundColor: "secondary.main",
-                padding: "4rem",
+                padding: {xs:"4rem 1rem 4rem 1rem", md: '4rem'},
                 textAlign: "center",
             }}
         >
             <Container>
-                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <Box sx={{ display: {xs:'block', sm: 'flex' }, alignItems: 'center', justifyContent: 'space-between', textAlign: 'left' }}>
                     <Box>
                         {/* Section Title */}
                         <Typography variant="h2" sx={{ fontWeight: "bold", marginBottom: "1rem", textAlign: 'left' }}>
                             Explore our treatments
                         </Typography>
-                        <Typography variant="h3" sx={{ marginBottom: "1rem", color: "#555", textAlign: 'left' }}>
+                        <Typography variant="h3" sx={{ marginBottom: {xs: "0px", sm: '1rem'}, color: "#555", textAlign: 'left' }}>
                             Explore our offerings and find the perfect treatment for your goals
                             today!
                         </Typography>
@@ -75,7 +75,7 @@ const TreatmentSection = () => {
                     >
                         View All <Icon icon="solar:arrow-right-broken" color="#fff" width="24" height="24" />
                     </Button> */}
-                        <CustomButton bgColor={"primary.main"} txColor={"#fff"} text='View All'/>
+                    <CustomButton bgColor={"primary.main"} txColor={"#fff"} text='View All'/>
                 </Box>
 
                 {/* Cards */}
@@ -147,10 +147,12 @@ const TreatmentSection = () => {
                 </Box> */}
 
                 <Box
-                    display={{ xs: "flex", sm: "flex", md: "flex", lg: "flex" }}
+                    // display={{ xs: "flex", sm: "flex", md: "flex", lg: "flex" }}
+                    display="flex"
                     flexWrap="wrap"
                     justifyContent="center"
-                    flexDirection={{xs: "column", sm: "column", md: "row", lg: "row", xl: "row", xxl: 'row' }}
+                    // flexDirection={{xs: "column", sm: "column", md: "row", lg: "row", xl: "row", xxl: 'row' }}
+                    flexDirection={{xs: "column", md: "row" }}
                     gap={{ xs: "1rem", sm: "2rem", md: "2rem", lg: "2rem" }}
                     marginBottom="2rem"
                     marginTop={'2rem'}

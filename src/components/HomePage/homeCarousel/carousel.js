@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { Icon } from '@iconify/react';
 import theme from "../../../Theme/theme";
 import CustomButton from "../../Button/button";
@@ -32,9 +32,11 @@ const Carousel = () => {
       <Slider {...settings} ref={sliderRef}>
         {slides.map((slide) => (
           <Box key={slide.id} textAlign="center" position={'relative'}>
-            <img src={slide.img} alt={slide.text} style={{ width: "100%", height: "auto", minWidth: '950px',}} />
-            <Box sx={{position: 'absolute', top: '15%', left: '13.5%', width: '450px', textAlign: 'left'}}>
-              <Box>
+            <Box>
+              <img src={slide.img} alt={slide.text} style={{ width: "100%", height: "auto", minWidth: '950px',}} />
+            </Box>
+            <Box sx={{position: 'absolute', top: '15%', left: {xs: '8.5%', lg: '13.5%'}, width: {sm:'90%', md:'450px'}, textAlign: 'left'}}>
+              <Box width={{xs: '85%', lg: '530px'}}>
                 <Box marginBottom={2}>
                   <Typography sx={{fontSize: {sm:'22px', md:'30px', lg:'45px'}, color: '#fff', fontWeight: 700, lineHeight: '1.2', whiteSpace: 'break-spaces'}}>{slide.text}</Typography>
                 </Box>
@@ -57,10 +59,11 @@ const Carousel = () => {
       </Slider>
 
       {/* Custom Navigation */}
-      <Box display="flex" justifyContent="center" alignItems="center" mt={2} sx={{position: 'absolute', right: '60px', bottom: '60px'}}>
+      <Box display="flex" justifyContent="center" alignItems="center" mt={2} sx={{position: 'absolute', right: {xs: '20px', md: '60px'}, bottom: {xs: '20px', md: '40px'}}}>
         {/* <Button onClick={() => sliderRef.current.slickPrev()} color="#fff"><Icon color="#fff" icon="solar:arrow-left-broken" width="24" height="24" /></Button> */}
         {slides.map((_, index) => (
           <Typography
+            variant="h3"
             key={index}
             mx={1}
             color="#fff"

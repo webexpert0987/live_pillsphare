@@ -3,11 +3,12 @@ import { createTheme } from '@mui/material/styles';
 const theme = createTheme({
   breakpoints: {
     values: {
-      xs: 0,        // Extra small devices (phones)
-      sm: 600,      // Small devices (tablets)
-      md: 960,      // Medium devices (small laptops)
-      lg: 1430,     // Custom large breakpoint
-      xl: 1920,     // Extra large screens
+      xs: 300,
+      sm: 600,
+      // md: 960,
+      md: 1080,
+      lg: 1430,    
+      xl: 1920,
       xxl: 2400,
     },
   },
