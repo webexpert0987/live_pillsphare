@@ -7,9 +7,7 @@ import {
     Typography,
     Button,
     IconButton,
-    InputBase,
     Box,
-    Container,
     Stack,
     Menu,
     MenuItem,
@@ -20,70 +18,58 @@ import {
     useTheme,
     Drawer,
     List,
-    ListItem,
     ListItemButton,
-    ListItemIcon,
     ListItemText
-  } from '@mui/material';
-import CssBaseline from '@mui/material/CssBaseline';
-import MuiAppBar from '@mui/material/AppBar';
+} from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
-  import {
+
+import {
     Search as SearchIcon,
     ShoppingCart as ShoppingCartIcon,
     KeyboardArrowDown as KeyboardArrowDownIcon,
-    Person as PersonIcon
-  } from '@mui/icons-material';
-  import { styled, alpha } from '@mui/material/styles';
-  import { Icon } from '@iconify/react';
-  import useScreenSize from '../../hooks/screenSizeHook';
+} from '@mui/icons-material';
+import { styled } from '@mui/material/styles';
+import { Icon } from '@iconify/react';
+import useScreenSize from '../../hooks/screenSizeHook';
 
-  
 import Collapse from '@mui/material/Collapse';
-import ListSubheader from '@mui/material/ListSubheader';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
-import CategoryIcon from '@mui/icons-material/Category';
-import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
-import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
-import StarBorder from '@mui/icons-material/StarBorder';
 
 
-  const Text = styled(Typography)(({ theme }) => ({
+const Text = styled(Typography)(({ theme }) => ({
     color: '#333333', textDecoration: 'none', fontWeight: 600, fontSize: theme.typography.h4.fontSize
-  }));
+}));
 
-  const drawerWidth = 240;
+const drawerWidth = 240;
 
 
-  const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
+const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
     ({ theme }) => ({
-      flexGrow: 1,
-      padding: theme.spacing(3),
-      transition: theme.transitions.create('margin', {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-      }),
-      marginLeft: `-${drawerWidth}px`,
-      variants: [
-        {
-          props: ({ open }) => open,
-          style: {
-            transition: theme.transitions.create('margin', {
-              easing: theme.transitions.easing.easeOut,
-              duration: theme.transitions.duration.enteringScreen,
-            }),
-            marginLeft: 0,
-          },
-        },
-      ],
+        flexGrow: 1,
+        padding: theme.spacing(3),
+        transition: theme.transitions.create('margin', {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.leavingScreen,
+        }),
+        marginLeft: `-${drawerWidth}px`,
+        variants: [
+            {
+                props: ({ open }) => open,
+                style: {
+                    transition: theme.transitions.create('margin', {
+                        easing: theme.transitions.easing.easeOut,
+                        duration: theme.transitions.duration.enteringScreen,
+                    }),
+                    marginLeft: 0,
+                },
+            },
+        ],
     }),
-  );
-  
+);
+
 //   const AppBar = styled(MuiAppBar, {
 //     shouldForwardProp: (prop) => prop !== 'open',
 //   })(({ theme }) => ({
@@ -105,117 +91,132 @@ import StarBorder from '@mui/icons-material/StarBorder';
 //       },
 //     ],
 //   }));
-  
-  const DrawerHeader = styled('div')(({ theme }) => ({
+
+const DrawerHeader = styled('div')(({ theme }) => ({
     display: 'flex',
     alignItems: 'center',
     padding: theme.spacing(0, 1),
     // necessary for content to be below app bar
     ...theme.mixins.toolbar,
     justifyContent: 'flex-end',
-  }));
+}));
 
-  const nestedListData = [
-    { 
-      title: 'Shop', 
-      options: ['Option 1', 'Option 2'] 
+const nestedListData = [
+    {
+        title: 'Shop',
+        options: ['Option 1', 'Option 2']
     },
-    { 
-      title: 'Online Clinic', 
-      options: ['Option 1', 'Option 2'] 
+    {
+        title: 'Online Clinic',
+        options: ['Option 1', 'Option 2']
     },
-    { 
-      title: 'Weight Loss', 
-      options: ['Option 1', 'Option 2'] 
+    {
+        title: 'Weight Loss',
+        options: ['Option 1', 'Option 2']
     }
-  ];
+];
 
-const MainHeader = ()=> {
+const MainHeader = () => {
     const [anchorEl, setAnchorEl] = React.useState(null);
-  const open = Boolean(anchorEl);
-  const navigate = useNavigate();
-  const theme = useTheme();
-  const [openDrawer, setOpenDrawer] = React.useState(false);
-  const {width, height} = useScreenSize();
-  const [currentSize, setCurrentSize] = useState(null);
-  const [openSections, setOpenSections] = useState({});
+    const open = Boolean(anchorEl);
+    const navigate = useNavigate();
+    const theme = useTheme();
+    const [openDrawer, setOpenDrawer] = React.useState(false);
+    const { width, height } = useScreenSize();
+    const [currentSize, setCurrentSize] = useState(null);
+    const [openSections, setOpenSections] = useState({});
+    const [isLogedIn, setIsLogedIn] = useState(false);
 
-  const handleToggle = (index) => {
-    setOpenSections((prevState) => ({
-      ...prevState,
-      [index]: !prevState[index],
-    }));
-  };
+    const handleToggle = (index) => {
+        setOpenSections((prevState) => ({
+            ...prevState,
+            [index]: !prevState[index],
+        }));
+    };
 
-  useEffect(()=>{
-    console.log('width', width);
-    if(width > 960) {
-        setCurrentSize(width);
+    useEffect(() => {
+        console.log('width', width);
+        if (width > 960) {
+            setCurrentSize(width);
+        }
+    }, [width])
+
+    const handleDrawerOpen = () => {
+        setOpenDrawer(true);
+    };
+
+    const handleDrawerClose = () => {
+        setOpenDrawer(false);
+    };
+
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
+    const handleRoute = () => {
+        navigate('/')
     }
-  }, [width])
+    
+    const handleLogin = () => {
+        navigate('/login')
+    }
 
-  const handleDrawerOpen = () => {
-    setOpenDrawer(true);
-  };
+    const handleSearch = (e) => {
+        console.log(e.target.value)
+    }
 
-  const handleDrawerClose = () => {
-    setOpenDrawer(false);
-  };
+    const handleSearchClick = (e) => {
+        console.log('clicked')
+    }
 
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
+    
 
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  const handleRoute = () =>{
-    navigate('/')
-  }
-
-    return(
+    return (
         <Box sx={{ flexGrow: 1 }}>
             {/* Top announcement bar */}
             <TopHeader />
 
             {/* Main header */}
-            <AppBar position="static" color="default" elevation={1}>
-                <Box sx={{marginX: '25px', paddingY: '10px'}}>
-                    <Toolbar sx={{justifyContent: 'space-between', paddingLeft: {xs: '0px'}}}>
-                        {currentSize < 1000 ? 
+            <AppBar position="static" color="#fff" elevation={1}>
+                <Box sx={{ margin: { xs: '0px 16px 0px 10px', lg: '0px 25px' }, paddingY: '10px' }} backgroundColor='#fff'>
+                    <Toolbar sx={{ justifyContent: 'space-between', paddingLeft: { xs: '0px' }, paddingRight: { xs: '0px' } }}>
+                        {currentSize < 1000 ?
                             <IconButton
                                 color="inherit"
                                 aria-label="open drawer"
                                 onClick={handleDrawerOpen}
                                 edge="start"
-                                sx={[   
+                                sx={[
                                     openDrawer && { display: 'none' },
                                 ]}
                             >
                                 <MenuIcon />
                             </IconButton>
-                        :
-                            <Stack direction="row" spacing={2}>
+                            :
+                            <Stack direction="row" spacing={{ xs: 0, lg: 2 }} sx={{ marginLeft: { xs: '0px', lg: '5px !important' } }}>
                                 {['Shop', 'Online Clinic', 'Weight Loss'].map((text) => (
                                     <Button
                                         key={text}
-                                        endIcon={<KeyboardArrowDownIcon />}
+                                        endIcon={<KeyboardArrowDownIcon sx={{ marginLeft: 0 }} />}
                                         onClick={handleClick}
-                                        sx={{textTransform: 'capitalize'}}
+                                        sx={{ textTransform: 'capitalize', marginRight: { xs: '0px', sm: '5px' }, marginLeft: { xs: '0px', lg: '5px !important' } }}
                                     >
-                                        <Link to={'/about'} style={{textDecoration: 'none'}}>
+                                        <Link to={'/about'} style={{ textDecoration: 'none' }}>
                                             <Text>{text}</Text>
                                         </Link>
                                     </Button>
                                 ))}
-                                <Button sx={{textTransform: 'capitalize'}}>
-                                    <Link to={'/about'} style={{textDecoration: 'none'}}>
+                                <Button sx={{ textTransform: 'capitalize' }}>
+                                    <Link to={'/about'} style={{ textDecoration: 'none' }}>
                                         <Text >Offers</Text>
                                     </Link>
                                 </Button>
-                                <Button sx={{textTransform: 'capitalize'}}>
-                                    <Link to={'/about'} style={{textDecoration: 'none'}}>
+                                <Button sx={{ textTransform: 'capitalize' }}>
+                                    <Link to={'/about'} style={{ textDecoration: 'none' }}>
                                         <Text>Support</Text>
                                     </Link>
                                 </Button>
@@ -223,27 +224,28 @@ const MainHeader = ()=> {
                             </Stack>
                         }
                         {/* Logo */}
-                        <Box sx={{ display: 'flex', alignItems: 'center', mx: {xs: 1, md: 4}, width: {xs: '130px', md: '270px'} }} onClick={handleRoute}>
-                            <img src='/Pillsphere logo.png' style={{width: 'inherit'}}></img>
+                        <Box sx={{ display: 'flex', alignItems: 'center', mx: { xs: 1, md: 4 }, width: { xs: '130px', sm: '220px', md: '250px', lg: '270px' } }} onClick={handleRoute}>
+                            <img src='/Pillsphere logo.png' style={{ width: 'inherit' }}></img>
                         </Box>
 
                         {/* Search, User, Cart */}
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: '5px', lg: 2 } }}>
                             <TextField
-                                variant="standard" 
+                                variant="standard"
                                 // variant="outlined"
                                 placeholder="Search"
                                 fullWidth
+                                onChange={handleSearch}
                                 InputProps={{
                                     disableUnderline: true,
                                     endAdornment: (
                                         <InputAdornment position="end">
-                                            <SearchIcon sx={{ color: 'gray' }} />
+                                            <SearchIcon sx={{ color: 'gray' }} onClick={handleSearchClick} />
                                         </InputAdornment>
                                     ),
                                 }}
                                 sx={{
-                                    width: {xs: '10px', md: '250px'},
+                                    width: { xs: '200px', md: '250px' },
                                     backgroundColor: '#f9f9f9',
                                     borderRadius: '50px',
                                     border: '1px solid #fff',
@@ -258,34 +260,44 @@ const MainHeader = ()=> {
                                     },
                                 }}
                             />
-                            
+
                             {/* <Button
                                 startIcon={<Icon icon="mdi-light:account" width="40" height="40" />}
                                 sx={{ color: 'text.primary' }}
                             >
                                 
                             </Button> */}
-                            
-                            <Button
-                                startIcon={<Icon icon="mdi-light:account" width={{xs: '25', md: "40"}} height="33"/>}
-                                // endIcon={<KeyboardArrowDownIcon />}
-                                onClick={handleClick}
-                                sx={{ textTransform: 'capitalize', padding: {xs: '6px 0px 6px 8px ', md: '16px'} }}
-                            >
-                                {
-                                    !(currentSize < 960) &&
-                                    <>
-                                        <Typography component={'span'}>|</Typography>
-                                        <Typography sx={{marginLeft: '3px'}} component={'span'}>Hi, Adam</Typography>
-                                    </>
-                                }
-                            </Button>
 
-                            <IconButton color="inherit" sx={{padding: {xs: '0px', md: '16px'}}}>
+                            {
+                                isLogedIn ?
+                                    <Button
+                                        startIcon={<Icon icon="mdi-light:account" width={{ xs: '25', md: "40" }} height="33" />}
+                                        // endIcon={<KeyboardArrowDownIcon />}
+                                        onClick={handleClick}
+                                        sx={{ textTransform: 'capitalize', padding: { xs: '6px 0px 6px 8px ', lg: '16px' } }}
+                                    >
+                                        {
+                                            !(currentSize < 1300) &&
+                                            <>
+                                                <Typography component={'span'}>|</Typography>
+                                                <Typography sx={{ marginLeft: '3px' }} component={'span'}>Hi, Adam</Typography>
+                                            </>
+                                        }
+                                    </Button>
+                                    :
+                                    <Button
+                                        onClick={handleLogin}
+                                        sx={{ textTransform: 'capitalize', backgroundColor: 'tertiary.main', color: 'secondaryText.main' }}
+                                    >
+                                        Login
+                                    </Button>
+                            }
+
+                            <IconButton color="inherit" sx={{ padding: { xs: '0px', lg: '16px' } }}>
                                 <Badge badgeContent={0} color="error">
                                     <ShoppingCartIcon />
                                 </Badge>
-                                {!(currentSize < 960) && 
+                                {!(currentSize < 1300) &&
                                     <Typography variant="h4" sx={{ ml: 1, fontWeight: '600' }}>
                                         $0.00
                                     </Typography>
@@ -337,11 +349,11 @@ const MainHeader = ()=> {
                     sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
                     component="nav"
                     aria-labelledby="nested-list-subheader"
-                    // subheader={
-                    //     <ListSubheader component="div" id="nested-list-subheader">
-                    //         Services
-                    //     </ListSubheader>
-                    // }
+                // subheader={
+                //     <ListSubheader component="div" id="nested-list-subheader">
+                //         Services
+                //     </ListSubheader>
+                // }
                 >
                     {nestedListData.map((item, index) => (
                         <React.Fragment key={index}>
@@ -366,18 +378,18 @@ const MainHeader = ()=> {
                     ))}
                     <ListItemButton>
                         {/* <Button sx={{textTransform: 'capitalize'}}> */}
-                            <Link to={'/about'} style={{textDecoration: 'none', color: 'inherit'}}>
-                                {/* <Text >Offers</Text> */}
-                                <ListItemText primary={'Offers'} />
-                            </Link>
+                        <Link to={'/about'} style={{ textDecoration: 'none', color: 'inherit' }}>
+                            {/* <Text >Offers</Text> */}
+                            <ListItemText primary={'Offers'} />
+                        </Link>
                         {/* </Button> */}
                     </ListItemButton>
                     <ListItemButton>
                         {/* <Button sx={{textTransform: 'capitalize'}}> */}
-                            <Link to={'/about'} style={{textDecoration: 'none', color: 'inherit'}}>
-                                {/* <Text >Offers</Text> */}
-                                <ListItemText primary={'Support'} />
-                            </Link>
+                        <Link to={'/about'} style={{ textDecoration: 'none', color: 'inherit' }}>
+                            {/* <Text >Offers</Text> */}
+                            <ListItemText primary={'Support'} />
+                        </Link>
                         {/* </Button> */}
                     </ListItemButton>
                 </List>

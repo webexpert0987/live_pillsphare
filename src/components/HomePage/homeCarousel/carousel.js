@@ -3,12 +3,10 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
 import { Box, Typography } from "@mui/material";
-import { Icon } from '@iconify/react';
-import theme from "../../../Theme/theme";
 import CustomButton from "../../Button/button";
 
 const Carousel = () => {
-  const sliderRef = useRef(null); // Create a ref for the slider
+  const sliderRef = useRef(null);
   const [currentSlide, setCurrentSlide] = useState(0);
 
   const slides = [

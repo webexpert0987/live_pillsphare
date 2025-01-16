@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Typography, Button, Grid, Container, Stack } from '@mui/material';
+import { Box, Typography, Container, Stack } from '@mui/material';
 import { Icon } from '@iconify/react';
 import useScreenSize from '../../hooks/screenSizeHook';
 

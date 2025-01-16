@@ -34,6 +34,9 @@ const theme = createTheme({
     success: {
       main: '#4caf50',
     },
+    secondaryText: {
+      main: '#fff'
+    },
     background: {
       default: '#f4f6f8',
       paper: '#ffffff',

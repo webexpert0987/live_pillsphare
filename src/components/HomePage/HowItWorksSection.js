@@ -1,7 +1,6 @@
 import React from 'react';
-import { Box, Typography, Button, Container } from '@mui/material';
+import { Box, Typography, Container } from '@mui/material';
 import Grid from '@mui/material/Grid2';
-import { Icon } from '@iconify/react';
 import CustomButton from '../Button/button';
 
 const HowItWorksSection = () => {

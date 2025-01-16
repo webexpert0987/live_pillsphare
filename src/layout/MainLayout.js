@@ -3,11 +3,12 @@ import MainHeader from '../components/Header/MainHeader';
 import Footer from '../components/Footer/Footer';
 
 import { Outlet } from 'react-router-dom';
-import { Box } from '@mui/material';
+import { Box, useTheme } from '@mui/material';
 
 const MainLayout = () => {
+  const theme = useTheme();
   return (
-    <div className="main-layout" style={{fontFamily: 'Urbanist'}}>
+    <div className="main-layout" style={{fontFamily: 'Urbanist', backgroundColor: '#fff', color: theme.typography.color}}>
       <MainHeader />
       <Box>
         <main className="content">

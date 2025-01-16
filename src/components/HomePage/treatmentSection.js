@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Button, Card, CardContent, Container, Typography, useTheme } from "@mui/material";
+import { Box, Card, CardContent, Container, Typography } from "@mui/material";
 import { Icon } from '@iconify/react'
 import CustomButton from "../Button/button";
 
@@ -37,7 +37,7 @@ const treatments = [
 ];
 
 const TreatmentSection = () => {
-    const theme = useTheme();
+
     return (
         <Box
             sx={{

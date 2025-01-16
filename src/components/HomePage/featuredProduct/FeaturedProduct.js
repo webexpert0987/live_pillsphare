@@ -1,42 +1,41 @@
-import React from "react";
-import { Box, Button, Card, CardContent, Container, Grid, Typography, Rating,IconButton } from "@mui/material";
-import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import React, { useState, useEffect } from "react";
+import { Box, Button, Card, CardContent, Container, Typography, Rating,IconButton } from "@mui/material";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { Icon } from '@iconify/react';
 import CustomButton from "../../Button/button";
+import { getProducts } from "../../../apis/apisList/productApi";
 
-const products = [
-  {
-    image: "/images/Mask-group.png",
-    title: "Beforeyouspeak Coffee Collagen Coffee Mocha asdf asdf asdf asdf asdf asd fasdf  asdf",
-    price: "$55.96",
-    originalPrice: "$69.95",
-    discount: "20% OFF RRP",
-    rating: 4.5,
-    reviews: 121,
-  },
-  {
-    image: "/images/December-Co-Op_Capilano-Manuka 1.png",
-    title: "Microlife B2 Basic Blood Pressure Monitor",
-    price: "$55.96",
-    originalPrice: "$69.95",
-    discount: "40% OFF RRP",
-    rating: 4.5,
-    reviews: 121,
-  },
-  {
-    image: "/images/December-Co-Op_Nicorette 1.png",
-    title: "Cetaphil Moisturising Lotion 1 Litre",
-    price: "$55.96",
-    originalPrice: "$69.95",
-    discount: "20% OFF RRP",
-    rating: 4.5,
-    reviews: 121,
-  },
-];
+// const products = [
+//   {
+//     image: "/images/Mask-group.png",
+//     title: "Beforeyouspeak Coffee Collagen Coffee Mocha asdf asdf asdf asdf asdf asd fasdf  asdf",
+//     price: "$55.96",
+//     originalPrice: "$69.95",
+//     discount: "20% OFF RRP",
+//     rating: 4.5,
+//     reviews: 121,
+//   },
+//   {
+//     image: "/images/December-Co-Op_Capilano-Manuka 1.png",
+//     title: "Microlife B2 Basic Blood Pressure Monitor",
+//     price: "$55.96",
+//     originalPrice: "$69.95",
+//     discount: "40% OFF RRP",
+//     rating: 4.5,
+//     reviews: 121,
+//   },
+//   {
+//     image: "/images/December-Co-Op_Nicorette 1.png",
+//     title: "Cetaphil Moisturising Lotion 1 Litre",
+//     price: "$55.96",
+//     originalPrice: "$69.95",
+//     discount: "20% OFF RRP",
+//     rating: 4.5,
+//     reviews: 121,
+//   },
+// ];
 
 function CustomLeftArrow({ onClick }) {
   return (
@@ -88,40 +87,56 @@ function CustomRightArrow({ onClick }) {
 }
 
 function FeaturedProducts() {
+  const [products, setProducts] = useState([]);
 
-    const settings = {
-        dots: false,
-        infinite: true,
-        speed: 500,
-        slidesToShow: 3,
-        slidesToScroll: 1,
-        responsive: [
-          {
-            breakpoint: 1280,
-            settings: {
-              slidesToShow: 3,
-            },
-          },
-          {
-            breakpoint: 1080,
-            settings: {
-              slidesToShow: 2,
-            },
-          },
-          {
-            breakpoint: 788,
-            settings: {
-              slidesToShow: 2,
-            },
-          },
-          {
-            breakpoint: 600,
-            settings: {
-              slidesToShow: 1,
-            },
-          },
-        ],
-      };
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const data = await getProducts();
+        console.log('product data', data.products);
+        setProducts(data.products);
+      } catch (error) {
+        console.error('Failed to fetch products:', error);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
+  const settings = {
+    dots: false,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    responsive: [
+      {
+        breakpoint: 1280,
+        settings: {
+          slidesToShow: 3,
+        },
+      },
+      {
+        breakpoint: 1080,
+        settings: {
+          slidesToShow: 2,
+        },
+      },
+      {
+        breakpoint: 788,
+        settings: {
+          slidesToShow: 2,
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 1,
+        },
+      },
+    ],
+  };
+
   return (
     <Container sx={{ marginY: '50px' }}>
       <Box sx={{ display: 'flex', flexDirection: {xs:'column', md:'row'}, gap: {xs:'30px', lg:  '30px'} }}>
@@ -155,7 +170,6 @@ function FeaturedProducts() {
             textAlign: 'center',
             bottom: '-7px',
             position: {xs: 'relative', md:'absolute'},
-            textAlign: 'center',
             right: '0px',
             width: '100%',
           }}>
@@ -179,7 +193,7 @@ function FeaturedProducts() {
                 }}>
                   <img
                     src={product.image}
-                    alt={product.title}
+                    alt={product.name}
                   // style={{ width: "100%", height: "auto", borderRadius: "8px 8px 0 0" }}
                   />
                   <CardContent sx={{
@@ -189,7 +203,7 @@ function FeaturedProducts() {
                     justifyContent: 'space-between',
                     width: '100%'
                   }}>
-                    <Typography variant="subtitle2" color="error" fontWeight="bold" sx={{
+                    {/* <Typography variant="subtitle2" color="error" fontWeight="bold" sx={{
                       position: 'absolute',
                       top: '20px',
                       background: '#fff',
@@ -199,13 +213,13 @@ function FeaturedProducts() {
                       fontSize: '12px',
                     }}>
                       {product.discount}
-                    </Typography>
+                    </Typography> */}
                     <Typography
                       variant="h4"
                       fontWeight="bold"
                       sx={{ mt: 1, fontSize: { xs: "14px", md: "1.25rem" } }}
                     >
-                      {product.title}
+                      {product.name}
                     </Typography>
                     <Box marginTop={3} display={'flex'} gap={6}>
                       <Box display="flex" gap="1rem" alignItems="center">
@@ -216,19 +230,24 @@ function FeaturedProducts() {
                           {product.originalPrice}
                         </Typography>
                       </Box>
-                      <Box display="flex" alignItems="center" gap="0.5rem" sx={{ mt: 1 }}>
-                        {/* <StarIcon color="warning" fontSize="small" /> */}
-                        <Typography variant="body2">
-                          <Rating
-                            name="read-only"
-                            value={product.rating}
-                            readOnly
-                            precision={0.5}
-                            size="small"
-                          />
-                        </Typography>
-                        ({product.reviews})
-                      </Box>
+                      {
+                        product.reviews && <Box display="flex" alignItems="center" gap="0.5rem" sx={{ mt: 1 }}>
+                          {/* <StarIcon color="warning" fontSize="small" /> */}
+                          {
+                            product.rating &&
+                            <Typography variant="body2">
+                              <Rating
+                                name="read-only"
+                                value={product.rating}
+                                readOnly
+                                precision={0.5}
+                                size="small"
+                              />
+                            </Typography>
+                          }
+                          ({product.reviews})
+                        </Box>
+                      }
                     </Box>
                     <Button
                       variant="contained"

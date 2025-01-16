@@ -1,7 +1,6 @@
 import React from 'react';
 import { Box, Typography, TextField, Button, IconButton, Container, Divider } from '@mui/material';
 import Grid from '@mui/material/Grid2';
-import { Facebook, Twitter, LinkedIn } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 
 export default function Footer() {

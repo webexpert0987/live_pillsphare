@@ -1,5 +1,7 @@
 import About from '../pages/About';
 import HomePage from '../pages/HomePage';
+import Login from '../pages/Login';
+import Registration from '../pages/Registration';
 
 const routes = [
   {
@@ -10,6 +12,16 @@ const routes = [
   {
     path: "/about",
     component: About,
+    exact: true,
+  },
+  {
+    path: "/login",
+    component: Login,
+    exact: true,
+  },
+  {
+    path: "/registration",
+    component: Registration,
     exact: true,
   },
 //   {
