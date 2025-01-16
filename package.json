@@ -42,5 +42,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://admin.pillsphere.com/wp-json/wp/v2"
+  "proxy": "http://admin.pillsphere.com"
 }
