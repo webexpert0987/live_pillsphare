@@ -10,10 +10,10 @@ const Carousel = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
 
   const slides = [
-    { id: 1, text: "Save $20 on all doses of weight loss medication", img: "/carousel/Rectangle 3.png" },
-    { id: 2, text: "Extra Savings: 20% Off on Tablets", img: "/carousel/Rectangle 3.png" },
-    { id: 3, text: "New Arrivals: Check out the latest products", img: "/carousel/Rectangle 3.png" },
-    { id: 4, text: "Limited Offer: Buy 2 Get 1 Free", img: "/carousel/Rectangle 3.png" },
+    { id: 1, text: "Save $20 on all doses of weight loss medication", img: "/carousel/Rectangle.png" },
+    { id: 2, text: "Extra Savings: 20% Off on Tablets", img: "/carousel/Rectangle.png" },
+    { id: 3, text: "New Arrivals: Check out the latest products", img: "/carousel/Rectangle.png" },
+    { id: 4, text: "Limited Offer: Buy 2 Get 1 Free", img: "/carousel/Rectangle.png" },
   ];
 
   const settings = {

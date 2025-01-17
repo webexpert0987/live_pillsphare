@@ -225,7 +225,8 @@ const MainHeader = () => {
                         }
                         {/* Logo */}
                         <Box sx={{ display: 'flex', alignItems: 'center', mx: { xs: 1, md: 4 }, width: { xs: '130px', sm: '220px', md: '250px', lg: '270px' } }} onClick={handleRoute}>
-                            <img src='/Pillsphere logo.png' style={{ width: 'inherit' }}></img>
+                            {/* <img src='/Pillsphere logo.png' style={{ width: 'inherit' }}></img> */}
+                            <img src='/Pillsphere_logo-removebg-preview.png' style={{ width: 'inherit' }}></img>
                         </Box>
 
                         {/* Search, User, Cart */}

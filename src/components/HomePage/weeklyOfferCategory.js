@@ -6,10 +6,10 @@ import CustomButton from "../Button/button";
 
 const WeeklyOffersSection = () => {
     const categories = [
-        { name: 'Weight Loss', discount: '20%', image: "/images/pngegg 1.png"},
-        { name: 'Skin Care', discount: '15%', image: "/images/list-2-removebg-preview 1.png"},
-        { name: 'Hair Loss', discount: '31%', image: "/images/pngegg (2) 1.png" },
-        { name: 'Ayurvedic', discount: '20%', image: "/images/pngegg (3) 1.png" },
+        { name: 'Weight Loss', discount: '20%', image: "/images/pngegg.png"},
+        { name: 'Skin Care', discount: '15%', image: "/images/list-2-removebg-preview.png"},
+        { name: 'Hair Loss', discount: '31%', image: "/images/pngegg2.png" },
+        { name: 'Ayurvedic', discount: '20%', image: "/images/pngegg3.png" },
     ];
   
     return (

@@ -86,7 +86,7 @@ export default function Footer() {
                 <Grid container spacing={3}>
                     {/* Logo Section */}
                     <Grid size={{ xs: 12, sm: 10, md: 3, lg: 2.6 }}>
-                        <img src="/Pillsphere_logo-removebg-preview 1.png" alt="Pill Sphere Logo" style={{ maxWidth: '258px' }} />
+                        <img src="/Pillsphere_logo-removebg-preview.png" alt="Pill Sphere Logo" style={{ maxWidth: '258px' }} />
                     </Grid>
                     
                     {/* Categories Section */}
@@ -230,9 +230,9 @@ export default function Footer() {
                 </Grid>
                 
                 <Box display={'flex'} flexDirection={{xs: 'column', sm: "row"}} justifyContent="center" gap={{xs: 4, md: 4}} alignItems={'center'}>
-                    <img src="/images/129361 1.png" alt="LegitScript Certified" />
-                    <img src="/images/pharmacy-badge 1.png" alt="Pharmacy badge" style={{ height: '40px' }} />
-                    <img src="/images/cyber-essentials 1.png" alt="Cyber Essentials Certified Plus"/>
+                    <img src="/images/1293611.png" alt="LegitScript Certified" />
+                    <img src="/images/pharmacy-badge.png" alt="Pharmacy badge" style={{ height: '40px' }} />
+                    <img src="/images/cyber-essentials.png" alt="Cyber Essentials Certified Plus"/>
                 </Box>
             </Box>
 
