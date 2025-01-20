@@ -2,6 +2,7 @@ import React from 'react';
 import { ThemeProvider } from '@mui/material/styles';
 import { CssBaseline } from '@mui/material';
 import theme from './Theme/theme';
+import StaticPaymentPage from './StaticPaymentPage';
 
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import routes from './routes';
@@ -26,6 +27,11 @@ function App() {
               ))}
             </Route>
           </Routes>
+        </Router>
+        <Router>
+            <Routes>
+                <Route path="/static-payment" element={<StaticPaymentPage />} />
+            </Routes>
         </Router>
       </ThemeProvider>
     </div>
