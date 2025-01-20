@@ -1,13 +1,11 @@
-import apiClient from '../api';
+import axios from 'axios';
 
-export const loginUser = (data) => apiClient.post('/login', data);
-  
-export const registerUser = (data) => apiClient.post('/register', data);
+const apiClient = axios.create({
+  baseURL: '', // This will be automatically proxied via package.json setting
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
 
-// export const getUserById = (id) => apiClient.get(`/users/${id}`);
-
-// export const createUser = (data) => apiClient.post('/users', data);
-
-// export const updateUser = (id, data) => apiClient.put(`/users/${id}`, data);
-
-// export const deleteUser = (id) => apiClient.delete(`/users/${id}`);
+export const loginUser = (data) => apiClient.post('/wp-json/wp/v2/login', data);
+export const registerUser = (data) => apiClient.post('/wp-json/wp/v2/register', data);
