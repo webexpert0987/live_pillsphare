@@ -37,6 +37,7 @@ import useScreenSize from '../../hooks/screenSizeHook';
 import Collapse from '@mui/material/Collapse';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
+import { useApp } from '../../Context/AppContext';
 
 
 const Text = styled(Typography)(({ theme }) => ({
@@ -118,7 +119,9 @@ const nestedListData = [
 
 const MainHeader = () => {
     const [anchorEl, setAnchorEl] = React.useState(null);
+    const [loginDrop, setLoginDrop] = React.useState(null);
     const open = Boolean(anchorEl);
+    const openLogin = Boolean(loginDrop);
     const navigate = useNavigate();
     const theme = useTheme();
     const [openDrawer, setOpenDrawer] = React.useState(false);
@@ -126,6 +129,7 @@ const MainHeader = () => {
     const [currentSize, setCurrentSize] = useState(null);
     const [openSections, setOpenSections] = useState({});
     const [isLogedIn, setIsLogedIn] = useState(false);
+    const {userDetails, logout}= useApp();
 
     const handleToggle = (index) => {
         setOpenSections((prevState) => ({
@@ -156,6 +160,20 @@ const MainHeader = () => {
     const handleClose = () => {
         setAnchorEl(null);
     };
+    
+    const handleLoginClick = (event) => {
+        setLoginDrop(event.currentTarget);
+    };
+
+    const handleLoginClose = () => {
+        setLoginDrop(null);
+    };
+
+    const handleLogout = ()=>{
+        setLoginDrop(null);
+        logout();
+        navigate('/login')
+    }
 
     const handleRoute = () => {
         navigate('/')
@@ -270,18 +288,18 @@ const MainHeader = () => {
                             </Button> */}
 
                             {
-                                isLogedIn ?
+                                userDetails ? 
                                     <Button
                                         startIcon={<Icon icon="mdi-light:account" width={{ xs: '25', md: "40" }} height="33" />}
                                         // endIcon={<KeyboardArrowDownIcon />}
-                                        onClick={handleClick}
+                                        onClick={handleLoginClick}
                                         sx={{ textTransform: 'capitalize', padding: { xs: '6px 0px 6px 8px ', lg: '16px' } }}
                                     >
                                         {
                                             !(currentSize < 1300) &&
                                             <>
                                                 <Typography component={'span'}>|</Typography>
-                                                <Typography sx={{ marginLeft: '3px' }} component={'span'}>Hi, Adam</Typography>
+                                                <Typography sx={{ marginLeft: '3px' }} component={'span'}>Hi, {userDetails.first_name}</Typography>
                                             </>
                                         }
                                     </Button>
@@ -421,6 +439,17 @@ const MainHeader = () => {
                 <MenuItem onClick={handleClose}>Option 1</MenuItem>
                 <MenuItem onClick={handleClose}>Option 2</MenuItem>
                 <MenuItem onClick={handleClose}>Option 3</MenuItem>
+            </Menu>
+            <Menu
+                anchorEl={loginDrop}
+                open={openLogin}
+                onClose={handleLoginClose}
+                MenuListProps={{
+                    'aria-labelledby': 'basic-button',
+                }}
+            >
+                <MenuItem onClick={handleLoginClose}>User profile</MenuItem>
+                <MenuItem onClick={handleLogout}>Logout</MenuItem>
             </Menu>
         </Box>
     )

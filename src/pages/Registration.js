@@ -9,9 +9,9 @@ import { styled } from "@mui/material/styles";
 import { FormControl, InputLabel, MenuItem, Select, FormHelperText } from "@mui/material";
 import { Formik, Form, } from 'formik';
 import * as Yup from 'yup';
-import { registerUser } from '../apis/apisList/userApi';
-import Snackbar from '@mui/material/Snackbar';
-
+import { registerUser, loginUser } from '../apis/apisList/userApi';
+import { useMessage } from '../Context/MessageContext';
+import { useApp } from '../Context/AppContext';
 
 
 const Text = styled(Typography)(({ theme }) => ({
@@ -60,20 +60,8 @@ const validationSchema = Yup.object({
 export default function SignUp() {
     const navigate = useNavigate();
     const [error, setError] = useState('');
-    const [openMessage, setOpenMessage] = React.useState(false);
-    const [message, setMessage] = useState('');
-
-    const handleClick = () => {
-        setOpenMessage(true);
-      };
-    
-      const handleClose = (event, reason) => {
-        if (reason === 'clickaway') {
-          return;
-        }
-    
-        setOpenMessage(false);
-      };
+    const {showMessage} = useMessage();
+    const {login} = useApp();
 
     
     const handleSubmit = async (values, { setSubmitting }) => {
@@ -89,16 +77,22 @@ export default function SignUp() {
             password: values.password
         };
         try {
-            const response = await registerUser(userData);
-            console.log('API Response:', response);
-            if (response.status == 200) {
-                navigate('/');
+            const registarRes = await registerUser(userData);
+            
+            if (registarRes.status == 200) {
+                const userData = { email: values.email, password: values.password };
+                const response = await loginUser(userData);
+                if(response.status == 200) {
+                    let userInfo = {first_name: response.first_name, last_name: response.last_name, user_id: response.user_id, token: response.token}
+                    login(userInfo);
+    
+                    navigate('/');
+                    showMessage(registarRes.message, 'success');
+                }
             }
         } catch (err) {
-            setError('An error occurred during the request.');
+            setError(err.response.data.message);
             console.error('Error:', err);
-            setMessage(err.response.data.message);
-            setOpenMessage(true)
         } finally {
             setSubmitting(false);
         }
@@ -266,6 +260,7 @@ export default function SignUp() {
                                         >
                                             Sign Up
                                         </Button>
+                                        {error && <Typography color="red">{error}</Typography>}
                                     </Form>
                                 )}
                             </Formik>
@@ -282,184 +277,6 @@ export default function SignUp() {
                     </Box>
                 </Grid>
             </Grid>
-            <Snackbar
-                open={openMessage}
-                autoHideDuration={5000}
-                onClose={handleClose}
-                message={message}
-                anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-            />
         </>
-        // <Grid container component="main" maxWidth="xs" justifyContent={'center'}>
-        //     <Grid container component="main" sx={{justifyContent: 'center'}}>
-        //     {/* <CssBaseline /> */}
-        //     <Box sx={classes.paper}>
-        //         {/* <Avatar sx={classes.avatar}>
-        //             <LockOutlinedIcon />
-        //         </Avatar> */}
-        //         <Typography  variant="h2">
-        //             Sign up
-        //         </Typography>
-        //         {/* <form noValidate>
-        //         </form> */}
-        // <Grid container spacing={2}>
-        //     <Grid xs={12} sm={6} md={3} lg={3}>
-        //         <TextField
-        //             autoComplete="fname"
-        //             name="firstName"
-        //             variant="outlined"
-        //             required
-        //             fullWidth
-        //             id="firstName"
-        //             label="First Name"
-        //             autoFocus
-        //         />
-        //     </Grid>
-        //     <Grid xs={12} sm={6} md={3} lg={3}>
-        //         <TextField
-        //             variant="outlined"
-        //             required
-        //             fullWidth
-        //             id="lastName"
-        //             label="Last Name"
-        //             name="lastName"
-        //             autoComplete="lname"
-        //         />
-        //     </Grid>
-        //     <Grid xs={12}>
-        //         <TextField
-        //             variant="outlined"
-        //             required
-        //             fullWidth
-        //             id="email"
-        //             label="Email Address"
-        //             name="email"
-        //             autoComplete="email"
-        //         />
-        //     </Grid>
-        //     <Grid xs={12}>
-        //         <TextField
-        //             variant="outlined"
-        //             required
-        //             fullWidth
-        //             name="password"
-        //             label="Password"
-        //             type="password"
-        //             id="password"
-        //             autoComplete="current-password"
-        //         />
-        //     </Grid>
-        //     <Grid xs={12}>
-        //         <FormControlLabel
-        //             control={<Checkbox value="allowExtraEmails" color="primary" />}
-        //             label="I want to receive inspiration, marketing promotions and updates via email."
-        //         />
-        //     </Grid>
-        // </Grid>
-        //             <Button
-        //                 type="submit"
-        //                 fullWidth
-        //                 variant="contained"
-        //                 color="primary"
-        //                 sx={classes.submit}
-        //             >
-        //                 Sign Up
-        //             </Button>
-        //             <Grid container justify="flex-end">
-        //                 <Grid >
-        //                     <Link href="/" variant="body2">
-        //                         Already have an account? Sign in
-        //                     </Link>
-        //                 </Grid>
-        //             </Grid>
-        //     </Box>
-        // </Grid>
-
-        // <Container component="main" maxWidth="xs">
-        //     <CssBaseline />
-        //     <Box sx={classes.paper}>
-        //         <Avatar sx={classes.avatar}>
-        //             <LockOutlinedIcon />
-        //         </Avatar>
-        //         <Typography component="h1" variant="h5">
-        //             Sign up
-        //         </Typography>
-        //         <form noValidate>
-        //             <Grid container spacing={2}>
-        //                 <Grid xs={12} sm={6}>
-        //                     <TextField
-        //                         autoComplete="fname"
-        //                         name="firstName"
-        //                         variant="outlined"
-        //                         required
-        //                         fullWidth
-        //                         id="firstName"
-        //                         label="First Name"
-        //                         autoFocus
-        //                     />
-        //                 </Grid>
-        //                 <Grid xs={12} sm={6}>
-        //                     <TextField
-        //                         variant="outlined"
-        //                         required
-        //                         fullWidth
-        //                         id="lastName"
-        //                         label="Last Name"
-        //                         name="lastName"
-        //                         autoComplete="lname"
-        //                     />
-        //                 </Grid>
-        //                 <Grid xs={12}>
-        //                     <TextField
-        //                         variant="outlined"
-        //                         required
-        //                         fullWidth
-        //                         id="email"
-        //                         label="Email Address"
-        //                         name="email"
-        //                         autoComplete="email"
-        //                     />
-        //                 </Grid>
-        //                 <Grid xs={12}>
-        //                     <TextField
-        //                         variant="outlined"
-        //                         required
-        //                         fullWidth
-        //                         name="password"
-        //                         label="Password"
-        //                         type="password"
-        //                         id="password"
-        //                         autoComplete="current-password"
-        //                     />
-        //                 </Grid>
-        //                 <Grid xs={12}>
-        //                     <FormControlLabel
-        //                         control={<Checkbox value="allowExtraEmails" color="primary" />}
-        //                         label="I want to receive inspiration, marketing promotions and updates via email."
-        //                     />
-        //                 </Grid>
-        //             </Grid>
-        //             <Button
-        //                 type="submit"
-        //                 fullWidth
-        //                 variant="contained"
-        //                 color="primary"
-        //                 sx={classes.submit}
-        //             >
-        //                 Sign Up
-        //             </Button>
-        //             <Grid container justify="flex-end">
-        //                 <Grid >
-        //                     <Link href="/" variant="body2">
-        //                         Already have an account? Sign in
-        //                     </Link>
-        //                 </Grid>
-        //             </Grid>
-        //         </form>
-        //     </Box>
-        //     <Box mt={5}>
-        //         <MadeWithLove />
-        //     </Box>
-        // </Container>
     );
 }

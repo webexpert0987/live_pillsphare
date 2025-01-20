@@ -14,7 +14,8 @@ import { styled } from "@mui/material/styles";
 import { loginUser } from '../apis/apisList/userApi';
 import { Formik, Form, } from 'formik';
 import * as Yup from 'yup';
-import { Snackbar } from "@mui/material";
+import { useMessage } from '../Context/MessageContext';
+import { useApp } from '../Context/AppContext';
 
 const Text = styled(Typography)(({ theme }) => ({
     color: '#333333', textDecoration: 'none', fontWeight: 600, fontSize: theme.typography.h4.fontSize
@@ -56,20 +57,9 @@ const validationSchema = Yup.object({
 
 const Login = () => {
     const navigate = useNavigate();
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [isLogin, setIsLogin] = useState(true);
+    const {showMessage} = useMessage();
+    const {login} = useApp();
     const [error, setError] = useState('');
-    const [openMessage, setOpenMessage] = React.useState(false);
-    const [message, setMessage] = useState('');
-
-    const handleClose = (event, reason) => {
-        if (reason === 'clickaway') {
-          return;
-        }
-    
-        setOpenMessage(false);
-      };
 
     const handleSubmit = async (values, { setSubmitting }) => {
         console.log('values', values)
@@ -80,14 +70,16 @@ const Login = () => {
             const response = await loginUser(userData);
             console.log('API Response:', response);
             if(response.status == 200) {
+                let userInfo = {first_name: response.first_name, last_name: response.last_name, user_id: response.user_id, token: response.token}
+                login(userInfo);
+
                 navigate('/');
+                showMessage(response.message, 'success');
             }
-            // Handle successful response, e.g., store the token, redirect, etc.
         } catch (err) {
-            setError('An error occurred during the request.');
+            setError(err.response.data.message);
             console.error('Error:', err);
-            setMessage(err.response.data.message);
-            setOpenMessage(true)
+            // showMessage(err.response.data.message, 'error');
         } finally {
             setSubmitting(false);
         }
@@ -165,7 +157,7 @@ const Login = () => {
                                         >
                                             Sign In
                                         </Button>
-                                        {error && <p>{error}</p>}
+                                        {error && <Typography color="red">{error}</Typography>}
                                         <Grid container justifyContent={'space-between'}>
                                             <Grid >
                                                 <Button sx={{ textTransform: 'capitalize' }}>
@@ -180,14 +172,8 @@ const Login = () => {
                                                         <Text>Don't have an account? Sign Up</Text>
                                                     </Link>
                                                 </Button>
-                                                {/* <Link href="/registration" variant="h4">
-                                        {"Don't have an account? Sign Up"}
-                                    </Link> */}
                                             </Grid>
                                         </Grid>
-                                        {/* <Box mt={5}>
-                                <MadeWithLove />
-                            </Box> */}
                                     </Box>
                                 </Form>
                             )}
@@ -195,79 +181,6 @@ const Login = () => {
                     </Box>
                 </Grid>
             </Grid>
-            <Snackbar
-                open={openMessage}
-                autoHideDuration={5000}
-                onClose={handleClose}
-                message={message}
-                anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-            />
-            {/* <Grid container component="main" sx={classes.root}>
-                <CssBaseline />
-                <Grid xs={false} sm={4} md={7} sx={classes.image} />
-                <Grid xs={12} sm={8} md={5} component={Paper} elevation={3} square>
-                    <Box sx={classes.paper}>
-                        <Avatar sx={classes.avatar}>
-                            <LockOutlinedIcon />
-                        </Avatar>
-                        <Typography component="h1" variant="h5">
-                            Sign in
-                        </Typography>
-                        <form sx={classes.form} noValidate>
-                            <TextField
-                                variant="outlined"
-                                margin="normal"
-                                required
-                                fullWidth
-                                id="email"
-                                label="Email Address"
-                                name="email"
-                                autoComplete="email"
-                                autoFocus
-                            />
-                            <TextField
-                                variant="outlined"
-                                margin="normal"
-                                required
-                                fullWidth
-                                name="password"
-                                label="Password"
-                                type="password"
-                                id="password"
-                                autoComplete="current-password"
-                            />
-                            <FormControlLabel
-                                control={<Checkbox value="remember" color="primary" />}
-                                label="Remember me"
-                            />
-                            <Button
-                                type="submit"
-                                fullWidth
-                                variant="contained"
-                                color="primary"
-                                sx={classes.submit}
-                            >
-                                Sign In
-                            </Button>
-                            <Grid container>
-                                <Grid xs>
-                                    <Link href="#" variant="body2">
-                                        Forgot password?
-                                    </Link>
-                                </Grid>
-                                <Grid >
-                                    <Link href="/registration" variant="body2">
-                                        {"Don't have an account? Sign Up"}
-                                    </Link>
-                                </Grid>
-                            </Grid>
-                            <Box mt={5}>
-                                <MadeWithLove />
-                            </Box>
-                        </form>
-                    </Box>
-                </Grid>
-            </Grid> */}
         </>
     );
 };

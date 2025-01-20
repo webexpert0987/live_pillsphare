@@ -1,6 +1,6 @@
 import apiClient from '../api';
 
-export const getProducts = () => apiClient.get('/products');
+export const getProducts = () => apiClient.get('/wp-json/wp/v2/products');
 
 // export const getUserById = (id) => apiClient.get(`/users/${id}`);
 
