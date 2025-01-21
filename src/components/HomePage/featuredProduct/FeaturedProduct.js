@@ -183,7 +183,7 @@ function FeaturedProducts() {
             prevArrow={<CustomLeftArrow />}
             nextArrow={<CustomRightArrow />}
           >
-            {products.map((product, index) => (
+            {products.length > 0 && products.map((product, index) => (
               <Box key={index} sx={{ px: 1, height: { sm: '535.26px'} }}>
                 <Card sx={{
                   borderRadius: "16px", boxShadow: 'none', minHeight: '413px', display: "flex",
@@ -201,7 +201,8 @@ function FeaturedProducts() {
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'space-between',
-                    width: '100%'
+                    width: '100%',
+                    maxHeight: '262px'
                   }}>
                     {/* <Typography variant="subtitle2" color="error" fontWeight="bold" sx={{
                       position: 'absolute',
