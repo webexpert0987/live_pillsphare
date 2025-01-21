@@ -1,18 +1,6 @@
-import React, { useState } from 'react';
-import { loadStripe } from '@stripe/stripe-js';
+import React, {useState, useEffect} from 'react';
 import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
-import { Container, Typography, Button, CircularProgress, Box } from '@mui/material'; // Import Material UI components
-
-// Load Stripe with your publishable key
-const stripePromise = loadStripe('pk_test_51Qhr9OHPGZo76VQZgXLDbiGwAwEwOQqAAGc3y3aDrGM3TJpU0igPpwbcCbUB3D1AST5tBTDfUrFzF9n3iQ5cvY1x00wI6UDnsh'); // Replace with your Stripe publishable key
-
-const StaticPaymentPage = () => {
-    return (
-        <Elements stripe={stripePromise}>
-            <CheckoutForm />
-        </Elements>
-    );
-};
+import { Container, Typography, Button, CircularProgress, Box } from '@mui/material';
 
 const CheckoutForm = () => {
     const stripe = useStripe();
@@ -39,7 +27,7 @@ const CheckoutForm = () => {
 
         try {
             // Call the backend to create the PaymentIntent and get the client secret
-            const response = await fetch('https://admin.pillsphere.com/wp-json/wp/v2/create-payment-intent', {
+            const response = await fetch('http://admin.pillsphere.com/wp-json/wp/v2/create-payment-intent', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -112,4 +100,4 @@ const CheckoutForm = () => {
     );
 };
 
-export default StaticPaymentPage;
+export default CheckoutForm;

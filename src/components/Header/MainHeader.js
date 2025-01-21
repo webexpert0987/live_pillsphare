@@ -38,6 +38,7 @@ import Collapse from '@mui/material/Collapse';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import { useApp } from '../../Context/AppContext';
+import AddToCartModal from '../addToCart/addToCartModal';
 
 
 const Text = styled(Typography)(({ theme }) => ({
@@ -46,6 +47,17 @@ const Text = styled(Typography)(({ theme }) => ({
 
 const drawerWidth = 240;
 
+const product = {
+    id: 187,
+    name: 'Spedra (avanafil) 50mg',
+    image: 'http://sdf.com/wp-content/uploads/2025/01/spedra_avanafil.jpg',
+    variations: [
+      { variation_id: 188, price: '19.99', attributes: { tablets: '4 Tablets' } },
+      { variation_id: 189, price: '28.99', attributes: { tablets: '8 Tablets' } },
+      { variation_id: 190, price: '49.99', attributes: { tablets: '16 Tablets' } },
+      { variation_id: 191, price: '79.99', attributes: { tablets: '24 Tablets' } },
+    ],
+  };
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
     ({ theme }) => ({
@@ -129,7 +141,8 @@ const MainHeader = () => {
     const [currentSize, setCurrentSize] = useState(null);
     const [openSections, setOpenSections] = useState({});
     const [isLogedIn, setIsLogedIn] = useState(false);
-    const {userDetails, logout}= useApp();
+    const {userDetails, logout, calculateTotal}= useApp();
+    const [openCartModel, setOpenCartModel] = useState(false);
 
     const handleToggle = (index) => {
         setOpenSections((prevState) => ({
@@ -312,16 +325,21 @@ const MainHeader = () => {
                                     </Button>
                             }
 
-                            <IconButton color="inherit" sx={{ padding: { xs: '0px', lg: '16px' } }}>
+                            <IconButton color="inherit" sx={{ padding: { xs: '0px', lg: '16px' } }} onClick={() => setOpenCartModel(true)}>
                                 <Badge badgeContent={0} color="error">
                                     <ShoppingCartIcon />
                                 </Badge>
                                 {!(currentSize < 1300) &&
                                     <Typography variant="h4" sx={{ ml: 1, fontWeight: '600' }}>
-                                        $0.00
+                                        ${calculateTotal()}
                                     </Typography>
                                 }
                             </IconButton>
+                            <AddToCartModal
+                                open={openCartModel}
+                                onClose={() => setOpenCartModel(false)}
+                                // product={product}
+                            />
                         </Box>
                     </Toolbar>
                 </Box>
@@ -346,24 +364,6 @@ const MainHeader = () => {
                     </IconButton>
                 </DrawerHeader>
                 <Divider />
-                {/* <List>
-                    {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-                        <ListItem key={text} disablePadding>
-                            <ListItemButton>
-                                <Button
-                                        key={text}
-                                        endIcon={<KeyboardArrowDownIcon />}
-                                        onClick={handleClick}
-                                        sx={{textTransform: 'capitalize'}}
-                                    >
-                                        <Link to={'/about'} style={{textDecoration: 'none'}}>
-                                            <Text>{text}</Text>
-                                        </Link>
-                                    </Button>
-                            </ListItemButton>
-                        </ListItem>
-                    ))}
-                </List> */}
                 <List
                     sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
                     component="nav"
@@ -397,7 +397,7 @@ const MainHeader = () => {
                     ))}
                     <ListItemButton>
                         {/* <Button sx={{textTransform: 'capitalize'}}> */}
-                        <Link to={'/about'} style={{ textDecoration: 'none', color: 'inherit' }}>
+                        <Link to={'/offers'} style={{ textDecoration: 'none', color: 'inherit' }}>
                             {/* <Text >Offers</Text> */}
                             <ListItemText primary={'Offers'} />
                         </Link>
@@ -405,26 +405,13 @@ const MainHeader = () => {
                     </ListItemButton>
                     <ListItemButton>
                         {/* <Button sx={{textTransform: 'capitalize'}}> */}
-                        <Link to={'/about'} style={{ textDecoration: 'none', color: 'inherit' }}>
+                        <Link to={'/support'} style={{ textDecoration: 'none', color: 'inherit' }}>
                             {/* <Text >Offers</Text> */}
                             <ListItemText primary={'Support'} />
                         </Link>
                         {/* </Button> */}
                     </ListItemButton>
                 </List>
-                {/* <Divider />
-                <List>
-                    {['All mail', 'Trash', 'Spam'].map((text, index) => (
-                        <ListItem key={text} disablePadding>
-                            <ListItemButton>
-                                <ListItemIcon>
-                                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                                </ListItemIcon>
-                                <ListItemText primary={text} />
-                            </ListItemButton>
-                        </ListItem>
-                    ))}
-                </List> */}
             </Drawer>
             {/* <DrawerHeader /> */}
             {/* Dropdown Menu */}
@@ -451,6 +438,7 @@ const MainHeader = () => {
                 <MenuItem onClick={handleLoginClose}>User profile</MenuItem>
                 <MenuItem onClick={handleLogout}>Logout</MenuItem>
             </Menu>
+            
         </Box>
     )
 }

@@ -6,6 +6,8 @@ import "slick-carousel/slick/slick-theme.css";
 import { Icon } from '@iconify/react';
 import CustomButton from "../../Button/button";
 import { getProducts } from "../../../apis/apisList/productApi";
+import { useNavigate } from "react-router-dom";
+import { useApp } from "../../../Context/AppContext";
 
 // const products = [
 //   {
@@ -87,7 +89,9 @@ function CustomRightArrow({ onClick }) {
 }
 
 function FeaturedProducts() {
+  const {addToCart} = useApp();
   const [products, setProducts] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -102,6 +106,11 @@ function FeaturedProducts() {
 
     fetchProducts();
   }, []);
+
+  const handleAddProduct = (product, selectedVariant)=>{
+    // navigate(`/product/${id}`)
+    addToCart(product, selectedVariant);
+  }
 
   const settings = {
     dots: false,
@@ -253,8 +262,9 @@ function FeaturedProducts() {
                     <Button
                       variant="contained"
                       sx={{ mt: 2, backgroundColor: "primary.main", width: "100%", borderRadius: '50px', padding: '10px' }}
+                      onClick={()=>handleAddProduct(product, product.variations[0])}
                     >
-                      Add to Cart &nbsp;<Icon icon="solar:arrow-right-broken" color="primary.main" width="24" height="24" />
+                      Add To Cart &nbsp;<Icon icon="solar:arrow-right-broken" color="primary.main" width="24" height="24" />
                     </Button>
                   </CardContent>
                 </Card>

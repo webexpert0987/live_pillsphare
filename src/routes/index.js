@@ -1,7 +1,10 @@
 import About from '../pages/About';
+import Checkout from '../pages/Checkout';
 import HomePage from '../pages/HomePage';
 import Login from '../pages/Login';
+import Payment from '../pages/Payment';
 import Registration from '../pages/Registration';
+import Product from '../pages/product';
 
 const routes = [
   {
@@ -22,6 +25,21 @@ const routes = [
   {
     path: "/registration",
     component: Registration,
+    exact: true,
+  },
+  {
+    path: "/product/:id",
+    component: Product,
+    exact: true,
+  },
+  {
+    path: "/checkout",
+    component: Checkout,
+    exact: true,
+  },
+  {
+    path: "/payment",
+    component: Payment,
     exact: true,
   },
 //   {
