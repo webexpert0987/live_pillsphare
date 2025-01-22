@@ -54,7 +54,7 @@ const AddToCartModal = ({ open, onClose }) => {
                 </Box>
 
                 {cart.length > 0 ? (
-                    <Box height={'400px'} overflow={'scroll'}>
+                    <Box height={'400px'} sx={{overflowY: 'scroll'}}>
                         {cart.map((item, index) => (
                             <>
                                 <Box display={'flex'} gap={15} key={item.id}>
@@ -122,7 +122,7 @@ const AddToCartModal = ({ open, onClose }) => {
                     fullWidth
                     onClick={() => {
                         console.log(`Added variant ${selectedVariant.variation_id} to cart`);
-                        navigate('/checkout')
+                        navigate('/payment');
                         onClose();
                     }}
                 >

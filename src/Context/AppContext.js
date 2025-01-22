@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { addProductToCart, getUserCart } from '../apis/apisList/cartApi';
+import { useMessage } from './MessageContext';
 
 // Create the app context
 const AppContext = createContext();
@@ -12,6 +13,7 @@ export const AppProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
   const [variantIds, setVariantIds] = useState([]);
   const [isAddingProduct, setIsAddingProduct] = useState(false);
+  const {showMessage } = useMessage();
 
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
@@ -21,16 +23,19 @@ export const AppProvider = ({ children }) => {
         user_id: user.user_id,
         token: user.token
       })
-      console.log('cart data', data);
+      // console.log('cart data', data);
+      const cartData = JSON.parse(data.cart_value).cart
+      // console.log('cart cartData', cartData);
+      setCart(cartData);
+      setVariantIds([...new Set(cartData.map((item) => item.selectedVariant))]);
     }
 
     if (storedUser) {
       let user = JSON.parse(storedUser)
       setUserDetails(user);
-      console.log('user info', user);
-      // fetchCart(user);
+      // console.log('user info', user);
+      fetchCart(user);
     }
-
     
   }, []);
 
@@ -43,25 +48,18 @@ export const AppProvider = ({ children }) => {
     setUserDetails(null);
     localStorage.removeItem('user');
   };
-
-  useEffect(()=>{
-    console.log('useEffect variantIds', variantIds)
-  }, [variantIds])
   
   useEffect(()=>{
-    cart.reduce(
-      (total, item) => total + parseFloat(item.selectedVariantPrice),
-      0
-    ).toFixed(2);
+    if(cart.length > 0){
+      cart.reduce(
+        (total, item) => total + parseFloat(item.selectedVariantPrice),
+        0
+      ).toFixed(2);
+    }
   }, [cart])
   
   useEffect(()=>{
-    console.log('useEffect variantIds', variantIds)
-  }, [variantIds])
-  
-  useEffect(()=>{
     const addProducts = async () => {
-      console.log('addProducts')
       const cartData = {
         user_id: userDetails.user_id,
         token: userDetails.token,
@@ -72,12 +70,12 @@ export const AppProvider = ({ children }) => {
         console.log('API Response: add product to cart => ', response);
         setIsAddingProduct(false);
         if (response.status == 200) {
-          // showMessage(response.message, 'success');
+          showMessage(response.message, 'success');
         }
       } catch (err) {
         // setError(err.response.data.message);
         console.error('Error:', err);
-        // showMessage(err.response.data.message, 'error');
+        showMessage(err.response.data.message, 'error');
       }
     }
 
@@ -86,36 +84,6 @@ export const AppProvider = ({ children }) => {
     }
   }, [isAddingProduct])
 
-  // // Add item to cart
-  // const addToCart = (product, variant) => {
-  //   setCart((prevCart) => {
-  //     const existingItem = prevCart.find(
-  //       (item) => item.product.id === product.id && item.variant.variation_id === variant.variation_id
-  //     );
-
-  //     if (existingItem) {
-  //       return prevCart.map((item) =>
-  //         item === existingItem
-  //           ? { ...item }
-  //           : item
-  //       );
-  //     } else {
-  //       return [...prevCart, { product, variant }];
-  //     }
-  //   });
-  // };
-
-  // // Update variant in the cart
-  // const updateVariantInCart = (productId, variantId) => {
-  //   setCart((prevCart) =>
-  //     prevCart.map((item) =>
-  //       item.product.id === productId && item.variant.variation_id === variantId
-  //         ? { ...item }
-  //         : item
-  //     )
-  //   );
-  // };
-// Update variant and quantity in cart
 const updateVariantInCart = (productId, newVariantId, quantity = 1) => {
   setCart((prevCart) =>
     prevCart.map((item) =>
@@ -133,10 +101,12 @@ const updateVariantInCart = (productId, newVariantId, quantity = 1) => {
 };
   // Calculate total amount
   const calculateTotal = () => {
-    return cart.reduce(
-      (total, item) => total + parseFloat(item.selectedVariantPrice),
-      0
-    ).toFixed(2);
+    if(cart.length >0){
+      return cart.reduce(
+        (total, item) => total + parseFloat(item.selectedVariantPrice),
+        0
+      ).toFixed(2);
+    }
   };
 
 
@@ -149,6 +119,7 @@ const updateVariantInCart = (productId, newVariantId, quantity = 1) => {
   //   variantIds.push(variant.variation_id)
   // };
   const addToCart = (item, variant) => {
+    console.log('add to cart ', cart)
     setCart((prev) => {
       const existingItemIndex = prev.findIndex((cartItem) => cartItem.id === item.id);
   
@@ -237,7 +208,7 @@ const updateVariantInCart = (productId, newVariantId, quantity = 1) => {
 
 
   return (
-    <AppContext.Provider value={{ userDetails, login, logout, cartTotalAmount, setCartTotalAmount, cart, addToCart, updateVariant, updateVariantInCart, calculateTotal }}>
+    <AppContext.Provider value={{ userDetails, login, logout, cartTotalAmount, setCartTotalAmount, cart, setCart, addToCart, updateVariant, updateVariantInCart, calculateTotal, variantIds, setVariantIds }}>
       {children}
     </AppContext.Provider>
   );

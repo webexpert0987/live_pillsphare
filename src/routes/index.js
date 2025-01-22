@@ -32,11 +32,11 @@ const routes = [
     component: Product,
     exact: true,
   },
-  {
-    path: "/checkout",
-    component: Checkout,
-    exact: true,
-  },
+  // {
+  //   path: "/checkout",
+  //   component: Checkout,
+  //   exact: true,
+  // },
   {
     path: "/payment",
     component: Payment,
