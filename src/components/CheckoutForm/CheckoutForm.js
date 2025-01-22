@@ -83,13 +83,44 @@ export default function Checkout() {
     const navigate = useNavigate();
     const [error, setError] = useState('');
     const { showMessage } = useMessage();
-    const { userDetails, cart, calculateTotal, variantIds, setVariantIds, setCart } = useApp();
+    const { userDetails, cart, calculateTotal, variantIds, setVariantIds, setCart, cartEmpty } = useApp();
     const stripe = useStripe();
     const elements = useElements();
     const [paymentStatus, setPaymentStatus] = useState('');
     const [isProcessing, setIsProcessing] = useState(false);
     const [isCheckout, setIsCheckout] = useState (false);
-    const [billingDetails, setBillingDetails] =  useState({});
+    const [billingDetails, setBillingDetails] =  useState({
+        user_id: userDetails.user_id,
+        token: userDetails.token,
+        variation_ids: variantIds,
+        payment_intent_id: '',
+        billing_address: {
+          first_name: userDetails.first_name,
+          last_name: userDetails.last_name,
+          company: '',
+          address_1: '',
+          address_2: '',
+          city: '',
+          state: '',
+          postcode: '',
+          country: '',
+          email: '',
+          phone: ''
+        },
+        shipping_address: {
+          first_name: userDetails.first_name,
+          last_name: userDetails.last_name,
+          company: '',
+          address_1: '',
+          address_2: '',
+          city: '',
+          state: '',
+          postcode: '',
+          country: '',
+          email: '',
+          phone: ''
+        }
+      });
     console.log('variantIds', variantIds);
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -145,37 +176,40 @@ export default function Checkout() {
                         variation_ids: variantIds,
                         payment_intent_id: paymentIntent.id,
                         billing_address: {
-                          first_name: userDetails.first_name,
-                          last_name: userDetails.last_name,
-                          company: billingDetails.company,
-                          address_1: billingDetails.address_1,
-                          address_2: billingDetails.address_2,
-                          city: billingDetails.city,
-                          state: billingDetails.state,
-                          postcode: billingDetails.postcode,
-                          country: billingDetails.country,
-                          email: billingDetails.email,
-                          phone: billingDetails.phone
+                          first_name: billingDetails.billing_address.first_name,
+                          last_name: billingDetails.billing_address.last_name,
+                          company: billingDetails.billing_address.company,
+                          address_1: billingDetails.billing_address.address_1,
+                          address_2: billingDetails.billing_address.address_2,
+                          city: billingDetails.billing_address.city,
+                          state: billingDetails.billing_address.state,
+                          postcode: billingDetails.billing_address.postcode,
+                          country: billingDetails.billing_address.country,
+                          email: billingDetails.billing_address.email,
+                          phone: billingDetails.billing_address.phone
                         },
                         shipping_address: {
-                          first_name: userDetails.first_name,
-                          last_name: userDetails.last_name,
-                          company: billingDetails.company,
-                          address_1: billingDetails.address_1,
-                          address_2: billingDetails.address_2,
-                          city: billingDetails.city,
-                          state: billingDetails.state,
-                          postcode: billingDetails.postcode,
-                          country: billingDetails.country,
-                          email: billingDetails.email,
-                          phone: billingDetails.phone
+                          first_name: billingDetails.billing_address.first_name,
+                          last_name: billingDetails.billing_address.last_name,
+                          company: billingDetails.billing_address.company,
+                          address_1: billingDetails.billing_address.address_1,
+                          address_2: billingDetails.billing_address.address_2,
+                          city: billingDetails.billing_address.city,
+                          state: billingDetails.billing_address.state,
+                          postcode: billingDetails.billing_address.postcode,
+                          country: billingDetails.billing_address.country,
+                          email: billingDetails.billing_address.email,
+                          phone: billingDetails.billing_address.phone
                         }
                       }
+                      console.log('ordInfo', ordInfo)
                     const orderResponse = await createOrder(ordInfo);
                     // console.log('orderResponse', orderResponse);
                     if(orderResponse.status == "Order created successfully.") {
                         setCart([]);
                         setVariantIds([]);
+                        cartEmpty();
+                        navigate('/thankyou')
                     }
                 }
             } else {
@@ -190,40 +224,32 @@ export default function Checkout() {
         setIsProcessing(false);
     };
 
-    const handleCheckoutSubmit = async (values, { setSubmitting }) => {
+    const handleCheckoutSubmit = async (values) => {
         setBillingDetails(values);
         setIsCheckout(true);
-
-        // setError('');
-        // const userData = {
-        //     first_name: values.firstName,
-        //     last_name: values.lastName,
-        //     email: values.email,
-        //     gender: values.gender,
-        //     age: values.age,
-        //     password: values.password
-        // };
-        // try {
-        //     const registarRes = await registerUser(userData);
-
-        //     if (registarRes.status == 200) {
-        //         const userData = { email: values.email, password: values.password };
-        //         const response = await loginUser(userData);
-        //         if(response.status == 200) {
-        //             let userInfo = {first_name: response.first_name, last_name: response.last_name, user_id: response.user_id, token: response.token}
-        //             login(userInfo);
-
-        //             navigate('/');
-        //             showMessage(registarRes.message, 'success');
-        //         }
-        //     }
-        // } catch (err) {
-        //     setError(err.response.data.message);
-        //     console.error('Error:', err);
-        // } finally {
-        //     setSubmitting(false);
-        // }
+        if(cart.length > 0 ){
+        } else {
+            showMessage('Your cart is empty! Add some products before checking out.', 'error')
+        }
     };
+
+    const handleFieldOnChange = (e) =>{
+        console.log('billingDetails', billingDetails);
+        const { name, value } = e.target;
+
+        setBillingDetails((prev) => ({
+            ...prev,
+            billing_address: {
+                ...prev.billing_address,
+                [name]: value,
+            },
+            shipping_address: {
+                ...prev.shipping_address,
+                [name]: value,
+            },
+        }));
+    }
+    
     return (
         <>
             <Box sx={{ margin: '20px' }}>
@@ -235,23 +261,22 @@ export default function Checkout() {
                         boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
                     }}>
                         <Box sx={classes.paper}>
-                            {isCheckout ?
+                            {/* {isCheckout ?
                             <Typography variant="h2" sx={{ textAlign: 'center', marginBottom: '30px', fontWeight: '600' }}>
                                 Pay Now
                             </Typography>
-                            :
+                            : */}
                             <Typography variant="h2" sx={{ textAlign: 'center', marginBottom: '30px', fontWeight: '600' }}>
                                 Checkout
                             </Typography>
-                            }
+                            {/* } */}
 
                             <Box sx={{ width: '100%' }} noValidate display={'flex'}>
                                 {
-                                    !isCheckout ?
                                     <Formik
                                         initialValues={{
-                                            firstName: '',
-                                            lastName: '',
+                                            first_name: '',
+                                            last_name: '',
                                             company: '',
                                             address_1: '',
                                             address_2: '',
@@ -271,14 +296,14 @@ export default function Checkout() {
                                                     <Grid size={{ xs: 12, sm: 12, md: 6, lg: 6 }}>
                                                         <TextField
                                                             autoComplete="fname"
-                                                            name="firstName"
+                                                            name="first_name"
                                                             variant="outlined"
                                                             required
                                                             fullWidth
                                                             id="firstName"
                                                             label="First Name"
                                                             autoFocus
-                                                            onChange={handleChange}
+                                                            onChange={(e)=>{handleChange(e); handleFieldOnChange(e)}}
                                                             onBlur={handleBlur}
                                                             error={touched.firstName && Boolean(errors.firstName)}
                                                             helperText={touched.firstName && errors.firstName}
@@ -291,9 +316,9 @@ export default function Checkout() {
                                                             fullWidth
                                                             id="lastName"
                                                             label="Last Name"
-                                                            name="lastName"
+                                                            name="last_name"
                                                             autoComplete="lname"
-                                                            onChange={handleChange}
+                                                            onChange={(e)=>{handleChange(e); handleFieldOnChange(e)}}
                                                             onBlur={handleBlur}
                                                             error={touched.lastName && Boolean(errors.lastName)}
                                                             helperText={touched.lastName && errors.lastName}
@@ -308,7 +333,7 @@ export default function Checkout() {
                                                             label="Email Address"
                                                             name="email"
                                                             autoComplete="email"
-                                                            onChange={handleChange}
+                                                            onChange={(e)=>{handleChange(e); handleFieldOnChange(e)}}
                                                             onBlur={handleBlur}
                                                             error={touched.email && Boolean(errors.email)}
                                                             helperText={touched.email && errors.email}
@@ -323,7 +348,7 @@ export default function Checkout() {
                                                             label="Company"
                                                             name="company"
                                                             autoComplete="company"
-                                                            onChange={handleChange}
+                                                            onChange={(e)=>{handleChange(e); handleFieldOnChange(e)}}
                                                             onBlur={handleBlur}
                                                             error={touched.company && Boolean(errors.company)}
                                                             helperText={touched.company && errors.company}
@@ -338,7 +363,7 @@ export default function Checkout() {
                                                             label="Address 1"
                                                             name="address_1"
                                                             autoComplete="address_1"
-                                                            onChange={handleChange}
+                                                            onChange={(e)=>{handleChange(e); handleFieldOnChange(e)}}
                                                             onBlur={handleBlur}
                                                             error={touched.address_1 && Boolean(errors.address_1)}
                                                             helperText={touched.address_1 && errors.address_1}
@@ -353,7 +378,7 @@ export default function Checkout() {
                                                             label="Address 2"
                                                             name="address_2"
                                                             autoComplete="address_2"
-                                                            onChange={handleChange}
+                                                            onChange={(e)=>{handleChange(e); handleFieldOnChange(e)}}
                                                             onBlur={handleBlur}
                                                             error={touched.address_2 && Boolean(errors.address_2)}
                                                             helperText={touched.address_2 && errors.address_2}
@@ -368,7 +393,7 @@ export default function Checkout() {
                                                             label="City"
                                                             name="city"
                                                             autoComplete="city"
-                                                            onChange={handleChange}
+                                                            onChange={(e)=>{handleChange(e); handleFieldOnChange(e)}}
                                                             onBlur={handleBlur}
                                                             error={touched.city && Boolean(errors.city)}
                                                             helperText={touched.city && errors.city}
@@ -383,7 +408,7 @@ export default function Checkout() {
                                                             label="State"
                                                             name="state"
                                                             autoComplete="state"
-                                                            onChange={handleChange}
+                                                            onChange={(e)=>{handleChange(e); handleFieldOnChange(e)}}
                                                             onBlur={handleBlur}
                                                             error={touched.state && Boolean(errors.state)}
                                                             helperText={touched.state && errors.state}
@@ -398,7 +423,7 @@ export default function Checkout() {
                                                             label="Postcode"
                                                             name="postcode"
                                                             autoComplete="postcode"
-                                                            onChange={handleChange}
+                                                            onChange={(e)=>{handleChange(e); handleFieldOnChange(e)}}
                                                             onBlur={handleBlur}
                                                             error={touched.postcode && Boolean(errors.postcode)}
                                                             helperText={touched.postcode && errors.postcode}
@@ -413,7 +438,7 @@ export default function Checkout() {
                                                             label="Country"
                                                             name="country"
                                                             autoComplete="country"
-                                                            onChange={handleChange}
+                                                            onChange={(e)=>{handleChange(e); handleFieldOnChange(e)}}
                                                             onBlur={handleBlur}
                                                             error={touched.country && Boolean(errors.country)}
                                                             helperText={touched.country && errors.country}
@@ -429,7 +454,7 @@ export default function Checkout() {
                                                             label="Phone"
                                                             name="phone"
                                                             autoComplete="phone"
-                                                            onChange={handleChange}
+                                                            onChange={(e)=>{handleChange(e); handleFieldOnChange(e)}}
                                                             onBlur={handleBlur}
                                                             error={touched.phone && Boolean(errors.phone)}
                                                             helperText={touched.phone && errors.phone}
@@ -442,7 +467,8 @@ export default function Checkout() {
                                                     variant="contained"
                                                     color="primary"
                                                     sx={{ margin: '30px 0px 10px 0px' }}
-                                                    disabled={isSubmitting}
+                                                    // disabled={isSubmitting}
+                                                    onClick={handleCheckoutSubmit}
                                                 >
                                                     Checkout
                                                 </Button>
@@ -450,48 +476,6 @@ export default function Checkout() {
                                             </Form>
                                         )}
                                     </Formik>
-                                    :
-                                    <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 2 }}>
-                                        {/* Card Details Section */}
-                                        <div style={{ padding: '16px', border: '1px solid #ccc', borderRadius: '4px' }}>
-                                            <CardElement />
-                                        </div>
-
-                                        <Button
-                                            type="submit"
-                                            fullWidth
-                                            variant="contained"
-                                            color="primary"
-                                            // sx={{ margin: '30px 0px 10px 0px' }}
-                                            // disabled={isSubmitting}
-                                            disabled={!stripe || isProcessing}
-                                            onClick={handleSubmit}
-                                            sx={{ marginTop: 2 }}
-                                        >
-                                            {isProcessing ? <CircularProgress size={24} color="inherit" /> : 'Pay'}
-                                        </Button>
-                                        <Button
-                                            type="submit"
-                                            fullWidth
-                                            variant="contained"
-                                            color="primary"
-                                            // sx={{ margin: '30px 0px 10px 0px' }}
-                                            // disabled={isSubmitting}
-                                            disabled={!stripe || isProcessing}
-                                            onClick={()=>{setIsCheckout(false)}}
-                                            sx={{ marginTop: 2 }}
-                                        >
-                                            {/* {isProcessing ? <CircularProgress size={24} color="inherit" /> : 'Pay'} */}
-                                            Back
-                                        </Button>
-
-                                        {/* Payment Status Message */}
-                                        {paymentStatus && (
-                                            <Typography variant="body2" color={paymentStatus.includes('failed') ? 'error' : 'primary'} sx={{ marginTop: 2 }}>
-                                                {paymentStatus}
-                                            </Typography>
-                                        )}
-                                    </Box>
                                 }
                             </Box>
                         </Box>
@@ -519,35 +503,38 @@ export default function Checkout() {
                                                     padding: 2,
                                                 }}>
                                                     {cart.map((item) => (
-                                                        <Box key={item.id} sx={{ display: 'flex' }} gap={1} alignItems={'center'}>
-                                                            <Box>
-                                                                <img src={item.image} alt={item.name} style={{ width: '160px' }} />
-                                                            </Box>
-                                                            <Box width={'100%'} display={'flex'} justifyContent={'space-between'}>
-                                                                <Box width={'100%'}>
-                                                                    <Text   > {item.name}</Text>
-                                                                    {
-                                                                        item.variations.map((variant) => {
-                                                                            // Conditional rendering
-                                                                            if (variant.variation_id === item.selectedVariant) {
-                                                                                return (
-                                                                                    <Typography key={variant.id}>{variant.attributes.tablets}</Typography>
-                                                                                );
-                                                                            }
-                                                                            return null;
-                                                                        })
-                                                                    }
-                                                                </Box>
+                                                        <>
+                                                            <Box key={item.id} sx={{ display: 'flex' }} gap={1} alignItems={'center'}>
                                                                 <Box>
-                                                                    <Typography variant="h4" fontWeight={600}>${item.selectedVariantPrice}</Typography>
+                                                                    <img src={item.image} alt={item.name} style={{ width: '160px' }} />
+                                                                </Box>
+                                                                <Box width={'100%'} display={'flex'} justifyContent={'space-between'}>
+                                                                    <Box width={'100%'}>
+                                                                        <Text   > {item.name}</Text>
+                                                                        {
+                                                                            item.variations.map((variant) => {
+                                                                                // Conditional rendering
+                                                                                if (variant.variation_id === item.selectedVariant) {
+                                                                                    return (
+                                                                                        <Typography key={variant.id}>{variant.attributes.tablets}</Typography>
+                                                                                    );
+                                                                                }
+                                                                                return null;
+                                                                            })
+                                                                        }
+                                                                    </Box>
+                                                                    <Box>
+                                                                        <Typography variant="h4" fontWeight={600}>£{item.selectedVariantPrice}</Typography>
+                                                                    </Box>
                                                                 </Box>
                                                             </Box>
-                                                        </Box>
+                                                            <Divider/>
+                                                        </>
                                                     )
                                                     )}
                                                 </Stack>
                                                 <Divider sx={{ borderWidth: '1px', borderColor: '#333333' }}></Divider>
-                                                <Typography variant="h2" textAlign={'right'} marginTop={1}>Total: ${calculateTotal()}</Typography>
+                                                <Typography variant="h2" textAlign={'right'} marginTop={1}>Total: £{calculateTotal()}</Typography>
                                             </>
                                         )
                                             :
@@ -564,6 +551,65 @@ export default function Checkout() {
                         </Box>
                     </Grid>
                 </Grid>
+                {
+                    isCheckout && cart.length > 0 && 
+                    <>
+                        <Box sx={{
+                            border: '1px solid #d1cbcb',
+                            padding: '30px',
+                            borderRadius: '10px',
+                            boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
+                            marginY:'50px',
+                            marginX: 'auto',
+                            width: {xs: '100%', md: '50%'}
+                        }}>
+                            <Typography variant="h2" sx={{ textAlign: 'center', marginBottom: '30px', fontWeight: '600' }}>
+                                Pay Now
+                            </Typography>
+                            <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 2 }}>
+                                {/* Card Details Section */}
+                                <div style={{ padding: '16px', border: '1px solid #ccc', borderRadius: '4px' }}>
+                                    <CardElement />
+                                </div>
+
+                                <Button
+                                    type="submit"
+                                    fullWidth
+                                    variant="contained"
+                                    color="primary"
+                                    // sx={{ margin: '30px 0px 10px 0px' }}
+                                    // disabled={isSubmitting}
+                                    disabled={!stripe || isProcessing}
+                                    onClick={handleSubmit}
+                                    sx={{ marginTop: 2 }}
+                                >
+                                    {isProcessing ? <CircularProgress size={24} color="inherit" /> : 'Pay'}
+                                </Button>
+                                {/* <Button
+                                    type="submit"
+                                    fullWidth
+                                    variant="contained"
+                                    color="primary"
+                                    // sx={{ margin: '30px 0px 10px 0px' }}
+                                    // disabled={isSubmitting}
+                                    disabled={!stripe || isProcessing}
+                                    onClick={() => { setIsCheckout(false) }}
+                                    sx={{ marginTop: 2 }}
+                                >
+                                    
+                                    Back
+                                </Button> */}
+
+                                {/* Payment Status Message */}
+                                {paymentStatus && (
+                                    <Typography variant="body2" color={paymentStatus.includes('failed') ? 'error' : 'primary'} sx={{ marginTop: 2 }}>
+                                        {paymentStatus}
+                                    </Typography>
+                                )}
+                            </Box>
+                        </Box>
+                    </>
+                }
             </Box>
         </>
     );

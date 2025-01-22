@@ -73,13 +73,12 @@ const validationSchema = Yup.object({
         .required('Phone is required')
     // .min(2, 'Last name must be at least 2 characters'),
 });
-const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_API_KEY);
 
 export default function Checkout() {
     const navigate = useNavigate();
     const [error, setError] = useState('');
     const { showMessage } = useMessage();
-    const { cart, calculateTotal } = useApp();
+    const { login, cart, calculateTotal } = useApp();
     const stripe = useStripe();
     const elements = useElements();
     const [paymentStatus, setPaymentStatus] = useState('');
@@ -179,7 +178,7 @@ export default function Checkout() {
     // };
     return (
         <>
-            {/* <Elements stripe={stripePromise}> */}
+            <Elements stripe={stripePromise}>
                 <Box sx={{ margin: '20px' }}>
                     <Grid container spacing={{ xs: 2, md: 2 }} columns={12} direction={{ xs: 'column-reverse', md: 'row' }}>
                         <Grid size={{ xs: 12, sm: 12, md: 8, lg: 9 }} sx={{
@@ -382,7 +381,8 @@ export default function Checkout() {
                                                         />
                                                     </Grid>
                                                 </Grid>
-                                                {/* <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 2 }}>
+                                                <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 2 }}>
+                                                    {/* Card Details Section */}
                                                     <div style={{ padding: '16px', border: '1px solid #ccc', borderRadius: '4px' }}>
                                                         <CardElement />
                                                     </div>
@@ -399,12 +399,13 @@ export default function Checkout() {
                                                         {isProcessing ? <CircularProgress size={24} color="inherit" /> : 'Pay'}
                                                     </Button>
 
+                                                    {/* Payment Status Message */}
                                                     {paymentStatus && (
                                                         <Typography variant="body2" color={paymentStatus.includes('failed') ? 'error' : 'primary'} sx={{ marginTop: 2 }}>
                                                             {paymentStatus}
                                                         </Typography>
                                                     )}
-                                                </Box> */}
+                                                </Box>
                                                 <Button
                                                     type="submit"
                                                     fullWidth
@@ -491,7 +492,7 @@ export default function Checkout() {
                         </Grid>
                     </Grid>
                 </Box>
-            {/* </Elements> */}
+            </Elements>
         </>
     );
 }

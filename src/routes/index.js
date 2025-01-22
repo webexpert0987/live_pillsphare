@@ -5,6 +5,7 @@ import Login from '../pages/Login';
 import Payment from '../pages/Payment';
 import Registration from '../pages/Registration';
 import Product from '../pages/product';
+import ThankYouPage from '../pages/thankyou';
 
 const routes = [
   {
@@ -40,6 +41,11 @@ const routes = [
   {
     path: "/payment",
     component: Payment,
+    exact: true,
+  },
+  {
+    path: "/thankyou",
+    component: ThankYouPage,
     exact: true,
   },
 //   {

@@ -183,10 +183,10 @@ function FeaturedProducts() {
             width: '100%',
           }}>
             {/* <img style={{ width: '260px' }} src="/images/featuredProduct.png" /> */}
-            <img style={{ padding:'10px 10px 0px 10px' }} src="/images/featuredProduct.png" />
+            <img style={{ padding:'10px 10px 0px 10px' }} src="/images/featuredProduct.png"  alt="product image"/>
           </Box>
         </Box>
-        <Container sx={{ width: { md: '740px', lg: '1030px'}, paddingLeft: '10px' }}>
+        <Container sx={{ width: { md: '740px', lg: '1030px'}, paddingLeft: '10px'}}>
           <Slider
             {...settings}
             prevArrow={<CustomLeftArrow />}
@@ -203,6 +203,7 @@ function FeaturedProducts() {
                   <img
                     src={product.image}
                     alt={product.name}
+                    style={{maxHeight: '300px'}}
                   // style={{ width: "100%", height: "auto", borderRadius: "8px 8px 0 0" }}
                   />
                   <CardContent sx={{
@@ -211,7 +212,7 @@ function FeaturedProducts() {
                     flexDirection: 'column',
                     justifyContent: 'space-between',
                     width: '100%',
-                    maxHeight: '262px'
+                    maxHeight: '230px'
                   }}>
                     {/* <Typography variant="subtitle2" color="error" fontWeight="bold" sx={{
                       position: 'absolute',

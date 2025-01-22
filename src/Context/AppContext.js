@@ -69,8 +69,8 @@ export const AppProvider = ({ children }) => {
         const response = await addProductToCart(cartData);
         console.log('API Response: add product to cart => ', response);
         setIsAddingProduct(false);
-        if (response.status == 200) {
-          showMessage(response.message, 'success');
+        if (response == 'Cart updated successfully') {
+          showMessage('Cart updated successfully', 'success');
         }
       } catch (err) {
         // setError(err.response.data.message);
@@ -106,6 +106,8 @@ const updateVariantInCart = (productId, newVariantId, quantity = 1) => {
         (total, item) => total + parseFloat(item.selectedVariantPrice),
         0
       ).toFixed(2);
+    } else {
+      return 0
     }
   };
 
@@ -145,7 +147,7 @@ const updateVariantInCart = (productId, newVariantId, quantity = 1) => {
 
     setIsAddingProduct(true);
   };
-  
+
   const updateVariant = (product, variantId) => {
 
     setCart((prevCart) =>
@@ -205,10 +207,55 @@ const updateVariantInCart = (productId, newVariantId, quantity = 1) => {
     // });
   };
 
+  const removeFromCart = (item) => {
+    const removedItem = cart.find((cartItem) => cartItem.id === item.id);
+    setCart((prev) => prev.filter((cartItem) => cartItem.id !== item.id));
+  
+    setVariantIds((prev) => {
+      if (removedItem && removedItem.selectedVariant) {
+        return prev.filter((variantId) => variantId !== removedItem.selectedVariant);
+      }
+      return prev;
+    });
+    
+    setIsAddingProduct(true);
+    console.log('Product removed from cart:', item);
+  };
+  
+  const cartEmpty = async ()=>{
+    setCart([]);
+    const cartData = {
+      user_id: userDetails.user_id,
+      token: userDetails.token,
+      cart_value: JSON.stringify({ cart:[], cartTotalAmount })
+    }
+    try {
+      const response = await addProductToCart(cartData);
+    } catch (err) {
+      console.error('Error:', err);
+      showMessage(err.response.data.message, 'error');
+    }
+  }
 
 
   return (
-    <AppContext.Provider value={{ userDetails, login, logout, cartTotalAmount, setCartTotalAmount, cart, setCart, addToCart, updateVariant, updateVariantInCart, calculateTotal, variantIds, setVariantIds }}>
+    <AppContext.Provider value={{
+      userDetails,
+      login,
+      logout,
+      cartTotalAmount,
+      setCartTotalAmount,
+      cart,
+      setCart,
+      addToCart,
+      updateVariant,
+      updateVariantInCart,
+      calculateTotal,
+      variantIds,
+      setVariantIds,
+      removeFromCart,
+      cartEmpty
+    }}>
       {children}
     </AppContext.Provider>
   );

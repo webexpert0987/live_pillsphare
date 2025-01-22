@@ -1,24 +1,27 @@
 import React, { useState } from 'react';
-import { Modal, Box, Typography, RadioGroup, Radio, FormControlLabel, Button, Select, MenuItem } from '@mui/material';
+import { Modal, Box, Typography, RadioGroup, Radio, FormControlLabel, Button, Select, MenuItem, Divider } from '@mui/material';
 import { useApp } from '../../Context/AppContext';
 import { useNavigate } from 'react-router-dom';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import CloseIcon from '@mui/icons-material/Close';
 
 
 const AddToCartModal = ({ open, onClose }) => {
     const navigate= useNavigate();
     const [selectedVariant, setSelectedVariant] = useState({});
-    const { cart, updateVariant, calculateTotal, updateVariantInCart } = useApp();
+    const { cart, updateVariant, calculateTotal, updateVariantInCart, removeFromCart, variantIds } = useApp();
+    console.log('variantIds', variantIds)
+    console.log('cart', cart)
+    // const handleVariantChange = (productId, selectedVariantId) => {
+    //     const product = cart.find((item) => item.product.id === productId)?.product;
+    //     const newVariant = product.variations.find(
+    //         (variant) => variant.variation_id === parseInt(selectedVariantId, 10)
+    //     );
 
-    const handleVariantChange = (productId, selectedVariantId) => {
-        const product = cart.find((item) => item.product.id === productId)?.product;
-        const newVariant = product.variations.find(
-            (variant) => variant.variation_id === parseInt(selectedVariantId, 10)
-        );
-
-        if (newVariant) {
-            updateVariantInCart(productId, newVariant.variation_id, 1);
-        }
-    };
+    //     if (newVariant) {
+    //         updateVariantInCart(productId, newVariant.variation_id, 1);
+    //     }
+    // };
 
     // Handle variant selection
     //   const handleVariantChange = (event) => {
@@ -42,33 +45,44 @@ const AddToCartModal = ({ open, onClose }) => {
                     boxShadow: 24,
                     mx: 'auto',
                     mt: 10,
-                    height: '630px',
+                    height: cart.length > 0 ? '630px': 'auto',
                     // overflow: 'scroll'
                 }}
             >
                 <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
                     <Typography variant="h6">Cart</Typography>
                     <Button onClick={onClose} size="small" color="error">
-                        Close
+                        <CloseIcon />
                     </Button>
                 </Box>
-
+                <Divider/>
                 {cart.length > 0 ? (
                     <Box height={'400px'} sx={{overflowY: 'scroll'}}>
                         {cart.map((item, index) => (
                             <>
-                                <Box display={'flex'} gap={15} key={item.id}>
+                                <Box display={'flex'} gap={15} key={item.id} alignItems={'center'} justifyContent={'space-evenly'}>
+                                    <Box >
+                                        <DeleteOutlineIcon color='error' onClick={()=>{removeFromCart(item)}}/>
+                                    </Box>
                                     <Box mb={2} textAlign="center">
-                                        <img src={item.image} alt={item.name} style={{ width: '300px' }} />
+                                        <img src={item.image} alt={item.name} style={{ width: '160px' }} />
                                     </Box>
                                     <Box width={'30%'}>
-                                        <Typography>{item.name}</Typography>
+                                        <Typography variant='h3'>{item.name}</Typography>
+                                        {
+                                            item.stock_status == 'instock' ?
+                                            <Typography variant='h4' color='success'>{item.stock_status}</Typography>
+                                            : 
+                                            <Typography variant='h4' color='error'>{item.stock_status}</Typography>
+                                        }
+                                    </Box>
+                                    <Box>
                                         <Typography variant="subtitle1" mb={1}>
                                             Choose Variant:
                                         </Typography>
                                         <Select
                                             value={item.selectedVariant}
-                                            onChange={(e)=>handleVariantSelect(item, e.target.value)}
+                                            onChange={(e) => handleVariantSelect(item, e.target.value)}
                                             fullWidth
                                         >
                                             {item.variations.map((variant) => (
@@ -77,18 +91,21 @@ const AddToCartModal = ({ open, onClose }) => {
                                                 </MenuItem>
                                             ))}
                                         </Select>
-
+                                    </Box>
+                                    <Box>
                                         <Typography variant="h5" mt={2} mb={2}>
-                                            Price: ${item.selectedVariantPrice}
+                                            £{item.selectedVariantPrice}
                                         </Typography>
                                     </Box>
+                                    
                                 </Box>
+                                <Divider/>
                             </>
 
                         ))}
                     </Box>
                 ) : (
-                    <p>Your cart is empty.</p>
+                    <Typography variant='h2' textAlign={'center'} my={10}>Your cart is empty.</Typography>
                 )}
 
                 {/* <Typography variant="subtitle1" mb={1}>
@@ -113,7 +130,7 @@ const AddToCartModal = ({ open, onClose }) => {
         <Typography variant="h5" mt={2} mb={2}>
           Price: ${selectedVariant.price}
         </Typography> */}
-                <Typography textAlign={'right'} my={3} mr={5} variant='h2'>Total Amount: ${calculateTotal()}</Typography>
+                {cart.length > 0 && <Typography textAlign={'right'} my={3} mr={5} variant='h2'>Total Amount: £{calculateTotal()}</Typography>}
 
 
                 <Button
@@ -125,6 +142,7 @@ const AddToCartModal = ({ open, onClose }) => {
                         navigate('/payment');
                         onClose();
                     }}
+                    disabled={cart.length > 0 ? false: true}
                 >
                     Checkout
                 </Button>

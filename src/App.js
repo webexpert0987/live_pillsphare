@@ -28,11 +28,6 @@ function App() {
             </Route>
           </Routes>
         </Router>
-        <Router>
-            <Routes>
-                <Route path="/static-payment" element={<StaticPaymentPage />} />
-            </Routes>
-        </Router>
       </ThemeProvider>
     </div>
   );

@@ -331,7 +331,7 @@ const MainHeader = () => {
                                 </Badge>
                                 {!(currentSize < 1300) &&
                                     <Typography variant="h4" sx={{ ml: 1, fontWeight: '600' }}>
-                                        ${calculateTotal()}
+                                        £{calculateTotal()}
                                     </Typography>
                                 }
                             </IconButton>
