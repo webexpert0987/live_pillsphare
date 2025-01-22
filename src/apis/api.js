@@ -2,8 +2,8 @@ import axios from 'axios';
 
 const apiClient = axios.create({
 //   baseURL: 'http://admin.pillsphere.com/wp-json/wp/v2',
-  // baseURL: process.env.REACT_APP_BACKEND_URL,
-  baseURL: '',
+  baseURL: process.env.REACT_APP_BACKEND_URL,
+  // baseURL: '',
   headers: {
     'Content-Type': 'application/json',
   },
