@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import { Link, useNavigate } from "react-router-dom";
@@ -37,10 +37,10 @@ const classes = {
 };
 
 const validationSchema = Yup.object({
-    firstName: Yup.string()
+    first_name: Yup.string()
         .required('First name is required')
         .min(2, 'First name must be at least 2 characters'),
-    lastName: Yup.string()
+    last_name: Yup.string()
         .required('Last name is required')
         .min(2, 'Last name must be at least 2 characters'),
     email: Yup.string()
@@ -89,41 +89,45 @@ export default function Checkout() {
     const [paymentStatus, setPaymentStatus] = useState('');
     const [isProcessing, setIsProcessing] = useState(false);
     const [isCheckout, setIsCheckout] = useState (false);
-    const [billingDetails, setBillingDetails] =  useState({
+    const [billingDetails, setBillingDetails] = useState({
         user_id: userDetails.user_id,
         token: userDetails.token,
         variation_ids: variantIds,
         payment_intent_id: '',
         billing_address: {
-          first_name: userDetails.first_name,
-          last_name: userDetails.last_name,
-          company: '',
-          address_1: '',
-          address_2: '',
-          city: '',
-          state: '',
-          postcode: '',
-          country: '',
-          email: '',
-          phone: ''
+            first_name: userDetails.first_name,
+            last_name: userDetails.last_name,
+            company: '',
+            address_1: '',
+            address_2: '',
+            city: '',
+            state: '',
+            postcode: '',
+            country: '',
+            email: '',
+            phone: ''
         },
         shipping_address: {
-          first_name: userDetails.first_name,
-          last_name: userDetails.last_name,
-          company: '',
-          address_1: '',
-          address_2: '',
-          city: '',
-          state: '',
-          postcode: '',
-          country: '',
-          email: '',
-          phone: ''
+            first_name: userDetails.first_name,
+            last_name: userDetails.last_name,
+            company: '',
+            address_1: '',
+            address_2: '',
+            city: '',
+            state: '',
+            postcode: '',
+            country: '',
+            email: '',
+            phone: ''
         }
-      });
+    });
+    const [cardError, setCardError] = useState('');
+    const [isCardEpmty, setIsCardEpmty] = useState(false);
+    const [isDetailComplete, setIsDetailComplete] = useState(true);
+    const [canPay, setCanPay] = useState(false)
    
     const handleSubmit = async (e) => {
-        e.preventDefault();
+        // e.preventDefault();
 
         if (!stripe || !elements) {
             return;
@@ -131,99 +135,156 @@ export default function Checkout() {
 
         const cardElement = elements.getElement(CardElement);
 
-        if (!cardElement) {
-            setPaymentStatus('Card details are incomplete.');
-            return;
+        const cardValidation = cardElement._empty;
+
+        if (cardValidation) {
+            setCardError('Card is empty.');
+            setIsCardEpmty(true);
+            setIsDetailComplete(false)
+        } else {
+            setIsCardEpmty(false);
+            setCardError('');
         }
 
-        setIsProcessing(true);
-        setPaymentStatus('');
+        cardElement.addEventListener('change', async (event) => {
 
-        try {
-            const response = await createPaymentIntent({ amount: calculateTotal() })
-            const data = response;
+            if (event.error) {
+                console.error('[error]', event.error.message);
+                setCardError(event.error.message)
+                setIsCardEpmty(true);
+                setIsDetailComplete(false)
+            } else {
+                console.log('[success]', event);
+                if(event.complete){
+                    setCardError('')
+                    setIsCardEpmty(false);
+                    setIsDetailComplete(true)
+                    setCanPay(true)
+                } else {
+                    setCardError(event.error)
+                    setIsCardEpmty(true);
+                    setIsDetailComplete(false)
+                }
+            }
+        });
 
-            if (data.status === '200') {
-                const clientSecret = data.clientSecret;
-
-                const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
-                    payment_method: {
-                        card: cardElement,
-                    },
-                });
-
-                if (error) {
-                    // setPaymentStatus('Payment failed: ' + error.message);
-                    showMessage(error.message, 'error');
-                } else if (paymentIntent.status === 'succeeded') {
-                    
-                    setPaymentStatus('Payment successful!');
-                    showMessage('Payment successful!', 'success');
-                    // console.log('PaymentIntent ID:', paymentIntent.id);
-                    console.log('billingDetails', billingDetails)
-                    console.log('userDetails', userDetails)
-                    const ordInfo = {
-                        user_id: userDetails.user_id,
-                        token: userDetails.token,
-                        variation_ids: variantIds,
-                        payment_intent_id: paymentIntent.id,
-                        billing_address: {
-                          first_name: billingDetails.billing_address.first_name,
-                          last_name: billingDetails.billing_address.last_name,
-                          company: billingDetails.billing_address.company,
-                          address_1: billingDetails.billing_address.address_1,
-                          address_2: billingDetails.billing_address.address_2,
-                          city: billingDetails.billing_address.city,
-                          state: billingDetails.billing_address.state,
-                          postcode: billingDetails.billing_address.postcode,
-                          country: billingDetails.billing_address.country,
-                          email: billingDetails.billing_address.email,
-                          phone: billingDetails.billing_address.phone
+        if(canPay){
+            // if (!cardElement) {
+            //     setPaymentStatus('Card details are incomplete.');
+            //     return;
+            // }
+    
+            setIsProcessing(true);
+            setPaymentStatus('');
+            
+            try {
+                const response = await createPaymentIntent({ amount: calculateTotal() })
+                const data = response;
+    
+                if (data.status === '200') {
+                    const clientSecret = data.clientSecret;
+    
+                    const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
+                        payment_method: {
+                            card: cardElement,
                         },
-                        shipping_address: {
-                          first_name: billingDetails.billing_address.first_name,
-                          last_name: billingDetails.billing_address.last_name,
-                          company: billingDetails.billing_address.company,
-                          address_1: billingDetails.billing_address.address_1,
-                          address_2: billingDetails.billing_address.address_2,
-                          city: billingDetails.billing_address.city,
-                          state: billingDetails.billing_address.state,
-                          postcode: billingDetails.billing_address.postcode,
-                          country: billingDetails.billing_address.country,
-                          email: billingDetails.billing_address.email,
-                          phone: billingDetails.billing_address.phone
+                    });
+    
+                    if (error) {
+                        // setPaymentStatus('Payment failed: ' + error.message);
+                        showMessage(error.message, 'error');
+                    } else if (paymentIntent.status === 'succeeded') {
+                        
+                        setPaymentStatus('Payment successful!');
+                        showMessage('Payment successful!', 'success');
+                        // console.log('PaymentIntent ID:', paymentIntent.id);
+                        console.log('billingDetails', billingDetails)
+                        console.log('userDetails', userDetails)
+                        const ordInfo = {
+                            user_id: userDetails.user_id,
+                            token: userDetails.token,
+                            variation_ids: variantIds,
+                            payment_intent_id: paymentIntent.id,
+                            billing_address: {
+                              first_name: billingDetails.billing_address.first_name,
+                              last_name: billingDetails.billing_address.last_name,
+                              company: billingDetails.billing_address.company,
+                              address_1: billingDetails.billing_address.address_1,
+                              address_2: billingDetails.billing_address.address_2,
+                              city: billingDetails.billing_address.city,
+                              state: billingDetails.billing_address.state,
+                              postcode: billingDetails.billing_address.postcode,
+                              country: billingDetails.billing_address.country,
+                              email: billingDetails.billing_address.email,
+                              phone: billingDetails.billing_address.phone
+                            },
+                            shipping_address: {
+                              first_name: billingDetails.billing_address.first_name,
+                              last_name: billingDetails.billing_address.last_name,
+                              company: billingDetails.billing_address.company,
+                              address_1: billingDetails.billing_address.address_1,
+                              address_2: billingDetails.billing_address.address_2,
+                              city: billingDetails.billing_address.city,
+                              state: billingDetails.billing_address.state,
+                              postcode: billingDetails.billing_address.postcode,
+                              country: billingDetails.billing_address.country,
+                              email: billingDetails.billing_address.email,
+                              phone: billingDetails.billing_address.phone
+                            }
+                        }
+                          
+                        const orderResponse = await createOrder(ordInfo);
+                        // console.log('orderResponse', orderResponse);
+                        if(orderResponse.status == "Order created successfully.") {
+                            setCanPay(false);
+                            setCart([]);
+                            setVariantIds([]);
+                            cartEmpty();
+                            navigate('/thankyou')
                         }
                     }
-                      
-                    const orderResponse = await createOrder(ordInfo);
-                    // console.log('orderResponse', orderResponse);
-                    if(orderResponse.status == "Order created successfully.") {
-                        setCart([]);
-                        setVariantIds([]);
-                        cartEmpty();
-                        navigate('/thankyou')
-                    }
+                } else {
+                    // setPaymentStatus('Error creating payment intent.');
+                    showMessage('Error creating payment intent.', 'error');
                 }
-            } else {
-                // setPaymentStatus('Error creating payment intent.');
-                showMessage('Error creating payment intent.', 'error');
+            } catch (error) {
+                console.log('error', error)
+                showMessage('There was a problem with the payment process.', 'error');
+                // setPaymentStatus('There was a problem with the payment process.');
             }
-        } catch (error) {
-            console.log('error', error)
-            showMessage('There was a problem with the payment process.', 'error');
-            // setPaymentStatus('There was a problem with the payment process.');
+    
+            setIsProcessing(false);
         }
-
-        setIsProcessing(false);
     };
 
-    const handleCheckoutSubmit = async (values) => {
-        // console.log('values', values)
-        // setBillingDetails(values);
-        setIsCheckout(true);
-        if(cart.length > 0 ){
-        } else {
+    const handleCheckoutSubmit = async () => {
+        if (cart.length == 0) {
+            navigate('/');
             showMessage('Your cart is empty! Add some products before checking out.', 'error')
+        } 
+
+        console.log('values',)
+        // setBillingDetails(values);
+        let formDetail = {
+            first_name: billingDetails.billing_address.first_name,
+            last_name: billingDetails.billing_address.last_name,
+            company: billingDetails.billing_address.company,
+            address_1: billingDetails.billing_address.address_1,
+            address_2: billingDetails.billing_address.address_2,
+            city: billingDetails.billing_address.city,
+            state: billingDetails.billing_address.state,
+            postcode: billingDetails.billing_address.postcode,
+            country: billingDetails.billing_address.country,
+            email: billingDetails.billing_address.email,
+            phone: billingDetails.billing_address.phone
+        }
+        try{
+            await validationSchema.validate(formDetail, { abortEarly: false })
+            handleSubmit();
+            // setIsCheckout(true);
+        } catch (err) {
+            console.log('validation error', err)
+            showMessage('Please complete all required fields to continue.', 'error')
         }
     };
 
@@ -299,8 +360,8 @@ export default function Checkout() {
                                                             autoFocus
                                                             onChange={(e)=>{handleChange(e); handleFieldOnChange(e)}}
                                                             onBlur={handleBlur}
-                                                            error={touched.firstName && Boolean(errors.firstName)}
-                                                            helperText={touched.firstName && errors.firstName}
+                                                            error={touched.first_name && Boolean(errors.first_name)}
+                                                            helperText={touched.first_name && errors.first_name}
                                                         />
                                                     </Grid>
                                                     <Grid size={{ xs: 12, sm: 12, md: 6, lg: 6 }}>
@@ -314,8 +375,8 @@ export default function Checkout() {
                                                             autoComplete="lname"
                                                             onChange={(e)=>{handleChange(e); handleFieldOnChange(e)}}
                                                             onBlur={handleBlur}
-                                                            error={touched.lastName && Boolean(errors.lastName)}
-                                                            helperText={touched.lastName && errors.lastName}
+                                                            error={touched.last_name && Boolean(errors.last_name)}
+                                                            helperText={touched.last_name && errors.last_name}
                                                         />
                                                     </Grid>
                                                     <Grid size={{ xs: 12, sm: 12, md: 6, lg: 6 }}>
@@ -454,8 +515,14 @@ export default function Checkout() {
                                                             helperText={touched.phone && errors.phone}
                                                         />
                                                     </Grid>
+                                                    <Grid size={{ xs: 12, sm: 12, md: 6, lg: 6 }}>
+                                                        <Box sx={{ padding: '16px', border: '1px solid #ccc', borderRadius: '4px' }}>
+                                                            <CardElement />
+                                                        </Box>
+                                                        {isCardEpmty && <Typography color={'error'}>{cardError}</Typography>}
+                                                    </Grid>
                                                 </Grid>
-                                                <Button
+                                                {/* <Button
                                                     type="submit"
                                                     fullWidth
                                                     variant="contained"
@@ -464,8 +531,24 @@ export default function Checkout() {
                                                     // disabled={isSubmitting}
                                                     onClick={handleCheckoutSubmit}
                                                 >
-                                                    Checkout
+                                                    Checkout & Pay
+                                                </Button> */}
+                                                <Button
+                                                    type="submit"
+                                                    fullWidth
+                                                    variant="contained"
+                                                    color="primary"
+                                                    // sx={{ margin: '30px 0px 10px 0px' }}
+                                                    // disabled={isSubmitting}
+                                                    disabled={!stripe || isProcessing || !isDetailComplete}
+                                                    onClick={handleCheckoutSubmit}
+                                                    sx={{ marginTop: 2 }}
+                                                >
+                                                    {isProcessing ? <CircularProgress size={24} color="inherit" /> : 'Checkout & Pay'}
                                                 </Button>
+                                                <Typography variant="body2" color={paymentStatus.includes('failed') ? 'error' : 'primary'} sx={{ marginTop: 2 }}>
+                                                    {paymentStatus}
+                                                </Typography>
                                                 {error && <Typography color="red">{error}</Typography>}
                                             </Form>
                                         )}

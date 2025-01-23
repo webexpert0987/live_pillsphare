@@ -60,22 +60,26 @@ export const AppProvider = ({ children }) => {
   
   useEffect(()=>{
     const addProducts = async () => {
-      const cartData = {
-        user_id: userDetails.user_id,
-        token: userDetails.token,
-        cart_value: JSON.stringify({ cart, cartTotalAmount })
-      }
-      try {
-        const response = await addProductToCart(cartData);
-        console.log('API Response: add product to cart => ', response);
-        setIsAddingProduct(false);
-        if (response == 'Cart updated successfully') {
-          showMessage('Cart updated successfully', 'success');
+      if(userDetails){
+        const cartData = {
+          user_id: userDetails.user_id,
+          token: userDetails.token,
+          cart_value: JSON.stringify({ cart, cartTotalAmount })
         }
-      } catch (err) {
-        // setError(err.response.data.message);
-        console.error('Error:', err);
-        showMessage(err.response.data.message, 'error');
+        try {
+          const response = await addProductToCart(cartData);
+          console.log('API Response: add product to cart => ', response);
+          setIsAddingProduct(false);
+          if (response == 'Cart updated successfully') {
+            showMessage('Cart updated successfully', 'success');
+          }
+        } catch (err) {
+          // setError(err.response.data.message);
+          console.error('Error:', err);
+          showMessage(err.response.data.message, 'error');
+        }
+      } else {
+        showMessage('Cart updated successfully', 'success');
       }
     }
 
@@ -181,30 +185,6 @@ const updateVariantInCart = (productId, newVariantId, quantity = 1) => {
       )
     );
     console.log('variantIds', variantIds)
-    // setCart((prevCart) => {
-    //   return prevCart.map((item) => {
-    //     if (item.id === product.id) {
-    //       const oldVariantId = item.selectedVariant; 
-    //       const newVariantId = variantId;
-
-    //       setVariantIds((prevVariantIds) => {
-    //         // Remove the old ID and add the new one
-    //         return prevVariantIds
-    //           .filter((id) => id !== oldVariantId) // Remove the old ID
-    //           .concat(newVariantId); // Add the new ID
-    //       });
-
-    //       return {
-    //         ...item,
-    //         selectedVariant: newVariantId, // Update the new variant ID
-    //         selectedVariantPrice: item.variations.find(
-    //           (variant) => variant.variation_id === newVariantId
-    //         )?.price, // Update the price for the new variant
-    //       };
-    //     }
-    //     return item; // Return other items unchanged
-    //   });
-    // });
   };
 
   const removeFromCart = (item) => {

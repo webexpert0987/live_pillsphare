@@ -12,23 +12,6 @@ const AddToCartModal = ({ open, onClose }) => {
     const { cart, updateVariant, calculateTotal, updateVariantInCart, removeFromCart, variantIds } = useApp();
     console.log('variantIds', variantIds)
     console.log('cart', cart)
-    // const handleVariantChange = (productId, selectedVariantId) => {
-    //     const product = cart.find((item) => item.product.id === productId)?.product;
-    //     const newVariant = product.variations.find(
-    //         (variant) => variant.variation_id === parseInt(selectedVariantId, 10)
-    //     );
-
-    //     if (newVariant) {
-    //         updateVariantInCart(productId, newVariant.variation_id, 1);
-    //     }
-    // };
-
-    // Handle variant selection
-    //   const handleVariantChange = (event) => {
-    //     const variantId = parseInt(event.target.value, 10);
-    //     const variant = product.variations.find((v) => v.variation_id === variantId);
-    //     setSelectedVariant(variant);
-    //   };
 
     const handleVariantSelect = (product, variantId) => {
         updateVariant(product, variantId);
@@ -84,6 +67,9 @@ const AddToCartModal = ({ open, onClose }) => {
                                             value={item.selectedVariant}
                                             onChange={(e) => handleVariantSelect(item, e.target.value)}
                                             fullWidth
+                                            sx={{'.MuiSelect-select': {
+                                                padding: '7.5px 14px',
+                                              },}}
                                         >
                                             {item.variations.map((variant) => (
                                                 <MenuItem key={variant.variation_id} value={variant.variation_id}>

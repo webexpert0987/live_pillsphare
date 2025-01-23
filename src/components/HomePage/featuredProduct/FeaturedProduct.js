@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Box, Button, Card, CardContent, Container, Typography, Rating,IconButton } from "@mui/material";
+import { Box, Button, Card, CardContent, Container, Typography, Rating,IconButton, Select, MenuItem } from "@mui/material";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -92,6 +92,7 @@ function FeaturedProducts() {
   const {addToCart} = useApp();
   const [products, setProducts] = useState([]);
   const navigate = useNavigate();
+  const { cart, updateVariant, calculateTotal, removeFromCart, variantIds } = useApp();
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -109,7 +110,36 @@ function FeaturedProducts() {
 
   const handleAddProduct = (product, selectedVariant)=>{
     // navigate(`/product/${id}`)
+    console.log('selectedVariant', selectedVariant)
     addToCart(product, selectedVariant);
+  }
+
+  const handleVariantSelect = (product, variantId) => {
+    console.log('product', product);
+    const variantDetail = product.variations.find((item)=>{
+      if(item.variation_id == variantId){
+        return item
+      }
+    })
+    console.log('variantDetail', variantDetail)
+    setProducts((prevCart) =>
+      prevCart.map((item) => {
+        if (item.id === product.id) {
+          return {
+            ...item,
+            selectedVariant: variantId,
+            selectedVariantInfo: variantDetail,
+            selectedVariantPrice: item.variations.find(
+              (variant) => variant.variation_id === variantId
+            )?.price
+          }
+        } else {
+          return item
+        }
+      }
+      )
+    );
+    // updateVariant(product, variantId);
   }
 
   const settings = {
@@ -235,15 +265,34 @@ function FeaturedProducts() {
                     <Box marginTop={3} display={'flex'} gap={6}>
                       <Box display="flex" gap="1rem" alignItems="center">
                         <Typography variant="h6" color="primary.main" fontWeight="bold">
-                          {product.price}
+                          £{product.price}
                         </Typography>
-                        <Typography variant="body2" sx={{ textDecoration: "line-through", color: "gray" }}>
+                        {/* <Typography variant="body2" sx={{ textDecoration: "line-through", color: "gray" }}>
                           {product.originalPrice}
-                        </Typography>
+                        </Typography> */}
                       </Box>
-                      {
+
+                      <Box>
+                        {/* <Typography variant="subtitle1" mb={1}>
+                          Choose Variant:
+                        </Typography> */}
+                        <Select
+                          value={product.selectedVariant? product.selectedVariant: product?.variations[0].variation_id}
+                          onChange={(e) => handleVariantSelect(product, e.target.value)}
+                          fullWidth
+                          sx={{'.MuiSelect-select': {
+                              padding: '7.5px 14px',
+                            },}}
+                        >
+                          {product.variations.map((variant) => (
+                            <MenuItem key={variant.variation_id} value={variant.variation_id}>
+                              {`${variant.attributes.tablets} `}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </Box>
+                      {/* {
                         product.reviews && <Box display="flex" alignItems="center" gap="0.5rem" sx={{ mt: 1 }}>
-                          {/* <StarIcon color="warning" fontSize="small" /> */}
                           {
                             product.rating &&
                             <Typography variant="body2">
@@ -258,12 +307,13 @@ function FeaturedProducts() {
                           }
                           ({product.reviews})
                         </Box>
-                      }
+                      } */}
                     </Box>
                     <Button
                       variant="contained"
                       sx={{ mt: 2, backgroundColor: "primary.main", width: "100%", borderRadius: '50px', padding: '10px' }}
-                      onClick={()=>handleAddProduct(product, product.variations[0])}
+                      // onClick={()=>handleAddProduct(product, product.variations[0])}
+                      onClick={()=>handleAddProduct(product, product.selectedVariantInfo? product.selectedVariantInfo: product.variations[0])}
                     >
                       Add To Cart &nbsp;<Icon icon="solar:arrow-right-broken" color="primary.main" width="24" height="24" />
                     </Button>
