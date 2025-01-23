@@ -121,7 +121,7 @@ export default function Checkout() {
           phone: ''
         }
       });
-    console.log('variantIds', variantIds);
+   
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -141,17 +141,6 @@ export default function Checkout() {
 
         try {
             const response = await createPaymentIntent({ amount: calculateTotal() })
-            // const response = await fetch('http://admin.pillsphere.com/wp-json/wp/v2/create-payment-intent', {
-            //     method: 'POST',
-            //     headers: {
-            //         'Content-Type': 'application/json',
-            //     },
-            //     body: JSON.stringify({
-            //         amount: calculateTotal(),
-            //     }),
-            // });
-            // const data = await response.json();
-            console.log('payment intent', response)
             const data = response;
 
             if (data.status === '200') {
@@ -167,9 +156,12 @@ export default function Checkout() {
                     // setPaymentStatus('Payment failed: ' + error.message);
                     showMessage(error.message, 'error');
                 } else if (paymentIntent.status === 'succeeded') {
-                    // setPaymentStatus('Payment successful!');
+                    
+                    setPaymentStatus('Payment successful!');
                     showMessage('Payment successful!', 'success');
-                    console.log('PaymentIntent ID:', paymentIntent.id);
+                    // console.log('PaymentIntent ID:', paymentIntent.id);
+                    console.log('billingDetails', billingDetails)
+                    console.log('userDetails', userDetails)
                     const ordInfo = {
                         user_id: userDetails.user_id,
                         token: userDetails.token,
@@ -201,8 +193,8 @@ export default function Checkout() {
                           email: billingDetails.billing_address.email,
                           phone: billingDetails.billing_address.phone
                         }
-                      }
-                      console.log('ordInfo', ordInfo)
+                    }
+                      
                     const orderResponse = await createOrder(ordInfo);
                     // console.log('orderResponse', orderResponse);
                     if(orderResponse.status == "Order created successfully.") {
@@ -217,6 +209,7 @@ export default function Checkout() {
                 showMessage('Error creating payment intent.', 'error');
             }
         } catch (error) {
+            console.log('error', error)
             showMessage('There was a problem with the payment process.', 'error');
             // setPaymentStatus('There was a problem with the payment process.');
         }
@@ -225,7 +218,8 @@ export default function Checkout() {
     };
 
     const handleCheckoutSubmit = async (values) => {
-        setBillingDetails(values);
+        // console.log('values', values)
+        // setBillingDetails(values);
         setIsCheckout(true);
         if(cart.length > 0 ){
         } else {
@@ -234,7 +228,7 @@ export default function Checkout() {
     };
 
     const handleFieldOnChange = (e) =>{
-        console.log('billingDetails', billingDetails);
+       
         const { name, value } = e.target;
 
         setBillingDetails((prev) => ({
@@ -288,7 +282,7 @@ export default function Checkout() {
                                             phone: '',
                                         }}
                                         validationSchema={validationSchema}
-                                        onSubmit={handleCheckoutSubmit}
+                                        // onSubmit={handleCheckoutSubmit}
                                     >
                                         {({ values, touched, errors, handleChange, handleBlur, isSubmitting }) => (
                                             <Form>
