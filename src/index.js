@@ -4,7 +4,6 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { AppProvider } from './Context/AppContext';
-import { ErrorProvider } from './Context/ErrorContext';
 import { MessageProvider } from './Context/MessageContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

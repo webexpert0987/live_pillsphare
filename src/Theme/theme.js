@@ -59,8 +59,13 @@ const theme = createTheme({
     },
     body3: {
       fontSize: '22px',
-      
-    }
+    },
+    body4: {
+      fontSize: '36px'
+    },
+    body5: {
+      fontSize: '24px'
+    },
   },
 });
 

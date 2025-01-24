@@ -27,7 +27,7 @@ export const MessageProvider = ({ children }) => {
         open={message.open}
         autoHideDuration={6000}
         onClose={hideMessage}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
         <Alert
           onClose={hideMessage}

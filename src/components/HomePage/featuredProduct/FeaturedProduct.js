@@ -8,6 +8,7 @@ import CustomButton from "../../Button/button";
 import { getProducts } from "../../../apis/apisList/productApi";
 import { useNavigate } from "react-router-dom";
 import { useApp } from "../../../Context/AppContext";
+import LoginRequiredPopup from "../../loginRequiredPopup/LoginRequiredPopup";
 
 // const products = [
 //   {
@@ -93,6 +94,8 @@ function FeaturedProducts() {
   const [products, setProducts] = useState([]);
   const navigate = useNavigate();
   const { cart, updateVariant, calculateTotal, removeFromCart, variantIds } = useApp();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -104,14 +107,21 @@ function FeaturedProducts() {
         console.error('Failed to fetch products:', error);
       }
     };
-
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      setIsLoggedIn(true);
+    }
     fetchProducts();
   }, []);
 
   const handleAddProduct = (product, selectedVariant)=>{
     // navigate(`/product/${id}`)
-    console.log('selectedVariant', selectedVariant)
-    addToCart(product, selectedVariant);
+    if (!isLoggedIn) {
+      setIsModalOpen(true);
+    } else {
+      console.log('selectedVariant', selectedVariant)
+      addToCart(product, selectedVariant);
+    }
   }
 
   const handleVariantSelect = (product, variantId) => {
@@ -194,7 +204,7 @@ function FeaturedProducts() {
             <Typography variant="h5" fontWeight="bold">
               Featured Product
             </Typography>
-            <Typography variant="body1" sx={{ marginTop: "1rem" }}>
+            <Typography variant="h4" sx={{ marginTop: "1rem" }}>
               Changes to diet and exercise are often combined with this medication.
             </Typography>
             {/* <Button
@@ -258,7 +268,8 @@ function FeaturedProducts() {
                     <Typography
                       variant="h4"
                       fontWeight="bold"
-                      sx={{ mt: 1, fontSize: { xs: "14px", md: "1.25rem" } }}
+                      sx={{ mt: 1, fontSize: { xs: "14px", md: "1.25rem", cursor: 'pointer' } }}
+                      onClick={()=>{navigate(`/product/${product.id}`)}}
                     >
                       {product.name}
                     </Typography>
@@ -277,14 +288,15 @@ function FeaturedProducts() {
                           Choose Variant:
                         </Typography> */}
                         <Select
-                          value={product.selectedVariant? product.selectedVariant: product?.variations[0].variation_id}
+                          value={product.selectedVariant? product.selectedVariant: product?.variations?.[0].variation_id}
                           onChange={(e) => handleVariantSelect(product, e.target.value)}
                           fullWidth
                           sx={{'.MuiSelect-select': {
                               padding: '7.5px 14px',
+                              maxWidth: '150px'
                             },}}
                         >
-                          {product.variations.map((variant) => (
+                          {product?.variations?.map((variant) => (
                             <MenuItem key={variant.variation_id} value={variant.variation_id}>
                               {`${variant.attributes.tablets} `}
                             </MenuItem>
@@ -323,6 +335,10 @@ function FeaturedProducts() {
             ))}
           </Slider>
         </Container>
+        <LoginRequiredPopup
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+        />
       </Box>
     </Container>
   )

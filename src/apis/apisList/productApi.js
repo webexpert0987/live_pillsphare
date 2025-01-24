@@ -2,7 +2,7 @@ import apiClient from '../api';
 
 export const getProducts = () => apiClient.get('/wp-json/wp/v2/products');
 
-// export const getUserById = (id) => apiClient.get(`/users/${id}`);
+export const getProductById = (id) => apiClient.get(`/wp-json/wp/v2/products/${id}`);
 
 // export const createUser = (data) => apiClient.post('/users', data);
 
