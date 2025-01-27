@@ -39,6 +39,7 @@ import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import { useApp } from '../../Context/AppContext';
 import AddToCartModal from '../addToCart/addToCartModal';
+import { getShopCategories } from '../../apis/apisList/productApi';
 
 
 const Text = styled(Typography)(({ theme }) => ({
@@ -83,27 +84,7 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
     }),
 );
 
-//   const AppBar = styled(MuiAppBar, {
-//     shouldForwardProp: (prop) => prop !== 'open',
-//   })(({ theme }) => ({
-//     transition: theme.transitions.create(['margin', 'width'], {
-//       easing: theme.transitions.easing.sharp,
-//       duration: theme.transitions.duration.leavingScreen,
-//     }),
-//     variants: [
-//       {
-//         props: ({ open }) => open,
-//         style: {
-//           width: `calc(100% - ${drawerWidth}px)`,
-//           marginLeft: `${drawerWidth}px`,
-//           transition: theme.transitions.create(['margin', 'width'], {
-//             easing: theme.transitions.easing.easeOut,
-//             duration: theme.transitions.duration.enteringScreen,
-//           }),
-//         },
-//       },
-//     ],
-//   }));
+
 
 const DrawerHeader = styled('div')(({ theme }) => ({
     display: 'flex',
@@ -143,6 +124,7 @@ const MainHeader = () => {
     const [isLogedIn, setIsLogedIn] = useState(false);
     const {userDetails, logout, calculateTotal}= useApp();
     const [openCartModel, setOpenCartModel] = useState(false);
+    const [shopCategories, setShopCategories] = useState([]);
 
     const handleToggle = (index) => {
         setOpenSections((prevState) => ({
@@ -150,6 +132,22 @@ const MainHeader = () => {
             [index]: !prevState[index],
         }));
     };
+
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const response = await getShopCategories();
+                setShopCategories(response);  // Set the categories into state
+            } catch (error) {
+                console.error('Error fetching shop categories', error);
+            }
+        };
+    
+        fetchCategories();
+    }, []); 
+
+    
+      
 
     useEffect(() => {
         console.log('width', width);
@@ -229,30 +227,29 @@ const MainHeader = () => {
                             </IconButton>
                             :
                             <Stack direction="row" spacing={{ xs: 0, lg: 2 }} sx={{ marginLeft: { xs: '0px', lg: '5px !important' } }}>
-                                {['Shop', 'Online Clinic', 'Weight Loss'].map((text) => (
-                                    <Button
-                                        key={text}
-                                        endIcon={<KeyboardArrowDownIcon sx={{ marginLeft: 0 }} />}
-                                        onClick={handleClick}
-                                        sx={{ textTransform: 'capitalize', marginRight: { xs: '0px', sm: '5px' }, marginLeft: { xs: '0px', lg: '5px !important' } }}
-                                    >
-                                        <Link to={'/about'} style={{ textDecoration: 'none' }}>
-                                            <Text>{text}</Text>
-                                        </Link>
-                                    </Button>
-                                ))}
-                                <Button sx={{ textTransform: 'capitalize' }}>
-                                    <Link to={'/about'} style={{ textDecoration: 'none' }}>
-                                        <Text >Offers</Text>
+                            {['Shop', 'Online Clinic', 'Weight Loss'].map((text) => (
+                                <Button
+                                    key={text}
+                                    endIcon={text === 'Shop' ? <KeyboardArrowDownIcon sx={{ marginLeft: 0 }} /> : null}
+                                    onClick={text === 'Shop' ? handleClick : null}  // Only trigger handleClick for "Shop"
+                                    sx={{ textTransform: 'capitalize', marginRight: { xs: '0px', sm: '5px' }, marginLeft: { xs: '0px', lg: '5px !important' } }}
+                                >
+                                    <Link to={text === 'Shop' ? '/shop' : text === 'Online Clinic' ? '/shop' : '/category/weight-loss'} style={{ textDecoration: 'none' }}>
+                                        <Text>{text}</Text>
                                     </Link>
                                 </Button>
-                                <Button sx={{ textTransform: 'capitalize' }}>
-                                    <Link to={'/about'} style={{ textDecoration: 'none' }}>
-                                        <Text>Support</Text>
-                                    </Link>
-                                </Button>
-
-                            </Stack>
+                            ))}
+                            <Button sx={{ textTransform: 'capitalize' }}>
+                                <Link to={'/about'} style={{ textDecoration: 'none' }}>
+                                    <Text>Offers</Text>
+                                </Link>
+                            </Button>
+                            <Button sx={{ textTransform: 'capitalize' }}>
+                                <Link to={'/about'} style={{ textDecoration: 'none' }}>
+                                    <Text>Support</Text>
+                                </Link>
+                            </Button>
+                        </Stack>
                         }
                         {/* Logo */}
                         <Box sx={{ display: 'flex', alignItems: 'center', mx: { xs: 1, md: 4 }, width: { xs: '130px', sm: '220px', md: '250px', lg: '270px' } }} onClick={handleRoute}>
@@ -416,17 +413,21 @@ const MainHeader = () => {
             {/* <DrawerHeader /> */}
             {/* Dropdown Menu */}
             <Menu
-                anchorEl={anchorEl}
-                open={open}
-                onClose={handleClose}
-                MenuListProps={{
-                    'aria-labelledby': 'basic-button',
-                }}
-            >
-                <MenuItem onClick={handleClose}>Option 1</MenuItem>
-                <MenuItem onClick={handleClose}>Option 2</MenuItem>
-                <MenuItem onClick={handleClose}>Option 3</MenuItem>
-            </Menu>
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        MenuListProps={{
+          'aria-labelledby': 'basic-button',
+        }}
+      >
+        {shopCategories.map((category) => (
+          <MenuItem key={category.id} onClick={handleClose}>
+            <Link to={`/category/${category.slug}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+              {category.name}
+            </Link>
+          </MenuItem>
+        ))}
+      </Menu>
             <Menu
                 anchorEl={loginDrop}
                 open={openLogin}

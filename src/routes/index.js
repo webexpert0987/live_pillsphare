@@ -6,11 +6,18 @@ import Payment from '../pages/Payment';
 import Registration from '../pages/Registration';
 import Product from '../pages/product';
 import ThankYouPage from '../pages/thankyou';
+import Shop from '../pages/Shop';
+import CategoryPage from '../pages/CategoryPage';
 
 const routes = [
   {
     path: "/",
     component: HomePage,
+    exact: true,
+  },
+  {
+    path: "/Shop",
+    component: Shop,
     exact: true,
   },
   {
@@ -31,6 +38,11 @@ const routes = [
   {
     path: "/product/:id",
     component: Product,
+    exact: true,
+  },
+  {
+    path: "/category/:slug",
+    component: CategoryPage,
     exact: true,
   },
   // {
