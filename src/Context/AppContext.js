@@ -23,9 +23,9 @@ export const AppProvider = ({ children }) => {
         user_id: user.user_id,
         token: user.token
       })
-      // console.log('cart data', data);
+     
       const cartData = JSON.parse(data.cart_value).cart
-      // console.log('cart cartData', cartData);
+     
       setCart(cartData);
       setVariantIds([...new Set(cartData.map((item) => item.selectedVariant))]);
     }
@@ -33,7 +33,7 @@ export const AppProvider = ({ children }) => {
     if (storedUser) {
       let user = JSON.parse(storedUser)
       setUserDetails(user);
-      // console.log('user info', user);
+     
       fetchCart(user);
     }
     
@@ -68,7 +68,7 @@ export const AppProvider = ({ children }) => {
         }
         try {
           const response = await addProductToCart(cartData);
-          console.log('API Response: add product to cart => ', response);
+        
           setIsAddingProduct(false);
           if (response == 'Cart updated successfully') {
             showMessage('Cart updated successfully', 'success');
@@ -116,16 +116,8 @@ const updateVariantInCart = (productId, newVariantId, quantity = 1) => {
   };
 
 
-  // const addToCart = (item, variant) => {
-  //   // setCartItems((prev) => [...prev, item]);
-  //   setCart((prev) => [
-  //     ...prev,
-  //     { ...item, selectedVariant: variant.variation_id, selectedVariantPrice: variant.price }
-  //   ]);
-  //   variantIds.push(variant.variation_id)
-  // };
   const addToCart = (item, variant) => {
-    console.log('add to cart ', cart)
+   
     setCart((prev) => {
       const existingItemIndex = prev.findIndex((cartItem) => cartItem.id === item.id);
   
@@ -184,7 +176,7 @@ const updateVariantInCart = (productId, newVariantId, quantity = 1) => {
       }
       )
     );
-    console.log('variantIds', variantIds)
+   
   };
 
   const removeFromCart = (item) => {
@@ -199,7 +191,7 @@ const updateVariantInCart = (productId, newVariantId, quantity = 1) => {
     });
     
     setIsAddingProduct(true);
-    console.log('Product removed from cart:', item);
+    
   };
   
   const cartEmpty = async ()=>{

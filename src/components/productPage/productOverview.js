@@ -29,8 +29,7 @@ const ProductOverview = () => {
   const [selectedSection, setSelectedSection] = useState("Buy Vitabiotics Wellman Energy");
 
   const handleTabChange = (event, newIndex) => {
-    console.log('event', event.target.value)
-    console.log('newIndex', newIndex)
+   
     setTabIndex(newIndex);
   };
 

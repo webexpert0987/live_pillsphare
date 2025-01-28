@@ -149,12 +149,12 @@ export default function Checkout() {
         cardElement.addEventListener('change', async (event) => {
 
             if (event.error) {
-                console.error('[error]', event.error.message);
+                
                 setCardError(event.error.message)
                 setIsCardEpmty(true);
                 setIsDetailComplete(false)
             } else {
-                console.log('[success]', event);
+               
                 if(event.complete){
                     setCardError('')
                     setIsCardEpmty(false);
@@ -197,9 +197,6 @@ export default function Checkout() {
                         
                         setPaymentStatus('Payment successful!');
                         showMessage('Payment successful!', 'success');
-                        // console.log('PaymentIntent ID:', paymentIntent.id);
-                        console.log('billingDetails', billingDetails)
-                        console.log('userDetails', userDetails)
                         const ordInfo = {
                             user_id: userDetails.user_id,
                             token: userDetails.token,
@@ -234,7 +231,7 @@ export default function Checkout() {
                         }
                           
                         const orderResponse = await createOrder(ordInfo);
-                        // console.log('orderResponse', orderResponse);
+                       
                         if(orderResponse.status == "Order created successfully.") {
                             setCanPay(false);
                             setCart([]);
@@ -248,7 +245,7 @@ export default function Checkout() {
                     showMessage('Error creating payment intent.', 'error');
                 }
             } catch (error) {
-                console.log('error', error)
+               
                 showMessage('There was a problem with the payment process.', 'error');
                 // setPaymentStatus('There was a problem with the payment process.');
             }
@@ -263,7 +260,7 @@ export default function Checkout() {
             showMessage('Your cart is empty! Add some products before checking out.', 'error')
         } 
 
-        console.log('values',)
+       
         // setBillingDetails(values);
         let formDetail = {
             first_name: billingDetails.billing_address.first_name,
@@ -284,7 +281,7 @@ export default function Checkout() {
             setIsDetailComplete(false)
             // setIsCheckout(true);
         } catch (err) {
-            console.log('validation error', err)
+          
             showMessage('Please complete all required fields to continue.', 'error')
         }
     };

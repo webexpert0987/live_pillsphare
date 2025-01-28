@@ -65,7 +65,7 @@ const CheckoutForm = () => {
                     setPaymentStatus('Payment failed: ' + error.message);
                 } else if (paymentIntent.status === 'succeeded') {
                     setPaymentStatus('Payment successful!');
-                    console.log('PaymentIntent ID:', paymentIntent.id); // Log the paymentIntent.id
+                  
                 }
             } else {
                 setPaymentStatus('Error creating payment intent.');

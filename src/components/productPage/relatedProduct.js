@@ -203,19 +203,7 @@ const RelatedProduct = ({})=>{
       const [isLoggedIn, setIsLoggedIn] = useState(false);
       const [isModalOpen, setIsModalOpen] = useState(false);
     
-    //   useEffect(() => {
-    //     const fetchProducts = async () => {
-    //       try {
-    //         const data = await getProducts();
-    //         console.log('product data', data.products);
-    //         setProducts(data.products);
-    //       } catch (error) {
-    //         console.error('Failed to fetch products:', error);
-    //       }
-    //     };
-    
-    //     fetchProducts();
-    //   }, []);
+   
 
         useEffect(()=>{
             const storedUser = localStorage.getItem('user');
@@ -226,24 +214,23 @@ const RelatedProduct = ({})=>{
     
       const handleAddProduct = (product, selectedVariant)=>{
         // navigate(`/product/${id}`)
-        console.log('product', product)
-        console.log('selectedVariant', selectedVariant)
+       
         if (!isLoggedIn) {
           setIsModalOpen(true);
         } else {
-          console.log('selectedVariant', selectedVariant)
+         
           addToCart(product, selectedVariant);
         }
       }
     
       const handleVariantSelect = (product, variantId) => {
-        console.log('product', product);
+       
         const variantDetail = product.variations.find((item)=>{
           if(item.variation_id == variantId){
             return item
           }
         })
-        console.log('variantDetail', variantDetail)
+        
         setProductList((prevCart) =>
           prevCart.map((item) => {
             if (item.id === product.id) {

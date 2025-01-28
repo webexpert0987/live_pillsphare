@@ -2,12 +2,15 @@ import apiClient from '../api';
 
 export const getProducts = () => apiClient.get('/wp-json/wp/v2/products');
 
-export const getProductById = (id) => apiClient.get(`/wp-json/wp/v2/products/${id}`);
+export const getProductBySlug = (slug) => apiClient.get(`/wp-json/wp/v2/products/${slug}`);
 
 export const getCategoryBySlug = (slug) => 
     apiClient.get(`/wp-json/wp/v2/categories/${slug}`);
 
 export const getShopCategories = () => apiClient.get('/wp-json/wp/v2/shopcategories/');
+
+export const getProductImages = (productId) =>
+    apiClient.get(`/wp-json/wp/v2/product-images/${productId}`);
 
 
 // export const createUser = (data) => apiClient.post('/users', data);

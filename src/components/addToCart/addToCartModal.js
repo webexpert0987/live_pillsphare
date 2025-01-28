@@ -10,8 +10,7 @@ const AddToCartModal = ({ open, onClose }) => {
     const navigate= useNavigate();
     const [selectedVariant, setSelectedVariant] = useState({});
     const { cart, updateVariant, calculateTotal, updateVariantInCart, removeFromCart, variantIds } = useApp();
-    console.log('variantIds', variantIds)
-    console.log('cart', cart)
+    
 
     const handleVariantSelect = (product, variantId) => {
         updateVariant(product, variantId);
@@ -124,7 +123,7 @@ const AddToCartModal = ({ open, onClose }) => {
                     color="primary"
                     fullWidth
                     onClick={() => {
-                        console.log(`Added variant ${selectedVariant.variation_id} to cart`);
+                        
                         navigate('/payment');
                         onClose();
                     }}

@@ -83,7 +83,7 @@ export default function Checkout() {
     const elements = useElements();
     const [paymentStatus, setPaymentStatus] = useState('');
     const [isProcessing, setIsProcessing] = useState(false);
-    console.log('process.env.REACT_APP_STRIPE_API_KEY', process.env.REACT_APP_STRIPE_API_KEY)
+    
     const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_API_KEY);
 
     const handleSubmit = async (e) => {
@@ -131,7 +131,7 @@ export default function Checkout() {
                     setPaymentStatus('Payment failed: ' + error.message);
                 } else if (paymentIntent.status === 'succeeded') {
                     setPaymentStatus('Payment successful!');
-                    console.log('PaymentIntent ID:', paymentIntent.id); // Log the paymentIntent.id
+                    
                 }
             } else {
                 setPaymentStatus('Error creating payment intent.');
@@ -143,39 +143,7 @@ export default function Checkout() {
         setIsProcessing(false);
     };
 
-    // const handleSubmit = async (values, { setSubmitting }) => {
-    //     // console.log('values', values)
-
-    //     // setError('');
-    //     // const userData = {
-    //     //     first_name: values.firstName,
-    //     //     last_name: values.lastName,
-    //     //     email: values.email,
-    //     //     gender: values.gender,
-    //     //     age: values.age,
-    //     //     password: values.password
-    //     // };
-    //     // try {
-    //     //     const registarRes = await registerUser(userData);
-
-    //     //     if (registarRes.status == 200) {
-    //     //         const userData = { email: values.email, password: values.password };
-    //     //         const response = await loginUser(userData);
-    //     //         if(response.status == 200) {
-    //     //             let userInfo = {first_name: response.first_name, last_name: response.last_name, user_id: response.user_id, token: response.token}
-    //     //             login(userInfo);
-
-    //     //             navigate('/');
-    //     //             showMessage(registarRes.message, 'success');
-    //     //         }
-    //     //     }
-    //     // } catch (err) {
-    //     //     setError(err.response.data.message);
-    //     //     console.error('Error:', err);
-    //     // } finally {
-    //     //     setSubmitting(false);
-    //     // }
-    // };
+   
     return (
         <>
             <Elements stripe={stripePromise}>

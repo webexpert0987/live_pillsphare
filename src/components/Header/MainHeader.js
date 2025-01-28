@@ -150,7 +150,7 @@ const MainHeader = () => {
       
 
     useEffect(() => {
-        console.log('width', width);
+       
         if (width > 960) {
             setCurrentSize(width);
         }
@@ -199,7 +199,7 @@ const MainHeader = () => {
     }
 
     const handleSearchClick = (e) => {
-        console.log('clicked')
+        
     }
 
     

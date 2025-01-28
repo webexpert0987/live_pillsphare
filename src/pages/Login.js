@@ -62,13 +62,12 @@ const Login = () => {
     const [error, setError] = useState('');
 
     const handleSubmit = async (values, { setSubmitting }) => {
-        console.log('values', values)
         
         setError('');
         const userData = { email: values.email, password: values.password };
         try {
             const response = await loginUser(userData);
-            console.log('API Response:', response);
+           
             if(response.status == 200) {
                 let userInfo = {first_name: response.first_name, last_name: response.last_name, user_id: response.user_id, token: response.token}
                 login(userInfo);

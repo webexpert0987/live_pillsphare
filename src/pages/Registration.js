@@ -65,7 +65,7 @@ export default function SignUp() {
 
     
     const handleSubmit = async (values, { setSubmitting }) => {
-        console.log('values', values)
+        
 
         setError('');
         const userData = {

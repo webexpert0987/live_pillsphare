@@ -14,7 +14,7 @@ import {
 import VerticalImageSlider from "../components/productSlider/ProductSlider";
 import { useApp } from "../Context/AppContext";
 import { useParams } from "react-router-dom";
-import { getProductById } from "../apis/apisList/productApi";
+import { getProductBySlug } from "../apis/apisList/productApi";
 import { useMessage } from "../Context/MessageContext";
 import theme from "../Theme/theme"
 import { Icon } from '@iconify/react';
@@ -22,8 +22,9 @@ import ProductOverview from "../components/productPage/productOverview";
 import RelatedProduct from "../components/productPage/relatedProduct";
 import LoginRequiredPopup from "../components/loginRequiredPopup/LoginRequiredPopup";
 
+
 const Product = () =>{
-    const {id} = useParams();
+    const {slug} = useParams();
     
     const {showMessage} = useMessage();
     const {addToCart} = useApp();
@@ -31,34 +32,45 @@ const Product = () =>{
     const [quantity, setQuantity] = useState(1);
     const [isLoggedIn, setIsLoggedIn] = useState(false); // Mocked login state
     const [isModalOpen, setIsModalOpen] = useState(false);
+ 
 
-    useEffect(()=>{
-        const fetchProduct = async ()=>{
-            console.log('id', id);
-            try {
-                const response = await getProductById(id);
-                setProduct(response.product);
-            } catch (error) {
-                showMessage(error.response.data.message, 'error');
+    useEffect(() => {
+        const fetchProduct = async () => {
+          try {
+            // Check if the product is cached in localStorage
+            const cachedProduct = localStorage.getItem(`product-${slug}`);
+            
+            if (cachedProduct) {
+              setProduct(JSON.parse(cachedProduct)); // Use cached product
+            } else {
+              const response = await getProductBySlug(slug);
+              setProduct(response.product);
+              localStorage.setItem(`product-${slug}`, JSON.stringify(response.product)); // Cache the product
             }
-        }
-        
+          } catch (error) {
+            showMessage(error.response?.data?.message || 'Failed to fetch product', 'error');
+          }
+        };
+      
+        // Check if user is logged in
         const storedUser = localStorage.getItem('user');
         if (storedUser) {
-            setIsLoggedIn(true);
+          setIsLoggedIn(true);
         }
-
+      
         fetchProduct();
-    }, [])
+        window.scrollTo(0, 0);
+      }, [slug]);
+
+   
 
     const handleVariantSelect = (product, variantId) => {
-        console.log('product', product);
         const variantDetail = product.variations.find((item)=>{
           if(item.variation_id == variantId){
             return item
           }
         })
-        console.log('variantDetail', variantDetail)
+        
         setProduct((prevProduct) => {
             return {
                 ...prevProduct,
@@ -77,7 +89,7 @@ const Product = () =>{
         if (!isLoggedIn) {
           setIsModalOpen(true);
         } else {
-          console.log('selectedVariant', selectedVariant)
+          
           addToCart(product, selectedVariant);
         }
     }
@@ -92,7 +104,7 @@ const Product = () =>{
                     padding={4}
                     gap={4}
                 >
-                    <VerticalImageSlider/>
+                   <VerticalImageSlider id={product.id} />
                     <Box
                         width="100%"
                         display="flex"

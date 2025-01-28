@@ -100,38 +100,49 @@ function FeaturedProducts() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const data = await getProducts();
-        console.log('product data', data.products);
-        setProducts(data.products);
+        // Check if products are already in localStorage
+        const cachedProducts = localStorage.getItem('products');
+        
+        if (cachedProducts) {
+          setProducts(JSON.parse(cachedProducts)); // Use cached products
+        } else {
+          const data = await getProducts();
+          setProducts(data.products);
+          localStorage.setItem('products', JSON.stringify(data.products)); // Cache the products in localStorage
+        }
       } catch (error) {
         console.error('Failed to fetch products:', error);
       }
     };
+  
+    // Check if user is logged in
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
       setIsLoggedIn(true);
     }
+  
     fetchProducts();
   }, []);
+  
 
   const handleAddProduct = (product, selectedVariant)=>{
     // navigate(`/product/${id}`)
     if (!isLoggedIn) {
       setIsModalOpen(true);
     } else {
-      console.log('selectedVariant', selectedVariant)
+     
       addToCart(product, selectedVariant);
     }
   }
 
   const handleVariantSelect = (product, variantId) => {
-    console.log('product', product);
+    
     const variantDetail = product.variations.find((item)=>{
       if(item.variation_id == variantId){
         return item
       }
     })
-    console.log('variantDetail', variantDetail)
+    
     setProducts((prevCart) =>
       prevCart.map((item) => {
         if (item.id === product.id) {
@@ -239,7 +250,10 @@ function FeaturedProducts() {
                   flexDirection: "column",
                   justifyContent: "space-between",
                   height: "100%",
-                }}>
+                  cursor: 'pointer'
+                }}
+                onClick={()=>{navigate(`/product/${product.slug}`)}}
+                >
                   <img
                     src={product.image}
                     alt={product.name}
@@ -268,8 +282,8 @@ function FeaturedProducts() {
                     <Typography
                       variant="h4"
                       fontWeight="bold"
-                      sx={{ mt: 1, fontSize: { xs: "14px", md: "1.25rem", cursor: 'pointer' } }}
-                      onClick={()=>{navigate(`/product/${product.id}`)}}
+                      sx={{ mt: 1, fontSize: { xs: "14px", md: "1.25rem" } }}
+                      
                     >
                       {product.name}
                     </Typography>
