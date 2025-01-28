@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Typography,
   Box,
@@ -20,24 +20,33 @@ import {
   Container,
   Grid2,
 } from "@mui/material";
+import { Icon } from '@iconify/react';
 import { Rating } from "@mui/material";
 import ExpandLessSharpIcon from "@mui/icons-material/ExpandLessSharp";
 import ExpandMoreSharpIcon from "@mui/icons-material/ExpandMoreSharp";
 import HeroSection from "./ShopHero";
 import TrustBar from "./Trustbar";
+import { getProducts } from "../apis/apisList/productApi"; 
+import { useNavigate } from "react-router-dom";
+import { useApp } from "../Context/AppContext";
 
 const ProductListingPage = () => {
   const [categoriesOpen, setCategoriesOpen] = useState(true);
+  const {addToCart} = useApp();
+  const [products, setProducts] = useState([]);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [ratingOpen, setRatingOpen] = useState(true);
   const [brandOpen, setBrandOpen] = useState(true);
   const [priceOpen, setPriceOpen] = useState(true);
   const [sizeOpen, setSizeOpen] = useState(true);
+  const navigate = useNavigate();
 
   const [selectedCategories, setSelectedCategories] = useState({});
   const [selectedRating, setSelectedRating] = useState("");
   const [selectedBrands, setSelectedBrands] = useState({});
   const [priceRange, setPriceRange] = useState([20, 100]);
   const [sizeRange, setSizeRange] = useState([5, 15]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const clearFilters = () => {
     setSelectedCategories({});
@@ -46,6 +55,33 @@ const ProductListingPage = () => {
     setPriceRange([0, 500]);
     setSizeRange([0, 50]);
   };
+  useEffect(() => {
+      const fetchProducts = async () => {
+        try {
+          // Check if products are already in localStorage
+          const cachedProducts = localStorage.getItem('products');
+          
+          if (cachedProducts) {
+            setProducts(JSON.parse(cachedProducts)); // Use cached products
+          } else {
+            const data = await getProducts();
+            setProducts(data.products);
+            localStorage.setItem('products', JSON.stringify(data.products)); // Cache the products in localStorage
+          }
+        } catch (error) {
+          console.error('Failed to fetch products:', error);
+        }
+      };
+    
+      // Check if user is logged in
+      const storedUser = localStorage.getItem('user');
+      if (storedUser) {
+        setIsLoggedIn(true);
+      }
+    
+      fetchProducts();
+    }, []);
+
 
   const renderRatingLabel = (value, count) => (
     <Box display="flex" alignItems="center">
@@ -55,7 +91,43 @@ const ProductListingPage = () => {
       </Typography>
     </Box>
   );
+  const handleAddProduct = (product, selectedVariant)=>{
+    // navigate(`/product/${id}`)
+    if (!isLoggedIn) {
+      setIsModalOpen(true);
+    } else {
+     
+      addToCart(product, selectedVariant);
+    }
+  }
 
+  const handleVariantSelect = (product, variantId) => {
+    
+    const variantDetail = product.variations.find((item)=>{
+      if(item.variation_id == variantId){
+        return item
+      }
+    })
+    
+    setProducts((prevCart) =>
+      prevCart.map((item) => {
+        if (item.id === product.id) {
+          return {
+            ...item,
+            selectedVariant: variantId,
+            selectedVariantInfo: variantDetail,
+            selectedVariantPrice: item.variations.find(
+              (variant) => variant.variation_id === variantId
+            )?.price
+          }
+        } else {
+          return item
+        }
+      }
+      )
+    );
+    // updateVariant(product, variantId);
+  }
   const sidebar = {
     leftColParent: {
       padding: "0 15px 0 0",
@@ -192,7 +264,7 @@ const ProductListingPage = () => {
       padding: "50px 0",
     },
   };
-
+  console.log('testdev',products)
   return (
     <>
       <Box>
@@ -727,6 +799,8 @@ const ProductListingPage = () => {
                   </Card>
                 </Grid2>
               ))}
+
+             
             </Grid2>
           </Box>
         </Box>

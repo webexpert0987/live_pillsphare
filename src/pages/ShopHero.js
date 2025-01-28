@@ -55,7 +55,8 @@ const heroShop = {
 };
 
 const HeroSection = ({
-  title = "Weight Loss Solutions at Pill Sphere",
+  title = "at Pill Sphere",
+  defultTitle = "Pill Sphere",
   description = "Achieve your weight loss goals with our range of treatments, including tablets and injections.",
   points = [
     "Lose up to 20% of body weight",
@@ -64,8 +65,11 @@ const HeroSection = ({
   ], // Default 3 points
   button1Text = "Start Your Consultation Today",
   button2Text = "View Treatment",
-  bgHeroUrl = "https://admin.pillsphere.com/wp-content/uploads/2025/01/categoryHeroImage.jpg", // Default image URL
+  bgHeroUrl = "https://admin.pillsphere.com/wp-content/uploads/2025/01/categoryHeroImage.jpg",
+  catName
+  
 }) => {
+ 
   return (
     <Box
       sx={{
@@ -83,8 +87,8 @@ const HeroSection = ({
         <Box style={heroShop.contentColumn} textAlign="">
           {/* Page Title */}
           <Typography style={heroShop.catTitle} variant="h3" gutterBottom>
-            {title}
-          </Typography>
+          {catName ? `${catName}  ${title}` : defultTitle}
+        </Typography>
 
           {/* Short Description */}
           <Typography style={heroShop.catDescription} variant="body1" paragraph>

@@ -244,7 +244,7 @@ const CategoryPage = () => {
   return (
     <>
      <Box>
-          <HeroSection />
+          <HeroSection catName={category.category_name} />
           <TrustBar />
         </Box>
         <Container>
@@ -271,82 +271,7 @@ const CategoryPage = () => {
               </Box>
 
               <Box style={sidebar.borderBoxSide}>
-                {/* Categories Filter */}
-                {/* Comment Category Sidebar Section START 
-                <Box style={sidebar.sideToggleCat} mb={2}>
-                  <Box
-                    style={sidebar.sideToggle}
-                    display="flex"
-                    justifyContent="space-between"
-                    alignItems="center"
-                  >
-                    <Typography style={sidebar.sideTitle} variant="subtitle1">
-                      Categories
-                    </Typography>
-                    <Button
-                      style={sidebar.toggleBtn}
-                      size="small"
-                      onClick={() => setCategoriesOpen(!categoriesOpen)}
-                    >
-                      {categoriesOpen ? (
-                        <>
-                          <ExpandLessSharpIcon fontSize="medium" />
-                        </>
-                      ) : (
-                        <>
-                          <ExpandMoreSharpIcon fontSize="medium" />
-                        </>
-                      )}
-                    </Button>
-                  </Box>
-                  <Collapse in={categoriesOpen}>
-                    <FormGroup>
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            checked={selectedCategories["Category 1"] || false}
-                            onChange={(e) =>
-                              setSelectedCategories({
-                                ...selectedCategories,
-                                "Category 1": e.target.checked,
-                              })
-                            }
-                          />
-                        }
-                        label="Category 1"
-                      />
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            checked={selectedCategories["Category 2"] || false}
-                            onChange={(e) =>
-                              setSelectedCategories({
-                                ...selectedCategories,
-                                "Category 2": e.target.checked,
-                              })
-                            }
-                          />
-                        }
-                        label="Category 2"
-                      />
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            checked={selectedCategories["Category 3"] || false}
-                            onChange={(e) =>
-                              setSelectedCategories({
-                                ...selectedCategories,
-                                "Category 3": e.target.checked,
-                              })
-                            }
-                          />
-                        }
-                        label="Category 3"
-                      />
-                    </FormGroup>
-                  </Collapse>
-                </Box>
-                END */}
+               
 
                 {/* Rating Filter */}
                 <Box style={sidebar.sideToggleCat} mb={2}>
