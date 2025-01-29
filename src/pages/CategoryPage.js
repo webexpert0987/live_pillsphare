@@ -28,6 +28,8 @@ import ExpandLessSharpIcon from "@mui/icons-material/ExpandLessSharp";
 import ExpandMoreSharpIcon from "@mui/icons-material/ExpandMoreSharp";
 import HeroSection from "./ShopHero";
 import TrustBar from "./Trustbar";
+import { getProducts } from "../apis/apisList/productApi";
+
 
 const CategoryPage = () => {
   const [categoriesOpen, setCategoriesOpen] = useState(true);
@@ -41,6 +43,10 @@ const CategoryPage = () => {
   const [selectedBrands, setSelectedBrands] = useState({});
   const [priceRange, setPriceRange] = useState([20, 100]);
   const [sizeRange, setSizeRange] = useState([5, 15]);
+  const [products, setProducts] = useState([]);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [sortOption, setSortOption] = useState("relevance");
+  const [filteredProducts, setFilteredProducts] = useState([]);
 
   const clearFilters = () => {
     setSelectedCategories({});
@@ -49,6 +55,82 @@ const CategoryPage = () => {
     setPriceRange([0, 500]);
     setSizeRange([0, 50]);
   };
+
+  useEffect(() => {
+        const fetchProducts = async () => {
+          try {
+            // Check if products are already in localStorage
+            const cachedProducts = localStorage.getItem('products');
+            
+            if (cachedProducts) {
+              setProducts(JSON.parse(cachedProducts)); // Use cached products
+            } else {
+              const data = await getProducts();
+              setProducts(data.products);
+              localStorage.setItem('products', JSON.stringify(data.products)); // Cache the products in localStorage
+            }
+          } catch (error) {
+            console.error('Failed to fetch products:', error);
+          }
+        };
+      
+        // Check if user is logged in
+        const storedUser = localStorage.getItem('user');
+        if (storedUser) {
+          setIsLoggedIn(true);
+        }
+      
+        fetchProducts();
+      }, []);
+
+
+        useEffect(() => {
+            const fetchProducts = async () => {
+              try {
+                // Check if products are already in localStorage
+                const cachedProducts = localStorage.getItem('products');
+                
+                if (cachedProducts) {
+                  setProducts(JSON.parse(cachedProducts)); // Use cached products
+                } else {
+                  const data = await getProducts();
+                  setProducts(data.products);
+                  localStorage.setItem('products', JSON.stringify(data.products)); // Cache the products in localStorage
+                }
+              } catch (error) {
+                console.error('Failed to fetch products:', error);
+              }
+            };
+          
+            // Check if user is logged in
+            const storedUser = localStorage.getItem('user');
+            if (storedUser) {
+              setIsLoggedIn(true);
+            }
+          
+            fetchProducts();
+          }, []);
+      
+      
+          useEffect(() => {
+            let filteredProducts = [...products];
+          
+          // Apply sorting and price range filtering
+            if (sortOption === "priceLowHigh") {
+              filteredProducts.sort((a, b) => (a.sale_price || a.price) - (b.sale_price || b.price));
+            } else if (sortOption === "priceHighLow") {
+              filteredProducts.sort((a, b) => (b.sale_price || b.price) - (a.sale_price || a.price));
+            }
+          
+            filteredProducts = filteredProducts.filter(
+              (product) => (product.sale_price || product.price) >= priceRange[0] &&
+                           (product.sale_price || product.price) <= priceRange[1]
+            );
+          
+            setFilteredProducts(filteredProducts);
+          }, [products, sortOption, priceRange]); 
+
+          
 
   const renderRatingLabel = (value, count) => (
     <Box display="flex" alignItems="center">
@@ -223,6 +305,8 @@ const CategoryPage = () => {
     fetchCategory();
   }, [slug]);
 
+ 
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -240,7 +324,7 @@ const CategoryPage = () => {
       </>
     );
   }
-
+ 
   return (
     <>
      <Box>
@@ -274,7 +358,7 @@ const CategoryPage = () => {
                
 
                 {/* Rating Filter */}
-                <Box style={sidebar.sideToggleCat} mb={2}>
+                {/* <Box style={sidebar.sideToggleCat} mb={2}>
                   <Box
                     style={sidebar.sideToggle}
                     display="flex"
@@ -327,10 +411,10 @@ const CategoryPage = () => {
                       />
                     </RadioGroup>
                   </Collapse>
-                </Box>
+                </Box> */}
 
                 {/* Brand Filter */}
-                <Box style={sidebar.sideToggleCat} mb={2}>
+                {/* <Box style={sidebar.sideToggleCat} mb={2}>
                   <Box
                     style={sidebar.sideToggle}
                     display="flex"
@@ -402,96 +486,96 @@ const CategoryPage = () => {
                       />
                     </FormGroup>
                   </Collapse>
-                </Box>
+                </Box> */}
 
                 {/* Price Range Filter */}
                 <Box style={sidebar.sideToggleCat} mb={2}>
-                  <Box
-                    style={sidebar.sideToggle}
-                    display="flex"
-                    justifyContent="space-between"
-                    alignItems="center"
+                <Box
+                  style={sidebar.sideToggle}
+                  display="flex"
+                  justifyContent="space-between"
+                  alignItems="center"
+                >
+                  <Typography style={sidebar.sideTitle} variant="subtitle1">
+                    Price Range
+                  </Typography>
+                  <Button
+                    style={sidebar.toggleBtn}
+                    size="small"
+                    onClick={() => setPriceOpen(!priceOpen)}
                   >
-                    <Typography style={sidebar.sideTitle} variant="subtitle1">
-                      Price Range
-                    </Typography>
-                    <Button
-                      style={sidebar.toggleBtn}
-                      size="small"
-                      onClick={() => setPriceOpen(!priceOpen)}
-                    >
-                      {priceOpen ? (
-                        <>
-                          <ExpandLessSharpIcon fontSize="medium" />
-                        </>
-                      ) : (
-                        <>
-                          <ExpandMoreSharpIcon fontSize="medium" />
-                        </>
-                      )}
-                    </Button>
-                  </Box>
-                  <Collapse in={priceOpen}>
-                    <Slider
-                      value={priceRange}
-                      onChange={(e, newValue) => setPriceRange(newValue)}
-                      valueLabelDisplay="auto"
-                      min={0}
-                      max={500}
-                      sx={{
-                        "& .MuiSlider-rail": {
-                          backgroundColor: "#EDEEF3",
-                          height: 5, // Adjust the height of the rail
-                        },
-                        "& .MuiSlider-track": {
-                          backgroundColor: "#FD6400",
-                          border: "none",
-                          height: 5, // Adjust the height of the rail
-                        },
-                        "& .MuiSlider-thumb": {
-                          border: "2px solid #104239",
-                          "&::before": {
-                            position: "absolute",
-                            content: '""',
-                            borderRadius: "inherit",
-                            width: "16px",
-                            height: "16px",
-                            background: "#104239",
-                            border: "4px solid #FFF",
-                            boxShadow: `0px 3px 1px -2px rgba(0, 0, 0, 0.2), 
+                    {priceOpen ? (
+                      <>
+                        <ExpandLessSharpIcon fontSize="medium" />
+                      </>
+                    ) : (
+                      <>
+                        <ExpandMoreSharpIcon fontSize="medium" />
+                      </>
+                    )}
+                  </Button>
+                </Box>
+                <Collapse in={priceOpen}>
+                  <Slider
+                    value={priceRange}
+                    onChange={(e, newValue) => setPriceRange(newValue)}
+                    valueLabelDisplay="auto"
+                    min={0}
+                    max={1000}
+                    sx={{
+                      "& .MuiSlider-rail": {
+                        backgroundColor: "#EDEEF3",
+                        height: 5, // Adjust the height of the rail
+                      },
+                      "& .MuiSlider-track": {
+                        backgroundColor: "#FD6400",
+                        border: "none",
+                        height: 5, // Adjust the height of the rail
+                      },
+                      "& .MuiSlider-thumb": {
+                        border: "2px solid #104239",
+                        "&::before": {
+                          position: "absolute",
+                          content: '""',
+                          borderRadius: "inherit",
+                          width: "16px",
+                          height: "16px",
+                          background: "#104239",
+                          border: "4px solid #FFF",
+                          boxShadow: `0px 3px 1px -2px rgba(0, 0, 0, 0.2), 
                         0px 2px 2px 0px rgba(0, 0, 0, 0.14), 
                         0px 1px 5px 0px rgba(0, 0, 0, 0.12)`,
-                          },
                         },
-                      }}
+                      },
+                    }}
+                  />
+                  <Box display="flex" gap={2} mt={1} mb={1}>
+                    <TextField
+                      label="Min"
+                      type="number"
+                      size="small"
+                      value={priceRange[0]}
+                      onChange={(e) =>
+                        setPriceRange([+e.target.value, priceRange[1]])
+                      }
+                      fullWidth
                     />
-                    <Box display="flex" gap={2} mt={1} mb={1}>
-                      <TextField
-                        label="Min"
-                        type="number"
-                        size="small"
-                        value={priceRange[0]}
-                        onChange={(e) =>
-                          setPriceRange([+e.target.value, priceRange[1]])
-                        }
-                        fullWidth
-                      />
-                      <TextField
-                        label="Max"
-                        type="number"
-                        size="small"
-                        value={priceRange[1]}
-                        onChange={(e) =>
-                          setPriceRange([priceRange[0], +e.target.value])
-                        }
-                        fullWidth
-                      />
-                    </Box>
-                  </Collapse>
-                </Box>
+                    <TextField
+                      label="Max"
+                      type="number"
+                      size="small"
+                      value={priceRange[1]}
+                      onChange={(e) =>
+                        setPriceRange([priceRange[0], +e.target.value])
+                      }
+                      fullWidth
+                    />
+                  </Box>
+                </Collapse>
+              </Box>
 
                 {/* Size Range Filter */}
-                <Box>
+                {/* <Box>
                   <Box
                     style={sidebar.sideToggle}
                     display="flex"
@@ -574,7 +658,7 @@ const CategoryPage = () => {
                       />
                     </Box>
                   </Collapse>
-                </Box>
+                </Box> */}
               </Box>
             </Box>
 
@@ -587,121 +671,136 @@ const CategoryPage = () => {
                 mb={3}
               >
                 <Typography style={shop3Grid.resultNum} variant="body1">
-                  Showing 12 Results from total 230
+                  Showing 12 Results from total {filteredProducts.length}
                 </Typography>
                 <Select
                   style={shop3Grid.sortingBox}
                   size="small"
                   defaultValue="relevance"
+                  onChange={(e) => setSortOption(e.target.value)}
                 >
                   <MenuItem value="relevance">Relevance</MenuItem>
                   <MenuItem value="priceLowHigh">Price: Low to High</MenuItem>
                   <MenuItem value="priceHighLow">Price: High to Low</MenuItem>
-                  <MenuItem value="rating">Rating</MenuItem>
+                  
                 </Select>
               </Box>
 
               <Grid2 container spacing={4}>
-                {[1, 2, 3, 4, 5, 6].map((product) => (
-                  <Grid2
-                    style={shop3Grid.shopProductBox}
-                    size={{ xs: 12, sm: 6, md: 4 }}
-                    spacing={2}
-                    key={product}
-                  >
-                    <Card style={shop3Grid.shopinBox}>
-                      <Box position="relative">
-                        <CardMedia
-                          style={shop3Grid.productThumb}
-                          component="img"
-                          height="235"
-                          //image={`https://via.placeholder.com/300x140?text=Product+${product}`}
-                          image={`https://admin.pillsphere.com/wp-content/uploads/2025/01/unnamed.png`}
-                          alt={`Product ${product}`}
-                        />
-                        <Box
-                          style={shop3Grid.offerTag}
-                          position="absolute"
-                          top={0}
-                          left={0}
-                          bgcolor="red"
-                          color="white"
-                          px={1}
-                          py={0.5}
-                          fontSize="0.8rem"
-                        >
-                          20% OFF
-                        </Box>
-                      </Box>
-                      <CardContent style={shop3Grid.titlePriceBox}>
-                        <Typography style={shop3Grid.prodTitle} variant="h6">
-                          Microlife B2 Basic Blood Pressure Monitor {product}
-                        </Typography>
-                        <Box
-                          style={shop3Grid.proPriceRating}
-                          display="flex"
-                          justifyContent="space-between"
-                          alignItems="center"
-                        >
-                          <Box style={shop3Grid.priceBox}>
-                            <Typography
-                              style={shop3Grid.proPrice}
-                              variant="body1"
-                            >
-                              $100
-                            </Typography>
-                            <Typography
-                              style={shop3Grid.proPriceCross}
-                              variant="body1"
-                            >
-                              $120
-                            </Typography>
-                          </Box>
-                          <Box display="flex" alignItems="center" gap={1}>
-                            <Rating
-                              style={shop3Grid.proRating}
-                              value={4}
-                              readOnly
-                              size="small"
-                            />
-                            <Typography
-                              style={shop3Grid.ratingCount}
-                              variant="body2"
-                              color="textSecondary"
-                            >
-                              (123)
-                            </Typography>
-                          </Box>
-                        </Box>
-                      </CardContent>
-                      <CardActions style={shop3Grid.divCart}>
-                        <Button
-                          style={shop3Grid.proCartBtn}
-                          variant="outlined"
-                          fullWidth
-                        >
-                          Add to Cart
-                          <svg
-                            style={{ marginLeft: "10px" }}
-                            width="18"
-                            height="14"
-                            viewBox="0 0 18 14"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              d="M17 7L11 1M17 7L11 13M17 7L6.5 7M1 7L3.5 7"
-                              stroke="white"
-                              stroke-width="1.5"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                            />
-                          </svg>
-                        </Button>
-                      </CardActions>
-                    </Card>
-                  </Grid2>
-                ))}
+               {filteredProducts.map((product) => (
+                 <Grid2
+                   style={shop3Grid.shopProductBox}
+                   size={{ xs: 12, sm: 6, md: 4 }}
+                   spacing={2}
+                   key={product.id}  // Use a unique key like `product.id`
+                 >
+                   <Link to={`/product/${product.slug}`} style={{ textDecoration: "none" }}>
+                     <Card style={shop3Grid.shopinBox}>
+                       <Box position="relative">
+                         <CardMedia
+                           style={shop3Grid.productThumb}
+                           component="img"
+                           height="235"
+                           image={product.image || "https://admin.pillsphere.com/wp-content/uploads/2025/01/unnamed.png"} // Use product.image if available
+                           alt={product.name}
+                         />
+                         {product.sale_price && (
+                           <Box
+                             style={shop3Grid.offerTag}
+                             position="absolute"
+                             top={0}
+                             left={0}
+                             bgcolor="red"
+                             color="white"
+                             px={1}
+                             py={0.5}
+                             fontSize="0.8rem"
+                           >
+                             {Math.round(((product.regular_price - product.sale_price) / product.regular_price) * 100)}% OFF
+                           </Box>
+                         )}
+                       </Box>
+                       <CardContent style={shop3Grid.titlePriceBox}>
+                         <Typography style={shop3Grid.prodTitle} variant="h6">
+                           {product.name}
+                         </Typography>
+               
+                         {/* Display product categories */}
+                         {product.categories && product.categories.length > 0 && (
+                                     <Box>
+                                       {product.categories.map((category) => (
+                                         <Typography key={category.id} variant="body2" color="textSecondary">
+                                           {category.name} {/* Display category name */}
+                                         </Typography>
+                                       ))}
+                                     </Box>
+                                   )}
+               
+                                   <Box
+                                     style={shop3Grid.proPriceRating}
+                                     display="flex"
+                                     justifyContent="space-between"
+                                     alignItems="center"
+                                   >
+                                     <Box style={shop3Grid.priceBox}>
+                                       <Typography style={shop3Grid.proPrice} variant="body1">
+                                         ${product.sale_price || product.price}
+                                       </Typography>
+                                       {product.sale_price && (
+                                         <Typography
+                                           style={shop3Grid.proPriceCross}
+                                           variant="body1"
+                                         >
+                                           ${product.regular_price}
+                                         </Typography>
+                                       )}
+                                     </Box>
+                                     <Box display="flex" alignItems="center" gap={1}>
+                                       <Rating
+                                         style={shop3Grid.proRating}
+                                         value={4} // Replace with actual rating if available
+                                         readOnly
+                                         size="small"
+                                       />
+                                       <Typography
+                                         style={shop3Grid.ratingCount}
+                                         variant="body2"
+                                         color="textSecondary"
+                                       >
+                                         (123) {/* Replace with actual review count if available */}
+                                       </Typography>
+                                     </Box>
+                                   </Box>
+                                 </CardContent>
+                                 <CardActions style={shop3Grid.divCart}>
+                                   <Button
+                                     style={shop3Grid.proCartBtn}
+                                     variant="outlined"
+                                     fullWidth
+                                   >
+                                     View
+                                     <svg
+                                       style={{ marginLeft: "10px" }}
+                                       width="18"
+                                       height="14"
+                                       viewBox="0 0 18 14"
+                                       fill="none"
+                                       xmlns="http://www.w3.org/2000/svg"
+                                     >
+                                       <path
+                                         d="M17 7L11 1M17 7L11 13M17 7L6.5 7M1 7L3.5 7"
+                                         stroke="white"
+                                         strokeWidth="1.5"
+                                         strokeLinecap="round"
+                                         strokeLinejoin="round"
+                                       />
+                                     </svg>
+                                   </Button>
+                                 </CardActions>
+                               </Card>
+                             </Link>
+                           </Grid2>
+                         ))}
               </Grid2>
             </Box>
           </Box>
