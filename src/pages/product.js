@@ -117,9 +117,9 @@ const Product = () =>{
                     >   
                         <Box>
                             {/* Product Title */}
-                            <Typography variant="h4" fontWeight="bold">
+                            {/*<Typography variant="h4" fontWeight="bold">
                                 AOSEPT PLUS
-                            </Typography>
+                            </Typography>*/}
                             {/* Product Title */}
                             <Typography variant="body5" fontWeight="bold">
                                 {product?.name}

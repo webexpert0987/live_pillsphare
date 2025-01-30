@@ -230,9 +230,12 @@ const MainHeader = () => {
                             {['Shop', 'Online Clinic', 'Weight Loss'].map((text) => (
                                 <Button
                                     key={text}
-                                    endIcon={text === 'Shop' ? <KeyboardArrowDownIcon sx={{ marginLeft: 0 }} /> : null}
-                                    onClick={text === 'Shop' ? handleClick : null}  // Only trigger handleClick for "Shop"
-                                    sx={{ textTransform: 'capitalize', marginRight: { xs: '0px', sm: '5px' }, marginLeft: { xs: '0px', lg: '5px !important' } }}
+                                    endIcon={text === 'Shop' ? <KeyboardArrowDownIcon sx={{ marginLeft: 0 }} onClick={handleClick} /> : null}
+                                    sx={{
+                                        textTransform: 'capitalize',
+                                        marginRight: { xs: '0px', sm: '5px' },
+                                        marginLeft: { xs: '0px', lg: '5px !important' },
+                                    }}
                                 >
                                     <Link to={text === 'Shop' ? '/shop' : text === 'Online Clinic' ? '/shop' : '/category/weight-loss'} style={{ textDecoration: 'none' }}>
                                         <Text>{text}</Text>

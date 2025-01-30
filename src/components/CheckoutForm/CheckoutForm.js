@@ -124,135 +124,164 @@ export default function Checkout() {
     const [cardError, setCardError] = useState('');
     const [isCardEpmty, setIsCardEpmty] = useState(false);
     const [isDetailComplete, setIsDetailComplete] = useState(true);
-    const [canPay, setCanPay] = useState(false)
+    const [canPay, setCanPay] = useState(false);
+    const [makePayment, setMakePayment] = useState(false);
+    let cardElement;
    
-    const handleSubmit = async (e) => {
+    useEffect(()=>{
+        if (stripe && elements) {
+            cardElement = elements.getElement(CardElement);
+            handleCardValidation();
+        }
+    },[stripe, elements])
+
+    const handleCardValidation = async (e) => {
         // e.preventDefault();
 
         if (!stripe || !elements) {
             return;
         }
 
-        const cardElement = elements.getElement(CardElement);
 
-        const cardValidation = cardElement._empty;
+        // const cardElement = elements.getElement(CardElement);
 
-        if (cardValidation) {
-            setCardError('Card is empty.');
-            setIsCardEpmty(true);
-            setIsDetailComplete(false)
-        } else {
-            setIsCardEpmty(false);
-            setCardError('');
-        }
+        // const cardValidation = cardElement._empty;
+
+        // if (cardValidation) {
+        //     setCardError('Card is empty.');
+        //     setIsCardEpmty(true);
+        //     setIsDetailComplete(false)
+        // } else {
+        //     setIsCardEpmty(false);
+        //     setCardError('');
+        // }
 
         cardElement.addEventListener('change', async (event) => {
-
             if (event.error) {
-                
                 setCardError(event.error.message)
                 setIsCardEpmty(true);
                 setIsDetailComplete(false)
+                setCanPay(false)
             } else {
                
                 if(event.complete){
-                    setCardError('')
-                    setIsCardEpmty(false);
-                    setIsDetailComplete(true)
-                    setCanPay(true)
+                    if(event.value.postalCode == ''){
+                        setCardError('Enter postal code')
+                        setIsCardEpmty(true);
+                        setIsDetailComplete(false)
+                        setCanPay(false)
+                    } else {
+                        setCardError('')
+                        setIsCardEpmty(false);
+                        setIsDetailComplete(true)
+                        setCanPay(true)
+                    }
                 } else {
-                    setCardError(event.error)
+                    setCardError(event.error);
                     setIsCardEpmty(true);
                     setIsDetailComplete(false)
+                    setCanPay(false)
                 }
             }
         });
+    };
 
+    useEffect(()=>{
         if(canPay){
-            // if (!cardElement) {
-            //     setPaymentStatus('Card details are incomplete.');
-            //     return;
-            // }
+            setIsDetailComplete(true);
+        }
+    }, [canPay])
+
+    useEffect(() => {
+        async function payment() {
+            if (makePayment) {
+                setIsProcessing(true);
+                setPaymentStatus('');
     
-            setIsProcessing(true);
-            setPaymentStatus('');
-            
-            try {
-                const response = await createPaymentIntent({ amount: calculateTotal() })
-                const data = response;
+                try {
+                    const response = await createPaymentIntent({ amount: calculateTotal() })
+                    const data = response;
     
-                if (data.status === '200') {
-                    const clientSecret = data.clientSecret;
+                    if (data.status === '200') {
+                        const clientSecret = data.clientSecret;
+                        console.log('payment intent success')
     
-                    const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
-                        payment_method: {
-                            card: cardElement,
-                        },
-                    });
+                        cardElement = elements.getElement(CardElement);
     
-                    if (error) {
-                        // setPaymentStatus('Payment failed: ' + error.message);
-                        showMessage(error.message, 'error');
-                    } else if (paymentIntent.status === 'succeeded') {
-                        
-                        setPaymentStatus('Payment successful!');
-                        showMessage('Payment successful!', 'success');
-                        const ordInfo = {
-                            user_id: userDetails.user_id,
-                            token: userDetails.token,
-                            variation_ids: variantIds,
-                            payment_intent_id: paymentIntent.id,
-                            billing_address: {
-                              first_name: billingDetails.billing_address.first_name,
-                              last_name: billingDetails.billing_address.last_name,
-                              company: billingDetails.billing_address.company,
-                              address_1: billingDetails.billing_address.address_1,
-                              address_2: billingDetails.billing_address.address_2,
-                              city: billingDetails.billing_address.city,
-                              state: billingDetails.billing_address.state,
-                              postcode: billingDetails.billing_address.postcode,
-                              country: billingDetails.billing_address.country,
-                              email: billingDetails.billing_address.email,
-                              phone: billingDetails.billing_address.phone
+                        const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
+                            payment_method: {
+                                card: cardElement,
                             },
-                            shipping_address: {
-                              first_name: billingDetails.billing_address.first_name,
-                              last_name: billingDetails.billing_address.last_name,
-                              company: billingDetails.billing_address.company,
-                              address_1: billingDetails.billing_address.address_1,
-                              address_2: billingDetails.billing_address.address_2,
-                              city: billingDetails.billing_address.city,
-                              state: billingDetails.billing_address.state,
-                              postcode: billingDetails.billing_address.postcode,
-                              country: billingDetails.billing_address.country,
-                              email: billingDetails.billing_address.email,
-                              phone: billingDetails.billing_address.phone
+                        });
+    
+                        if (error) {
+                            // setPaymentStatus('Payment failed: ' + error.message);
+                            showMessage(error.message, 'error');
+                        } else if (paymentIntent.status === 'succeeded') {
+    
+                            setPaymentStatus('Payment successful!');
+                            showMessage('Payment successful!', 'success');
+                            const ordInfo = {
+                                user_id: userDetails.user_id,
+                                token: userDetails.token,
+                                variation_ids: variantIds,
+                                payment_intent_id: paymentIntent.id,
+                                billing_address: {
+                                    first_name: billingDetails.billing_address.first_name,
+                                    last_name: billingDetails.billing_address.last_name,
+                                    company: billingDetails.billing_address.company,
+                                    address_1: billingDetails.billing_address.address_1,
+                                    address_2: billingDetails.billing_address.address_2,
+                                    city: billingDetails.billing_address.city,
+                                    state: billingDetails.billing_address.state,
+                                    postcode: billingDetails.billing_address.postcode,
+                                    country: billingDetails.billing_address.country,
+                                    email: billingDetails.billing_address.email,
+                                    phone: billingDetails.billing_address.phone
+                                },
+                                shipping_address: {
+                                    first_name: billingDetails.billing_address.first_name,
+                                    last_name: billingDetails.billing_address.last_name,
+                                    company: billingDetails.billing_address.company,
+                                    address_1: billingDetails.billing_address.address_1,
+                                    address_2: billingDetails.billing_address.address_2,
+                                    city: billingDetails.billing_address.city,
+                                    state: billingDetails.billing_address.state,
+                                    postcode: billingDetails.billing_address.postcode,
+                                    country: billingDetails.billing_address.country,
+                                    email: billingDetails.billing_address.email,
+                                    phone: billingDetails.billing_address.phone
+                                }
+                            }
+    
+                            const orderResponse = await createOrder(ordInfo);
+    
+                            if (orderResponse.status == "Order created successfully.") {
+                                setMakePayment(false);
+                                setCanPay(false);
+                                setCart([]);
+                                setVariantIds([]);
+                                cartEmpty();
+                                navigate('/thankyou')
                             }
                         }
-                          
-                        const orderResponse = await createOrder(ordInfo);
-                       
-                        if(orderResponse.status == "Order created successfully.") {
-                            setCanPay(false);
-                            setCart([]);
-                            setVariantIds([]);
-                            cartEmpty();
-                            navigate('/thankyou')
-                        }
+                    } else {
+                        // setPaymentStatus('Error creating payment intent.');
+                        showMessage('Error creating payment intent.', 'error');
                     }
-                } else {
-                    // setPaymentStatus('Error creating payment intent.');
-                    showMessage('Error creating payment intent.', 'error');
+                } catch (error) {
+                    showMessage('There was a problem with the payment process.', 'error');
+                    // setPaymentStatus('There was a problem with the payment process.');
                 }
-            } catch (error) {
-               
-                showMessage('There was a problem with the payment process.', 'error');
-                // setPaymentStatus('There was a problem with the payment process.');
-            }
     
-            setIsProcessing(false);
+                setIsProcessing(false);
+            } else {
+                setMakePayment(false);
+                setIsDetailComplete(false);
+            }
         }
-    };
+        payment();
+    }, [makePayment])
 
     const handleCheckoutSubmit = async () => {
         if (cart.length == 0) {
@@ -260,8 +289,6 @@ export default function Checkout() {
             showMessage('Your cart is empty! Add some products before checking out.', 'error')
         } 
 
-       
-        // setBillingDetails(values);
         let formDetail = {
             first_name: billingDetails.billing_address.first_name,
             last_name: billingDetails.billing_address.last_name,
@@ -275,13 +302,24 @@ export default function Checkout() {
             email: billingDetails.billing_address.email,
             phone: billingDetails.billing_address.phone
         }
+
+
+
         try{
             await validationSchema.validate(formDetail, { abortEarly: false })
-            handleSubmit();
-            setIsDetailComplete(false)
             // setIsCheckout(true);
+            if(isDetailComplete && canPay){
+                setMakePayment(true)
+                // handlePayment();
+            } else {
+                setIsDetailComplete(false);
+                setMakePayment(false)
+                if(!canPay){
+                    setCardError('Enter card details');
+                    setIsCardEpmty(true);
+                }
+            }
         } catch (err) {
-          
             showMessage('Please complete all required fields to continue.', 'error')
         }
     };
@@ -341,14 +379,17 @@ export default function Checkout() {
                                             phone: '',
                                         }}
                                         validationSchema={validationSchema}
+                                        validateOnBlur={true}
                                         // onSubmit={handleCheckoutSubmit}
                                     >
-                                        {({ values, touched, errors, handleChange, handleBlur, isSubmitting }) => (
+                                        {({ values, touched, errors, handleChange, handleBlur, validateField , isSubmitting }) => {
+
+                                              return (
+
                                             <Form>
                                                 <Grid container spacing={3.5} sx={{ marginBottom: '30px' }}>
                                                     <Grid size={{ xs: 12, sm: 12, md: 6, lg: 6 }}>
                                                         <TextField
-                                                            autoComplete="fname"
                                                             name="first_name"
                                                             variant="outlined"
                                                             required
@@ -370,7 +411,6 @@ export default function Checkout() {
                                                             id="lastName"
                                                             label="Last Name"
                                                             name="last_name"
-                                                            autoComplete="lname"
                                                             onChange={(e)=>{handleChange(e); handleFieldOnChange(e)}}
                                                             onBlur={handleBlur}
                                                             error={touched.last_name && Boolean(errors.last_name)}
@@ -385,7 +425,6 @@ export default function Checkout() {
                                                             id="email"
                                                             label="Email Address"
                                                             name="email"
-                                                            autoComplete="email"
                                                             onChange={(e)=>{handleChange(e); handleFieldOnChange(e)}}
                                                             onBlur={handleBlur}
                                                             error={touched.email && Boolean(errors.email)}
@@ -400,7 +439,6 @@ export default function Checkout() {
                                                             id="company"
                                                             label="Company"
                                                             name="company"
-                                                            autoComplete="company"
                                                             onChange={(e)=>{handleChange(e); handleFieldOnChange(e)}}
                                                             onBlur={handleBlur}
                                                             error={touched.company && Boolean(errors.company)}
@@ -415,7 +453,6 @@ export default function Checkout() {
                                                             id="address_1"
                                                             label="Address 1"
                                                             name="address_1"
-                                                            autoComplete="address_1"
                                                             onChange={(e)=>{handleChange(e); handleFieldOnChange(e)}}
                                                             onBlur={handleBlur}
                                                             error={touched.address_1 && Boolean(errors.address_1)}
@@ -430,7 +467,6 @@ export default function Checkout() {
                                                             id="address_2"
                                                             label="Address 2"
                                                             name="address_2"
-                                                            autoComplete="address_2"
                                                             onChange={(e)=>{handleChange(e); handleFieldOnChange(e)}}
                                                             onBlur={handleBlur}
                                                             error={touched.address_2 && Boolean(errors.address_2)}
@@ -445,7 +481,6 @@ export default function Checkout() {
                                                             id="city"
                                                             label="City"
                                                             name="city"
-                                                            autoComplete="city"
                                                             onChange={(e)=>{handleChange(e); handleFieldOnChange(e)}}
                                                             onBlur={handleBlur}
                                                             error={touched.city && Boolean(errors.city)}
@@ -460,7 +495,6 @@ export default function Checkout() {
                                                             id="state"
                                                             label="State"
                                                             name="state"
-                                                            autoComplete="state"
                                                             onChange={(e)=>{handleChange(e); handleFieldOnChange(e)}}
                                                             onBlur={handleBlur}
                                                             error={touched.state && Boolean(errors.state)}
@@ -475,7 +509,6 @@ export default function Checkout() {
                                                             id="postcode"
                                                             label="Postcode"
                                                             name="postcode"
-                                                            autoComplete="postcode"
                                                             onChange={(e)=>{handleChange(e); handleFieldOnChange(e)}}
                                                             onBlur={handleBlur}
                                                             error={touched.postcode && Boolean(errors.postcode)}
@@ -490,7 +523,6 @@ export default function Checkout() {
                                                             id="country"
                                                             label="Country"
                                                             name="country"
-                                                            autoComplete="country"
                                                             onChange={(e)=>{handleChange(e); handleFieldOnChange(e)}}
                                                             onBlur={handleBlur}
                                                             error={touched.country && Boolean(errors.country)}
@@ -500,14 +532,14 @@ export default function Checkout() {
                                                     <Grid size={{ xs: 12, sm: 12, md: 6, lg: 6 }}>
                                                         <TextField
                                                             variant="outlined"
-                                                            type="number"
+                                                            type="text"
                                                             required
                                                             fullWidth
                                                             id="phone"
                                                             label="Phone"
                                                             name="phone"
-                                                            autoComplete="phone"
-                                                            onChange={(e)=>{handleChange(e); handleFieldOnChange(e)}}
+                                                            autocomplete="off"
+                                                            onChange={(e)=>{ e.target.value = e.target.value.replace(/\D/g, ""); handleChange(e); handleFieldOnChange(e)}}
                                                             onBlur={handleBlur}
                                                             error={touched.phone && Boolean(errors.phone)}
                                                             helperText={touched.phone && errors.phone}
@@ -532,13 +564,13 @@ export default function Checkout() {
                                                     Checkout & Pay
                                                 </Button> */}
                                                 <Button
-                                                    type="submit"
+                                                    // type="submit"
                                                     fullWidth
                                                     variant="contained"
                                                     color="primary"
                                                     // sx={{ margin: '30px 0px 10px 0px' }}
                                                     // disabled={isSubmitting}
-                                                    disabled={!stripe || isProcessing || !isDetailComplete}
+                                                    disabled={!stripe || isProcessing ||!isDetailComplete}
                                                     onClick={handleCheckoutSubmit}
                                                     sx={{ marginTop: 2 }}
                                                 >
@@ -549,7 +581,8 @@ export default function Checkout() {
                                                 </Typography>
                                                 {error && <Typography color="red">{error}</Typography>}
                                             </Form>
-                                        )}
+                                            )
+                                        }}
                                     </Formik>
                                 }
                             </Box>
