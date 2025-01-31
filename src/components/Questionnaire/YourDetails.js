@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { Box, TextField, Button, Typography, Grid2 } from "@mui/material";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker"; // Import DesktopDatePicker
 import { LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns"; // Named import for AdapterDateFns
+// import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { Link } from "react-router-dom";
 
 function YourDetailForm() {
@@ -185,7 +186,7 @@ function YourDetailForm() {
   return (
     <LocalizationProvider
       style={detailStyle.wrapperBox}
-      dateAdapter={AdapterDateFns}
+      dateAdapter={AdapterMoment}
     >
       <Box component="form" onSubmit={handleSubmit} sx={{ width: "100%" }}>
         <Typography style={detailStyle.title} variant="h4" fontWeight="bold">
