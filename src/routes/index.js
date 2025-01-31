@@ -8,6 +8,8 @@ import Product from '../pages/product';
 import ThankYouPage from '../pages/thankyou';
 import Shop from '../pages/Shop';
 import CategoryPage from '../pages/CategoryPage';
+import WeightLoss from '../pages/WeightLoss';
+import Questionnaire from '../components/Questionnaire/QuestionnairePage';
 
 const routes = [
   {
@@ -43,6 +45,16 @@ const routes = [
   {
     path: "/category/:slug",
     component: CategoryPage,
+    exact: true,
+  },
+  {
+    path: "/weight-loss",
+    component: WeightLoss,
+    exact: true,
+  },
+  {
+    path: "/questionnaire",
+    component: Questionnaire,
     exact: true,
   },
   // {
