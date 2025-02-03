@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Box, Tabs, Tab, Typography, Paper, Container } from "@mui/material";
 import YourDetail from "../Questionnaire/YourDetails"; // Import the component
-import BmiCalculate from "../Questionnaire/Consultation"; // Import the component
+import MultiStepQuestion from "../Questionnaire/MultiStepQuestion"; // Import the component
+import YourTreatment from "../Questionnaire/YourTreatment"; // Import the component
 
 const tabData = [
   {
@@ -173,7 +174,8 @@ function VerticalTabs() {
         <Box style={styles.rightWrapper}>
           {/* Add QuestionHero component only for the "Your Details" tab */}
           {selectedTab === 0 && <YourDetail />}
-          {selectedTab === 1 && <BmiCalculate />}
+          {selectedTab === 1 && <MultiStepQuestion />}
+          {selectedTab === 2 && <YourTreatment />}
         </Box>
       </Box>
     </Container>
