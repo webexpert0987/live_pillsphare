@@ -12,11 +12,6 @@ import {
   Button,
   Slider,
   TextField,
-  Checkbox,
-  FormControlLabel,
-  Radio,
-  RadioGroup,
-  FormGroup,
   Collapse,
   Select,
   MenuItem,
@@ -32,114 +27,21 @@ import { getProducts } from "../apis/apisList/productApi";
 
 
 const CategoryPage = () => {
-  const [categoriesOpen, setCategoriesOpen] = useState(true);
-  const [ratingOpen, setRatingOpen] = useState(true);
-  const [brandOpen, setBrandOpen] = useState(true);
   const [priceOpen, setPriceOpen] = useState(true);
-  const [sizeOpen, setSizeOpen] = useState(true);
-
-  const [selectedCategories, setSelectedCategories] = useState({});
-  const [selectedRating, setSelectedRating] = useState("");
-  const [selectedBrands, setSelectedBrands] = useState({});
-  const [priceRange, setPriceRange] = useState([20, 100]);
-  const [sizeRange, setSizeRange] = useState([5, 15]);
+  const [priceRange, setPriceRange] = useState([0, 1000]);
   const [products, setProducts] = useState([]);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [sortOption, setSortOption] = useState("relevance");
   const [filteredProducts, setFilteredProducts] = useState([]);
-
+  const { slug } = useParams();
+  const [category, setCategory] = useState(null);
+  const [categoryId, setCategoryId] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [notFound, setNotFound] = useState(false);
   const clearFilters = () => {
-    setSelectedCategories({});
-    setSelectedRating("");
-    setSelectedBrands({});
-    setPriceRange([0, 500]);
-    setSizeRange([0, 50]);
+       setPriceRange([0, 1000]);
+    
   };
-
-  useEffect(() => {
-        const fetchProducts = async () => {
-          try {
-            // Check if products are already in localStorage
-            const cachedProducts = localStorage.getItem('products');
-            
-            if (cachedProducts) {
-              setProducts(JSON.parse(cachedProducts)); // Use cached products
-            } else {
-              const data = await getProducts();
-              setProducts(data.products);
-              localStorage.setItem('products', JSON.stringify(data.products)); // Cache the products in localStorage
-            }
-          } catch (error) {
-            console.error('Failed to fetch products:', error);
-          }
-        };
-      
-        // Check if user is logged in
-        const storedUser = localStorage.getItem('user');
-        if (storedUser) {
-          setIsLoggedIn(true);
-        }
-      
-        fetchProducts();
-      }, []);
-
-
-        useEffect(() => {
-            const fetchProducts = async () => {
-              try {
-                // Check if products are already in localStorage
-                const cachedProducts = localStorage.getItem('products');
-                
-                if (cachedProducts) {
-                  setProducts(JSON.parse(cachedProducts)); // Use cached products
-                } else {
-                  const data = await getProducts();
-                  setProducts(data.products);
-                  localStorage.setItem('products', JSON.stringify(data.products)); // Cache the products in localStorage
-                }
-              } catch (error) {
-                console.error('Failed to fetch products:', error);
-              }
-            };
-          
-            // Check if user is logged in
-            const storedUser = localStorage.getItem('user');
-            if (storedUser) {
-              setIsLoggedIn(true);
-            }
-          
-            fetchProducts();
-          }, []);
-      
-      
-          useEffect(() => {
-            let filteredProducts = [...products];
-          
-          // Apply sorting and price range filtering
-            if (sortOption === "priceLowHigh") {
-              filteredProducts.sort((a, b) => (a.sale_price || a.price) - (b.sale_price || b.price));
-            } else if (sortOption === "priceHighLow") {
-              filteredProducts.sort((a, b) => (b.sale_price || b.price) - (a.sale_price || a.price));
-            }
-          
-            filteredProducts = filteredProducts.filter(
-              (product) => (product.sale_price || product.price) >= priceRange[0] &&
-                           (product.sale_price || product.price) <= priceRange[1]
-            );
-          
-            setFilteredProducts(filteredProducts);
-          }, [products, sortOption, priceRange]); 
-
-          
-
-  const renderRatingLabel = (value, count) => (
-    <Box display="flex" alignItems="center">
-      <Rating value={value} precision={0.5} readOnly size="small" />
-      <Typography variant="body2" ml={1}>
-        & up ({count})
-      </Typography>
-    </Box>
-  );
+ 
 
   const sidebar = {
     leftColParent: {
@@ -278,10 +180,7 @@ const CategoryPage = () => {
     },
   };
 
-  const { slug } = useParams();
-  const [category, setCategory] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [notFound, setNotFound] = useState(false);
+  
 
   useEffect(() => {
     const fetchCategory = async () => {
@@ -289,7 +188,8 @@ const CategoryPage = () => {
         const response = await getCategoryBySlug(slug);
 
         if (response.success) {
-          setCategory(response); // Set the category data directly from the response
+          setCategory(response);
+          setCategoryId(response.category_id); 
         } else {
           setNotFound(true); // If not found, show 404
         }
@@ -305,6 +205,49 @@ const CategoryPage = () => {
     fetchCategory();
   }, [slug]);
 
+  
+  
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        // Check if products are already in localStorage
+        const cachedProducts = localStorage.getItem('products');
+        
+        if (cachedProducts) {
+          setProducts(JSON.parse(cachedProducts)); // Use cached products
+        } else {
+          const data = await getProducts();
+          setProducts(data.products);
+          localStorage.setItem('products', JSON.stringify(data.products)); // Cache the products in localStorage
+        }
+      } catch (error) {
+        console.error('Failed to fetch products:', error);
+      }
+    };
+  
+    fetchProducts();
+  }, []);
+
+
+
+  useEffect(() => {
+    let filteredProducts = [...products];
+  
+  // Apply sorting and price range filtering
+    if (sortOption === "priceLowHigh") {
+      filteredProducts.sort((a, b) => (a.sale_price || a.price) - (b.sale_price || b.price));
+    } else if (sortOption === "priceHighLow") {
+      filteredProducts.sort((a, b) => (b.sale_price || b.price) - (a.sale_price || a.price));
+    }
+  
+    filteredProducts = filteredProducts.filter(
+      (product) => (product.sale_price || product.price) >= priceRange[0] &&
+                   (product.sale_price || product.price) <= priceRange[1]
+    );
+  
+    setFilteredProducts(filteredProducts);
+  }, [products, sortOption, priceRange]); 
  
 
   if (loading) {
@@ -357,136 +300,6 @@ const CategoryPage = () => {
               <Box style={sidebar.borderBoxSide}>
                
 
-                {/* Rating Filter */}
-                {/* <Box style={sidebar.sideToggleCat} mb={2}>
-                  <Box
-                    style={sidebar.sideToggle}
-                    display="flex"
-                    justifyContent="space-between"
-                    alignItems="center"
-                  >
-                    <Typography style={sidebar.sideTitle} variant="subtitle1">
-                      Rating
-                    </Typography>
-                    <Button
-                      style={sidebar.toggleBtn}
-                      size="small"
-                      onClick={() => setRatingOpen(!ratingOpen)}
-                    >
-                      {ratingOpen ? (
-                        <>
-                          <ExpandLessSharpIcon fontSize="medium" />
-                        </>
-                      ) : (
-                        <>
-                          <ExpandMoreSharpIcon fontSize="medium" />
-                        </>
-                      )}
-                    </Button>
-                  </Box>
-                  <Collapse in={ratingOpen}>
-                    <RadioGroup
-                      value={selectedRating}
-                      onChange={(e) => setSelectedRating(e.target.value)}
-                    >
-                      <FormControlLabel
-                        value="4.5"
-                        control={<Radio />}
-                        label={renderRatingLabel(4.5, 1991)}
-                      />
-                      <FormControlLabel
-                        value="4.0"
-                        control={<Radio />}
-                        label={renderRatingLabel(4.0, 200)}
-                      />
-                      <FormControlLabel
-                        value="3.5"
-                        control={<Radio />}
-                        label={renderRatingLabel(3.5, 300)}
-                      />
-                      <FormControlLabel
-                        value="3.0"
-                        control={<Radio />}
-                        label={renderRatingLabel(3.0, 500)}
-                      />
-                    </RadioGroup>
-                  </Collapse>
-                </Box> */}
-
-                {/* Brand Filter */}
-                {/* <Box style={sidebar.sideToggleCat} mb={2}>
-                  <Box
-                    style={sidebar.sideToggle}
-                    display="flex"
-                    justifyContent="space-between"
-                    alignItems="center"
-                  >
-                    <Typography style={sidebar.sideTitle} variant="subtitle1">
-                      Brand
-                    </Typography>
-                    <Button
-                      style={sidebar.toggleBtn}
-                      size="small"
-                      onClick={() => setBrandOpen(!brandOpen)}
-                    >
-                      {brandOpen ? (
-                        <>
-                          <ExpandLessSharpIcon fontSize="medium" />
-                        </>
-                      ) : (
-                        <>
-                          <ExpandMoreSharpIcon fontSize="medium" />
-                        </>
-                      )}
-                    </Button>
-                  </Box>
-                  <Collapse in={brandOpen}>
-                    <FormGroup>
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            checked={selectedBrands["Brand 1"] || false}
-                            onChange={(e) =>
-                              setSelectedBrands({
-                                ...selectedBrands,
-                                "Brand 1": e.target.checked,
-                              })
-                            }
-                          />
-                        }
-                        label="Brand 1"
-                      />
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            checked={selectedBrands["Brand 2"] || false}
-                            onChange={(e) =>
-                              setSelectedBrands({
-                                ...selectedBrands,
-                                "Brand 2": e.target.checked,
-                              })
-                            }
-                          />
-                        }
-                        label="Brand 2"
-                      />
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            checked={selectedBrands["Brand 3"] || false}
-                            onChange={(e) =>
-                              setSelectedBrands({
-                                ...selectedBrands,
-                                "Brand 3": e.target.checked,
-                              })
-                            }
-                          />
-                        }
-                        label="Brand 3"
-                      />
-                    </FormGroup>
-                  </Collapse>
-                </Box> */}
 
                 {/* Price Range Filter */}
                 <Box style={sidebar.sideToggleCat} mb={2}>
@@ -574,91 +387,7 @@ const CategoryPage = () => {
                 </Collapse>
               </Box>
 
-                {/* Size Range Filter */}
-                {/* <Box>
-                  <Box
-                    style={sidebar.sideToggle}
-                    display="flex"
-                    justifyContent="space-between"
-                    alignItems="center"
-                  >
-                    <Typography style={sidebar.sideTitle} variant="subtitle1">
-                      Size Range
-                    </Typography>
-                    <Button
-                      style={sidebar.toggleBtn}
-                      size="small"
-                      onClick={() => setSizeOpen(!sizeOpen)}
-                    >
-                      {sizeOpen ? (
-                        <>
-                          <ExpandLessSharpIcon fontSize="medium" />
-                        </>
-                      ) : (
-                        <>
-                          <ExpandMoreSharpIcon fontSize="medium" />
-                        </>
-                      )}
-                    </Button>
-                  </Box>
-                  <Collapse in={sizeOpen}>
-                    <Slider
-                      value={sizeRange}
-                      onChange={(e, newValue) => setSizeRange(newValue)}
-                      valueLabelDisplay="auto"
-                      min={0}
-                      max={50}
-                      sx={{
-                        "& .MuiSlider-rail": {
-                          backgroundColor: "#EDEEF3",
-                          height: 5, // Adjust the height of the rail
-                        },
-                        "& .MuiSlider-track": {
-                          backgroundColor: "#FD6400",
-                          border: "none",
-                          height: 5, // Adjust the height of the rail
-                        },
-                        "& .MuiSlider-thumb": {
-                          border: "2px solid #104239",
-                          "&::before": {
-                            position: "absolute",
-                            content: '""',
-                            borderRadius: "inherit",
-                            width: "16px",
-                            height: "16px",
-                            background: "#104239",
-                            border: "4px solid #FFF",
-                            boxShadow: `0px 3px 1px -2px rgba(0, 0, 0, 0.2), 
-                        0px 2px 2px 0px rgba(0, 0, 0, 0.14), 
-                        0px 1px 5px 0px rgba(0, 0, 0, 0.12)`,
-                          },
-                        },
-                      }}
-                    />
-                    <Box display="flex" gap={2} mt={1}>
-                      <TextField
-                        label="Min"
-                        type="number"
-                        size="small"
-                        value={sizeRange[0]}
-                        onChange={(e) =>
-                          setSizeRange([+e.target.value, sizeRange[1]])
-                        }
-                        fullWidth
-                      />
-                      <TextField
-                        label="Max"
-                        type="number"
-                        size="small"
-                        value={sizeRange[1]}
-                        onChange={(e) =>
-                          setSizeRange([sizeRange[0], +e.target.value])
-                        }
-                        fullWidth
-                      />
-                    </Box>
-                  </Collapse>
-                </Box> */}
+               
               </Box>
             </Box>
 
@@ -671,7 +400,7 @@ const CategoryPage = () => {
                 mb={3}
               >
                 <Typography style={shop3Grid.resultNum} variant="body1">
-                  Showing 12 Results from total {filteredProducts.length}
+                  Showing Results from total {filteredProducts.length}
                 </Typography>
                 <Select
                   style={shop3Grid.sortingBox}

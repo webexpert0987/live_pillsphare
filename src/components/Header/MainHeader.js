@@ -35,11 +35,10 @@ import { Icon } from '@iconify/react';
 import useScreenSize from '../../hooks/screenSizeHook';
 
 import Collapse from '@mui/material/Collapse';
-import ExpandLess from '@mui/icons-material/ExpandLess';
-import ExpandMore from '@mui/icons-material/ExpandMore';
 import { useApp } from '../../Context/AppContext';
 import AddToCartModal from '../addToCart/addToCartModal';
 import { getShopCategories } from '../../apis/apisList/productApi';
+import { ExpandMore, ExpandLess } from "@mui/icons-material";
 
 
 const Text = styled(Typography)(({ theme }) => ({
@@ -125,6 +124,7 @@ const MainHeader = () => {
     const {userDetails, logout, calculateTotal}= useApp();
     const [openCartModel, setOpenCartModel] = useState(false);
     const [shopCategories, setShopCategories] = useState([]);
+    const [selectedCategory, setSelectedCategory] = useState(null);
 
     const handleToggle = (index) => {
         setOpenSections((prevState) => ({
@@ -135,16 +135,28 @@ const MainHeader = () => {
 
     useEffect(() => {
         const fetchCategories = async () => {
-            try {
-                const response = await getShopCategories();
-                setShopCategories(response);  // Set the categories into state
-            } catch (error) {
-                console.error('Error fetching shop categories', error);
+          try {
+            const response = await getShopCategories();
+            if (Array.isArray(response)) {
+              setShopCategories(response);
+            } else {
+              console.error("Unexpected API response format", response);
             }
+          } catch (error) {
+            console.error("Error fetching shop categories", error);
+          }
         };
     
         fetchCategories();
-    }, []); 
+      }, []);
+    
+      const topCategories = shopCategories.filter((cat) => cat.parent === 0);
+      const getSubcategories = (parentId) =>
+        shopCategories.filter((cat) => cat.parent === parentId);
+    
+      const handleCategoryClick = (categoryId) => {
+        setSelectedCategory(selectedCategory === categoryId ? null : categoryId);
+      };
 
     
       
@@ -415,22 +427,43 @@ const MainHeader = () => {
             </Drawer>
             {/* <DrawerHeader /> */}
             {/* Dropdown Menu */}
-            <Menu
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        MenuListProps={{
-          'aria-labelledby': 'basic-button',
-        }}
-      >
-        {shopCategories.map((category) => (
-          <MenuItem key={category.id} onClick={handleClose}>
-            <Link to={`/category/${category.slug}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-              {category.name}
-            </Link>
-          </MenuItem>
-        ))}
-      </Menu>
+            <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
+      {topCategories.map((category) => {
+        const subcategories = getSubcategories(category.id);
+
+        return (
+          <div key={category.id}>
+            <MenuItem onClick={() => handleCategoryClick(category.id)}>
+              <Link
+                to={`/category/${category.slug}`}
+                style={{ textDecoration: "none", color: "inherit", flex: 1 }}
+              >
+                {category.name}
+              </Link>
+              {subcategories.length > 0 ? (
+                selectedCategory === category.id ? (
+                  <ExpandLess />
+                ) : (
+                  <ExpandMore />
+                )
+              ) : null}
+            </MenuItem>
+
+            {selectedCategory === category.id &&
+              subcategories.map((sub) => (
+                <MenuItem key={sub.id} style={{ paddingLeft: 20 }}>
+                  <Link
+                    to={`/category/${sub.slug}`}
+                    style={{ textDecoration: "none", color: "inherit" }}
+                  >
+                    {sub.name}
+                  </Link>
+                </MenuItem>
+              ))}
+          </div>
+        );
+      })}
+    </Menu>
             <Menu
                 anchorEl={loginDrop}
                 open={openLogin}

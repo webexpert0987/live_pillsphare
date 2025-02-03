@@ -33,18 +33,10 @@ import { getShopCategories } from '../apis/apisList/productApi';
 
 const ProductListingPage = () => {
   const [categoriesOpen, setCategoriesOpen] = useState(true);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [ratingOpen, setRatingOpen] = useState(true);
-  const [brandOpen, setBrandOpen] = useState(true);
   const [priceOpen, setPriceOpen] = useState(true);
-  const [sizeOpen, setSizeOpen] = useState(true);
   const [products, setProducts] = useState([]);
-
   const [selectedCategories, setSelectedCategories] = useState({});
-  const [selectedRating, setSelectedRating] = useState("");
-  const [selectedBrands, setSelectedBrands] = useState({});
   const [priceRange, setPriceRange] = useState([0, 1000]);
-  const [sizeRange, setSizeRange] = useState([5, 15]);
   const [sortOption, setSortOption] = useState("relevance");
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [shopCategories, setShopCategories] = useState([]);
@@ -56,10 +48,7 @@ const ProductListingPage = () => {
 
   const clearFilters = () => {
     setSelectedCategories({});
-    setSelectedRating("");
-    setSelectedBrands({});
     setPriceRange([0, 500]);
-    setSizeRange([0, 50]);
   };
 
   useEffect(() => {
@@ -87,7 +76,7 @@ const ProductListingPage = () => {
                 throw new Error("Invalid API response"); // Ensure response is valid
             }
 
-            const parentCategories = response.filter(category => category.parent === 0);
+            const parentCategories = response;
             setShopCategories(parentCategories);
 
             // Save to localStorage
@@ -122,11 +111,7 @@ const ProductListingPage = () => {
         }
       };
     
-      // Check if user is logged in
-      const storedUser = localStorage.getItem('user');
-      if (storedUser) {
-        setIsLoggedIn(true);
-      }
+      
     
       fetchProducts();
     }, []);
@@ -136,17 +121,15 @@ const ProductListingPage = () => {
       let filteredProducts = [...products];
     
       // Apply category filtering
-      // const allProduct  =[...products];
-      // if (Object.keys(selectedCategories).length > 0) {
-        
-      //   filteredProducts = filteredProducts.filter((product) => {
-      //     return product.categories.some((category) =>
-      //       selectedCategories[String(category.id)] // Ensure string comparison for category.id
-      //     );
-      //   });
-      // } else {
-      //   filteredProducts = [...allProduct]; // Return all products if no category is selected
-      // }
+      if (Object.keys(selectedCategories).length > 0) {
+        filteredProducts = filteredProducts.filter((product) =>
+          product.categories.some((category) =>
+            selectedCategories[String(category.id)] // Ensure string comparison for category.id
+          )
+        );
+      } else {
+        filteredProducts = [...products]; // ✅ Ensure all products reset when no category is selected
+      }
     
       // Apply sorting and price range filtering
       if (sortOption === "priceLowHigh") {
@@ -155,22 +138,18 @@ const ProductListingPage = () => {
         filteredProducts.sort((a, b) => (b.sale_price || b.price) - (a.sale_price || a.price));
       }
     
+      // Apply price range filtering
       filteredProducts = filteredProducts.filter(
-        (product) => (product.sale_price || product.price) >= priceRange[0] &&
-                     (product.sale_price || product.price) <= priceRange[1]
+        (product) =>
+          (product.sale_price || product.price) >= priceRange[0] &&
+          (product.sale_price || product.price) <= priceRange[1]
       );
     
       setFilteredProducts(filteredProducts);
-    }, [products, sortOption, priceRange, selectedCategories]); 
+    }, [products, sortOption, priceRange, selectedCategories]);
     
-const renderRatingLabel = (value, count) => (
-    <Box display="flex" alignItems="center">
-      <Rating value={value} precision={0.5} readOnly size="small" />
-      <Typography variant="body2" ml={1}>
-        & up ({count})
-      </Typography>
-    </Box>
-  );
+    
+
 
  
   
@@ -386,136 +365,7 @@ const renderRatingLabel = (value, count) => (
               </Collapse>
             </Box>
 
-              {/* Rating Filter */}
-              {/* <Box style={sidebar.sideToggleCat} mb={2}>
-                <Box
-                  style={sidebar.sideToggle}
-                  display="flex"
-                  justifyContent="space-between"
-                  alignItems="center"
-                >
-                  <Typography style={sidebar.sideTitle} variant="subtitle1">
-                    Rating
-                  </Typography>
-                  <Button
-                    style={sidebar.toggleBtn}
-                    size="small"
-                    onClick={() => setRatingOpen(!ratingOpen)}
-                  >
-                    {ratingOpen ? (
-                      <>
-                        <ExpandLessSharpIcon fontSize="medium" />
-                      </>
-                    ) : (
-                      <>
-                        <ExpandMoreSharpIcon fontSize="medium" />
-                      </>
-                    )}
-                  </Button>
-                </Box>
-                <Collapse in={ratingOpen}>
-                  <RadioGroup
-                    value={selectedRating}
-                    onChange={(e) => setSelectedRating(e.target.value)}
-                  >
-                    <FormControlLabel
-                      value="4.5"
-                      control={<Radio />}
-                      label={renderRatingLabel(4.5, 1991)}
-                    />
-                    <FormControlLabel
-                      value="4.0"
-                      control={<Radio />}
-                      label={renderRatingLabel(4.0, 200)}
-                    />
-                    <FormControlLabel
-                      value="3.5"
-                      control={<Radio />}
-                      label={renderRatingLabel(3.5, 300)}
-                    />
-                    <FormControlLabel
-                      value="3.0"
-                      control={<Radio />}
-                      label={renderRatingLabel(3.0, 500)}
-                    />
-                  </RadioGroup>
-                </Collapse>
-              </Box> */}
-
-              {/* Brand Filter */}
-              {/* <Box style={sidebar.sideToggleCat} mb={2}>
-                <Box
-                  style={sidebar.sideToggle}
-                  display="flex"
-                  justifyContent="space-between"
-                  alignItems="center"
-                >
-                  <Typography style={sidebar.sideTitle} variant="subtitle1">
-                    Brand
-                  </Typography>
-                  <Button
-                    style={sidebar.toggleBtn}
-                    size="small"
-                    onClick={() => setBrandOpen(!brandOpen)}
-                  >
-                    {brandOpen ? (
-                      <>
-                        <ExpandLessSharpIcon fontSize="medium" />
-                      </>
-                    ) : (
-                      <>
-                        <ExpandMoreSharpIcon fontSize="medium" />
-                      </>
-                    )}
-                  </Button>
-                </Box>
-                <Collapse in={brandOpen}>
-                  <FormGroup>
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={selectedBrands["Brand 1"] || false}
-                          onChange={(e) =>
-                            setSelectedBrands({
-                              ...selectedBrands,
-                              "Brand 1": e.target.checked,
-                            })
-                          }
-                        />
-                      }
-                      label="Brand 1"
-                    />
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={selectedBrands["Brand 2"] || false}
-                          onChange={(e) =>
-                            setSelectedBrands({
-                              ...selectedBrands,
-                              "Brand 2": e.target.checked,
-                            })
-                          }
-                        />
-                      }
-                      label="Brand 2"
-                    />
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={selectedBrands["Brand 3"] || false}
-                          onChange={(e) =>
-                            setSelectedBrands({
-                              ...selectedBrands,
-                              "Brand 3": e.target.checked,
-                            })
-                          }
-                        />
-                      }
-                      label="Brand 3"
-                    />
-                  </FormGroup>
-                </Collapse>
-              </Box> */}
+             
 
               {/* Price Range Filter */}
               <Box style={sidebar.sideToggleCat} mb={2}>
@@ -603,7 +453,6 @@ const renderRatingLabel = (value, count) => (
                 </Collapse>
               </Box>
 
-              {/* Size Range Filter */}
               
             </Box>
           </Box>
