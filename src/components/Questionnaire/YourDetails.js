@@ -1,9 +1,19 @@
 import React, { useState } from "react";
-import { Box, TextField, Button, Typography, Grid2 } from "@mui/material";
-import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker"; // Import DesktopDatePicker
+import {
+  Box,
+  TextField,
+  Button,
+  Typography,
+  Grid2,
+  MenuItem,
+  Select,
+  FormControl,
+  InputLabel,
+  FormHelperText,
+} from "@mui/material";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 // import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
+import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import { Link } from "react-router-dom";
 
 function YourDetailForm() {
@@ -12,7 +22,9 @@ function YourDetailForm() {
     lastName: "",
     email: "",
     contactNumber: "",
-    dob: null,
+    day: "",
+    month: "",
+    year: "",
     password: "",
     confirmPassword: "",
     addressLine1: "",
@@ -27,7 +39,9 @@ function YourDetailForm() {
     lastName: "",
     email: "",
     contactNumber: "",
-    dob: "",
+    day: "",
+    month: "",
+    year: "",
     password: "",
     confirmPassword: "",
     addressLine1: "",
@@ -41,13 +55,6 @@ function YourDetailForm() {
     setFormData({
       ...formData,
       [name]: value,
-    });
-  };
-
-  const handleDateChange = (newDate) => {
-    setFormData({
-      ...formData,
-      dob: newDate,
     });
   };
 
@@ -139,10 +146,13 @@ function YourDetailForm() {
     },
     fieldDesign: {
       borderRadius: "50px",
+      border: "none",
     },
     textField: {
       "& .MuiOutlinedInput-root": {
+        border: "50px",
         borderRadius: "50px",
+        overflow: "hidden",
       },
     },
     labelstyle: {
@@ -165,12 +175,13 @@ function YourDetailForm() {
       marginTop: "30px",
       marginBottom: "20px",
       boxShadow: "none",
+      textTransform: "uppercase",
     },
     noteMsg: {
       backgroundColor: "#E2F6F9",
       border: "1px solid #C0E8FF",
       padding: "15px",
-      marginTop: "20px",
+      marginTop: "10px",
       marginBottom: "10px",
       borderRadius: "10px",
       fontSize: "15px",
@@ -180,8 +191,43 @@ function YourDetailForm() {
       color: "#3E858F",
       fontWeight: "500",
     },
+    dobField: {
+      backgroundColor: "#FAFAFA",
+      borderRadius: "50px",
+      border: "1px solid #EDEDED",
+    },
+    fieldInput: {
+      backgroundColor: "#FAFAFA",
+      border: "1px solid #EDEDED",
+      borderRadius: "50px",
+      overflow: "hidden",
+      boxShadow: "none",
+      margin: "0 0 5px 0",
+      overflow: "visible",
+      "& .MuiInputBase-input": {
+        padding: "13px 26px",
+      },
+      "& .MuiOutlinedInput-notchedOutline": {
+        border: "none",
+        borderRadius: "50px",
+        overflow: "hidden",
+        borderWidth: "0px !important",
+      },
+      "& .MuiOutlinedInput-notchedOutline": {
+        borderWidth: "0px !important",
+        minHeight: "auto",
+      },
+      "& .MuiFormHelperText-root.Mui-error": {
+        color: "red", // Change text color
+        fontSize: "13px", // Adjust font size
+        fontWeight: "500", // Make text bold
+        marginTop: "0", // Adjust spacing
+        position: "absolute",
+        bottom: "-25px",
+        left: "12px",
+      },
+    },
   };
-  
 
   return (
     <LocalizationProvider
@@ -218,25 +264,25 @@ function YourDetailForm() {
           >
             <TextField
               fullWidth
-              label="First Name"
+              placeholder="First Name"
               name="firstName"
               value={formData.firstName}
               onChange={handleChange}
               error={!!errors.firstName}
               helperText={errors.firstName}
-              sx={detailStyle.textField}
+              sx={detailStyle.fieldInput}
             />
           </Grid2>
           <Grid2 size={{ xs: 12, sm: 6, md: 6 }} spacing={2}>
             <TextField
               fullWidth
-              label="Last Name"
+              placeholder="Last Name"
               name="lastName"
               value={formData.lastName}
               onChange={handleChange}
               error={!!errors.lastName}
               helperText={errors.lastName}
-              sx={detailStyle.textField}
+              sx={detailStyle.fieldInput}
             />
           </Grid2>
 
@@ -244,26 +290,26 @@ function YourDetailForm() {
           <Grid2 size={{ xs: 12, sm: 6, md: 6 }} spacing={2}>
             <TextField
               fullWidth
-              label="Email Address"
+              placeholder="Email Address"
               name="email"
               type="email"
               value={formData.email}
               onChange={handleChange}
               error={!!errors.email}
               helperText={errors.email}
-              sx={detailStyle.textField}
+              sx={detailStyle.fieldInput}
             />
           </Grid2>
           <Grid2 size={{ xs: 12, sm: 6, md: 6 }} spacing={2}>
             <TextField
               fullWidth
-              label="Contact Number"
+              placeholder="Contact Number"
               name="contactNumber"
               value={formData.contactNumber}
               onChange={handleChange}
               error={!!errors.contactNumber}
               helperText={errors.contactNumber}
-              sx={detailStyle.textField}
+              sx={detailStyle.fieldInput}
             />
           </Grid2>
 
@@ -272,41 +318,117 @@ function YourDetailForm() {
             <Typography style={detailStyle.labelstyle} variant="h5">
               Date of Birth
             </Typography>
-            <DesktopDatePicker
-            label="Date Of Birth"
-            inputFormat="MM/dd/yyyy"
-            value={formData.dob}
-            onChange={handleDateChange}
-            renderInput={(params) => <TextField {...params} fullWidth error={!!errors.dob} helperText={errors.dob} />}
-          />
 
+            <Grid2 size={{ xs: 12, sm: 12, md: 12 }} container spacing={2}>
+              <Grid2 size={{ xs: 12, sm: 4, md: 4 }} spacing={2}>
+                <FormControl fullWidth error={!!errors.day}>
+                  <Select
+                    name="day"
+                    value={formData.day}
+                    onChange={handleChange}
+                    displayEmpty
+                    sx={detailStyle.fieldInput}
+                  >
+                    <MenuItem value="" disabled>
+                      Select Day
+                    </MenuItem>
+                    {[...Array(31)].map((_, i) => (
+                      <MenuItem key={i + 1} value={i + 1}>
+                        {i + 1}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                  {errors.day && <FormHelperText>{errors.day}</FormHelperText>}
+                </FormControl>
+              </Grid2>
+              <Grid2 size={{ xs: 12, sm: 4, md: 4 }} spacing={2}>
+                <FormControl fullWidth error={!!errors.month}>
+                  <Select
+                    name="month"
+                    value={formData.month}
+                    onChange={handleChange}
+                    displayEmpty
+                    sx={detailStyle.fieldInput}
+                  >
+                    <MenuItem value="" disabled>
+                      Select Month
+                    </MenuItem>{" "}
+                    {/* Placeholder */}
+                    {[
+                      "January",
+                      "February",
+                      "March",
+                      "April",
+                      "May",
+                      "June",
+                      "July",
+                      "August",
+                      "September",
+                      "October",
+                      "November",
+                      "December",
+                    ].map((month, i) => (
+                      <MenuItem key={i + 1} value={i + 1}>
+                        {month}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                  {errors.month && (
+                    <FormHelperText>{errors.month}</FormHelperText>
+                  )}
+                </FormControl>
+              </Grid2>
+              <Grid2 size={{ xs: 12, sm: 4, md: 4 }} spacing={2}>
+                <FormControl fullWidth error={!!errors.year}>
+                  <Select
+                    name="year"
+                    value={formData.year}
+                    onChange={handleChange}
+                    displayEmpty
+                    sx={detailStyle.fieldInput}
+                  >
+                    <MenuItem value="" disabled>
+                      Select Year
+                    </MenuItem>
+                    {[...Array(100)].map((_, i) => (
+                      <MenuItem key={i} value={2025 - i}>
+                        {2025 - i}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                  {errors.year && (
+                    <FormHelperText>{errors.year}</FormHelperText>
+                  )}
+                </FormControl>
+              </Grid2>
+            </Grid2>
           </Grid2>
 
           {/* Password and Confirm Password */}
           <Grid2 size={{ xs: 12, sm: 6, md: 6 }} spacing={2}>
             <TextField
               fullWidth
-              label="Set Password"
+              placeholder="Set Password"
               type="password"
               name="password"
               value={formData.password}
               onChange={handleChange}
               error={!!errors.password}
               helperText={errors.password}
-              sx={detailStyle.textField}
+              sx={detailStyle.fieldInput}
             />
           </Grid2>
           <Grid2 size={{ xs: 12, sm: 6, md: 6 }} spacing={2}>
             <TextField
               fullWidth
-              label="Confirm Password"
+              placeholder="Confirm Password"
               type="password"
               name="confirmPassword"
               value={formData.confirmPassword}
               onChange={handleChange}
               error={!!errors.confirmPassword}
               helperText={errors.confirmPassword}
-              sx={detailStyle.textField}
+              sx={detailStyle.fieldInput}
             />
           </Grid2>
 
@@ -323,59 +445,59 @@ function YourDetailForm() {
           <Grid2 size={{ xs: 12, sm: 6, md: 6 }} spacing={2}>
             <TextField
               fullWidth
-              label="Address Line 1"
+              placeholder="Address Line 1"
               name="addressLine1"
               value={formData.addressLine1}
               onChange={handleChange}
               error={!!errors.addressLine1}
               helperText={errors.addressLine1}
-              sx={detailStyle.textField}
+              sx={detailStyle.fieldInput}
             />
           </Grid2>
           <Grid2 size={{ xs: 12, sm: 6, md: 6 }} spacing={2}>
             <TextField
               fullWidth
-              label="Address Line 2"
+              placeholder="Address Line 2"
               name="addressLine2"
               value={formData.addressLine2}
               onChange={handleChange}
-              sx={detailStyle.textField}
+              sx={detailStyle.fieldInput}
             />
           </Grid2>
           <Grid2 size={{ xs: 12, sm: 4, md: 4 }} spacing={2}>
             <TextField
               fullWidth
-              label="Postal Code"
+              placeholder="Postal Code"
               name="postalCode"
               value={formData.postalCode}
               onChange={handleChange}
               error={!!errors.postalCode}
               helperText={errors.postalCode}
-              sx={detailStyle.textField}
+              sx={detailStyle.fieldInput}
             />
           </Grid2>
           <Grid2 size={{ xs: 12, sm: 4, md: 4 }} spacing={2}>
             <TextField
               fullWidth
-              label="City"
+              placeholder="City"
               name="city"
               value={formData.city}
               onChange={handleChange}
               error={!!errors.city}
               helperText={errors.city}
-              sx={detailStyle.textField}
+              sx={detailStyle.fieldInput}
             />
           </Grid2>
           <Grid2 size={{ xs: 12, sm: 4, md: 4 }} spacing={2}>
             <TextField
               fullWidth
-              label="Country"
+              placeholder="Country"
               name="country"
               value={formData.country}
               onChange={handleChange}
               error={!!errors.country}
               helperText={errors.country}
-              sx={detailStyle.textField}
+              sx={detailStyle.fieldInput}
             />
           </Grid2>
         </Grid2>

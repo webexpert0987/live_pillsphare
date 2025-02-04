@@ -98,6 +98,7 @@ const BMI_Calculator = () => {
       padding: "12px 25px",
       width: "100%",
       textTransform: "uppercase",
+      boxShadow: "none",
     },
     switchButton: {
       borderRadius: "0",
@@ -146,10 +147,26 @@ const BMI_Calculator = () => {
       fontWeight: "700",
     },
     subtitle: {
+      fontSize: "16px",
+      color: "#333333",
+      fontWeight: "500",
+    },
+    selectStyle: {
+      "& .MuiSelect-select": {
+        borderRadius: "50px",
+        backgroundColor: "#FFF",
+        border: "1px solid #EDEDED",
+        padding: "14px 22px",
         fontSize: "16px",
-        color: "#333333",
-        fontWeight: "500",
-    }
+        color: "#333",
+        textAlign: "left",
+      },
+      "&.MuiOutlinedInput-root": {
+        "& fieldset": {
+          border: "none",
+        },
+      },
+    },
   };
 
   return (
@@ -157,7 +174,9 @@ const BMI_Calculator = () => {
       <Typography style={BmiStyle.title} variant="h5" gutterBottom>
         Calculate Your BMI
       </Typography>
-      <Typography style={BmiStyle.subtitle} variant="body1">Healthy bmi overweight and obese</Typography>
+      <Typography style={BmiStyle.subtitle} variant="body1">
+        Healthy bmi overweight and obese
+      </Typography>
 
       <Box style={BmiStyle.BmiSwitchBtns}>
         <Button
@@ -207,11 +226,18 @@ const BMI_Calculator = () => {
               <Grid2 container spacing={4}>
                 <Grid2 size={{ xs: 12, sm: 6, md: 6 }}>
                   <FormControl fullWidth sx={{ mt: 0 }}>
-                    <InputLabel>Height (cm)</InputLabel>
                     <Select
                       value={height}
                       onChange={(e) => setHeight(e.target.value)}
+                      displayEmpty
+                      renderValue={(selected) =>
+                        selected ? `${selected} cm` : "Height (cm)"
+                      }
+                      sx={BmiStyle.selectStyle}
                     >
+                      <MenuItem disabled value="">
+                        Height (cm)
+                      </MenuItem>
                       {[...Array(201).keys()].slice(50).map((h) => (
                         <MenuItem key={h} value={h}>
                           {h} cm
@@ -222,11 +248,18 @@ const BMI_Calculator = () => {
                 </Grid2>
                 <Grid2 size={{ xs: 12, sm: 6, md: 6 }}>
                   <FormControl fullWidth sx={{ mt: 0 }}>
-                    <InputLabel>Weight (kg)</InputLabel>
                     <Select
                       value={weight}
                       onChange={(e) => setWeight(e.target.value)}
+                      displayEmpty
+                      renderValue={(selected) =>
+                        selected ? `${selected} kg` : "Weight (kg)"
+                      }
+                      sx={BmiStyle.selectStyle}
                     >
+                      <MenuItem disabled value="">
+                        Weight (kg)
+                      </MenuItem>
                       {[...Array(151).keys()].slice(30).map((w) => (
                         <MenuItem key={w} value={w}>
                           {w} kg
@@ -262,13 +295,20 @@ const BMI_Calculator = () => {
               <Grid2 container spacing={4}>
                 <Grid2 size={{ xs: 12, sm: 6, md: 6 }}>
                   <FormControl fullWidth sx={{ mt: 0 }}>
-                    <InputLabel>Height (feet)</InputLabel>
                     <Select
                       value={height.feet || 0}
                       onChange={(e) =>
                         setHeight({ ...height, feet: e.target.value })
                       }
+                      displayEmpty
+                      renderValue={(selected) =>
+                        selected ? `${selected} ft` : "Height (ft)"
+                      }
+                      sx={BmiStyle.selectStyle}
                     >
+                      <MenuItem disabled value="">
+                        Height (ft)
+                      </MenuItem>
                       {[...Array(9).keys()].slice(3).map((f) => (
                         <MenuItem key={f} value={f}>
                           {f} ft
@@ -279,13 +319,20 @@ const BMI_Calculator = () => {
                 </Grid2>
                 <Grid2 size={{ xs: 12, sm: 6, md: 6 }}>
                   <FormControl fullWidth sx={{ mt: 0 }}>
-                    <InputLabel>Height (inches)</InputLabel>
                     <Select
                       value={height.inches || 0}
                       onChange={(e) =>
                         setHeight({ ...height, inches: e.target.value })
                       }
+                      displayEmpty
+                      renderValue={(selected) =>
+                        selected ? `${selected} in` : "Height (in)"
+                      }
+                      sx={BmiStyle.selectStyle}
                     >
+                      <MenuItem disabled value="">
+                        Height (in)
+                      </MenuItem>
                       {[...Array(12).keys()].map((i) => (
                         <MenuItem key={i} value={i}>
                           {i} in
@@ -296,13 +343,20 @@ const BMI_Calculator = () => {
                 </Grid2>
                 <Grid2 size={{ xs: 12, sm: 6, md: 6 }}>
                   <FormControl fullWidth sx={{ mt: 0 }}>
-                    <InputLabel>Weight (stone)</InputLabel>
                     <Select
                       value={weight.stone || 0}
                       onChange={(e) =>
                         setWeight({ ...weight, stone: e.target.value })
                       }
+                      displayEmpty
+                      renderValue={(selected) =>
+                        selected ? `${selected} st` : "Weight (st)"
+                      }
+                      sx={BmiStyle.selectStyle}
                     >
+                      <MenuItem disabled value="">
+                        Weight (st)
+                      </MenuItem>
                       {[...Array(20).keys()].slice(5).map((s) => (
                         <MenuItem key={s} value={s}>
                           {s} st
@@ -313,13 +367,20 @@ const BMI_Calculator = () => {
                 </Grid2>
                 <Grid2 size={{ xs: 12, sm: 6, md: 6 }}>
                   <FormControl fullWidth sx={{ mt: 0 }}>
-                    <InputLabel>Weight (lbs)</InputLabel>
                     <Select
                       value={weight.lbs || 0}
                       onChange={(e) =>
                         setWeight({ ...weight, lbs: e.target.value })
                       }
+                      displayEmpty
+                      renderValue={(selected) =>
+                        selected ? `${selected} lbs` : "Weight (lbs)"
+                      }
+                      sx={BmiStyle.selectStyle}
                     >
+                      <MenuItem disabled value="">
+                        Weight (lbs)
+                      </MenuItem>
                       {[...Array(14).keys()].map((l) => (
                         <MenuItem key={l} value={l}>
                           {l} lbs

@@ -13,7 +13,7 @@ const HowItWorks = ({
     "Weight loss aids can be useful for those who have a high BMI and are struggling to lose weight or for those who have a medical condition that can be made worse if you're overweight.",
     "Answer our quick questionnaire and our prescriber will decide whether a prescription weight loss medication will be beneficial for you.",
   ],
-  buttonText = "Read More About",
+  buttonText = "Start Your Consultation",
   images = [howItWorksBg, howItWorks, howItWorksSm],
 }) => {
   // Define styles inside the component
@@ -73,6 +73,7 @@ const HowItWorks = ({
       border: "none",
       textTransform: "inherit",
       padding: "12px 25px",
+      boxShadow: "none",
     },
   };
 
@@ -145,6 +146,7 @@ const HowItWorks = ({
               style={howItWorksStyles.btnAbout}
               variant="contained"
               color="primary"
+              onClick={() => (window.location.href = "/questionnaire")}
             >
               {buttonText}{" "}
               <svg

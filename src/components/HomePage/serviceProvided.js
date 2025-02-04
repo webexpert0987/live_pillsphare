@@ -25,9 +25,10 @@ const ServiceProvided = () =>{
 
     return(
         <Container>
-            <Stack direction="row" spacing={2} justifyContent={'space-between'} marginY='10px' sx={{
+            <Stack direction="row" spacing={2} justifyContent={'space-between'}  sx={{
                 overflow: 'scroll',
                 scrollbarWidth: 'none',
+                padding: "10px 0 13px 0",
                 '&::-webkit-scrollbar': {
                 display: 'none',
                 },

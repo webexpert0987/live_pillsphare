@@ -1,11 +1,11 @@
 import React from 'react'
 import { Box } from "@mui/material";
-import HeroSection from "./ShopHero";
+import HeroSection from "../components/WeightLoss/HeroSection";
 import TrustBar from "./Trustbar";
 import HowItWorks from "../components/WeightLoss/HowItWorks";
 import ProductGridSlider from "../components/WeightLoss/productGridSlider";
 import Treatments from "../components/WeightLoss/Treatments"
-import HowItWorksSection from "../components/HomePage/HowItWorksSection"
+import ExplainHowItWorks from "../components/WeightLoss/ExplainHowItWorks";
 import AverageWeightLoss from "../components/WeightLoss/AverageWeightLoss";
 import RelatedArticleSlider from "../components/WeightLoss/RelatedArticleSlider";
 
@@ -18,7 +18,7 @@ function WeightLoss() {
         <HowItWorks/>
         <ProductGridSlider/>
         <Treatments />
-        <HowItWorksSection/>
+        <ExplainHowItWorks/>
         <AverageWeightLoss/>
         <RelatedArticleSlider/>
       </Box>

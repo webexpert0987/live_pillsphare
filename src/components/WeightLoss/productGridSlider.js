@@ -171,7 +171,7 @@ const ProductCarousel = () => {
   };
 
   return (
-    <Box style={{ backgroundColor: "#F6EFDF", position: "relative", padding: "80px 0" }}>
+    <Box id="ViewTreatments" style={{ backgroundColor: "#F6EFDF", position: "relative", padding: "80px 0" }}>
       <Container style={gridSlider.rowInfoWapp}>
         <Box>
           <Typography variant="h2" style={gridSlider.sectionTitle}>
@@ -186,6 +186,7 @@ const ProductCarousel = () => {
             variant="contained"
             color="primary"
             style={gridSlider.viewAllBtn}
+            onClick={() => (window.location.href = "/category/weight-loss")}
           >
             View All
             <svg

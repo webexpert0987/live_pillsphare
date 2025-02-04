@@ -11,7 +11,7 @@ const Treatments = ({
     "Glucagon-like peptide-1 receptor agonists (GLP-1 RAs) are medications that help reduce blood sugar and control appetite by mimicking the body's natural incretin hormones.",
     "Clinical studies have shown that participants using GLP-1 medications lost significantly more weight compared to those relying on diet and exercise alone.",
   ],
-  buttonText = "Read More About",
+  buttonText = "Start Your Consultation Today",
   images = [howItWorksBg, Treatment, TreatmentOver],
 }) => {
   // Define styles inside the component
@@ -73,6 +73,7 @@ const Treatments = ({
       border: "none",
       textTransform: "inherit",
       padding: "12px 25px",
+      boxShadow: "none",
     },
     TreatmentWrapp: {
       alignItems: "center",
@@ -117,8 +118,9 @@ const Treatments = ({
               style={howItWorksStyles.btnAbout}
               variant="contained"
               color="primary"
+              onClick={() => (window.location.href = "/questionnaire")}
             >
-              {buttonText}{" "}
+              {buttonText}
               <svg
                 style={{ marginLeft: "10px" }}
                 width="18"
