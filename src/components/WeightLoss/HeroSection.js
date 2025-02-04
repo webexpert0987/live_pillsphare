@@ -152,7 +152,7 @@ const HeroSection = ({
                   behavior: "smooth",
                   block: "start",
                 });
-              }}
+              }} 
             >
               {button2Text}{" "}
               <svg
