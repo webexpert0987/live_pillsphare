@@ -10,6 +10,9 @@ import Shop from '../pages/Shop';
 import CategoryPage from '../pages/CategoryPage';
 import WeightLoss from '../pages/WeightLoss';
 import Questionnaire from '../components/Questionnaire/QuestionnairePage';
+import OffersPage from '../components/Offers/OffersPage';
+import OnlineClinic from '../components/OnlineClinic/OnlineClinicPage';
+import Faqs from '../components/Faqs/Faqs';
 
 const routes = [
   {
@@ -55,6 +58,21 @@ const routes = [
   {
     path: "/questionnaire",
     component: Questionnaire,
+    exact: true,
+  },
+  {
+    path: "/offers",
+    component: OffersPage,
+    exact: true,
+  },
+  {
+    path: "/online-clinic",
+    component: OnlineClinic,
+    exact: true,
+  },
+  {
+    path: "/faqs",
+    component: Faqs,
     exact: true,
   },
   // {

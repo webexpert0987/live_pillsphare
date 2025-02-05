@@ -274,7 +274,7 @@ const MainHeader = () => {
                         text === "Shop"
                           ? "/shop"
                           : text === "Online Clinic"
-                          ? "/shop"
+                          ? "/online-clinic"
                           : "/weight-loss"
                       }
                       style={{ textDecoration: "none" }}
@@ -284,7 +284,7 @@ const MainHeader = () => {
                   </Button>
                 ))}
                 <Button sx={{ textTransform: "capitalize" }}>
-                  <Link to={"/about"} style={{ textDecoration: "none" }}>
+                  <Link to={"/offers"} style={{ textDecoration: "none" }}>
                     <Text>Offers</Text>
                   </Link>
                 </Button>
