@@ -35,7 +35,7 @@ const ProductListingPage = () => {
   const [categoriesOpen, setCategoriesOpen] = useState(true);
   const [priceOpen, setPriceOpen] = useState(true);
   const [products, setProducts] = useState([]);
-  const [selectedCategories, setSelectedCategories] = useState({});
+  const [selectedCategories, setSelectedCategories] = useState([]);
   const [priceRange, setPriceRange] = useState([0, 1000]);
   const [sortOption, setSortOption] = useState("relevance");
   const [filteredProducts, setFilteredProducts] = useState([]);
@@ -121,14 +121,15 @@ const ProductListingPage = () => {
       let filteredProducts = [...products];
     
       // Apply category filtering
-      if (Object.keys(selectedCategories).length > 0) {
+      if (selectedCategories.length > 0) { // ✅ Check if array has items
+        console.log('Filtering with categories:', selectedCategories);
         filteredProducts = filteredProducts.filter((product) =>
           product.categories.some((category) =>
-            selectedCategories[String(category.id)] // Ensure string comparison for category.id
+            selectedCategories.includes(category.id) // ✅ Directly check if the ID exists in array
           )
         );
       } else {
-        filteredProducts = [...products]; // ✅ Ensure all products reset when no category is selected
+        filteredProducts = [...products]; // ✅ Reset when no category is selected
       }
     
       // Apply sorting and price range filtering
@@ -343,25 +344,28 @@ const ProductListingPage = () => {
               </Box>
 
               <Collapse in={categoriesOpen}>
-                <FormGroup>
-                  {shopCategories.map((category) => (
-                    <FormControlLabel
-                      key={category.id}
-                      control={
-                        <Checkbox
-                          checked={selectedCategories[category.id] || false}
-                          onChange={(e) =>
-                            setSelectedCategories({
-                              ...selectedCategories,
-                              [category.id]: e.target.checked,
-                            })
+              <FormGroup>
+                {shopCategories.map((category) => (
+                  <FormControlLabel
+                    key={category.id}
+                    control={
+                      <Checkbox
+                        checked={selectedCategories.includes(category.id)}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            setSelectedCategories([...selectedCategories, category.id]); // Add ID
+                          } else {
+                            setSelectedCategories(selectedCategories.filter(id => id !== category.id)); // Remove ID
                           }
-                        />
-                      }
-                      label={category.name}
-                    />
-                  ))}
-                </FormGroup>
+                        }}
+                      />
+                    }
+                    label={category.name}
+                  />
+                ))}
+              </FormGroup>
+
+
               </Collapse>
             </Box>
 

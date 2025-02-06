@@ -189,6 +189,7 @@ const CategoryPage = () => {
 
         if (response.success) {
           setCategory(response);
+          console.log('dev etst by test',response);
           setCategoryId(response.category_id); 
         } else {
           setNotFound(true); // If not found, show 404
@@ -211,23 +212,34 @@ const CategoryPage = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
+        if (!categoryId) return; // ✅ Ensure categoryId is set before proceeding
+  
+        console.log('Category ID:', categoryId); // ✅ Console log the category ID
+  
         // Check if products are already in localStorage
         const cachedProducts = localStorage.getItem('products');
-        
-        if (cachedProducts) {
-          setProducts(JSON.parse(cachedProducts)); // Use cached products
-        } else {
+        let productsData = cachedProducts ? JSON.parse(cachedProducts) : null;
+  
+        if (!productsData) {
           const data = await getProducts();
-          setProducts(data.products);
-          localStorage.setItem('products', JSON.stringify(data.products)); // Cache the products in localStorage
+          productsData = data.products;
+          localStorage.setItem('products', JSON.stringify(productsData)); // Cache the products
         }
+  
+        // ✅ Set products normally, without using a separate filteredProducts variable
+        setProducts(productsData.filter((product) =>
+          product.categories.some((category) => category.id === categoryId) // ✅ Filter by categoryId
+        ));
+        
       } catch (error) {
         console.error('Failed to fetch products:', error);
       }
     };
   
     fetchProducts();
-  }, []);
+  }, [categoryId]); // ✅ Runs when categoryId changes
+  
+  
 
 
 
