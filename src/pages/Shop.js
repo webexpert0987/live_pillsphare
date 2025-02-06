@@ -122,7 +122,7 @@ const ProductListingPage = () => {
     
       // Apply category filtering
       if (selectedCategories.length > 0) { // ✅ Check if array has items
-        console.log('Filtering with categories:', selectedCategories);
+        
         filteredProducts = filteredProducts.filter((product) =>
           product.categories.some((category) =>
             selectedCategories.includes(category.id) // ✅ Directly check if the ID exists in array

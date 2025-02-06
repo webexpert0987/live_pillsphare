@@ -189,7 +189,7 @@ const CategoryPage = () => {
 
         if (response.success) {
           setCategory(response);
-          console.log('dev etst by test',response);
+        
           setCategoryId(response.category_id); 
         } else {
           setNotFound(true); // If not found, show 404
@@ -214,7 +214,7 @@ const CategoryPage = () => {
       try {
         if (!categoryId) return; // ✅ Ensure categoryId is set before proceeding
   
-        console.log('Category ID:', categoryId); // ✅ Console log the category ID
+       
   
         // Check if products are already in localStorage
         const cachedProducts = localStorage.getItem('products');
