@@ -66,7 +66,8 @@ const HeroSection = ({
   button1Text = "Start Your Consultation Today",
   button2Text = "View Treatment",
   bgHeroUrl = "https://admin.pillsphere.com/wp-content/uploads/2025/01/categoryHeroImage.jpg",
-  catName
+  catName,
+  weightLossHero
   
 }) => {
  
@@ -87,12 +88,12 @@ const HeroSection = ({
         <Box style={heroShop.contentColumn} textAlign="">
           {/* Page Title */}
           <Typography style={heroShop.catTitle} variant="h3" gutterBottom>
-          {catName ? `${catName}  ${title}` : defultTitle}
+          {weightLossHero ? `${weightLossHero}` : catName ? `${catName} ${title}` : ""}
         </Typography>
 
           {/* Short Description */}
           <Typography style={heroShop.catDescription} variant="body1" paragraph>
-            {description}
+          {weightLossHero ? `${weightLossHero}` : catName ? `${catName}` : ""}
           </Typography>
 
           {/* List of 3 Points as Bullet Points */}
