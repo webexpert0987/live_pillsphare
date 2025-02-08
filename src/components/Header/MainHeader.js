@@ -202,6 +202,12 @@ const MainHeader = () => {
     navigate("/login");
   };
 
+  const handorderHitory = () => {
+    // Perform your logout logic here (e.g., clearing local storage, etc.)
+    // Then, navigate to the order history page
+    navigate('/order-history');
+  };
+
   const handleRoute = () => {
     navigate("/");
   };
@@ -553,6 +559,7 @@ const MainHeader = () => {
         }}
       >
         <MenuItem onClick={handleLoginClose}>User profile</MenuItem>
+        <MenuItem onClick={handorderHitory}>Order history</MenuItem>
         <MenuItem onClick={handleLogout}>Logout</MenuItem>
       </Menu>
     </Box>
