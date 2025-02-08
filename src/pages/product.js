@@ -21,6 +21,8 @@ import { Icon } from '@iconify/react';
 import ProductOverview from "../components/productPage/productOverview";
 import RelatedProduct from "../components/productPage/relatedProduct";
 import LoginRequiredPopup from "../components/loginRequiredPopup/LoginRequiredPopup";
+import { Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
+import { TextField } from '@mui/material';
 
 
 const Product = () =>{
@@ -32,6 +34,22 @@ const Product = () =>{
     const [quantity, setQuantity] = useState(1);
     const [isLoggedIn, setIsLoggedIn] = useState(false); // Mocked login state
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isQuestionModalOpen, setIsQuestionModalOpen] = useState(false);
+    const [questionAnswers, setQuestionAnswers] = useState({
+        who: "",
+        symptoms: "",
+        duration: "",
+        action: "",
+        medication: "",
+    });
+    const [fieldErrors, setFieldErrors] = useState({
+        who: "",
+        symptoms: "",
+        duration: "",
+        action: "",
+        medication: ""
+    });
+    const [currentProduct, setCurrentProduct] = useState(null);
  
 
     useEffect(() => {
@@ -62,7 +80,7 @@ const Product = () =>{
         window.scrollTo(0, 0);
       }, [slug]);
 
-   
+       
 
     const handleVariantSelect = (product, variantId) => {
         const variantDetail = product.variations.find((item)=>{
@@ -84,15 +102,53 @@ const Product = () =>{
         // updateVariant(product, variantId);
     }
 
-    const handleAddProduct = (product, selectedVariant)=>{
-        // navigate(`/product/${id}`)
+    const handleAddProduct = (product, selectedVariant) => {
         if (!isLoggedIn) {
-          setIsModalOpen(true);
+            setIsModalOpen(true);
+        } else if (product.product_type === "Products with Questions") {
+            setCurrentProduct({ product, selectedVariant });
+            setIsQuestionModalOpen(true);
         } else {
-          
-          addToCart(product, selectedVariant);
+            addToCart(product, selectedVariant);
         }
-    }
+    };
+
+    const handleQuestionSubmit = () => {
+        // Check if all fields are filled
+        const isValid = Object.values(questionAnswers).every(answer => answer.trim() !== "");
+        
+        if (!isValid) {
+            // Update the error state for each field
+            setFieldErrors({
+                who: !questionAnswers.who ? "This field is required" : "",
+                symptoms: !questionAnswers.symptoms ? "This field is required" : "",
+                duration: !questionAnswers.duration ? "This field is required" : "",
+                action: !questionAnswers.action ? "This field is required" : "",
+                medication: !questionAnswers.medication ? "This field is required" : ""
+            });
+            return; // Prevent submission if validation fails
+        }
+    
+        if (currentProduct) {
+            // Store the answers in local storage
+            localStorage.setItem(`product-questions-${currentProduct.product.id}`, JSON.stringify(questionAnswers));
+        
+            // Add product to cart after saving answers
+            addToCart(currentProduct.product, currentProduct.selectedVariant);
+        }
+    
+        // Close modal and reset state
+        setIsQuestionModalOpen(false);
+        setQuestionAnswers({
+            who: "",
+            symptoms: "",
+            duration: "",
+            action: "",
+            medication: "",
+        });
+        setFieldErrors({}); // Clear errors after successful submission
+    };
+    
 
     return (
         <>
@@ -230,6 +286,70 @@ const Product = () =>{
             <Box backgroundColor={theme.palette.primary.main}>
                 <RelatedProduct/>
             </Box>
+                        {isQuestionModalOpen && (
+                <Dialog open={isQuestionModalOpen} onClose={() => setIsQuestionModalOpen(false)}>
+                    <DialogTitle>Answer the following questions</DialogTitle>
+                    <DialogContent>
+                        <TextField
+                            label="Who is the medicine for?"
+                            fullWidth
+                            margin="dense"
+                            required
+                            value={questionAnswers.who}
+                            onChange={(e) => setQuestionAnswers({ ...questionAnswers, who: e.target.value })}
+                            error={!!fieldErrors.who}
+                            helperText={fieldErrors.who}
+                        />
+                        <TextField
+                            label="What are the symptoms?"
+                            fullWidth
+                            margin="dense"
+                            required
+                            value={questionAnswers.symptoms}
+                            onChange={(e) => setQuestionAnswers({ ...questionAnswers, symptoms: e.target.value })}
+                            error={!!fieldErrors.symptoms}
+                            helperText={fieldErrors.symptoms}
+                        />
+                        <TextField
+                            label="How long have you had the symptoms?"
+                            fullWidth
+                            margin="dense"
+                            required
+                            value={questionAnswers.duration}
+                            onChange={(e) => setQuestionAnswers({ ...questionAnswers, duration: e.target.value })}
+                            error={!!fieldErrors.duration}
+                            helperText={fieldErrors.duration}
+                        />
+                        <TextField
+                            label="What action has been taken?"
+                            fullWidth
+                            margin="dense"
+                            required
+                            value={questionAnswers.action}
+                            onChange={(e) => setQuestionAnswers({ ...questionAnswers, action: e.target.value })}
+                            error={!!fieldErrors.action}
+                            helperText={fieldErrors.action}
+                        />
+                        <TextField
+                            label="Are you taking any other medication?"
+                            fullWidth
+                            margin="dense"
+                            required
+                            value={questionAnswers.medication}
+                            onChange={(e) => setQuestionAnswers({ ...questionAnswers, medication: e.target.value })}
+                            error={!!fieldErrors.medication}
+                            helperText={fieldErrors.medication}
+                        />
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={() => setIsQuestionModalOpen(false)}>Cancel</Button>
+                        <Button variant="contained" onClick={handleQuestionSubmit}>
+                            Submit
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+            )}
+
             <LoginRequiredPopup
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}

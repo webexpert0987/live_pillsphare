@@ -89,6 +89,7 @@ export default function Checkout() {
     const [paymentStatus, setPaymentStatus] = useState('');
     const [isProcessing, setIsProcessing] = useState(false);
     const [isCheckout, setIsCheckout] = useState (false);
+    const [questionAnswersdata, setquestionAnswersdata] = useState (); 
     const [billingDetails, setBillingDetails] = useState({
         user_id: userDetails.user_id,
         token: userDetails.token,
@@ -191,6 +192,26 @@ export default function Checkout() {
             setIsDetailComplete(true);
         }
     }, [canPay])
+    
+    useEffect(() => {
+        const questionAnswersMap = {};
+    
+        // Loop through each product in the cart
+        cart.forEach(item => {
+          const productId = item.id;
+          
+          // Fetch the question answers from localStorage using the product ID
+          const storedAnswers = localStorage.getItem(`product-questions-${productId}`);
+          
+          // If answers exist, parse and store them in the map
+          if (storedAnswers) {
+            questionAnswersMap[productId] = JSON.parse(storedAnswers);
+          }
+        });
+    
+        // Set the state with the gathered data
+        setquestionAnswersdata(questionAnswersMap);
+      }, [cart]); 
 
     useEffect(() => {
         async function payment() {
@@ -225,6 +246,7 @@ export default function Checkout() {
                                 user_id: userDetails.user_id,
                                 token: userDetails.token,
                                 variation_ids: variantIds,
+                                questionAnswers_data : JSON.stringify(questionAnswersdata),
                                 payment_intent_id: paymentIntent.id,
                                 billing_address: {
                                     first_name: billingDetails.billing_address.first_name,
@@ -282,7 +304,7 @@ export default function Checkout() {
         }
         payment();
     }, [makePayment])
-
+    
     const handleCheckoutSubmit = async () => {
         if (cart.length == 0) {
             navigate('/');
@@ -662,46 +684,6 @@ export default function Checkout() {
                         </Box>
                     </Grid>
                 </Grid>
-                {/* {
-                    isCheckout && cart.length > 0 && 
-                    <>
-                        <Box sx={{
-                            border: '1px solid #d1cbcb',
-                            padding: '30px',
-                            borderRadius: '10px',
-                            boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
-                            marginY:'50px',
-                            marginX: 'auto',
-                            width: {xs: '100%', md: '50%'}
-                        }}>
-                            <Typography variant="h2" sx={{ textAlign: 'center', marginBottom: '30px', fontWeight: '600' }}>
-                                Pay Now
-                            </Typography>
-                            <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 2 }}>
-                                <div style={{ padding: '16px', border: '1px solid #ccc', borderRadius: '4px' }}>
-                                    <CardElement />
-                                </div>
-
-                                <Button
-                                    type="submit"
-                                    fullWidth
-                                    variant="contained"
-                                    color="primary"
-                                    disabled={!stripe || isProcessing}
-                                    onClick={handleSubmit}
-                                    sx={{ marginTop: 2 }}
-                                >
-                                    {isProcessing ? <CircularProgress size={24} color="inherit" /> : 'Pay'}
-                                </Button>
-                                {paymentStatus && (
-                                    <Typography variant="body2" color={paymentStatus.includes('failed') ? 'error' : 'primary'} sx={{ marginTop: 2 }}>
-                                        {paymentStatus}
-                                    </Typography>
-                                )}
-                            </Box>
-                        </Box>
-                    </>
-                } */}
             </Box>
         </>
     );
