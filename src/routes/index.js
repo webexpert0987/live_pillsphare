@@ -13,6 +13,7 @@ import Questionnaire from '../components/Questionnaire/QuestionnairePage';
 import OffersPage from '../components/Offers/OffersPage';
 import OnlineClinic from '../components/OnlineClinic/OnlineClinicPage';
 import Faqs from '../components/Faqs/Faqs';
+import Orderhisttory from '../pages/orderHistory';
 
 const routes = [
   {
@@ -86,8 +87,8 @@ const routes = [
     exact: true,
   },
   {
-    path: "/thankyou",
-    component: ThankYouPage,
+    path: "/order-history",
+    component: Orderhisttory,
     exact: true,
   },
 //   {
