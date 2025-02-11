@@ -11,10 +11,14 @@ import {
   Radio,
   Checkbox,
   Typography,
+  Card,
+  CardContent,
 } from "@mui/material";
 import BmiCalculate from "../Questionnaire/Consultation"; // Import the BMI calculation component
+import ImageIcon from "@mui/icons-material/Image";
 
 const defaultStepsData = [
+  {},
   {},
   {
     type: "checkbox",
@@ -171,6 +175,15 @@ const MultiStepForm = ({ stepsData = [] }) => {
     },
   };
 
+  const [image, setImage] = useState(null);
+
+  const handleImageUpload = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setImage(URL.createObjectURL(file)); 
+    }
+  };
+
   return (
     <Box sx={{ border: "none" }}>
       {activeStep > 0 && (
@@ -180,9 +193,38 @@ const MultiStepForm = ({ stepsData = [] }) => {
       <Box sx={{ mt: 3 }}>
         {/* Step 1: Add BMI Calculation Component */}
         {activeStep === 0 && <BmiCalculate />}
+        
+        {/* Step 2: Upload Images */}
+        {activeStep === 1 && 
+          <Card sx={{ maxWidth: 600, margin: "auto", padding: 2, textAlign: "center" }}>
+          <CardContent>
+            <Typography variant="h5" gutterBottom>
+              Upload and Preview Image
+            </Typography>
+            <input
+              accept="image/*"
+              type="file"
+              onChange={handleImageUpload}
+              style={{ display: "none" }}
+              id="upload-button"
+            />
+            <label htmlFor="upload-button">
+              <Button variant="contained" component="span" startIcon={<ImageIcon />}>
+                Upload Image
+              </Button>
+            </label>
+            {image && (
+              <Box mt={2}>
+                <Typography variant="body2">Preview:</Typography>
+                <img src={image} alt="Uploaded Preview" style={{ width: "100%", borderRadius: "8px" }} />
+              </Box>
+            )}
+          </CardContent>
+        </Card>
+        }
 
         {/* Step 2: Lifestyle questions */}
-        {activeStep === 1 && (
+        {activeStep === 2 && (
           <FormControl>
             <FormLabel style={multiStepQue.boldLabel}>
               {data[activeStep].question}
@@ -211,7 +253,7 @@ const MultiStepForm = ({ stepsData = [] }) => {
         )}
 
         {/* Step 3: NHS Summary Care Record and Doctor's Info */}
-        {activeStep === 2 && (
+        {activeStep === 3 && (
           <Box>
             {/* NHS Record Consent */}
             <FormControl>

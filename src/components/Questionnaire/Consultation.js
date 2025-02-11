@@ -170,6 +170,7 @@ const BMI_Calculator = () => {
   };
 
   return (
+    <>
     <Box sx={{ textAlign: "center" }}>
       <Typography style={BmiStyle.title} variant="h5" gutterBottom>
         Calculate Your BMI
@@ -444,6 +445,7 @@ const BMI_Calculator = () => {
         </Box>
       </Box>
     </Box>
+    </>
   );
 };
 
