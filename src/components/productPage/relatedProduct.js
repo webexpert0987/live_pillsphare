@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useApp } from "../../Context/AppContext";
 import theme from "../../Theme/theme";
 import LoginRequiredPopup from "../../components/loginRequiredPopup/LoginRequiredPopup";
+import { useMessage } from "../../Context/MessageContext";
 
 const productArray = [
     {
@@ -199,9 +200,10 @@ const productArray = [
 const RelatedProduct = ({})=>{
     const {addToCart, userDetails} = useApp();
     const [productList, setProductList] = useState(productArray);
-      const navigate = useNavigate();
-      const [isLoggedIn, setIsLoggedIn] = useState(false);
-      const [isModalOpen, setIsModalOpen] = useState(false);
+    const navigate = useNavigate();
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const {showMessage} = useMessage();
     
    
 
@@ -214,7 +216,12 @@ const RelatedProduct = ({})=>{
     
       const handleAddProduct = (product, selectedVariant)=>{
         // navigate(`/product/${id}`)
-       
+        const test = 0;
+        if (test == 0) {
+            // Show the error message
+            showMessage('Sorry, this product is currently out of stock. Please check back later.', 'error');
+            return; // Prevent further actions
+        }
         if (!isLoggedIn) {
           setIsModalOpen(true);
         } else {

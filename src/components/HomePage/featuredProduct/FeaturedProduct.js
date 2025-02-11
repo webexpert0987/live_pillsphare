@@ -21,6 +21,8 @@ import { getProducts } from "../../../apis/apisList/productApi";
 import { useNavigate } from "react-router-dom";
 import { useApp } from "../../../Context/AppContext";
 import LoginRequiredPopup from "../../loginRequiredPopup/LoginRequiredPopup";
+import { useMessage } from "../../../Context/MessageContext";
+
 
 // const products = [
 //   {
@@ -131,6 +133,7 @@ function FeaturedProducts() {
     useApp();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const {showMessage} = useMessage();
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -161,6 +164,12 @@ function FeaturedProducts() {
 
   const handleAddProduct = (product, selectedVariant) => {
     // navigate(`/product/${id}`)
+    const test = 0;
+    if (test == 0) {
+        // Show the error message
+        showMessage('Sorry, this product is currently out of stock. Please check back later.', 'error');
+        return; // Prevent further actions
+    }
     if (!isLoggedIn) {
       setIsModalOpen(true);
     } else {

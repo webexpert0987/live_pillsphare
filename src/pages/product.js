@@ -103,6 +103,12 @@ const Product = () =>{
     }
 
     const handleAddProduct = (product, selectedVariant) => {
+        const test = 0;
+        if (test == 0) {
+            // Show the error message
+            showMessage('Sorry, this product is currently out of stock. Please check back later.', 'error');
+            return; // Prevent further actions
+        }
         if (!isLoggedIn) {
             setIsModalOpen(true);
         } else if (product.product_type === "Products with Questions") {
@@ -242,11 +248,11 @@ const Product = () =>{
                                     </Typography>
                                     <Stack direction={'row'} alignItems={'center'} gap={2} my={1.8}>
                                         <Box>
-                                            <Icon icon="material-symbols:circle" width="20" height="20"  style={{color: '#57ac4f'}} />
+                                            <Icon icon="material-symbols:circle" width="20" height="20"  style={{color: '#FF0000'}} />
                                         </Box>
                                         <Box>
                                             <Typography variant="h4" >
-                                                <strong>In Stock</strong> for Sydney, 2000
+                                                <strong>Out of Stock</strong> for Sydney, 2000
                                             </Typography>
                                         </Box>
                                     </Stack>
