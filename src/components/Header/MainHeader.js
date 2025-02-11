@@ -205,7 +205,7 @@ const MainHeader = () => {
   const handorderHitory = () => {
     // Perform your logout logic here (e.g., clearing local storage, etc.)
     // Then, navigate to the order history page
-    navigate('/order-history');
+    navigate("/order-history");
   };
 
   const handleRoute = () => {
@@ -231,7 +231,7 @@ const MainHeader = () => {
       <AppBar position="static" color="#fff" elevation={1}>
         <Box
           sx={{
-            padding: { xs: "0px 16px 0px 10px", lg: "10px 25px" },
+            padding: { xs: "0px 16px 0px 10px", lg: "10px 40px" },
           }}
           backgroundColor="#fff"
         >
@@ -308,7 +308,7 @@ const MainHeader = () => {
                 display: "flex",
                 alignItems: "center",
                 mx: { xs: 1, md: 4 },
-                width: { xs: "100px", sm: "220px", md: "250px", lg: "270px" },
+                width: { xs: "160px", sm: "220px", md: "250px", lg: "270px" },
               }}
               onClick={handleRoute}
             >
@@ -327,6 +327,7 @@ const MainHeader = () => {
                 gap: { xs: "5px", lg: 2 },
               }}
             >
+              {/** Search Comment 
               <TextField
                 variant="standard"
                 // variant="outlined"
@@ -360,7 +361,7 @@ const MainHeader = () => {
                     borderRadius: "50px",
                   },
                 }}
-              />
+              />*/}
 
               {/* <Button
                                 startIcon={<Icon icon="mdi-light:account" width="40" height="40" />}

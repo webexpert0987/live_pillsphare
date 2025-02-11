@@ -51,7 +51,7 @@ const Carousel = () => {
               <img
                 src={slide.img}
                 alt={slide.text}
-                style={{ width: "100%", height: "auto", minWidth: "950px" }}
+                style={{ width: "100%", minHeight: "280px", height: "auto", minWidth: "950px", maxWWidth: "100%" }}
               />
             </Box>
             {/*<Box sx={{position: 'absolute', top: '15%', left: {xs: '8.5%', lg: '13.5%'}, width: {sm:'90%', md:'450px'}, textAlign: 'left'}}>
@@ -60,12 +60,14 @@ const Carousel = () => {
               sx={{
                 position: "absolute",
                 top: "15%",
-                left: { xs: "8.5%", lg: "13.5%" },
+                left: { xs: "0", lg: "13.5%" },
                 width: { sm: "90%", md: "90%" },
                 textAlign: "left",
+                paddingLeft: { xs: "20px" },
+                paddingRight: { xs: "20px" },
               }}
             >
-              <Box width={{ xs: "85%", lg: "90%" }}>
+              <Box width={{ xs: "100%", lg: "90%" }}>
                 <Box marginBottom={2}>
                   <Typography
                     sx={{

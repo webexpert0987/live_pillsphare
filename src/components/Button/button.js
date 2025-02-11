@@ -17,7 +17,8 @@ const CustomButton = ({bgColor, txColor, text, style={}}) =>{
                 whiteSpace: 'nowrap',
                 borderRadius: '50px', padding: '10px 20px',
                 textTransform: 'capitalize',
-                minWidth: '150px'
+                minWidth: '150px',
+                boxShadow: "none",
             }}
         >
             {text} &nbsp; <Icon icon="solar:arrow-right-broken" color={txColor} width="22" height="22" />
