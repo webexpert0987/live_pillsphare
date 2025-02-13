@@ -15,10 +15,12 @@ export default function Footer() {
   const linkStyle = {
     color: "#333",
     textDecoration: "none",
-    fontWeight: 500,
+    fontWeight: "500",
+    fontSize: "16px",
+    lineHeight: "1.5",
   };
   return (
-    <Box sx={{ backgroundColor: "secondary.main", padding: "40px 20px" }}>
+    <Box sx={{ backgroundColor: "secondary.main", padding: "40px 0px" }}>
       <Container maxWidth="lg">
         {/* Email Subscription Section */}
         <Box
@@ -33,7 +35,12 @@ export default function Footer() {
         >
           <Typography
             variant="h6"
-            sx={{ fontSize: "20px", textAlign: { sm: "center", md: "left" } }}
+            sx={{
+              fontSize: { xs: "16px", sm: "17px", md: "20px" },
+              textAlign: { sm: "center", md: "left" },
+              fontWeight: "600",
+              marginBottom: { xs: "15px", sm: "0", md: "0" },
+            }}
             gutterBottom
           >
             Join our email subscription now to get updates on new offers and
@@ -45,6 +52,7 @@ export default function Footer() {
               borderRadius: "50px",
               width: { xs: "100%", md: "50%" },
               position: "relative",
+              border: "none",
             }}
           >
             <TextField
@@ -61,10 +69,14 @@ export default function Footer() {
                 backgroundColor: "secondary.main",
                 borderRadius: "50px",
                 position: "relative",
+                fontWeight: "600",
                 // left: '60px',
                 whiteSpace: "nowrap",
                 "& .MuiOutlinedInput-root": {
                   borderRadius: 10,
+                  fontWeight: "600",
+                  fontSize: "16px",
+                  border: "none",
                 },
                 "& .MuiOutlinedInput-input": {
                   paddingRight: "62px",
@@ -73,8 +85,10 @@ export default function Footer() {
                   backgroundColor: "#F5F5F5",
                   padding: {
                     xs: "13.5px 54px 13.5px 12px",
-                    sm: "20.1px 60px 20.1px 18px",
+                    sm: "20.1px 60px 20.1px 28px",
                   },
+                  fontSize: "16px",
+                  border: "none",
                   // paddingTop: 2.5,
                   // paddingBottom: 2.5
                 },
@@ -86,6 +100,7 @@ export default function Footer() {
                 textTransform: "capitalize",
                 backgroundColor: "primary.main",
                 borderRadius: "50px",
+                boxShadow: "none",
                 color: "#fff",
                 "&:hover": {
                   backgroundColor: "#22432A",
@@ -107,7 +122,10 @@ export default function Footer() {
         </Box>
         <Divider />
         {/* Footer Sections */}
-        <Box sx={{ flexGrow: 2, marginY: "40px" }}>
+        <Box sx={{ flexGrow: 2, 
+          marginY: { xs: "20px", sm: "30px", md:"40px"},
+          }}
+          >
           <Grid container spacing={3}>
             {/* Logo Section */}
             <Grid size={{ xs: 12, sm: 10, md: 3, lg: 2.6 }}>
@@ -125,16 +143,25 @@ export default function Footer() {
             >
               <Typography
                 variant="h6"
-                sx={{ fontWeight: "900", fontSize: "24px" }}
+                sx={{
+                  fontWeight: "900",
+                  marginBottom: "0",
+                  fontSize: { xs: "20px", sm: "20px", md: "24px" },
+                }}
                 gutterBottom
               >
                 Categories
               </Typography>
-              <Box sx={{ margin: "20px 0px", borderBottom: "2px solid #000" }}>
+              <Box
+                sx={{
+                  margin: "10px 0px 20px 0px",
+                  borderBottom: "2px solid #000",
+                }}
+              >
                 <Divider />
               </Box>
               <Box>
-                <Grid container direction="row" spacing={5}>
+                <Grid container direction="row" spacing={3}>
                   <Grid size={{ xs: 12, sm: 4, md: 4, lg: 4 }}>
                     <Typography variant="h4" marginY={1}>
                       <Link style={linkStyle}>Men's Health</Link>
@@ -195,27 +222,77 @@ export default function Footer() {
               <Box>
                 <Typography
                   variant="h6"
-                  sx={{ fontWeight: "900", fontSize: "24px" }}
+                  sx={{
+                    fontWeight: "900",
+                    fontSize: { xs: "20px", sm: "20px", md: "24px" },
+                    marginBottom: "0",
+                  }}
                   gutterBottom
                 >
                   Contact Us
                 </Typography>
                 <Box
-                  sx={{ margin: "20px 0px", borderBottom: "2px solid #000" }}
+                  sx={{
+                    margin: "10px 0px 20px 0px",
+                    borderBottom: "2px solid #000",
+                  }}
                 >
                   <Divider />
                 </Box>
                 <Box>
-                  <Typography variant="h4" marginY={3}>
+                  <Typography
+                    variant="h4"
+                    marginY={3}
+                    sx={{
+                      lineHeight: "1.5",
+                      fontWeight: "500",
+                      fontSize: { xs: "15px", sm: "16px", md: "16px" },
+                    }}
+                  >
                     <strong> Address: </strong>
                     Unit 2ap Building B East Lane, Wembley Commercial Centre,
                     Wembley, Middlesex, HA9 7UR
                   </Typography>
-                  <Typography variant="h4" marginY={1}>
-                    <strong>Email:</strong> info@pillsphere.com
+                  <Typography
+                    variant="h4"
+                    marginY={1}
+                    sx={{
+                      lineHeight: "1.5",
+                      fontWeight: "500",
+                      fontSize: { xs: "15px", sm: "16px", md: "16px" },
+                    }}
+                  >
+                    <strong>Email:</strong>{" "}
+                    <Link
+                      href="mailto:info@pillsphere.com"
+                      color="inherit"
+                      underline="hover"
+                      sx={{
+                        textDecoration: "none",
+                        fontSize: { xs: "15px", sm: "16px", md: "16px" },
+                      }}
+                    >
+                      info@pillsphere.com
+                    </Link>
                   </Typography>
-                  <Typography variant="h4" marginY={1}>
-                    <strong>Call:</strong> 555-555-1234
+                  <Typography
+                    variant="h4"
+                    marginY={2}
+                    sx={{
+                      lineHeight: "1.5",
+                      fontWeight: "500",
+                      fontSize: { xs: "15px", sm: "16px", md: "16px" },
+                    }}
+                  >
+                    <strong>Call:</strong>{" "}
+                    <Link
+                      href="tel:555-555-1234"
+                      color="inherit"
+                      underline="hover"
+                      sx={{ textDecoration: "none" }}
+                    >
+                      555-555-1234
+                    </Link>
                   </Typography>
                 </Box>
               </Box>
@@ -236,11 +313,26 @@ export default function Footer() {
         >
           {/* Registration Information */}
           <Grid container spacing={6}>
-            <Grid xs={12} sm={4} textAlign={"left"}>
-              <Typography variant="h3" fontWeight="bold">
+          <Grid xs={12} sm={4} textAlign={"left"} sx={{
+              marginBottom: { xs: "-20px", sm: "0", md: "0" },
+              marginTop: { xs: "10px", sm: "0", md: "0" },
+            }}>
+              <Typography
+                variant="h3"
+                sx={{
+                  fontWeight: "700",
+                  fontSize: { xs: "16px", sm: "18px", md: "20px" },
+                }}
+              >
                 Pharmacy GPHC Registration:
               </Typography>
-              <Typography sx={{ marginTop: "20px" }}>
+              <Typography
+                sx={{
+                  marginTop: { xs: "15px", sm: "15px", md: "20px" },
+                  fontSize: { xs: "15px", sm: "16px", md: "16px" },
+                  fontWeight: "500",
+                }}
+              >
                 Pill Sphere GPHC Number: XXXXXX
               </Typography>
             </Grid>
@@ -251,11 +343,25 @@ export default function Footer() {
               sx={{ display: { xs: "none", sm: "block" } }}
             />
 
-            <Grid xs={12} sm={4} textAlign={"left"}>
-              <Typography variant="h3" fontWeight="bold">
+            <Grid xs={12} sm={4} textAlign={"left"} sx={{
+              marginBottom: { xs: "-20px", sm: "0", md: "0" },
+            }}>
+            <Typography
+                variant="h3"
+                sx={{
+                  fontWeight: "700",
+                  fontSize: { xs: "16px", sm: "18px", md: "20px" },
+                }}
+              >
                 Superintendent Pharmacist:
               </Typography>
-              <Typography sx={{ marginTop: "20px" }}>
+              <Typography
+                sx={{
+                  marginTop: { xs: "15px", sm: "15px", md: "20px" },
+                  fontSize: { xs: "15px", sm: "16px", md: "16px" },
+                  fontWeight: "500",
+                }}
+              >
                 GPHC Number: 2213569
               </Typography>
             </Grid>
@@ -266,11 +372,25 @@ export default function Footer() {
               sx={{ display: { xs: "none", sm: "block" } }}
             />
 
-            <Grid xs={12} sm={4} textAlign={"left"}>
-              <Typography variant="h3" fontWeight="bold">
+            <Grid xs={12} sm={4} textAlign={"left"} sx={{
+              marginBottom: { xs: "0px", sm: "0", md: "0" },
+            }}>
+            <Typography
+                variant="h3"
+                sx={{
+                  fontWeight: "700",
+                  fontSize: { xs: "16px", sm: "18px", md: "20px" },
+                }}
+              >
                 Company Registration:
               </Typography>
-              <Typography sx={{ marginTop: "20px" }}>
+              <Typography
+                sx={{
+                  marginTop: { xs: "15px", sm: "15px", md: "20px" },
+                  fontSize: { xs: "15px", sm: "16px", md: "16px" },
+                  fontWeight: "500",
+                }}
+              >
                 Pill Sphere Limited: 16158942
               </Typography>
             </Grid>
@@ -299,7 +419,11 @@ export default function Footer() {
           justifyContent="space-between"
           textAlign={"left"}
         >
-          <Typography variant="h4" sx={{ marginTop: 2 }}>
+          <Typography variant="h4" sx={{ 
+            marginTop: 2,
+            fontWeight: "500",
+            fontSize: {xs: "15px", sm: "15px", md: "16px"}
+            }}>
             © 2025 Pill Sphere LTD. All rights reserved.
           </Typography>
           <Box

@@ -275,7 +275,10 @@ function FeaturedProducts() {
               <Typography variant="h5" fontWeight="bold">
                 Featured Product
               </Typography>
-              <Typography variant="h4" sx={{ marginTop: "1rem" }}>
+              <Typography variant="h4" sx={{ 
+                marginTop: "1rem", 
+                fontSize: { xs: "15px", md: "16px"},
+                }}>
                 Changes to diet and exercise are often combined with this
                 medication.
               </Typography>

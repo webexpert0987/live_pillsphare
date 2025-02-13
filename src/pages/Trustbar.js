@@ -1,133 +1,177 @@
 import React from "react";
-import { Box, Container, Typography, Grid2 } from "@mui/material";
-import RegulatedIcon from "./images/regulated-icon.svg";
-import StarIcon from "./images/star-icon.svg";
-import PackingIcon from "./images/packing-icon.svg";
-import DeliveryIcon from "./images/delivery-icon.svg";
+import {
+  Box,
+  useTheme,
+  Stack,
+  styled,
+  Typography,
+  Container,
+} from "@mui/material";
+import { Icon } from "@iconify/react";
 
-const trustStyle = {
-  TrustWrapper: {
-    backgroundColor: "#104239",
-    padding: '16px 0'
-  },
-  iconBox: {
-    display: "flex",
-    alignItems: "center",
-    padding: 2,
-    borderRadius: 0,
-  },
-  iconImg: {
-    padding: 2,
-    borderRadius: 2,
-    backgroundColor: "#F6EFDF",
-  },
-  iconTitle: {
-    color: "#FFF",
-    fontSize: '18px',
-  },
-  imgDiv: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: 'center',
-    backgroundColor: "#F6EFDF",
-    width: "46px",
-    height: "46px",
-    padding: "4px",
-    borderRadius: '50px',
-    marginRight: '15px'
-  },
-};
+const Item = styled(Box)(({ theme }) => ({
+  display: "flex",
+  gap: "20px",
+  alignItems: "center",
+}));
 
-const TrustBar = () => {
+const ServiceProvided = () => {
+  const theme = useTheme();
+
+  const serviceCirle = {
+    width: { xs: "44px", md: "44px" },
+    minWidth: { xs: "44px", md: "44px" },
+    height: { xs: "44px", md: "44px" },
+    borderRadius: "50%",
+    backgroundColor: theme.palette.secondary.main,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  };
+
   return (
-    <Box style={trustStyle.TrustWrapper}>
+    <Box
+      sx={{
+        backgroundColor: "#104239",
+      }}
+    >
       <Container>
-        <Box sx={{ padding: 0 }}>
-          <Grid2 container spacing={4}>
-            {/* Column 1 */}
-            <Grid2 size={{ xs: 12, sm: 6, md: 3 }}>
-              <Box style={trustStyle.iconBox}>
-                <Box style={trustStyle.imgDiv}>
-                  <Box
-                    style={trustStyle.iconImg}
-                    component="img"
-                    src={RegulatedIcon}
-                    alt="Regulated Pharmacy"
-                  />
-                </Box>
-                <Typography style={trustStyle.iconTitle} variant="body1">
-                  <Box component="span" fontWeight="bold">
-                    Regulated
-                  </Box>{" "}
-                  Pharmacy
-                </Typography>
-              </Box>
-            </Grid2>
-
-            {/* Column 2 */}
-            <Grid2 size={{ xs: 12, sm: 6, md: 3 }}>
-              <Box style={trustStyle.iconBox}>
-                <Box style={trustStyle.imgDiv}>
-                  <Box
-                    style={trustStyle.iconImg}
-                    component="img"
-                    src={StarIcon}
-                    alt="5 Star Rating"
-                  />
-                </Box>
-                <Typography style={trustStyle.iconTitle} variant="body1">
-                  <Box component="span" fontWeight="bold">
-                    5 Star
-                  </Box>{" "}
-                  Rating
-                </Typography>
-              </Box>
-            </Grid2>
-
-            {/* Column 3 */}
-            <Grid2 size={{ xs: 12, sm: 6, md: 3 }}>
-              <Box style={trustStyle.iconBox}>
-                <Box style={trustStyle.imgDiv}>
-                  <Box
-                    style={trustStyle.iconImg}
-                    component="img"
-                    src={PackingIcon}
-                    alt="Discreet Packaging"
-                  />
-                </Box>
-                <Typography style={trustStyle.iconTitle} variant="body1">
-                  <Box component="span" fontWeight="bold">
-                    Discreet
-                  </Box>{" "}
-                  Packaging
-                </Typography>
-              </Box>
-            </Grid2>
-
-            {/* Column 4 */}
-            <Grid2 size={{ xs: 12, sm: 6, md: 3 }}>
-              <Box style={trustStyle.iconBox}>
-                <Box style={trustStyle.imgDiv}>
-                  <Box
-                    style={trustStyle.iconImg}
-                    component="img"
-                    src={DeliveryIcon}
-                    alt="Free Delivery"
-                  />
-                </Box>
-                <Typography style={trustStyle.iconTitle} variant="body1">
-                  <Box component="span" fontWeight="bold">
-                    Free Delivery
-                  </Box>{" "}
-                  (Orders Over £20)
-                </Typography>
-              </Box>
-            </Grid2>
-          </Grid2>
-        </Box>
+        <Stack
+          direction="row"
+          spacing={2}
+          justifyContent={"space-between"}
+          sx={{
+            overflow: "hidden",
+            display: { xs: "flex", sm: "flex", md: "flex" },
+            flexWrap: { xs: "wrap", sm: "nowrap", md: "nowrap" },
+            scrollbarWidth: "none",
+            padding: "10px 0 13px 0",
+            "&::-webkit-scrollbar": {
+              display: "none",
+            },
+          }}
+        >
+          <Item
+            sx={{
+              margin: { xs: "10px 0 !important", md: "16px" },
+              width: { xs: "50%", md: "25%" },
+              paddingRight: "10px",
+            }}
+          >
+            <Box sx={serviceCirle}>
+              <Icon
+                icon="guidance:more-add-plus"
+                width="22"
+                height="22"
+                color={theme.palette.tertiary.main}
+              />
+            </Box>
+            <Box>
+              <Typography
+                variant={"h3"}
+                color="#FFF"
+                sx={{
+                  fontSize: { xs: "14px", sm: "15px", md: "18px" },
+                }}
+              >
+                {" "}
+                <strong> Regulated </strong> Pharmacy{" "}
+              </Typography>
+            </Box>
+          </Item>
+          <Item
+            sx={{
+              margin: { xs: "10px 0 !important", md: "16px" },
+              width: { xs: "50%", md: "25%" },
+              paddingRight: "10px",
+            }}
+          >
+            <Box sx={serviceCirle}>
+              <Icon
+                icon="solar:star-broken"
+                width="22"
+                height="22"
+                color={theme.palette.tertiary.main}
+              />
+            </Box>
+            <Box>
+              <Typography
+                variant={"h3"}
+                color="#FFF"
+                sx={{
+                  fontSize: { xs: "14px", sm: "15px", md: "18px" },
+                }}
+              >
+                {" "}
+                <strong> Star </strong> Rating{" "}
+              </Typography>
+            </Box>
+          </Item>
+          <Item
+            sx={{
+              margin: { xs: "10px 0 !important", md: "16px" },
+              width: { xs: "50%", md: "25%" },
+              paddingRight: "10px",
+            }}
+          >
+            <Box sx={serviceCirle}>
+              <Icon
+                icon="solar:box-linear"
+                width="22"
+                height="22"
+                color={theme.palette.tertiary.main}
+              />
+            </Box>
+            <Box>
+              <Typography
+                variant={"h3"}
+                color="#FFF"
+                sx={{
+                  fontSize: { xs: "14px", sm: "15px", md: "18px" },
+                }}
+              >
+                {" "}
+                <strong>Disceet </strong> Packaging{" "}
+              </Typography>
+            </Box>
+          </Item>
+          <Item
+            sx={{
+              margin: { xs: "10px 0 !important", md: "16px" },
+              width: { xs: "50%", md: "25%" },
+              paddingRight: "10px",
+            }}
+          >
+            <Box sx={serviceCirle}>
+              <Icon
+                icon="hugeicons:delivery-truck-02"
+                flip="horizontal"
+                width="22"
+                height="22"
+                color={theme.palette.tertiary.main}
+              />
+            </Box>
+            <Box>
+              <Typography
+                variant={"h3"}
+                color="#FFF"
+                sx={{
+                  fontSize: { xs: "14px", sm: "15px", md: "18px" },
+                }}
+              >
+                {" "}
+                <strong style={{ whiteSpace: "nowrap" }}>
+                  {" "}
+                  Free Delivery{" "}
+                </strong>{" "}
+                (Orders Over 20){" "}
+              </Typography>
+            </Box>
+          </Item>
+        </Stack>
       </Container>
     </Box>
   );
 };
 
-export default TrustBar;
+export default ServiceProvided;

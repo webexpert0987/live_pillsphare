@@ -1,14 +1,20 @@
 import React from "react";
-import { Box, Typography, Container } from "@mui/material";
+import { Box, Typography, Container, useMediaQuery } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import CustomButton from "../Button/button";
 
+
 const HowItWorksSection = () => {
+  
+  const isMobile = useMediaQuery("(max-width:600px)");
   const steps = [
     {
       icon: (
         <img
-          style={{ width: "224px", height: "228px" }}
+        style={{ 
+          width: isMobile ? "110px" : "224px", // Change width for mobile
+          height: isMobile ? "110px" : "228px", // Optional: adjust height too 
+        }}
           src={"/images/01_image.png"}
           alt="Step 1 Icon"
         />
@@ -19,7 +25,10 @@ const HowItWorksSection = () => {
     {
       icon: (
         <img
-          style={{ width: "224px", height: "228px" }}
+          style={{ 
+            width: isMobile ? "110px" : "224px", // Change width for mobile
+            height: isMobile ? "110px" : "228px", // Optional: adjust height too 
+          }}
           src={"/images/02_image.png"}
           alt="Step 2 Icon"
         />
@@ -29,7 +38,10 @@ const HowItWorksSection = () => {
     {
       icon: (
         <img
-          style={{ width: "224px", height: "228px" }}
+        style={{ 
+          width: isMobile ? "110px" : "224px", // Change width for mobile
+          height: isMobile ? "110px" : "228px", // Optional: adjust height too 
+        }}
           src={"/images/03_image.png"}
           alt="Step 3 Icon"
         />
@@ -39,32 +51,21 @@ const HowItWorksSection = () => {
     },
   ];
 
-  const HowWorkStyle = {
-    sectinPara: {
-      lineHeight: "1.5",
-      fontSize: "18px",
-      fontWeight: "400",
-    },
-    title: {
-      fontWeight: "800",
-      fontSize: "38px",
-    },
-    boxPara: {
-      lineHeight: "1.5",
-      fontWeight: "400",
-      fontSize: "16px",
-    },
-  };
+
 
   return (
     <Box
       sx={{
         backgroundColor: "primary.main",
-        marginTop: "50px",
+        marginTop: { xs: "25px", sm: "40px", md: "50px" },
         textAlign: "center",
       }}
     >
-      <Container sx={{ paddingY: "80px" }}>
+      <Container
+        sx={{
+          paddingY: { xs: "30px", sm: "40px", md: "80px" },
+        }}
+      >
         <Box
           sx={{
             textAlign: "center",
@@ -73,16 +74,26 @@ const HowItWorksSection = () => {
           }}
         >
           <Typography
-            style={HowWorkStyle.title}
             variant="h2"
-            sx={{ color: "#fff", fontWeight: "600", mb: 2 }}
+            sx={{
+              color: "#fff",
+              fontWeight: "600",
+              mb: 2,
+              fontSize: { xs: "22px", sm: "30px", md: "38px" },
+              fontWeight: "800",
+            }}
           >
             How it works
           </Typography>
           <Typography
-            style={HowWorkStyle.sectinPara}
             variant="h3"
-            sx={{ color: "#fff", mb: 4 }}
+            sx={{
+              color: "#fff",
+              mb: 4,
+              lineHeight: "1.5",
+              fontSize: { xs: "15px", sm: "16px", md: "18px" },
+              fontWeight: "400",
+            }}
           >
             Obtain your prescription medication in just three simple steps. It's
             fast, easy, and hassle-free. Try our service today and experience
@@ -101,16 +112,21 @@ const HowItWorksSection = () => {
             <Grid key={index}>
               <Box
                 sx={{
-                  width: "320px",
+                  width: { xs: "100%", sm: "100%", md: "320px" },
                   padding: "1rem",
                   textAlign: "center",
                 }}
               >
                 {step.icon}
                 <Typography
-                  style={HowWorkStyle.boxPara}
                   variant="h4"
-                  sx={{ mt: 2, color: "#fff" }}
+                  sx={{ 
+                    mt: 2, 
+                    color: "#fff",
+                    lineHeight: "1.5",
+                    fontWeight: "400",
+                    fontSize: { xs: "15px", sm: "15px", md: "16px" },
+                  }}
                 >
                   {step.title}
                 </Typography>

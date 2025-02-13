@@ -6,14 +6,18 @@ import CustomButton from "../Button/button";
 
 const WeeklyOffersSection = () => {
   const categories = [
-    { name: "Weight Loss", discount: "20%", image: "/images/pngegg.png" },
+    {
+      name: "Weight Loss",
+      discount: "20%",
+      image: "/images/weight-loss-cat.jpg",
+    },
     {
       name: "Skin Care",
       discount: "15%",
-      image: "/images/list-2-removebg-preview.png",
+      image: "/images/kin-care-cat.jpg",
     },
-    { name: "Hair Loss", discount: "31%", image: "/images/pngegg2.png" },
-    { name: "Ayurvedic", discount: "20%", image: "/images/pngegg3.png" },
+    { name: "Hair Loss", discount: "31%", image: "/images/hair-loss-cat.jpg" },
+    { name: "Ayurvedic", discount: "20%", image: "/images/ayurvedic-cat.jpg" }, 
   ];
 
   return (
@@ -83,7 +87,7 @@ const WeeklyOffersSection = () => {
       {/* <Grid container spacing={2}> */}
       <Grid
         container
-        spacing={{ xs: 2, md: 3, lg: 5 }}
+        spacing={{ xs: 2, md: 3, lg: 4 }}
         columns={{ xs: 4, sm: 8, md: 12, lg: 12 }}
         width={"100%"}
         marginY={"40px"}
@@ -98,13 +102,12 @@ const WeeklyOffersSection = () => {
             <Box>
               <Box
                 sx={{
-                  border: "1px solid lightgrey",
                   textAlign: "right",
-                  borderRadius: "10px",
-                  backgroundColor: "secondary.main",
-                  height: "225px",
+                  borderRadius: "12px",
                   position: "relative",
+                  display: "flex",
                   width: "100%",
+                  overflow: "hidden",
                 }}
               >
                 {/* <img src={category.image} style={{position: 'absolute', top:'15px', zIndex: 99, right:0, width: '176px', height: '208px'}}/> */}
@@ -113,20 +116,56 @@ const WeeklyOffersSection = () => {
                   style={{
                     height: "100%",
                     width: "100%",
-                    objectFit: "contain",
-                    objectPosition: "right",
+                    objectFit: "cover",
+                    objectPosition: "center",
                   }}
                 />
               </Box>
-              <Box position={"absolute"} bottom={"10px"} left={"5%"}>
-                <Typography variant="subtitle1">{category.name}</Typography>
-                <Typography variant="h6" sx={{ fontWeight: "600  " }}>
+              <Box
+                position={"absolute"}
+                bottom={"0"}
+                left={"0"}
+                sx={{
+                  paddingLeft: { xs: "15px", sm: "20px", md: "20px" },
+                  paddingBottom: { xs: "10px", sm: "10px", md: "10px" },
+                }}
+              >
+                <Typography
+                  variant="subtitle1"
+                  sx={{
+                    fontSize: { xs: "20px", sm: "18px", md: "22px" },
+                    fontWeight: "800",
+                    lineHeight: "1.3",
+                  }}
+                >
+                  {category.name}
+                </Typography>
+                <Typography
+                  variant="h6"
+                  sx={{
+                    fontWeight: "800",
+                    color: "#000",
+                    fontSize: { xs: "18px", sm: "20px", md: "24px" },
+                    lineHeight: "1.3",
+                  }}
+                >
                   {" "}
-                  {category.discount} off
+                  <Box
+                    component="span"
+                    sx={{
+                      fontWeight: "800",
+                      fontSize: { xs: "20px", sm: "24px", md: "30px" },
+                      color: "#FF3838",
+                      lineHeight: "1.3",
+                    }}
+                  >
+                    {category.discount}
+                  </Box>{" "}
+                  off
                 </Typography>
                 <Button
                   size="small"
-                  sx={{ fontWeight: "600", textTransform: "capitalize" }}
+                  sx={{ fontWeight: "600", textTransform: "capitalize", marginTop: "7px", padding: "0" }}
                 >
                   View More{" "}
                   <Icon

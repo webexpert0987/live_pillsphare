@@ -38,7 +38,7 @@ const ServiceProvided = () => {
         sx={{
           overflow: "hidden",
           display: { xs: "flex", sm: "flex", md: "flex" },
-          flexWrap: {xs: "wrap", sm: "nowrap", md: "nowrap"},
+          flexWrap: { xs: "wrap", sm: "nowrap", md: "nowrap" },
           scrollbarWidth: "none",
           padding: "10px 0 13px 0",
           "&::-webkit-scrollbar": {
@@ -62,7 +62,12 @@ const ServiceProvided = () => {
             />
           </Box>
           <Box>
-            <Typography variant={"h3"}>
+            <Typography
+              variant={"h3"}
+              sx={{
+                fontSize: { xs: "14px", sm: "15px", md: "18px" },
+              }}
+            >
               {" "}
               <strong> Regulated </strong> Pharmacy{" "}
             </Typography>
@@ -84,7 +89,12 @@ const ServiceProvided = () => {
             />
           </Box>
           <Box>
-            <Typography variant={"h3"}>
+            <Typography
+              variant={"h3"}
+              sx={{
+                fontSize: { xs: "14px", sm: "15px", md: "18px" },
+              }}
+            >
               {" "}
               <strong> Star </strong> Rating{" "}
             </Typography>
@@ -106,7 +116,12 @@ const ServiceProvided = () => {
             />
           </Box>
           <Box>
-            <Typography variant={"h3"}>
+            <Typography
+              variant={"h3"}
+              sx={{
+                fontSize: { xs: "14px", sm: "15px", md: "18px" },
+              }}
+            >
               {" "}
               <strong>Disceet </strong> Packaging{" "}
             </Typography>
@@ -129,7 +144,12 @@ const ServiceProvided = () => {
             />
           </Box>
           <Box>
-            <Typography variant={"h3"}>
+            <Typography
+              variant={"h3"}
+              sx={{
+                fontSize: { xs: "14px", sm: "15px", md: "18px" },
+              }}
+            >
               {" "}
               <strong style={{ whiteSpace: "nowrap" }}>
                 {" "}

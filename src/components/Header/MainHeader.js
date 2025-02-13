@@ -20,6 +20,10 @@ import {
   List,
   ListItemButton,
   ListItemText,
+  Dialog,
+  DialogContent,
+  InputBase,
+  useMediaQuery,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
@@ -39,6 +43,9 @@ import { useApp } from "../../Context/AppContext";
 import AddToCartModal from "../addToCart/addToCartModal";
 import { getShopCategories } from "../../apis/apisList/productApi";
 import { ExpandMore, ExpandLess } from "@mui/icons-material";
+
+import CloseIcon from "@mui/icons-material/Close";
+import KeyboardReturnIcon from "@mui/icons-material/KeyboardReturn"; //
 
 const Text = styled(Typography)(({ theme }) => ({
   color: "#333333",
@@ -216,11 +223,18 @@ const MainHeader = () => {
     navigate("/login");
   };
 
-  const handleSearch = (e) => {
-    console.log(e.target.value);
-  };
-
   const handleSearchClick = (e) => {};
+
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const isMobile = useMediaQuery("(max-width:600px)"); // Detect mobile screen
+
+  const openSearch = () => setIsSearchOpen(true);
+  const closeSearch = () => setIsSearchOpen(false);
+  const handleSearch = () => {
+    console.log("Searching for:", searchQuery); // Replace with actual search logic
+    if (isMobile) closeSearch(); // Close only on mobile
+  };
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -231,7 +245,12 @@ const MainHeader = () => {
       <AppBar position="static" color="#fff" elevation={1}>
         <Box
           sx={{
-            padding: { xs: "0px 16px 0px 10px", lg: "10px 40px" },
+            padding: {
+              xs: "0px 16px 0px 10px",
+              sm: "10px 40px",
+              md: "10px 40px",
+              lg: "10px 40px",
+            },
           }}
           backgroundColor="#fff"
         >
@@ -256,7 +275,10 @@ const MainHeader = () => {
               <Stack
                 direction="row"
                 spacing={{ xs: 0, lg: 2 }}
-                sx={{ marginLeft: { xs: "0px", lg: "5px !important" } }}
+                sx={{
+                  marginLeft: { xs: "0px", lg: "5px !important" },
+                  width: { xs: "auto", sm: "10%", md: "42%" },
+                }}
               >
                 {["Shop", "Online Clinic", "Weight Loss"].map((text) => (
                   <Button
@@ -307,15 +329,17 @@ const MainHeader = () => {
               sx={{
                 display: "flex",
                 alignItems: "center",
+                justifyContent: "center",
                 mx: { xs: 1, md: 4 },
-                width: { xs: "160px", sm: "220px", md: "250px", lg: "270px" },
+                width: { xs: "auto", sm: "30%", md: "16%" },
+                //width: { xs: "160px", sm: "220px", md: "250px", lg: "270px" },
               }}
               onClick={handleRoute}
             >
               {/* <img src='/Pillsphere logo.png' style={{ width: 'inherit' }}></img> */}
               <img
                 src="/Pillsphere_logo-removebg-preview.png"
-                style={{ width: "inherit" }}
+                style={{ width: "auto", maxWidth: "100%" }}
               ></img>
             </Box>
 
@@ -324,9 +348,84 @@ const MainHeader = () => {
               sx={{
                 display: "flex",
                 alignItems: "center",
+                justifyContent: "end",
                 gap: { xs: "5px", lg: 2 },
+                width: { xs: "auto", sm: "60%", md: "42%" },
               }}
             >
+              <div>
+                {isMobile ? (
+                  // Mobile View: Search Icon + Popup
+                  <>
+                    <IconButton onClick={openSearch} color="primary">
+                      <SearchIcon />
+                    </IconButton>
+
+                    <Dialog
+                      open={isSearchOpen}
+                      onClose={closeSearch}
+                      maxWidth="sm"
+                      fullWidth
+                    >
+                      <DialogContent>
+                        <Box
+                          display="flex"
+                          alignItems="center"
+                          gap={1}
+                          sx={{ padding: 1 }}
+                        >
+                          <InputBase
+                            fullWidth
+                            placeholder="Search..."
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            onKeyPress={(e) =>
+                              e.key === "Enter" && handleSearch()
+                            }
+                            sx={{
+                              border: "1px solid #ccc",
+                              borderRadius: "8px",
+                              padding: "8px 12px",
+                              flex: 1,
+                            }}
+                          />
+                          <IconButton onClick={handleSearch} color="primary">
+                            <KeyboardReturnIcon />
+                          </IconButton>
+                          <IconButton onClick={closeSearch} color="secondary">
+                            <CloseIcon />
+                          </IconButton>
+                        </Box>
+                      </DialogContent>
+                    </Dialog>
+                  </>
+                ) : (
+                  // Desktop View: Normal Search Bar
+                  <Box
+                    display="flex"
+                    alignItems="center"
+                    sx={{
+                      backgroundColor: "#F7F7F7",
+                      border: "1px solid #F7F7F7",
+                      borderRadius: "50px",
+                      padding: "6px 10px 6px 20px",
+                      maxWidth: "210px",
+                      width: "100%",
+                    }}
+                  >
+                    <InputBase
+                      fullWidth
+                      placeholder="Search..."
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      onKeyPress={(e) => e.key === "Enter" && handleSearch()}
+                    />
+                    <IconButton onClick={handleSearch} color="primary">
+                      <SearchIcon sx={{ marginRight: "8px" }} />
+                    </IconButton>
+                  </Box>
+                )}
+              </div>
               {/** Search Comment 
               <TextField
                 variant="standard"
