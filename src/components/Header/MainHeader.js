@@ -330,6 +330,7 @@ const MainHeader = () => {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
+                cursor: "pointer",
                 mx: { xs: 1, md: 4 },
                 width: { xs: "auto", sm: "30%", md: "16%" },
                 //width: { xs: "160px", sm: "220px", md: "250px", lg: "270px" },

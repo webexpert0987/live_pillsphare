@@ -60,7 +60,7 @@ const PrevArrow = (props) => {
       onClick={onClick}
       style={{
         position: "absolute",
-        left: "-20px",
+        left: "-10px",
         top: "50%",
         transform: "translateY(-50%)",
         zIndex: 10,
@@ -84,7 +84,7 @@ const NextArrow = (props) => {
       onClick={onClick}
       style={{
         position: "absolute",
-        right: "-20px",
+        right: "-10px",
         top: "50%",
         transform: "translateY(-50%)",
         zIndex: 10,
@@ -129,48 +129,11 @@ const RelatedArticleSlider = () => {
     responsive: [
       { breakpoint: 1024, settings: { slidesToShow: 3 } },
       { breakpoint: 768, settings: { slidesToShow: 2 } },
-      { breakpoint: 480, settings: { slidesToShow: 1 } },
+      { breakpoint: 480, settings: { slidesToShow: 2 } },
     ],
   };
 
   const gridSlider = {
-    rowInfoWapp: {
-      display: "flex",
-      justifyContent: "space-between",
-      alignItems: "end",
-      marginBottom: "50px",
-    },
-    sectionTitle: {
-      fontSize: "32px",
-      color: "#333",
-      fontWeight: "700",
-      margin: "0 0 10px 0",
-    },
-    introPara: {
-      fontSize: "18px",
-      color: "#333",
-      fontWeight: "500",
-    },
-    viewAllBtn: {
-      fontSize: "18px",
-      fontWeight: "600",
-      lineHeight: "1.4",
-      backgroundColor: "#104239",
-      color: "#FFF",
-      borderRadius: "50px",
-      border: "none",
-      textTransform: "inherit",
-      padding: "12px 20px",
-      width: "100%",
-      marginTop: "15px",
-      boxShadow: "none",
-    },
-    gridProImg: {
-      width: "100%",
-      borderRadius: "12px 12px 0 0",
-      height: "420px",
-      objectFit: "cover",
-    },
     ImgParent: {
       position: "relative",
       "&::before": {
@@ -184,62 +147,70 @@ const RelatedArticleSlider = () => {
         zIndex: 9,
       },
     },
-    gridInfo: {
-      backgroundColor: "none",
-      position: "relative",
-    },
-    IngridInfo: {
-      padding: "20px 22px",
-      position: "absolute",
-      width: "100%",
-      bottom: "0",
-      left: "0",
-      zIndex: "3",
-    },
-    proTitle: {
-      fontSize: "18px",
-      fontWeight: "700",
-      lineHeight: "1.4",
-      color: "#FFF",
-    },
-    proLearnBtn: {
-      fontSize: "15px",
-      fontWeight: "600",
-      lineHeight: "1.4",
-      backgroundColor: "#FD6400",
-      color: "#FFF",
-      borderRadius: "50px",
-      border: "none",
-      textTransform: "inherit",
-      padding: "12px 25px",
-      marginTop: "15px",
-      boxShadow: "none",
-    },
   };
+
+  const isMobile = window.innerWidth < 767; // Adjust breakpoint as needed
 
   return (
     <Box
-      style={{
-        backgroundColor: "#FFF",
+      sx={{
         position: "relative",
-        padding: "80px 0",
+        padding: { xs: "40px 0", sm: "60px 0", md: "80px 0" },
       }}
     >
-      <Container style={gridSlider.rowInfoWapp}>
+      <Container
+        sx={{
+          display: "flex",
+          flexWrap: { xs: "wrap", sm: "nowrap", md: "nowrap" },
+          justifyContent: "space-between",
+          alignItems: "end",
+          marginBottom: "20px",
+        }}
+      >
         <Box>
-          <Typography variant="h2" style={gridSlider.sectionTitle}>
+          <Typography
+            variant="h2"
+            sx={{
+              fontSize: { xs: "22px", sm: "28px", md: "32px" },
+              color: "#333333",
+              fontWeight: "700",
+              margin: "0 0 10px 0",
+            }}
+          >
             Related article
           </Typography>
-          <Typography variant="p" style={gridSlider.introPara}>
+          <Typography
+            variant="p"
+            sx={{
+              fontSize: { xs: "15px", sm: "16px", md: "18px" },
+              color: "#333333",
+              fontWeight: "500",
+            }}
+          >
             Online platforms offer convenient and personalized solutions for
             weight loss.
           </Typography>
         </Box>
-        <Box>
+        <Box
+          sx={{
+            marginTop: { xs: "15px", sm: "0", md: "0" },
+          }}
+        >
           <Button
             variant="contained"
             color="primary"
-            style={gridSlider.viewAllBtn}
+            sx={{
+              fontSize: { xs: "14px", sm: "17px", md: "18px" },
+              fontWeight: "600",
+              lineHeight: "1.4",
+              backgroundColor: "#104239",
+              color: "#FFF",
+              borderRadius: "50px",
+              border: "none",
+              textTransform: "inherit",
+              padding: "12px 25px",
+              boxShadow: "none",
+            }}
           >
             View All
             <svg
@@ -267,7 +238,10 @@ const RelatedArticleSlider = () => {
             {products.map((product) => (
               <Box
                 key={product.id}
-                sx={{ padding: "15px", position: "relative" }}
+                sx={{
+                  padding: { xs: "5px", sm: "10px", md: "15px" },
+                  position: "relative",
+                }}
               >
                 <ImgParent
                   sx={{
@@ -277,20 +251,68 @@ const RelatedArticleSlider = () => {
                   }}
                 >
                   <img
-                    style={gridSlider.gridProImg}
+                    style={{
+                      width: "100%",
+                      borderRadius: "12px 12px 0 0",
+                      height: isMobile ? "280px" : "420px",
+                      objectFit: "cover",
+                    }}
                     src={product.image}
                     alt={product.title}
                   />
-                  <Box style={gridSlider.gridInfo}>
-                    <Box style={gridSlider.IngridInfo}>
-                      <Typography variant="h6" style={gridSlider.proTitle}>
+                  <Box
+                    sx={{
+                      backgroundColor: "none",
+                      position: "relative",
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        padding: {
+                          xs: "12px 15px",
+                          sm: "18px 20px",
+                          md: "20px 22px",
+                        },
+                        position: "absolute",
+                        width: "100%",
+                        bottom: "0",
+                        left: "0",
+                        zIndex: "3",
+                      }}
+                    >
+                      <Typography
+                        variant="h6"
+                        sx={{
+                          fontSize: { xs: "15px", sm: "17px", md: "18px" },
+                          fontWeight: "700",
+                          lineHeight: "1.4",
+                          marginBottom: { xs: "5px", sm: "10px", md: "10px" },
+                          color: "#FFF",
+                        }}
+                      >
                         {product.title}
                       </Typography>
                       <Box textAlign="" mt={2}>
                         <Button
                           variant="contained"
                           color="primary"
-                          style={gridSlider.proLearnBtn}
+                          sx={{
+                            fontSize: { xs: "13px", sm: "14px", md: "15px" },
+                            fontWeight: "600",
+                            lineHeight: "1.4",
+                            backgroundColor: "#FD6400",
+                            color: "#FFF",
+                            borderRadius: "50px",
+                            border: "none",
+                            textTransform: "inherit",
+                            padding: {
+                              xs: "11px 15px",
+                              sm: "12px 20px",
+                              md: "12px 25px",
+                            },
+                            marginTop: "15px",
+                            boxShadow: "none",
+                          }}
                         >
                           Learn More
                           <svg

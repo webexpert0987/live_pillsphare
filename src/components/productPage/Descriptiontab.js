@@ -1,5 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { Tabs, Tab, Box, Typography, Accordion, AccordionSummary, AccordionDetails, useMediaQuery } from "@mui/material";
+import {
+  Tabs,
+  Tab,
+  Box,
+  Typography,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  useMediaQuery,
+} from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import axios from "axios";
 import theme from "../../Theme/theme"; // Make sure to import your theme if needed
@@ -39,19 +48,35 @@ const VerticalTabs = () => {
   };
 
   // Detect screen size for responsive behavior
-  const isMobile = useMediaQuery(theme.breakpoints.down("md")); 
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
   return (
     <Box sx={{ width: "100%" }}>
       {isMobile ? (
         // Render Accordion for mobile
         tabContent.map((tab, index) => (
-          <Accordion key={index} sx={{ backgroundColor: "#FFF", boxShadow: "none", borderBottom: "1px solid #CCCCCC" }}>
-            <AccordionSummary expandIcon={<ExpandMoreIcon />} sx={{ fontWeight: "500", fontSize: "16px", color: "#333333" }}>
+          <Accordion
+            key={index}
+            sx={{
+              backgroundColor: "#FFF",
+              boxShadow: "none",
+              borderBottom: "1px solid #CCCCCC",
+            }}
+          >
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              sx={{ fontWeight: "600", fontSize: "15px", color: "#333333" }}
+            >
               {tab.title}
             </AccordionSummary>
             <AccordionDetails>
-              <Typography>{tab.description}</Typography>
+              <Typography
+                sx={{
+                  fontSize: "15px",
+                }}
+              >
+                {tab.description}
+              </Typography>
             </AccordionDetails>
           </Accordion>
         ))

@@ -1,377 +1,342 @@
-import React, { useState, useEffect } from "react";
-import { Box, Button, Card, CardContent, Container, Typography, Rating,IconButton, Select, MenuItem } from "@mui/material";
-import { Icon } from '@iconify/react';
-import { getProducts } from "../../apis/apisList/productApi";
-import { useNavigate } from "react-router-dom";
-import { useApp } from "../../Context/AppContext";
-import theme from "../../Theme/theme";
-import LoginRequiredPopup from "../../components/loginRequiredPopup/LoginRequiredPopup";
-import { useMessage } from "../../Context/MessageContext";
+import React from "react";
+import Slider from "react-slick";
+import { Box, Typography, Button, Container, Rating } from "@mui/material";
+import ProDefaultImg from "../../pages/images/how-it-works.jpg"; // The same image for all products
 
-const productArray = [
-    {
-        "id": 358,
-        "name": "Cetirizine Dihydrochloride Film Coated Tablets 10mg",
-        "price": "1.99",
-        "regular_price": "",
-        "sale_price": "",
-        "sku": "",
-        "stock_status": "instock",
-        "in_stock": "Yes",
-        "description": "",
-        "short_description": "",
-        "link": "https://admin.pillsphere.com/product/cetirizine-dihydrochloride-film-coated-tablets-10mg/",
-        "image": "https://admin.pillsphere.com/wp-content/uploads/2025/01/Cetirizine.jpg",
-        "categories": [
-            "Acid Reflux."
-        ],
-        "variations": [
-            {
-                "variation_id": 362,
-                "sku": "",
-                "price": "1.99",
-                "stock_status": "instock",
-                "in_stock": "Yes",
-                "attributes": {
-                    "tablets": "30 Tablets"
-                }
-            },
-            {
-                "variation_id": 363,
-                "sku": "",
-                "price": "2.99",
-                "stock_status": "instock",
-                "in_stock": "Yes",
-                "attributes": {
-                    "tablets": "60 Tablets"
-                }
-            },
-            {
-                "variation_id": 364,
-                "sku": "",
-                "price": "3.49",
-                "stock_status": "instock",
-                "in_stock": "Yes",
-                "attributes": {
-                    "tablets": "90 Tablets"
-                }
-            },
-            {
-                "variation_id": 365,
-                "sku": "",
-                "price": "5.49",
-                "stock_status": "instock",
-                "in_stock": "Yes",
-                "attributes": {
-                    "tablets": "180 Tablets"
-                }
-            },
-            {
-                "variation_id": 366,
-                "sku": "",
-                "price": "9.99",
-                "stock_status": "instock",
-                "in_stock": "Yes",
-                "attributes": {
-                    "tablets": "360 Tablets"
-                }
-            }
-        ]
-    },
-    {
-        "id": 354,
-        "name": "Famotidine Tablets 20mg",
-        "price": "29.99",
-        "regular_price": "",
-        "sale_price": "",
-        "sku": "",
-        "stock_status": "instock",
-        "in_stock": "Yes",
-        "description": "",
-        "short_description": "",
-        "link": "https://admin.pillsphere.com/product/famotidine-tablets-20mg/",
-        "image": "https://admin.pillsphere.com/wp-content/uploads/2025/01/Famotidine.png",
-        "categories": [
-            "Acid Reflux."
-        ],
-        "variations": [
-            {
-                "variation_id": 355,
-                "sku": "",
-                "price": "29.99",
-                "stock_status": "instock",
-                "in_stock": "Yes",
-                "attributes": {
-                    "tablets": "28 Tablets"
-                }
-            },
-            {
-                "variation_id": 356,
-                "sku": "",
-                "price": "59.98",
-                "stock_status": "instock",
-                "in_stock": "Yes",
-                "attributes": {
-                    "tablets": "56 Tablets"
-                }
-            }
-        ]
-    },
-    {
-        "id": 351,
-        "name": "Nexium Esomeprazole Tablets 40mg",
-        "price": "39.99",
-        "regular_price": "",
-        "sale_price": "",
-        "sku": "",
-        "stock_status": "instock",
-        "in_stock": "Yes",
-        "description": "",
-        "short_description": "",
-        "link": "https://admin.pillsphere.com/product/nexium-esomeprazole-tablets-40mg/",
-        "image": "https://admin.pillsphere.com/wp-content/uploads/2025/01/Nexium-esomeprazole.jpg",
-        "categories": [
-            "Acid Reflux."
-        ],
-        "variations": [
-            {
-                "variation_id": 352,
-                "sku": "",
-                "price": "39.99",
-                "stock_status": "instock",
-                "in_stock": "Yes",
-                "attributes": {
-                    "tablets": "28 Tablets"
-                }
-            },
-            {
-                "variation_id": 353,
-                "sku": "",
-                "price": "65.99",
-                "stock_status": "instock",
-                "in_stock": "Yes",
-                "attributes": {
-                    "tablets": "56 Tablets"
-                }
-            }
-        ]
-    },
-    {
-        "id": 347,
-        "name": "Nexium Esomeprazole Tablets 20mg",
-        "price": "26.59",
-        "regular_price": "",
-        "sale_price": "",
-        "sku": "",
-        "stock_status": "instock",
-        "in_stock": "Yes",
-        "description": "",
-        "short_description": "",
-        "link": "https://admin.pillsphere.com/product/nexium-esomeprazole-tablets-20mg/",
-        "image": "https://admin.pillsphere.com/wp-content/uploads/2025/01/Nexium-esomeprazole.jpg",
-        "categories": [
-            "Acid Reflux."
-        ],
-        "variations": [
-            {
-                "variation_id": 348,
-                "sku": "",
-                "price": "26.59",
-                "stock_status": "instock",
-                "in_stock": "Yes",
-                "attributes": {
-                    "tablets": "28 Tablets"
-                }
-            },
-            {
-                "variation_id": 349,
-                "sku": "",
-                "price": "39.99",
-                "stock_status": "instock",
-                "in_stock": "Yes",
-                "attributes": {
-                    "tablets": "56 Tablets"
-                }
-            }
-        ]
-    },
-]
+// Import arrow images
+import PrevArrowImg from "../../pages/images/prev-arrow.svg"; // Replace with actual image path
+import NextArrowImg from "../../pages/images/next-arrow.svg"; // Replace with actual image path
 
-const RelatedProduct = ({})=>{
-    const {addToCart, userDetails} = useApp();
-    const [productList, setProductList] = useState(productArray);
-    const navigate = useNavigate();
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const {showMessage} = useMessage();
-    
-   
+// Dummy Product Data
+const products = [
+  {
+    id: 1,
+    image: ProDefaultImg,
+    title: "Wegovy® (Semaglutide) - Weekly Weight Loss Injection",
+  },
+  {
+    id: 2,
+    image: ProDefaultImg,
+    title: "Beforeyouspeak Coffee Collagen Coffee Mocha",
+  },
+  {
+    id: 3,
+    image: ProDefaultImg,
+    title: "Microlife B2 Basic Blood Pressure Monitor",
+  },
+  {
+    id: 4,
+    image: ProDefaultImg,
+    title: "Cetaphil Moisturising Lotion 1 Litre",
+  },
+  {
+    id: 5,
+    image: ProDefaultImg,
+    title: "Wegovy® (Semaglutide) - Weekly Weight Loss Injection",
+  },
+  {
+    id: 6,
+    image: ProDefaultImg,
+    title: "Beforeyouspeak Coffee Collagen Coffee Mocha",
+  },
+  {
+    id: 7,
+    image: ProDefaultImg,
+    title: "Microlife B2 Basic Blood Pressure Monitor",
+  },
+  {
+    id: 8,
+    image: ProDefaultImg,
+    title: "Cetaphil Moisturising Lotion 1 Litre",
+  },
+];
 
-        useEffect(()=>{
-            const storedUser = localStorage.getItem('user');
-            if(storedUser){
-                setIsLoggedIn(true);
-            }
-        }, [])
-    
-      const handleAddProduct = (product, selectedVariant)=>{
-        // navigate(`/product/${id}`)
-        const test = 0;
-        if (test == 0) {
-            // Show the error message
-            showMessage('Sorry, this product is currently out of stock. Please check back later.', 'error');
-            return; // Prevent further actions
-        }
-        if (!isLoggedIn) {
-          setIsModalOpen(true);
-        } else {
-         
-          addToCart(product, selectedVariant);
-        }
-      }
-    
-      const handleVariantSelect = (product, variantId) => {
-       
-        const variantDetail = product.variations.find((item)=>{
-          if(item.variation_id == variantId){
-            return item
-          }
-        })
-        
-        setProductList((prevCart) =>
-          prevCart.map((item) => {
-            if (item.id === product.id) {
-              return {
-                ...item,
-                selectedVariant: variantId,
-                selectedVariantInfo: variantDetail,
-                selectedVariantPrice: item.variations.find(
-                  (variant) => variant.variation_id === variantId
-                )?.price
-              }
-            } else {
-              return item
-            }
-          }
-          )
-        );
-        // updateVariant(product, variantId);
-    }
-    
+// **Custom Previous Arrow Component**
+const PrevArrow = (props) => {
+  const { onClick } = props;
+  return (
+    <div
+      onClick={onClick}
+      style={{
+        position: "absolute",
+        left: "-10px",
+        top: "45%",
+        transform: "translateY(-50%)",
+        zIndex: 10,
+        cursor: "pointer",
+      }}
+    >
+      <img
+        src={PrevArrowImg}
+        alt="Previous"
+        style={{ width: "50px", height: "50px" }}
+      />
+    </div>
+  );
+};
 
-    return (
-        <Container>
-            <Box py={8}>
-                <Box mb={6}>
-                    <Typography variant="h2" fontWeight={600} color="#fff">Related Product</Typography>
-                    <Typography variant="h4" color="#fff">Weight Loss Treatment: Tailored Solution for a healthier You</Typography>
+const isMobile = window.innerWidth < 767; // Adjust breakpoint as needed
+
+// **Custom Next Arrow Component**
+const NextArrow = (props) => {
+  const { onClick } = props;
+  return (
+    <div
+      onClick={onClick}
+      style={{
+        position: "absolute",
+        right: "-10px",
+        top: "45%",
+        transform: "translateY(-50%)",
+        zIndex: 10,
+        cursor: "pointer",
+      }}
+    >
+      <img
+        src={NextArrowImg}
+        alt="Next"
+        style={{ width: "50px", height: "50px" }}
+      />
+    </div>
+  );
+};
+
+const RelatedProductSlider = () => {
+  const settings = {
+    infinite: true,
+    slidesToShow: 4,
+    slidesToScroll: 1,
+    prevArrow: <PrevArrow />,
+    nextArrow: <NextArrow />,
+    responsive: [
+      { breakpoint: 1024, settings: { slidesToShow: 3 } },
+      { breakpoint: 768, settings: { slidesToShow: 2 } },
+      { breakpoint: 480, settings: { slidesToShow: 2 } },
+    ],
+  };
+
+  return (
+    <Box
+      id="ViewTreatments"
+      sx={{
+        backgroundColor: "#104239",
+        position: "relative",
+        padding: { xs: "40px 0", sm: "60px 0", md: "80px 0" },
+      }}
+    >
+      <Container
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "end",
+          marginBottom: "20px",
+        }}
+      >
+        <Box>
+          <Typography
+            variant="h2"
+            sx={{
+              fontSize: { xs: "22px", sm: "28px", md: "32px" },
+              color: "#FFF",
+              fontWeight: "700",
+              margin: "0 0 10px 0",
+            }}
+          >
+            Related Product
+          </Typography>
+          <Typography
+            variant="p"
+            sx={{
+              fontSize: { xs: "15px", sm: "16px", md: "18px" },
+              color: "#FFF",
+              fontWeight: "500",
+            }}
+          >
+            Weight Loss Treatments: Tailored Solutions for a Healthier You.
+          </Typography>
+        </Box>
+      </Container>
+      <Container sx={{ maxWidth: "1460px !important" }}>
+        <Box sx={{ width: "100%" }}>
+          <Slider {...settings}>
+            {products.map((product) => (
+              <Box
+                key={product.id}
+                sx={{
+                  padding: { xs: "5px", sm: "10px", md: "15px" },
+                  position: "relative",
+                }}
+              >
+                <Box
+                  sx={{
+                    backgroundColor: "#FFF",
+                    borderRadius: "12px",
+                    overflow: "hidden",
+                  }}
+                >
+                  <Box
+                    sx={{
+                      position: "relative",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      borderRadius: "12px 12px 0 0",
+                      overflow: "hidden",
+                    }}
+                  >
+                    <img
+                      src={product.image}
+                      alt={product.title}
+                      style={{
+                        height: isMobile ? "150px" : "220px",
+                        objectFit: "contain",
+                        maxheight: "100%",
+                      }}
+                    />
+                  </Box>
+                  <Box
+                    sx={{
+                      backgroundColor: "#FAFAFA",
+                      padding: "20px 22px",
+                    }}
+                  >
+                    <Typography
+                      variant="h6"
+                      sx={{
+                        fontSize: { xs: "15px", sm: "17px", md: "19px" },
+                        fontWeight: "700",
+                        lineHeight: "1.3",
+                        marginBottom: { xs: "5px", sm: "10px", md: "10px" },
+                      }}
+                    >
+                      {product.title}
+                    </Typography>
+
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        flexDirection: {
+                          xs: "column-reverse",
+                          sm: "inherit",
+                          md: "inherit",
+                        },
+                      }}
+                    >
+                      <Box
+                        sx={{
+                          display: "flex",
+                        }}
+                      >
+                        <Typography
+                          variant="body1"
+                          sx={{
+                            fontSize: { xs: "16px", sm: "17px", md: "18px" },
+                            fontWeight: "800",
+                            color: "#FD6400",
+                            marginTop: {
+                              xs: "15px",
+                              sm: "10px",
+                              md: "10px",
+                            },
+                          }}
+                        >
+                          $55.96
+                        </Typography>
+                        <Typography
+                          variant="body1"
+                          sx={{
+                            textDecoration: "line-through",
+                            color: "#A7A7A7",
+                            marginLeft: "11px",
+                            fontSize: { xs: "16px", sm: "17px", md: "18px" },
+                            fontWeight: "500",
+                            marginTop: {
+                              xs: "15px",
+                              sm: "10px",
+                              md: "10px",
+                            },
+                          }}
+                        >
+                          $69.95
+                        </Typography>
+                      </Box>
+                      <Box
+                        display="flex"
+                        alignItems="center"
+                        gap={1}
+                        sx={{
+                          marginTop: {
+                            xs: "10px",
+                            sm: "10px",
+                            md: "10px",
+                          },
+                        }}
+                      >
+                        <Rating
+                          value={4} // Replace with actual rating if available
+                          readOnly
+                          size="small"
+                        />
+                        <Typography variant="body2" color="textSecondary">
+                          (123){" "}
+                          {/* Replace with actual review count if available */}
+                        </Typography>
+                      </Box>
+                    </Box>
+
+                    <Box textAlign="center" mt={2}>
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        sx={{
+                          fontSize: { xs: "13px", sm: "15px", md: "15px" },
+                          fontWeight: "600",
+                          lineHeight: "1.4",
+                          backgroundColor: "#FD6400",
+                          color: "#FFF",
+                          borderRadius: "50px",
+                          border: "none",
+                          textTransform: "inherit",
+                          padding: {
+                            xs: "10px 10px",
+                            sm: "12px 15px",
+                            md: "12px 20px",
+                          },
+                          width: "100%",
+                          marginTop: { xs: "0px", sm: "15px", md: "15px" },
+                          boxShadow: "none",
+                        }}
+                      >
+                        Add to Cart
+                        <svg
+                          style={{ marginLeft: "10px" }}
+                          width="18"
+                          height="14"
+                          viewBox="0 0 18 14"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M17 7L11 1M17 7L11 13M17 7L6.5 7M1 7L3.5 7"
+                            stroke="white"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                      </Button>
+                    </Box>
+                  </Box>
                 </Box>
-                <Box display={'flex'} flexDirection={{xs:'column', md: 'row'}} gap={4}>
-                    {productList.length > 0 && productList.map((product, index)=>(
-                        <Box key={index} sx={{ height: { sm: '535.26px'}, maxWidth: '320px' }}>
-                            <Card sx={{
-                                borderRadius: "16px", boxShadow: 'none', minHeight: '413px', display: "flex",
-                                flexDirection: "column",
-                                flexWrap: 'wrap',
-                                justifyContent: "space-between",
-                                height: "100%",
-                            }}>
-                            <img
-                                src={product.image}
-                                alt={product.name}
-                                style={{maxHeight: '300px', objectFit: 'cover'}}
-                            />
-                            <CardContent sx={{
-                                flexGrow: 1,
-                                display: 'flex',
-                                flexDirection: 'column',
-                                justifyContent: 'space-between',
-                                width: '100%',
-                                maxHeight: '230px'
-                            }}>
-                                {/* <Typography variant="subtitle2" color="error" fontWeight="bold" sx={{
-                                position: 'absolute',
-                                top: '20px',
-                                background: '#fff',
-                                border: '1px solid #000',
-                                borderRadius: '5px',
-                                padding: '0px 10px',
-                                fontSize: '12px',
-                                }}>
-                                {product.discount}
-                                </Typography> */}
-                                <Typography
-                                variant="h4"
-                                fontWeight="bold"
-                                sx={{ mt: 1, fontSize: { xs: "14px", md: "1.25rem" } }}
-                                >
-                                {product.name}
-                                </Typography>
-                                <Box marginTop={3} display={'flex'} gap={6}>
-                                <Box display="flex" gap="1rem" alignItems="center">
-                                    <Typography variant="h6" color="primary.main" fontWeight="bold">
-                                    £{product?.selectedVariantPrice? product?.selectedVariantPrice: product.price}
-                                    </Typography>
-                                    {/* <Typography variant="body2" sx={{ textDecoration: "line-through", color: "gray" }}>
-                                    {product.originalPrice}
-                                    </Typography> */}
-                                </Box>
+              </Box>
+            ))}
+          </Slider>
+        </Box>
+      </Container>
+    </Box>
+  );
+};
 
-                                <Box>
-                                    
-                                    <Select
-                                    value={product.selectedVariant? product.selectedVariant: product?.variations?.[0].variation_id}
-                                    onChange={(e) => handleVariantSelect(product, e.target.value)}
-                                    fullWidth
-                                    sx={{'.MuiSelect-select': {
-                                        padding: '7.5px 14px',
-                                        },}}
-                                    >
-                                    {product?.variations?.map((variant) => (
-                                        <MenuItem key={variant.variation_id} value={variant.variation_id}>
-                                        {`${variant.attributes.tablets} `}
-                                        </MenuItem>
-                                    ))}
-                                    </Select>
-                                </Box>
-                                {/* {
-                                    product.reviews && <Box display="flex" alignItems="center" gap="0.5rem" sx={{ mt: 1 }}>
-                                    {
-                                        product.rating &&
-                                        <Typography variant="body2">
-                                        <Rating
-                                            name="read-only"
-                                            value={product.rating}
-                                            readOnly
-                                            precision={0.5}
-                                            size="small"
-                                        />
-                                        </Typography>
-                                    }
-                                    ({product.reviews})
-                                    </Box>
-                                } */}
-                                </Box>
-                                <Button
-                                variant="contained"
-                                sx={{ mt: 2, backgroundColor: "primary.main", width: "100%", borderRadius: '50px', padding: '10px' }}
-                                // onClick={()=>handleAddProduct(product, product.variations[0])}
-                                onClick={()=>handleAddProduct(product, product.selectedVariantInfo? product.selectedVariantInfo: product.variations[0])}
-                                >
-                                    Add To Cart &nbsp;<Icon icon="solar:arrow-right-broken" color="primary.main" width="24" height="24" />
-                                </Button>
-                            </CardContent>
-                            </Card>
-                        </Box>
-                    ))}
-                </Box>
-            </Box>
-            <LoginRequiredPopup
-                isOpen={isModalOpen}
-                onClose={() => setIsModalOpen(false)}
-            />
-        </Container>
-    )
-}
-
-export default RelatedProduct
+export default RelatedProductSlider;

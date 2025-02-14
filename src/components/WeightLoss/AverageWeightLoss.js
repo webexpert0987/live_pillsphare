@@ -16,18 +16,23 @@ import {
 const borderColor = "#EAD4A2";
 
 const weightCompStyle = {
-  Wrapp: {
-    padding: "70px 0",
-    backgroundColor: "#F7F7F7",
-  },
   tHead: {
     fontSize: "18px",
     color: "#FFF",
     fontWeight: "bold",
     width: "25%",
     padding: "18px 25px",
+    lineHeight: "1.4",
     borderBottom: `1px solid ${borderColor}`, // Bottom border only
     borderRight: `1px solid ${borderColor}`, // Right border only
+    "@media (max-width: 991px)": {
+      fontSize: "16px",
+      padding: "12px 15px",
+    },
+    "@media (max-width: 767px)": {
+      fontSize: "15px",
+      padding: "10px 12px",
+    },
   },
   tBody: {
     fontSize: "18px",
@@ -35,37 +40,23 @@ const weightCompStyle = {
     fontWeight: "500",
     width: "25%",
     padding: "18px 25px",
+    lineHeight: "1.4",
     borderBottom: `1px solid ${borderColor}`, // Bottom border only
     borderRight: `1px solid ${borderColor}`, // Right border only
+    "@media (max-width: 991px)": {
+      fontSize: "16px",
+      padding: "12px 15px",
+    },
+    "@media (max-width: 767px)": {
+      fontSize: "15px",
+      padding: "10px 12px",
+    },
   },
   lastColumn: {
     borderRight: "none", // Removes right border for last column
   },
   lastRow: {
     borderBottom: "none", // Removes bottom border for last row
-  },
-  sectionTitle: {
-    fontSize: "32px",
-    fontWeight: "700",
-    color: "#333",
-    lineHeight: "1.3",
-    marginBottom: "20px",
-  },
-  paragraphTxt: {
-    fontSize: "18px",
-    fontWeight: "500",
-    color: "#4A4A4A",
-    lineHeight: "1.6",
-    marginBottom: "35px",
-    width: "700px",
-    maxWidth: "100%",
-  },
-  sectionNote: {
-    fontSize: "20px",
-    fontWeight: "600",
-    color: "#4A4A4A",
-    lineHeight: "1.6",
-    marginTop: "24px",
   },
 };
 
@@ -110,16 +101,41 @@ const WeightLossComparison = () => {
   ];
 
   return (
-    <Box style={weightCompStyle.Wrapp}>
+    <Box
+      sx={{
+        padding: { xs: "30px 0", sm: "50px 0", md: "70px 0" },
+        backgroundColor: "#F7F7F7",
+      }}
+    >
       <Container>
         <Box style={weightCompStyle.sectionInfo}>
           {/* Title */}
-          <Typography style={weightCompStyle.sectionTitle} variant="h2">
+          <Typography
+            variant="h2"
+            sx={{
+              fontSize: { xs: "22px", sm: "26px", md: "32px" },
+              fontWeight: "700",
+              color: "#333",
+              lineHeight: "1.3",
+              marginBottom: "20px",
+            }}
+          >
             Average Weight Loss (% of Body Weight)
           </Typography>
 
           {/* Paragraph */}
-          <Typography style={weightCompStyle.paragraphTxt} variant="body1">
+          <Typography
+            variant="body1"
+            sx={{
+              fontSize: { xs: "15px", sm: "16px", md: "18px" },
+              fontWeight: "500",
+              color: "#4A4A4A",
+              lineHeight: "1.6",
+              marginBottom: "35px",
+              width: "700px",
+              maxWidth: "100%",
+            }}
+          >
             Here's the updated weight loss comparison chart, incorporating data
             from peer-reviewed medical literature and authoritative UK health
             sources:
@@ -131,7 +147,6 @@ const WeightLossComparison = () => {
           component={Paper}
           sx={{
             borderRadius: "15px",
-            overflow: "hidden",
             boxShadow: "none",
             border: "none",
           }}
@@ -213,7 +228,16 @@ const WeightLossComparison = () => {
             </TableBody>
           </Table>
         </TableContainer>
-        <Typography style={weightCompStyle.sectionNote} variant="h6">
+        <Typography
+          variant="h6"
+          sx={{
+            fontSize: { xs: "16px", sm: "18px", md: "20px" },
+            fontWeight: "600",
+            color: "#4A4A4A",
+            lineHeight: "1.6",
+            marginTop: "24px",
+          }}
+        >
           Recent Developments in Weight Loss Treatments
         </Typography>
       </Container>

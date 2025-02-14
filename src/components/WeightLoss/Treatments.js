@@ -1,8 +1,8 @@
 import React from "react";
 import { Box, Grid2, Typography, Button, Container } from "@mui/material";
-import Treatment from "../../pages/images/treatment.png";
-import TreatmentOver from "../../pages/images/treatment2.png";
-import howItWorksBg from "../../pages/images/how-it-works-bg.svg";
+import imageOne from "../../pages/images/treatment.png";
+import imageTwo from "../../pages/images/treatment2.png";
+import imageThree from "../../pages/images/how-it-works-bg.svg";
 
 const Treatments = ({
   subtitle = "Treatments",
@@ -12,113 +12,97 @@ const Treatments = ({
     "Clinical studies have shown that participants using GLP-1 medications lost significantly more weight compared to those relying on diet and exercise alone.",
   ],
   buttonText = "Start Your Consultation Today",
-  images = [howItWorksBg, Treatment, TreatmentOver],
 }) => {
   // Define styles inside the component
-  const howItWorksStyles = {
-    imageOne: {
-      position: "absolute",
-      left: "20px",
-      top: "40px",
-    },
-    imageTwo: {
-      maxWidth: "100%",
-      borderRadius: "20px",
-      zIndex: "1",
-      position: "relative",
-    },
-    imageThree: {
-      maxWidth: "100%",
-      position: "absolute",
-      left: "0",
-      bottom: "-30px",
-      borderRadius: "20px",
-      zIndex: "2",
-    },
-    leftCol: {
-      position: "relative",
-      display: "flex",
-      justifyContent: "right",
-    },
-    rightCol: {
-      padding: "0 10% 0 0",
-    },
-    subtitle: {
-      fontSize: "18px",
-      fontWeight: "700",
-      color: "#FD6400",
-      textTransform: "uppercase",
-    },
-    title: {
-      fontSize: "32px",
-      fontWeight: "700",
-      color: "#333",
-      lineHeight: "1.3",
-      marginBottom: "20px",
-    },
-    paragraphtxt: {
-      fontSize: "16px",
-      fontWeight: "500",
-      color: "#4A4A4A",
-      lineHeight: "1.6",
-      marginBottom: "25px",
-    },
-    btnAbout: {
-      fontSize: "18px",
-      fontWeight: "600",
-      lineHeight: "1.4",
-      backgroundColor: "#FD6400",
-      color: "#FFF",
-      borderRadius: "50px",
-      border: "none",
-      textTransform: "inherit",
-      padding: "12px 25px",
-      boxShadow: "none",
-    },
-    TreatmentWrapp: {
-      alignItems: "center",
-    },
-  };
 
   return (
     <Container>
-      <Box sx={{ maxWidth: "100%", margin: "auto", padding: "70px 0 60px 0" }}>
-        <Grid2 container spacing={0} style={howItWorksStyles.TreatmentWrapp}>
+      <Box
+        sx={{
+          maxWidth: "100%",
+          margin: "auto",
+          padding: {
+            xs: "30px 0 30px 0",
+            sm: "50px 0 40px 0",
+            md: "70px 0 60px 0",
+          },
+        }}
+      >
+        <Grid2
+          container
+          spacing={0}
+          sx={{
+            alignItems: "center",
+          }}
+        >
           {/* Left Column */}
           <Grid2
-            style={howItWorksStyles.rightCol}
             size={{ xs: 12, sm: 6, md: 8 }}
             spacing={2}
+            sx={{
+              padding: {
+                xs: "0 0 0 0",
+                sm: "0 10% 0 0",
+                md: "0 10% 0 0",
+              },
+            }}
           >
             <Typography
-              style={howItWorksStyles.subtitle}
               variant="subtitle1"
               color="textSecondary"
               gutterBottom
+              sx={{
+                fontSize: { xs: "15px", sm: "16px", md: "18px" },
+                fontWeight: "700",
+                color: "#FD6400",
+                textTransform: "uppercase",
+              }}
             >
               {subtitle}
             </Typography>
             <Typography
-              style={howItWorksStyles.title}
               variant="h4"
               gutterBottom
+              sx={{
+                fontSize: { xs: "22px", sm: "30px", md: "32px" },
+                fontWeight: "700",
+                color: "#333",
+                lineHeight: "1.3",
+                marginBottom: "20px",
+              }}
             >
               {title}
             </Typography>
             {paragraphs.slice(0, 2).map((text, index) => (
               <Typography
-                style={howItWorksStyles.paragraphtxt}
                 key={index}
-                paragraph
+                sx={{
+                  fontSize: { xs: "15px", sm: "16px", md: "16px" },
+                  fontWeight: "500",
+                  color: "#4A4A4A",
+                  lineHeight: "1.6",
+                  marginBottom: "25px",
+                }}
               >
                 {text}
               </Typography>
             ))}
             <Button
-              style={howItWorksStyles.btnAbout}
               variant="contained"
               color="primary"
               onClick={() => (window.location.href = "/questionnaire")}
+              sx={{
+                fontSize: { xs: "14px", sm: "17px", md: "18px" },
+                fontWeight: "600",
+                lineHeight: "1.4",
+                backgroundColor: "#FD6400",
+                color: "#FFF",
+                borderRadius: "50px",
+                border: "none",
+                textTransform: "inherit",
+                padding: "12px 25px",
+                boxShadow: "none",
+              }}
             >
               {buttonText}
               <svg
@@ -142,32 +126,50 @@ const Treatments = ({
 
           {/* Right Column */}
           <Grid2
-            style={howItWorksStyles.leftCol}
             size={{ xs: 12, sm: 6, md: 4 }}
             spacing={2}
+            sx={{
+              position: "relative",
+              display: "flex",
+              justifyContent: "right",
+            }}
           >
             <Grid2 container spacing={0}>
-              {images.slice(0, 3).map((image, index) => (
-                <Grid2
-                  key={index}
-                  item
-                  xs={12}
-                  sm={6}
-                  md={index === 2 ? 12 : 6}
-                >
-                  <img
-                    src={image}
-                    alt={`Image ${index + 0}`}
-                    style={
-                      index === 0
-                        ? howItWorksStyles.imageOne
-                        : index === 1
-                        ? howItWorksStyles.imageTwo
-                        : howItWorksStyles.imageThree
-                    }
-                  />
-                </Grid2>
-              ))}
+              <Grid2 item xs={12} sm={6} md={5}>
+                <Box
+                  component="img"
+                  src={imageThree}
+                  sx={{
+                    position: "absolute",
+                    left: { xs: "0", sm: "20px", md: "20px" },
+                    top: "40px",
+                  }}
+                />
+                <Box
+                  component="img"
+                  src={imageOne}
+                  sx={{
+                    maxWidth: { xs: "80%", sm: "100%", md: "100%" },
+                    borderRadius: "20px",
+                    zIndex: "1",
+                    position: "relative",
+                    right: { xs: "-20%", sm: "0", md: "0" },
+                    top: { xs: "20px", sm: "0", md: "0" },
+                  }}
+                />
+                <Box
+                  component="img"
+                  src={imageTwo}
+                  sx={{
+                    maxWidth: "40%",
+                    position: "absolute",
+                    left: "0",
+                    bottom: "-30px",
+                    borderRadius: "20px",
+                    zIndex: "2",
+                  }}
+                />
+              </Grid2>
             </Grid2>
           </Grid2>
         </Grid2>

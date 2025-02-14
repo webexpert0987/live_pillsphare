@@ -59,8 +59,8 @@ const PrevArrow = (props) => {
       onClick={onClick}
       style={{
         position: "absolute",
-        left: "-20px",
-        top: "50%",
+        left: "-10px",
+        top: "45%",
         transform: "translateY(-50%)",
         zIndex: 10,
         cursor: "pointer",
@@ -83,8 +83,8 @@ const NextArrow = (props) => {
       onClick={onClick}
       style={{
         position: "absolute",
-        right: "-20px",
-        top: "50%",
+        right: "-10px",
+        top: "45%",
         transform: "translateY(-50%)",
         zIndex: 10,
         cursor: "pointer",
@@ -109,84 +109,76 @@ const ProductCarousel = () => {
     responsive: [
       { breakpoint: 1024, settings: { slidesToShow: 3 } },
       { breakpoint: 768, settings: { slidesToShow: 2 } },
-      { breakpoint: 480, settings: { slidesToShow: 1 } },
+      { breakpoint: 480, settings: { slidesToShow: 2 } },
     ],
   };
 
-  const gridSlider = {
-    gridInfo: {
-      backgroundColor: "#FAFAFA",
-      padding: "20px 22px",
-    },
-    proTitle: {
-      fontSize: "18px",
-      fontWeight: "700",
-      lineHeight: "1.4",
-    },
-    proLearnBtn: {
-      fontSize: "15px",
-      fontWeight: "600",
-      lineHeight: "1.4",
-      backgroundColor: "#FD6400",
-      color: "#FFF",
-      borderRadius: "50px",
-      border: "none",
-      textTransform: "inherit",
-      padding: "12px 20px",
-      width: "100%",
-      marginTop: "15px",
-      boxShadow: "none",
-    },
-    rowInfoWapp: {
-      display: "flex",
-      justifyContent: "space-between",
-      alignItems: "end",
-      marginBottom: "50px"
-    },
-    sectionTitle: {
-      fontSize: "32px",
-      color: "#333",
-      fontWeight: "700",
-      margin: "0 0 10px 0"
-    },
-    introPara: {
-      fontSize: "18px",
-      color: "#333",
-      fontWeight: "500"
-    },
-    viewAllBtn: {
-      fontSize: "18px",
-      fontWeight: "600",
-      lineHeight: "1.4",
-      backgroundColor: "#104239",
-      color: "#FFF",
-      borderRadius: "50px",
-      border: "none",
-      textTransform: "inherit",
-      padding: "12px 20px",
-      width: "100%",
-      marginTop: "15px",
-      boxShadow: "none",
-    },
-  };
-
   return (
-    <Box id="ViewTreatments" style={{ backgroundColor: "#F6EFDF", position: "relative", padding: "80px 0" }}>
-      <Container style={gridSlider.rowInfoWapp}>
-        <Box>
-          <Typography variant="h2" style={gridSlider.sectionTitle}>
+    <Box
+      id="ViewTreatments"
+      sx={{
+        backgroundColor: "#F6EFDF",
+        position: "relative",
+        padding: { xs: "30px 0", sm: "50px 0", md: "80px 0" },
+      }}
+    >
+      <Container
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "end",
+          marginBottom: { xs: "30px", sm: "40px", md: "50px" },
+          flexWrap: "wrap"
+        }}
+      >
+        <Box sx={{
+          width: {xs: "100%", sm: "60%", md: "70%"}
+        }}>
+          <Typography
+            variant="h2"
+            sx={{
+              fontSize: { xs: "22px", sm: "28px", md: "32px" },
+              color: "#333",
+              fontWeight: "700",
+              margin: "0 0 10px 0",
+            }}
+          >
             Weight loss treatments
           </Typography>
-          <Typography variant="p" style={gridSlider.introPara}>
+          <Typography
+            variant="p"
+            sx={{
+              fontSize: { xs: "15px", sm: "16px", md: "18px" },
+              color: "#333",
+              fontWeight: "500",
+            }}
+          >
             Weight Loss Treatments: Tailored Solutions for a Healthier You.
           </Typography>
         </Box>
-        <Box>
+        <Box sx={{
+          width: {xs: "100%", sm: "40%", md: "30%"},
+          display: "flex",
+          justifyContent: {xs: "left", sm: "right", md: "right"},
+        }}>
           <Button
             variant="contained"
             color="primary"
-            style={gridSlider.viewAllBtn}
             onClick={() => (window.location.href = "/category/weight-loss")}
+            sx={{
+              fontSize: {xs: "15px", sm: "16px", md: "18px"},
+              fontWeight: "600",
+              lineHeight: "1.4",
+              backgroundColor: "#104239",
+              color: "#FFF",
+              borderRadius: "50px",
+              border: "none",
+              textTransform: "inherit",
+              padding: "12px 20px",
+              width: "auto",
+              marginTop: "15px",
+              boxShadow: "none",
+            }}
           >
             View All
             <svg
@@ -214,7 +206,9 @@ const ProductCarousel = () => {
             {products.map((product) => (
               <Box
                 key={product.id}
-                sx={{ padding: "15px", position: "relative" }}
+                sx={{ 
+                  padding: { xs: "5px", sm: "10px", md: "15px" },
+                  position: "relative" }}
               >
                 <Box
                   sx={{
@@ -232,15 +226,40 @@ const ProductCarousel = () => {
                       height: "auto",
                     }}
                   />
-                  <Box style={gridSlider.gridInfo}>
-                    <Typography variant="h6" style={gridSlider.proTitle}>
+                  <Box
+                    sx={{
+                      backgroundColor: "#FAFAFA",
+                      padding: "20px 22px",
+                    }}
+                  >
+                    <Typography
+                      variant="h6"
+                      sx={{
+                        fontSize: {xs: "15px", sm: "17px", md: "18px"},
+                        fontWeight: "700",
+                        lineHeight: "1.3",
+                      }}
+                    >
                       {product.title}
                     </Typography>
                     <Box textAlign="center" mt={2}>
                       <Button
                         variant="contained"
                         color="primary"
-                        style={gridSlider.proLearnBtn}
+                        sx={{
+                          fontSize: {xs: "13px", sm: "15px", md: "15px"},
+                          fontWeight: "600",
+                          lineHeight: "1.4",
+                          backgroundColor: "#FD6400",
+                          color: "#FFF",
+                          borderRadius: "50px",
+                          border: "none",
+                          textTransform: "inherit",
+                          padding: {xs: "10px 10px", sm: "12px 15px", md: "12px 20px"},
+                          width: "100%",
+                          marginTop: {xs: "0px", sm: "15px", md: "15px"},
+                          boxShadow: "none",
+                        }}
                       >
                         Learn More
                         <svg

@@ -295,7 +295,8 @@ const Product = () => {
                     padding: "12px",
                     maxWidth: { xs: "100%", md: "250px" },
                     width: { xs: "100%", md: "250px" },
-                    marginTop: "0px",
+                    marginTop: "20px",
+                    boxShadow: "none",
                   }}
                   // onClick={()=>handleAddProduct(product, product.variations[0])}
                   onClick={() =>
@@ -342,7 +343,13 @@ const Product = () => {
                 borderRightStyle: "solid",
               }}
             >
-              <Typography variant="h3" fontWeight="700">
+              <Typography
+                variant="h3"
+                sx={{
+                  fontSize: { xs: "17px", sm: "17px", md: "18px" },
+                  fontWeight: "700",
+                }}
+              >
                 Delivery Options
               </Typography>
               <Stack direction={"row"} alignItems={"center"} gap={2} my={1.8}>
@@ -355,7 +362,14 @@ const Product = () => {
                   />
                 </Box>
                 <Box>
-                  <Typography variant="h4">
+                  <Typography
+                    variant="h4"
+                    sx={{
+                      fontSize: { xs: "15px", sm: "16px", md: "16px" },
+                      fontWeight: "500",
+                      lineHeight: "1.5",
+                    }}
+                  >
                     <strong>In Stock</strong> for Sydney, 2000
                   </Typography>
                 </Box>
@@ -364,9 +378,11 @@ const Product = () => {
             {/******** 02. Estimated Delivery ********/}
             <Box>
               <Stack direction={"row"} alignItems={"center"} gap={1}>
-                <Box sx={{
-                    marginTop: "0px"
-                }}>
+                <Box
+                  sx={{
+                    marginTop: "0px",
+                  }}
+                >
                   <Icon
                     icon="hugeicons:delivery-truck-02"
                     width="35"
@@ -374,12 +390,27 @@ const Product = () => {
                   />
                 </Box>
                 <Box>
-                  <Typography variant="h3" fontWeight="700">
+                  <Typography
+                    variant="h3"
+                    sx={{
+                      fontSize: { xs: "17px", sm: "17px", md: "18px" },
+                      fontWeight: "700",
+                    }}
+                  >
                     Estimated Delivery
                   </Typography>
                 </Box>
               </Stack>
-              <Typography variant="h4" width={"75%"} pl={3} color="#333333">
+              <Typography
+                variant="h4"
+                width={"75%"}
+                color="#333333"
+                sx={{
+                  fontSize: { xs: "15px", sm: "16px", md: "16px" },
+                  fontWeight: "500",
+                  lineHeight: "1.5",
+                }}
+              >
                 Order in the next <strong>00:35:06</strong> to get it tomorrow*
                 using Express 1-2 Days (Royal Mail Tracked 24)
               </Typography>
@@ -392,12 +423,26 @@ const Product = () => {
                 marginTop: { xs: "15px", sm: "25px", md: "30px" },
               }}
             >
-              <Typography variant="h3" fontWeight="700">
+              <Typography
+                variant="h3"
+                fontWeight="700"
+                sx={{
+                  fontSize: { xs: "20px", sm: "22px", md: "24px" },
+                  fontWeight: "700",
+                }}
+              >
                 What out expert says
               </Typography>
               <Stack direction={"row"} alignItems={"center"} gap={2} my={1.8}>
                 <Box>
-                  <Typography variant="h4">
+                  <Typography
+                    variant="h4"
+                    sx={{
+                      fontSize: { xs: "15px", sm: "16px", md: "16px" },
+                      fontWeight: "500",
+                      lineHeight: "1.5",
+                    }}
+                  >
                     Need an extra boost of energy? Vitabiotics Wellman Energy
                     are effervescent tablets for men that dissolve into a tasty
                     orange-flavoured drink. Whether you’re dealing with a hectic
