@@ -173,10 +173,10 @@ const BMI_Calculator = () => {
     <>
     <Box sx={{ textAlign: "center" }}>
       <Typography style={BmiStyle.title} variant="h5" gutterBottom>
-        Calculate Your BMI
+      What is your current Body Mass Index (BMI)?
       </Typography>
       <Typography style={BmiStyle.subtitle} variant="body1">
-        Healthy bmi overweight and obese
+      Please note: Weight loss treatments are only licensed for patients with a BMI ≥30 kg/m² or ≥27 kg/m² with at least one weight-related comorbidity. If you are an existing patient using Mounjaro, please update your BMI.
       </Typography>
 
       <Box style={BmiStyle.BmiSwitchBtns}>

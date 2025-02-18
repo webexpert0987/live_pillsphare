@@ -1,58 +1,60 @@
 import React from "react";
 import { Box, Container, Typography, Button } from "@mui/material"; // Added Button import
 
-const QuestionHeroStyle = {
-  Wrapp: {
-    background: "#104239",
-    textAlign: "center",
-    padding: "100px 0",
-  },
-  title: {
-    fontSize: "45px",
-    color: "#FFF",
-    letterSpacing: "-0.5px",
-    fontWeight: "700",
-  },
-  paragraphtxt: {
-    fontSize: "18px",
-    color: "#FFF",
-    fontWeight: "400",
-    width: "800px",
-    maxWidth: "100%",
-    margin: "0 auto",
-  },
-  backBtn: {
-    fontSize: "18px",
-    fontWeight: "600",
-    lineHeight: "1.4",
-    backgroundColor: "#FD6400",
-    color: "#FFF",
-    borderRadius: "50px",
-    border: "none",
-    textTransform: "inherit",
-    padding: "12px 25px",
-    marginTop: "35px",
-  },
-};
-
 function QuestionHero() {
   return (
     <>
-      <Box style={QuestionHeroStyle.Wrapp}>
+      <Box
+        sx={{
+          background: "#104239",
+          textAlign: "center",
+          padding: {xs: "40px 0", sm: "50px 0", md: "100px 0"},
+        }}
+      >
         <Container>
-          <Typography style={QuestionHeroStyle.title} variant="h2" gutterBottom>
+          <Typography
+            variant="h2"
+            sx={{
+              fontSize: "45px",
+              color: "#FFF",
+              letterSpacing: "-0.5px",
+              fontWeight: "700",
+              marginBottom: {xs: "15px", sm: "20px", md: "30px"}, 
+            }}
+          >
             Fill your personal information
           </Typography>
-          <Typography style={QuestionHeroStyle.paragraphtxt}>
+          <Typography
+            sx={{
+              fontSize: { xs: "15px", sm: "16px", md: "18px" },
+              color: "#FFF",
+              fontWeight: "400",
+              width: "800px",
+              maxWidth: "100%",
+              margin: "0 auto",
+            }}
+          >
             There are a variety of reasons why you may want to lose weight. You
             might be looking to drop a few pounds before an important event or
             completely change your lifestyle to improve your health and your
             confidence.
           </Typography>
           <Button
-            style={QuestionHeroStyle.backBtn}
             variant="contained"
             color="primary"
+            sx={{
+              fontSize: { xs: "15px", sm: "16px", md: "18px" },
+                fontWeight: "600",
+                lineHeight: "1.4",
+                backgroundColor: "#FD6400",
+                color: "#FFF",
+                borderRadius: "50px",
+                border: "none",
+                textTransform: "inherit",
+                padding: { xs: "12px 25px", sm: "12px 20px", md: "12px 25px" },
+                boxShadow: "none",
+                marginTop: { xs: "20px", sm: "25px", md: "35px" },
+            }}
           >
             Back to Home Page
             <svg

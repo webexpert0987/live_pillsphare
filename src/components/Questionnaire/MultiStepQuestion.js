@@ -1,95 +1,48 @@
 import React, { useState } from "react";
 import {
-  Button,
-  TextField,
+  Stepper,
+  Step,
+  StepLabel,
   Box,
-  LinearProgress,
+  Button,
   FormControl,
-  FormLabel,
-  RadioGroup,
   FormControlLabel,
   Radio,
-  Checkbox,
+  RadioGroup,
   Typography,
-  Card,
-  CardContent,
+  Checkbox,
 } from "@mui/material";
+import "../../../src/globalStyle.css";
+
 import BmiCalculate from "../Questionnaire/Consultation"; // Import the BMI calculation component
-import ImageIcon from "@mui/icons-material/Image";
 
-const defaultStepsData = [
-  {},
-  {},
-  {
-    type: "checkbox",
-    question: "We would like to know about your lifestyle",
-    note: "(Please select all that apply)",
-    name: "lifestyle",
-    options: [
-      "I eat snacks, crisps, cakes, chocolates, biscuits, or other food that are high in saturated fats a few times a week.",
-      "I eat snacks, crisps, cakes, chocolates, biscuits, or other food that are high in saturated fats most days of the week.",
-      "I do 150 minutes or more of moderate intensity exercise each week – any activity which gets you out of breath (e.g., brisk walking, riding a bike, water aerobics).",
-      "I do 75 minutes or more of vigorous intensity exercise each week – any activity in which you are not able to say more than one or two words (e.g., running, swimming fast, sports, skipping rope).",
-      "I eat takeaway/fast food on most days of the week.",
-      "I eat takeaway/fast food a few times a week.",
-    ],
-  },
-  {
-    type: "radio",
-    group_name: "Summary Care Record",
-    note: "This is optional for most conditions, however for some chronic conditions we cannot treat you without seeing this.",
-    question:
-      "Do you consent to our clinicians viewing your NHS medical record through the NHS Summary Care Record Online Service?",
-    name: "consentToNhsRecord",
-    options: ["Yes", "No"],
-  },
-  {
-    type: "radio",
-    group_name: "Your NHS Doctor's Info",
-    note: "This is optional for most conditions, however for some chronic conditions we cannot treat you unless we have permission to inform your NHS GP",
-    question:
-      "Would you like us to contact your doctor informing them of what medicine we have provided after your treatment plan is shipped?",
-    name: "contactDoctor",
-    options: ["Yes", "No"],
-  },
-  {
-    type: "address",
-    question: "Your NHS Doctor's Info",
-    name: "surgeryAddress",
-    fields: [
-      { label: "Start Typing GP Surgery Name", name: "gpSurgeryName" },
-      { label: "Address Line 1", name: "addressLine1" },
-      { label: "Postal Code", name: "postalCode" },
-      { label: "City", name: "city" },
-      { label: "Country/Region", name: "country" },
-    ],
-  },
-];
+const steps = ["1", "2", "3", "4"];
 
-const MultiStepForm = ({ stepsData = [] }) => {
-  const data = stepsData.length > 0 ? stepsData : defaultStepsData; // Use dynamic data if available, otherwise fallback to dummy data
+function MultiStepForm() {
   const [activeStep, setActiveStep] = useState(0);
-  const [formData, setFormData] = useState({});
+  const [answers, setAnswers] = useState({
+    agedBetween: "",
+    AreYouPregnantBreastfeeding: "",
+    eatingDisorder: "",
+    injectionsOrMedications: "",
+    allergicReaction: "",
+    familyMembersDiagnosed: "",
+    conditions: "",
+    takingAnyMedications: "",
+    takingSteroidsMedication: "",
+    takenInjectableMedication: "",
+    medicationFile: "",
+    agreeToTerms: "",
+    understandGLP1Effect: "",
+    understandMoodEffect: "",
+    understandNeckLumpsRisk: "",
+    understandNoMixingWeightLossMeds: "",
+    understandPancreatitisRisk: "",
+    understandConceptionRisk: "",
 
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-
-    setFormData((prevData) => {
-      if (type === "checkbox") {
-        // Ensure previous state exists and is an array
-        const prevValues = prevData[name] || [];
-
-        return {
-          ...prevData,
-          [name]: checked
-            ? [...prevValues, value] // Add value if checked
-            : prevValues.filter((v) => v !== value), // Remove value if unchecked
-        };
-      }
-
-      return { ...prevData, [name]: value };
-    });
-  };
+    photoID: "",
+    weightVerificationPhoto: "",
+  });
 
   const handleNext = () => {
     setActiveStep((prevStep) => prevStep + 1);
@@ -100,295 +53,603 @@ const MultiStepForm = ({ stepsData = [] }) => {
   };
 
   const handleSubmit = () => {
-    console.log("Form Submitted", formData);
+    console.log("Form submitted with answers: ", answers);
   };
 
-  // Adjusting progress bar to exclude Step 1 (BMI calculation)
-  const progress = activeStep > 0 ? (activeStep / (data.length - 1)) * 100 : 0;
+  const renderStepContent = (stepIndex) => {
+    switch (stepIndex) {
+      //============= Step 01 =============//
+      case 0:
+        return (
+          <>
+            <BmiCalculate />
+          </>
+        );
+      //============= Step 02 =============//
+      case 1:
+        return (
+          <>
+            {/****** Are you aged between 17-74 years *****/}
 
-  const multiStepQue = {
-    nextBtn: {
-      fontSize: "18px",
-      fontWeight: "600",
-      lineHeight: "1.4",
-      backgroundColor: "#FD6400",
-      color: "#FFF",
-      borderRadius: "50px",
-      border: "none",
-      padding: "12px 25px",
-      textTransform: "uppercase",
-      boxShadow: "none",
-      marginLeft: "10px",
-    },
-    prevBtn: {
-      fontSize: "18px",
-      fontWeight: "600",
-      lineHeight: "1.4",
-      backgroundColor: "#104239",
-      color: "#FFF",
-      borderRadius: "50px",
-      border: "none",
-      padding: "12px 25px",
-      textTransform: "uppercase",
-      boxShadow: "none",
-      marginRight: "10px",
-    },
-    boldLabel: {
-      fontSize: "28px",
-      fontWeight: "700",
-      letterSpacing: "-0.5px",
-      color: "#333",
-      marginBottom: "5px",
-    },
-    noteSubTitle: {
-      fontSize: "16px",
-      fontWeight: "500",
-      color: "#747474",
-      lineHeight: "1.4",
-      margin: "10px 0 15px 0",
-    },
-    label: {
-      fontSize: "20px",
-      fontWeight: "500",
-      color: "#333333",
-      lineHeight: "1.4",
-    },
-    checkboxStyle: {
-        justifyContent: "top",
-        fontSize: "20px",
-        fontWeight: "500",
-        color: "#333333",
-        lineHeight: "1.4",
-    },
-    radioStyle: {
-      display: "flex",
-      flexWrap: "nowrap",
-      flexDirection: "row",
-      paddingBottom: "35px",
-      marginBottom: "40px",
-      borderBottom: "1px solid #ddd",
-    },
-    typeFields: {
-      display: "grid",
-      gridTemplateColumns: "repeat(2, 1fr)",
-      gap: "20px",
-    },
-  };
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Are you aged between 17-74 years
+              </Typography>
+              <RadioGroup
+                row
+                name="agedBetween"
+                value={answers.agedBetween}
+                onChange={(e) =>
+                  setAnswers({ ...answers, agedBetween: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+            </FormControl>
 
-  const [image, setImage] = useState(null);
+            {/****** Are you pregnant or breastfeeding? *****/}
 
-  const handleImageUpload = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      setImage(URL.createObjectURL(file)); 
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Are you pregnant or breastfeeding?
+              </Typography>
+              <RadioGroup
+                row
+                name="AreYouPregnantBreastfeeding"
+                value={answers.AreYouPregnantBreastfeeding}
+                onChange={(e) =>
+                  setAnswers({
+                    ...answers,
+                    AreYouPregnantBreastfeeding: e.target.value,
+                  })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+            </FormControl>
+
+            {/****** Have you ever suffered with an eating disorder? *****/}
+
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Have you ever suffered with an eating disorder?
+              </Typography>
+              <RadioGroup
+                row
+                name="eatingDisorder"
+                value={answers.eatingDisorder}
+                onChange={(e) =>
+                  setAnswers({ ...answers, eatingDisorder: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+            </FormControl>
+
+            {/****** Are you currently using any injections or medications, aside from metformin, to manage your blood sugar if you have type 2 diabetes?" *****/}
+
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Are you currently using any injections or medications, aside
+                from metformin, to manage your blood sugar if you have type 2
+                diabetes?"
+              </Typography>
+              <RadioGroup
+                row
+                name="injectionsOrMedications"
+                value={answers.injectionsOrMedications}
+                onChange={(e) =>
+                  setAnswers({
+                    ...answers,
+                    injectionsOrMedications: e.target.value,
+                  })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+            </FormControl>
+
+            {/****** Have you experienced an allergic reaction to Wegovy, Mounjaro, Semaglutide, Saxenda or Liraglutide before? *****/}
+
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Have you experienced an allergic reaction to Wegovy, Mounjaro,
+                Semaglutide, Saxenda or Liraglutide before?
+              </Typography>
+              <RadioGroup
+                row
+                name="allergicReaction"
+                value={answers.allergicReaction}
+                onChange={(e) =>
+                  setAnswers({ ...answers, allergicReaction: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+            </FormControl>
+
+            {/****** Have you or any family members ever been diagnosed with Medullary Thyroid Cancer, Thyroid Cancer, or Multiple Endocrine Neoplasia Type 2 (MEN2) syndrome? *****/}
+
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Have you or any family members ever been diagnosed with
+                Medullary Thyroid Cancer, Thyroid Cancer, or Multiple Endocrine
+                Neoplasia Type 2 (MEN2) syndrome?
+              </Typography>
+              <RadioGroup
+                row
+                name="familyMembersDiagnosed"
+                value={answers.familyMembersDiagnosed}
+                onChange={(e) =>
+                  setAnswers({
+                    ...answers,
+                    familyMembersDiagnosed: e.target.value,
+                  })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+            </FormControl>
+
+            {/****** Have you ever received a diagnosis or undergone surgery for any of the following conditions? *****/}
+
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Have you ever received a diagnosis or undergone surgery for any
+                of the following conditions?
+              </Typography>
+
+              {[
+                "Pancreatitis",
+                "Severe gastrointestinal disease (e.g. inflammatory bowel disease, ulcerative colitis, Crohn's disease)",
+                "Type 1 Diabetes",
+                "Kidney Disease",
+                "Liver Disease",
+                "Hypoglycaemia",
+                "Heart Failure",
+                "Gastric surgery (bariatric surgery)",
+                "Gallbladder, Bile duct or Pancreas disease",
+                "Chronic Malabsorption Syndrome",
+                "Cushings Syndrome",
+                "Acromegaly or any growth hormone problem",
+                "None",
+              ].map((condition, index) => (
+                <FormControlLabel
+                  className="checkbox2Col"
+                  key={index}
+                  control={
+                    <Checkbox
+                      checked={answers.conditions.includes(condition)}
+                      onChange={(e) => {
+                        const { value, checked } = e.target;
+                        let newConditions = [...answers.conditions];
+
+                        if (checked) {
+                          newConditions.push(value);
+                        } else {
+                          newConditions = newConditions.filter(
+                            (item) => item !== value
+                          );
+                        }
+
+                        setAnswers({ ...answers, conditions: newConditions });
+                      }}
+                      value={condition}
+                    />
+                  }
+                  label={condition}
+                />
+              ))}
+            </FormControl>
+
+            {/****** Are you taking any medications? (This can be over the counter, from your doctor, or any recreational drugs. *****/}
+
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Are you taking any medications? This can be over the counter,
+                from your doctor, or any recreational drugs.
+              </Typography>
+
+              <RadioGroup
+                row
+                name="medicationStatus" //
+                value={answers.medicationStatus || ""}
+                onChange={(e) =>
+                  setAnswers({ ...answers, medicationStatus: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+            </FormControl>
+
+            {/****** Are you taking steroids or medication to treat your thyroid? *****/}
+
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Are you taking steroids or medication to treat your thyroid?
+                (Required)
+              </Typography>
+
+              <RadioGroup
+                row
+                name="takingSteroidsMedication"
+                value={answers.takingSteroidsMedication || ""} // Prevents undefined errors
+                onChange={(e) =>
+                  setAnswers({
+                    ...answers,
+                    takingSteroidsMedication: e.target.value,
+                  })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+            </FormControl>
+
+            {/****** Have you taken injectable weight loss medication in the last 4 weeks? *****/}
+
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Have you taken injectable weight loss medication in the last 4
+                weeks? (Required)
+              </Typography>
+
+              <RadioGroup
+                row
+                name="takenInjectableMedication"
+                value={answers.takenInjectableMedication || ""} // Prevents undefined errors
+                onChange={(e) =>
+                  setAnswers({
+                    ...answers,
+                    takenInjectableMedication: e.target.value,
+                  })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+
+              {/* Conditionally render file upload input when "Yes" is selected */}
+              {answers.takenInjectableMedication === "Yes" && (
+                <Box sx={{ marginTop: "10px" }}>
+                  <Typography variant="body1">
+                    Please upload your previous supply. It must show your name,
+                    name and strength of the medication, and date of supply. You
+                    can send it later.
+                  </Typography>
+                  <input
+                    type="file"
+                    name="medicationFile"
+                    accept=".jpg,.jpeg,.png,.pdf"
+                    onChange={(e) =>
+                      setAnswers({
+                        ...answers,
+                        medicationFile: e.target.files[0],
+                      })
+                    }
+                    style={{ marginTop: "10px" }}
+                  />
+                </Box>
+              )}
+            </FormControl>
+
+            {/****** End *****/}
+          </>
+        );
+      //============= Step 03 =============//
+      case 2:
+        return (
+          <>
+            {/****** Do you agree to the following? *****/}
+
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Do you agree to the following?
+              </Typography>
+              <Typography variant="body1" className="noteTxt">
+                You will read the patient information leaflet provided with your
+                medication. You will notify us and inform your GP if you
+                experience any side effects, start new medication, or if your
+                medical conditions change during treatment. The treatment is for
+                your personal use only. You confirm that all the answers you
+                have provided are accurate and truthful. You understand that our
+                prescribers rely on your responses in good faith to make
+                prescribing decisions, and providing incorrect information could
+                pose a risk to your health.
+              </Typography>
+
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={answers.agreeToTerms || false}
+                    onChange={(e) =>
+                      setAnswers({ ...answers, agreeToTerms: e.target.checked })
+                    }
+                    name="agreeToTerms"
+                  />
+                }
+                label="I agree"
+              />
+            </FormControl>
+
+            {/****** Do you understand that GLP-1 injectable weight-loss medications *****/}
+
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Do you understand that GLP-1 injectable weight-loss medications
+                (such as Mounjaro and Wegovy) may reduce the effectiveness of
+                oral contraceptives, and that you will need to use additional
+                non-oral contraception methods (e.g., condoms) while undergoing
+                treatment? (Required)
+              </Typography>
+
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={answers.understandGLP1Effect || false}
+                    onChange={(e) =>
+                      setAnswers({
+                        ...answers,
+                        understandGLP1Effect: e.target.checked,
+                      })
+                    }
+                    name="understandGLP1Effect"
+                  />
+                }
+                label="I agree"
+              />
+            </FormControl>
+
+            {/****** Do you understand that both weight loss and injectable weight-loss treatments *****/}
+
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Do you understand that both weight loss and injectable
+                weight-loss treatments have been linked to a lowering of mood?
+                If you experience depression, thoughts of self-harm, or other
+                mental health issues, you should stop the treatment and speak to
+                your doctor immediately.
+              </Typography>
+
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={answers.understandMoodEffect || false}
+                    onChange={(e) =>
+                      setAnswers({
+                        ...answers,
+                        understandMoodEffect: e.target.checked,
+                      })
+                    }
+                    name="understandMoodEffect"
+                  />
+                }
+                label="I agree"
+              />
+            </FormControl>
+
+            {/****** Do you understand that if you develop any lumps in your neck *****/}
+
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Do you understand that if you develop any lumps in your neck or
+                experience a hoarse voice while taking this medication, you
+                should stop using it and consult your doctor immediately?
+              </Typography>
+
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={answers.understandNeckLumpsRisk || false}
+                    onChange={(e) =>
+                      setAnswers({
+                        ...answers,
+                        understandNeckLumpsRisk: e.target.checked,
+                      })
+                    }
+                    name="understandNeckLumpsRisk"
+                  />
+                }
+                label="I agree"
+              />
+            </FormControl>
+
+            {/****** Do you understand that injectable weight-loss medications *****/}
+
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Do you understand that injectable weight-loss medications should
+                not be used alongside other weight-loss medications? (Required)
+              </Typography>
+
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={answers.understandNoMixingWeightLossMeds || false}
+                    onChange={(e) =>
+                      setAnswers({
+                        ...answers,
+                        understandNoMixingWeightLossMeds: e.target.checked,
+                      })
+                    }
+                    name="understandNoMixingWeightLossMeds"
+                  />
+                }
+                label="I agree"
+              />
+            </FormControl>
+
+            {/****** Do you understand that this medication may increase the risk of pancreatitis *****/}
+
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Do you understand that this medication may increase the risk of
+                pancreatitis, gallbladder issues, and gallstones, and that you
+                should seek medical advice if you experience any abdominal pain
+                while using it? (Required)
+              </Typography>
+
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={answers.understandPancreatitisRisk || false}
+                    onChange={(e) =>
+                      setAnswers({
+                        ...answers,
+                        understandPancreatitisRisk: e.target.checked,
+                      })
+                    }
+                    name="understandPancreatitisRisk"
+                  />
+                }
+                label="I agree"
+              />
+            </FormControl>
+
+            {/****** Do you understand that this medication should not be used by men or women *****/}
+
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Do you understand that this medication should not be used by men
+                or women who are trying to conceive or are within two months of
+                planning to start trying for a child? (Required)
+              </Typography>
+
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={answers.understandConceptionRisk || false}
+                    onChange={(e) =>
+                      setAnswers({
+                        ...answers,
+                        understandConceptionRisk: e.target.checked,
+                      })
+                    }
+                    name="understandConceptionRisk"
+                  />
+                }
+                label="I agree"
+              />
+            </FormControl>
+          </>
+        );
+      //============= Step 04 =============//
+      case 3:
+        return (
+          <>
+            <Typography variant="h3" className="stepHeading">
+              Please Upload relevant documents required
+            </Typography>
+
+            {/****** Please upload a photo ID which is within date and not expired. *****/}
+
+            <FormControl component="fieldset" className="QuestionBox">
+              <Box sx={{ marginTop: "10px" }}>
+                <Typography variant="body1">
+                  Please upload a photo ID which is within date and not expired.
+                  (Max. file size: 80 MB.)
+                </Typography>
+                <input
+                  type="file"
+                  name="photoID"
+                  accept=".jpg,.jpeg,.png,.pdf"
+                  onChange={(e) =>
+                    setAnswers({
+                      ...answers,
+                      photoID: e.target.files[0],
+                    })
+                  }
+                  style={{ marginTop: "10px" }}
+                />
+              </Box>
+            </FormControl>
+
+            {/****** Please upload a fully body photo. Max. file size: 80 MB. *****/}
+
+            <FormControl component="fieldset" className="QuestionBox">
+              <Box sx={{ marginTop: "10px" }}>
+                <Typography variant="body1">
+                  Please upload a fully body photo. Max. (file size: 80 MB.)
+                </Typography>
+                <input
+                  type="file"
+                  name="weightVerificationPhoto"
+                  accept=".jpg,.jpeg,.png,.pdf"
+                  onChange={(e) =>
+                    setAnswers({
+                      ...answers,
+                      weightVerificationPhoto: e.target.files[0],
+                    })
+                  }
+                  style={{ marginTop: "10px" }}
+                />
+              </Box>
+            </FormControl>
+          </>
+        );
+      default:
+        return null;
     }
   };
 
   return (
-    <Box sx={{ border: "none" }}>
-      {activeStep > 0 && (
-        <LinearProgress variant="determinate" value={progress} sx={{ mb: 3 }} />
-      )}
+    <Box
+      sx={{
+        width: "100%",
+        maxWidth: "100%",
+        margin: "0 auto",
+      }}
+    >
+      <Stepper activeStep={activeStep} alternativeLabel>
+        {steps.map((label, index) => (
+          <Step key={index}>
+            <StepLabel>{/** {label}*/}</StepLabel>
+          </Step>
+        ))}
+      </Stepper>
 
-      <Box sx={{ mt: 3 }}>
-        {/* Step 1: Add BMI Calculation Component */}
-        {activeStep === 0 && <BmiCalculate />}
-        
-        {/* Step 2: Upload Images */}
-        {activeStep === 1 && 
-          <Card sx={{ maxWidth: 600, margin: "auto", padding: 2, textAlign: "center" }}>
-          <CardContent>
-            <Typography variant="h5" gutterBottom>
-              Upload and Preview Image
-            </Typography>
-            <input
-              accept="image/*"
-              type="file"
-              onChange={handleImageUpload}
-              style={{ display: "none" }}
-              id="upload-button"
-            />
-            <label htmlFor="upload-button">
-              <Button variant="contained" component="span" startIcon={<ImageIcon />}>
-                Upload Image
-              </Button>
-            </label>
-            {image && (
-              <Box mt={2}>
-                <Typography variant="body2">Preview:</Typography>
-                <img src={image} alt="Uploaded Preview" style={{ width: "100%", borderRadius: "8px" }} />
-              </Box>
-            )}
-          </CardContent>
-        </Card>
-        }
-
-        {/* Step 2: Lifestyle questions */}
-        {activeStep === 2 && (
-          <FormControl>
-            <FormLabel style={multiStepQue.boldLabel}>
-              {data[activeStep].question}
-            </FormLabel>
-            <Typography style={multiStepQue.noteSubTitle}>
-              {data[activeStep].note}
-            </Typography>
-            {data[activeStep].options.map((option) => (
-              <FormControlLabel
-                key={option}
-                control={
-                  <Checkbox
-                    style={multiStepQue.checkboxStyle}
-                    name={data[activeStep].name} // Use group name
-                    value={option} // Set value
-                    checked={(formData[data[activeStep].name] || []).includes(
-                      option
-                    )}
-                    onChange={handleChange}
-                  />
-                }
-                label={option}
-              />
-            ))}
-          </FormControl>
-        )}
-
-        {/* Step 3: NHS Summary Care Record and Doctor's Info */}
-        {activeStep === 3 && (
-          <Box>
-            {/* NHS Record Consent */}
-            <FormControl>
-              <Typography style={multiStepQue.boldLabel}>
-                {data[activeStep].group_name}
-              </Typography>
-              <FormLabel style={multiStepQue.label}>
-                {data[activeStep].question}
-              </FormLabel>
-              <FormLabel style={multiStepQue.noteSubTitle}>
-                {data[activeStep].note}
-              </FormLabel>
-
-              <RadioGroup
-                style={multiStepQue.radioStyle}
-                name={data[activeStep].name}
-                value={formData[data[activeStep].name] || ""}
-                onChange={handleChange}
-              >
-                {data[activeStep].options.map((option) => (
-                  <FormControlLabel
-                    key={option}
-                    value={option}
-                    control={<Radio />}
-                    label={option}
-                  />
-                ))}
-              </RadioGroup>
-            </FormControl>
-
-            {/* Contact Doctor Consent */}
-            <FormControl>
-              <Typography style={multiStepQue.boldLabel}>
-                {data[activeStep + 1].group_name}
-              </Typography>
-              <FormLabel style={multiStepQue.label}>
-                {data[activeStep + 1].question}
-              </FormLabel>
-              <FormLabel style={multiStepQue.noteSubTitle}>
-                {data[activeStep + 1].note}
-              </FormLabel>
-              <RadioGroup
-                style={multiStepQue.radioStyle}
-                name={data[activeStep + 1].name}
-                value={formData[data[activeStep + 1].name] || ""}
-                onChange={handleChange}
-              >
-                {data[activeStep + 1].options.map((option) => (
-                  <FormControlLabel
-                    key={option}
-                    value={option}
-                    control={<Radio />}
-                    label={option}
-                  />
-                ))}
-              </RadioGroup>
-            </FormControl>
-
-            {/* Surgery Address Fields */}
-
-            <Box style={multiStepQue.typeFields}>
-              {data[activeStep + 2].fields.map((field) => (
-                <TextField
-                  key={field.name}
-                  fullWidth
-                  label={field.label}
-                  name={field.name}
-                  value={formData[field.name] || ""}
-                  onChange={handleChange}
-                  margin="normal"
-                />
-              ))}
-            </Box>
-          </Box>
-        )}
-      </Box>
-         {/* Next Prev Button */}
-      <Box sx={{ display: "flex", justifyContent: "center", mt: 6, mb: 4 }}>
-        <Button
-          style={multiStepQue.prevBtn}
-          disabled={activeStep === 0}
-          onClick={handleBack}
-          variant="contained"
+      <Box sx={{ padding: "20px" }}>
+        {renderStepContent(activeStep)}
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            marginTop: "20px",
+          }}
         >
-          <svg
-            style={{ marginRight: "10px" }}
-            width="18"
-            height="14"
-            viewBox="0 0 18 14"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M1 7L7 1M1 7L7 13M1 7L11.5 7M17 7L14.5 7"
-              stroke="white"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
-          Back
-        </Button>
-        {activeStep === data.length - 1 ? (
-          <Button onClick={handleSubmit} variant="contained" color="success">
-            Submit
-          </Button>
-        ) : (
           <Button
-            style={multiStepQue.nextBtn}
-            onClick={handleNext}
             variant="contained"
-            color="primary"
+            onClick={handleBack}
+            disabled={activeStep === 0}
           >
-            Next
-            <svg
-              style={{ marginLeft: "10px" }}
-              width="18"
-              height="14"
-              viewBox="0 0 18 14"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M17 7L11 1M17 7L11 13M17 7L6.5 7M1 7L3.5 7"
-                stroke="white"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
+            Back
           </Button>
-        )}
+          <Box>
+            {activeStep === steps.length - 1 ? (
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleSubmit}
+              >
+                Submit
+              </Button>
+            ) : (
+              <Button variant="contained" onClick={handleNext}>
+                Next
+              </Button>
+            )}
+          </Box>
+        </Box>
       </Box>
     </Box>
   );
-};
+}
 
 export default MultiStepForm;
