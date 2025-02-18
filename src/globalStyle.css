@@ -1,32 +1,12 @@
-.labelOne {
-    font-size: 18px !important;
-    font-weight: 600 !important;
-    margin-top: 15px !important;
-    line-height: 1.5 !important;
-    margin-bottom: 10px !important;
-}
-.QuestionBox {
-    border-bottom: 1px solid #CCC !important;
-    display: block !important;
-    padding: 20px 0 !important;
-}
-.checkbox2Col {
-    display: block !important;
-}
-.stepHeading {
-    font-size: 28px !important;
-    color: rgb(51, 51, 51) !important;
-    line-height: 1.3 !important;
-    margin-bottom: 10px !important;
-    font-weight: 700 !important;
-    margin-top: 30px;
-}
-.QuestionBox label span {
-    font-weight: 500 !important;
-    font-size: 15px !important;
-}
-.noteTxt {
-    font-weight: 500 !important;
-    font-size: 15px !important;
-    color: #999 !important;
+.labelOne { font-size: 18px !important; font-weight: 600 !important; margin-top: 15px !important; line-height: 1.5 !important; margin-bottom: 10px !important; }
+.QuestionBox { border-bottom: 1px solid #CCC !important; display: block !important; padding: 30px 0 !important; }
+.checkbox2Col { display: block !important; }
+.stepHeading { font-size: 28px !important; color: rgb(51, 51, 51) !important; line-height: 1.3 !important; margin-bottom: 10px !important; font-weight: 700 !important; margin-top: 30px; }
+.QuestionBox label span { font-weight: 500 !important; font-size: 15px !important; }
+.noteTxt { font-weight: 500 !important; font-size: 15px !important; color: #999 !important; }
+.MuiBox-root.css-1ruxp1v { padding: 0 !important; }
+ @media only screen and (max-width: 767px) {
+.QuestionBox { padding: 10px 0 !important; }
+.labelOne { font-size: 15px !important; margin-top: 10px !important; margin-bottom: 5px !important; }
+.QuestionBox label span { font-size: 14px !important; }
 }

@@ -8,7 +8,6 @@ import {
   MenuItem,
   Select,
   FormControl,
-  InputLabel,
   FormHelperText,
 } from "@mui/material";
 import { LocalizationProvider } from "@mui/x-date-pickers";
@@ -124,30 +123,6 @@ function YourDetailForm() {
   };
 
   const detailStyle = {
-    title: {
-      fontSize: "32px",
-      color: "#333333",
-      lineHeight: "1.3",
-      marginBottom: "10px",
-    },
-    subtitle: {
-      fontSize: "18px",
-      color: "#747474",
-      lineHeight: "1.3",
-    },
-    signinLink: {
-      fontSize: "18px",
-      color: "#333333",
-      lineHeight: "1.3",
-      fontWeight: "600",
-    },
-    FormRow: {
-      marginTop: "30px",
-    },
-    fieldDesign: {
-      borderRadius: "50px",
-      border: "none",
-    },
     textField: {
       "& .MuiOutlinedInput-root": {
         border: "50px",
@@ -161,40 +136,6 @@ function YourDetailForm() {
       lineHeight: "1.3",
       fontWeight: "700",
       marginBottom: "10px",
-    },
-    startBtn: {
-      fontSize: "18px",
-      fontWeight: "600",
-      lineHeight: "1.4",
-      backgroundColor: "#FD6400",
-      color: "#FFF",
-      borderRadius: "50px",
-      border: "none",
-      textTransform: "inherit",
-      padding: "12px 30px",
-      marginTop: "30px",
-      marginBottom: "20px",
-      boxShadow: "none",
-      textTransform: "uppercase",
-    },
-    noteMsg: {
-      backgroundColor: "#E2F6F9",
-      border: "1px solid #C0E8FF",
-      padding: "15px",
-      marginTop: "10px",
-      marginBottom: "10px",
-      borderRadius: "10px",
-      fontSize: "15px",
-    },
-    noteMsgTxt: {
-      fontSize: "15px",
-      color: "#3E858F",
-      fontWeight: "500",
-    },
-    dobField: {
-      backgroundColor: "#FAFAFA",
-      borderRadius: "50px",
-      border: "1px solid #EDEDED",
     },
     fieldInput: {
       backgroundColor: "#FAFAFA",
@@ -230,20 +171,39 @@ function YourDetailForm() {
   };
 
   return (
-    <LocalizationProvider
-      style={detailStyle.wrapperBox}
-      dateAdapter={AdapterMoment}
-    >
+    <LocalizationProvider dateAdapter={AdapterMoment}>
       <Box component="form" onSubmit={handleSubmit} sx={{ width: "100%" }}>
-        <Typography style={detailStyle.title} variant="h4" fontWeight="bold">
+        <Typography
+          variant="h4"
+          sx={{
+            fontSize: { xs: "22px", sm: "28px", md: "32px" },
+            color: "#333333",
+            lineHeight: "1.3",
+            marginBottom: "10px",
+            fontWeight: "bold",
+          }}
+        >
           Your Details
         </Typography>
-        <Typography style={detailStyle.subtitle} variant="body1" gutterBottom>
+        <Typography
+          variant="body1"
+          sx={{
+            fontSize: { xs: "15px", sm: "16px", md: "18px" },
+            color: "#747474",
+            lineHeight: "1.3",
+          }}
+        >
           Please complete the below details to create your account and continue
           your consultation.
         </Typography>
         <Typography
-          style={detailStyle.signinLink}
+          sx={{
+            fontSize: { xs: "15px", sm: "16px", md: "18px" },
+            color: "#333333",
+            lineHeight: "1.3",
+            fontWeight: "600",
+            marginTop: { xs: "10px", sm: "5px", md: "5px" },
+          }}
           variant="h6"
           fontWeight="bold"
         >
@@ -255,12 +215,21 @@ function YourDetailForm() {
             Sign In
           </Link>
         </Typography>
-        <Grid2 style={detailStyle.FormRow} container spacing={3}>
+        <Grid2
+          container
+          spacing={{ xs: 2, sm: 2, md: 3 }}
+          sx={{
+            marginTop: { xs: "15px", sm: "20px", md: "30px" },
+          }}
+        >
           {/* First Name and Last Name */}
           <Grid2
-            style={detailStyle.fieldDesign}
             size={{ xs: 12, sm: 6, md: 6 }}
-            spacing={2}
+            spacing={{ xs: 1, sm: 2, md: 2 }}
+            sx={{
+              borderRadius: "50px",
+              border: "none",
+            }}
           >
             <TextField
               fullWidth
@@ -315,7 +284,17 @@ function YourDetailForm() {
 
           {/* Date of Birth */}
           <Grid2 size={{ xs: 12, sm: 12, md: 12 }} spacing={2}>
-            <Typography style={detailStyle.labelstyle} variant="h5">
+            <Typography
+              variant="h5"
+              sx={{
+                fontSize: { xs: "16px", sm: "17px", md: "18px" },
+                color: "#333333",
+                lineHeight: "1.3",
+                fontWeight: "700",
+                marginBottom: "10px",
+                paddingLeft: { xs: "20px", sm: "10px", md: "0px" },
+              }}
+            >
               Date of Birth
             </Typography>
 
@@ -405,36 +384,71 @@ function YourDetailForm() {
           </Grid2>
 
           {/* Password and Confirm Password */}
-          <Grid2 size={{ xs: 12, sm: 6, md: 6 }} spacing={2}>
-            <TextField
-              fullWidth
-              placeholder="Set Password"
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              error={!!errors.password}
-              helperText={errors.password}
-              sx={detailStyle.fieldInput}
-            />
-          </Grid2>
-          <Grid2 size={{ xs: 12, sm: 6, md: 6 }} spacing={2}>
-            <TextField
-              fullWidth
-              placeholder="Confirm Password"
-              type="password"
-              name="confirmPassword"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              error={!!errors.confirmPassword}
-              helperText={errors.confirmPassword}
-              sx={detailStyle.fieldInput}
-            />
+
+          <Grid2 size={{ xs: 12, sm: 12, md: 12 }} spacing={2}>
+            <Typography
+              variant="h5"
+              sx={{
+                fontSize: { xs: "16px", sm: "17px", md: "18px" },
+                color: "#333333",
+                lineHeight: "1.3",
+                fontWeight: "700",
+                marginBottom: "10px",
+                paddingLeft: { xs: "20px", sm: "10px", md: "0px" },
+              }}
+            >
+              Password
+            </Typography>
+            <Grid2 size={{ xs: 12, sm: 12, md: 12 }} container spacing={2}>
+              <Grid2 size={{ xs: 12, sm: 6, md: 6 }} spacing={2}>
+                <TextField
+                  fullWidth
+                  placeholder="Set Password"
+                  type="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  error={!!errors.password}
+                  helperText={errors.password}
+                  sx={detailStyle.fieldInput}
+                />
+              </Grid2>
+              <Grid2 size={{ xs: 12, sm: 6, md: 6 }} spacing={2}>
+                <TextField
+                  fullWidth
+                  placeholder="Confirm Password"
+                  type="password"
+                  name="confirmPassword"
+                  value={formData.confirmPassword}
+                  onChange={handleChange}
+                  error={!!errors.confirmPassword}
+                  helperText={errors.confirmPassword}
+                  sx={detailStyle.fieldInput}
+                />
+              </Grid2>
+            </Grid2>
           </Grid2>
 
           {/* Note Box */}
-          <Box style={detailStyle.noteMsg}>
-            <Typography style={detailStyle.noteMsgTxt} variant="body2">
+          <Box
+            sx={{
+              backgroundColor: "#E2F6F9",
+              border: "1px solid #C0E8FF",
+              padding: "15px",
+              marginTop: "10px",
+              marginBottom: "10px",
+              borderRadius: "10px",
+              fontSize: "15px",
+            }}
+          >
+            <Typography
+              variant="body2"
+              sx={{
+                fontSize: "15px",
+                color: "#3E858F",
+                fontWeight: "500",
+              }}
+            >
               We need to verify your identity before providing treatments.
               Please use your home address below. You can add a different
               shipping address at the checkout.
@@ -503,11 +517,26 @@ function YourDetailForm() {
         </Grid2>
 
         {/* Submit Button */}
-        <Box sx={{ marginTop: "20px", textAlign: "center" }}>
+        <Box sx={{ marginTop: { xs: "0px", sm: "10px", md: "20px" }, textAlign: "center" }}>
           <Button
-            style={detailStyle.startBtn}
             variant="contained"
             type="submit"
+            sx={{
+              fontSize: { xs: "15px", sm: "17px", md: "18px" },
+              width: { xs: "100%", sm: "auto", md: "auto" },
+              fontWeight: "600",
+              lineHeight: "1.4",
+              backgroundColor: "#FD6400",
+              color: "#FFF",
+              borderRadius: "50px",
+              border: "none",
+              textTransform: "inherit",
+              padding: "12px 30px",
+              marginTop: "30px",
+              marginBottom: "20px",
+              boxShadow: "none",
+              textTransform: "uppercase",
+            }}
           >
             Start Consultation{" "}
             <svg

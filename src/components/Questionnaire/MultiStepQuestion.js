@@ -628,6 +628,9 @@ function MultiStepForm() {
             variant="contained"
             onClick={handleBack}
             disabled={activeStep === 0}
+            sx={{
+              fontSize: { xs: "13px", sm: "15px", md: "16px" },
+            }}
           >
             Back
           </Button>
@@ -637,11 +640,20 @@ function MultiStepForm() {
                 variant="contained"
                 color="primary"
                 onClick={handleSubmit}
+                sx={{
+                  fontSize: { xs: "13px", sm: "15px", md: "16px" },
+                }}
               >
                 Submit
               </Button>
             ) : (
-              <Button variant="contained" onClick={handleNext}>
+              <Button
+                variant="contained"
+                onClick={handleNext}
+                sx={{
+                  fontSize: { xs: "13px", sm: "15px", md: "16px" },
+                }}
+              >
                 Next
               </Button>
             )}

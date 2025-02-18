@@ -88,6 +88,9 @@ const styles = {
     transition: "color 0.3s",
     textTransform: "capitalize",
   }),
+  tabNum: (isActive) => ({
+    color: isActive ? "#104239" : "#9B8962",
+  }),
 };
 
 function VerticalTabs() {
@@ -128,7 +131,7 @@ function VerticalTabs() {
     <Container>
       <Box
         sx={{
-          padding: "70px 0",
+          padding: { xs: "40px 0", sm: "50px 0", md: "70px 0" },
           display: "flex",
           flexWrap: "wrap",
           justifyContent: "space-between",
@@ -143,22 +146,36 @@ function VerticalTabs() {
                 ref={(el) => (accordionRefs.current[index] = el)}
                 expanded={selectedTab === index}
                 onChange={() => handleAccordionChange(index)}
+                sx={{
+                  border: "1px solid #CCC",
+                  boxShadow: "none",
+                  borderRadius: "10px !important",
+                  marginBottom: "10px",
+                  "&::before": {
+                    display: "none"
+    },
+                }}
               >
-                <AccordionSummary
-                  expandIcon={<ExpandMoreIcon />}
-                  sx={{
-                    display: "flex",
-                    flexWrap: "wrap",
-                  }}
-                >
+                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                  <Typography
+                    style={styles.tabNum(selectedTab === index)}
+                    sx={{
+                      fontSize: "32px",
+                      fontWeight: "800",
+                      paddingRight: { xs: "15px", sm: "15px", md: "15px" },
+                      color: "#9B8962",
+                    }}
+                  >
+                    {tab.number}
+                  </Typography>
                   <Box>
                     <Typography
-                      variant="h4"
+                      variant="subtitle2"
                       style={styles.tabTitle(selectedTab === index)}
                       sx={{
                         width: "100%",
-                        fontSize: "18px",
                         fontWeight: "700",
+                        fontSize: "18px",
                       }}
                     >
                       {tab.title}
@@ -166,7 +183,7 @@ function VerticalTabs() {
                     <Typography
                       variant="h6"
                       sx={{
-                        fontSize: { xs: "14px", sm: "14px", md: "15px" },
+                        fontSize: { xs: "15px", sm: "15px", md: "15px" },
                         fontWeight: "500",
                         textTransform: "none",
                         lineHeight: "1.4",
@@ -191,7 +208,7 @@ function VerticalTabs() {
                       disabled={selectedTab === 0}
                       variant="contained"
                     >
-                      Previous
+                      Previous Tab
                     </Button>
                     <Button
                       onClick={handleNext}
@@ -306,10 +323,7 @@ function VerticalTabs() {
                 padding: "30px 45px",
               }}
             >
-              <Box sx={{
-              }}>
-              {tabData[selectedTab].content}
-              </Box>
+              <Box sx={{}}>{tabData[selectedTab].content}</Box>
             </Box>
           </Box>
         )}

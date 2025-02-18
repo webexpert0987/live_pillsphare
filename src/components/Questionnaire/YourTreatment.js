@@ -9,8 +9,6 @@ import {
   Select,
   Button,
   Box,
-  Container,
-  colors,
 } from "@mui/material";
 
 const products = [
@@ -94,102 +92,107 @@ const TreatmentRecommendation = () => {
     setSharpsBin(event.target.value);
   };
 
-  const treatmentStyle = {
-    Title: {
-      fontSize: "32px",
-      fontWeight: "700",
-      letterSpacing: "-0.5px",
-      color: "#333",
-      marginBottom: "10px",
-    },
-    paragraph: {
-      fontSize: "18px",
-      fontWeight: "500",
-      color: "#747474",
-      lineHeight: "1.4",
-      margin: "10px 0 15px 0",
-    },
-    proCard: {
-        boxShadow: "none",
-        backgroundColor: "#FAFAFA",
-        border: "1px solid #EEEEEE",
-        borderRadius: "10px"
-    },
-    prodBtn: {
-        fontSize: "14px",
-        fontWeight: "600",
-        lineHeight: "1.4",
-        backgroundColor: "#104239",
-        color: "#FFF",
-        borderRadius: "50px",
-        border: "none",
-        padding: "12px 25px",
-        width: "100%",
-        boxShadow: "none",
-        textTransform: "capitalize"
-    },
-    prodDrop: {
-        padding: "0 5px",
-        borderRadius: "50px",
-        fontSize: "15x",
-        color: "#747474",
-        fontWeight: "500",
-    },
-    loadMoreBtn: {
-        fontSize: "17px",
-        fontWeight: "600",
-        lineHeight: "1.4",
-        backgroundColor: "#FD6400",
-        color: "#FFF",
-        borderRadius: "50px",
-        border: "none",
-        padding: "15px 35px",
-        boxShadow: "none",
-        textTransform: "uppercase"
-    }
-  };
-
   return (
     <Box>
-      <Typography style={treatmentStyle.Title} variant="h5" gutterBottom>
+      <Typography
+        variant="h5"
+        sx={{
+          fontSize: { xs: "20px", sm: "26px", md: "32px" },
+          fontWeight: "700",
+          letterSpacing: "-0.5px",
+          color: "#333",
+          marginBottom: "10px",
+        }}
+      >
         Treatment Recommendation and Preference
       </Typography>
-      <Typography style={treatmentStyle.paragraph} variant="body1" gutterBottom>
+      <Typography
+        variant="body1"
+        sx={{
+          fontSize: { xs: "16px", sm: "16px", md: "18px" },
+          fontWeight: "500",
+          color: "#747474",
+          lineHeight: "1.4",
+          margin: "10px 0 15px 0",
+        }}
+      >
         Based on the answers you have provided, our clinical team may offer the
         treatments shown below. If you have a treatment preference, you can
         select it here. Whilst your preference will be taken into consideration,
         our team will recommend the treatment which is most suitable for you.
       </Typography>
 
-      <Grid2 container spacing={4} mt={4}>
+      <Grid2 container spacing={{ xs: 1, sm: 3, md: 4 }} mt={4}>
         {products.slice(0, visibleProducts).map((product) => (
-          <Grid2 size={{ xs: 12, sm: 6, md: 6 }} key={product.id}>
-            <Card style={treatmentStyle.proCard}>
-              <CardMedia style={treatmentStyle.prodImg}
+          <Grid2 size={{ xs: 6, sm: 6, md: 6 }} key={product.id}>
+            <Card
+              sx={{
+                boxShadow: "none",
+                backgroundColor: "#FAFAFA",
+                border: "1px solid #EEEEEE",
+                borderRadius: "10px",
+              }}
+            >
+              <CardMedia
                 component="img"
-                height="250"
+                height={{ xs: 100, sm: 200, md: 250 }}
                 image={product.image}
                 alt={product.title}
               />
-              <CardContent>
+              <CardContent
+                sx={{ padding: { xs: "15px", sm: "18px", md: "20px" } }}
+              >
                 <Box
                   display="flex"
                   justifyContent="space-between"
                   alignItems="center"
+                  sx={{
+                    flexWrap: { xs: "wrap", sm: "nowrap", md: "nowrap" },
+                  }}
                 >
-                  <Typography style={treatmentStyle.prodTitle} variant="h6">{product.title}</Typography>
-                  <Typography style={treatmentStyle.prodPrice} variant="body1" color="textSecondary">
+                  <Typography
+                    variant="h6"
+                    sx={{
+                      fontSize: { xs: "15px", sm: "18px", md: "20px" },
+                      fontWeight: { xs: "600", sm: "600", md: "700" },
+                      lineHeight: "1.3",
+                    }}
+                  >
+                    {product.title}
+                  </Typography>
+                  <Typography
+                    variant="body1"
+                    sx={{
+                      fontSize: { xs: "20px", sm: "22px", md: "24px" },
+                      fontWeight: "800",
+                      color: "#FD6400",
+                      padding: {
+                        xs: "10px 0 0 0",
+                        sm: "0 0 0 10px",
+                        md: "0 0 0 15px",
+                      },
+                    }}
+                  >
                     {product.price}
                   </Typography>
                 </Box>
 
-                <Select style={treatmentStyle.prodDrop}
+                <Select
                   fullWidth
                   value={dosingSchedule}
                   onChange={handleDosingScheduleChange}
                   displayEmpty
                   variant="outlined"
-                  sx={{ mt: 2 }}
+                  sx={{
+                    mt: 2,
+                    padding: "0 5px",
+                    borderRadius: "50px",
+                    fontSize: { xs: "13px", sm: "14px", md: "15px" },
+                    color: "#747474",
+                    fontWeight: "500",
+                    maxHeight: "40px",
+                    backgroundColor: "#FFF",
+                  }}
                 >
                   <MenuItem value="" disabled>
                     Where are you in your dosing schedule
@@ -199,13 +202,29 @@ const TreatmentRecommendation = () => {
                   <MenuItem value="end">End of Cycle</MenuItem>
                 </Select>
 
-                <Box display="flex" gap={2} sx={{ mt: 2 }}>
-                  <Select style={treatmentStyle.prodDrop}
+                <Box
+                  display="flex"
+                  gap={2}
+                  sx={{
+                    mt: 2,
+                    flexWrap: { xs: "wrap", sm: "nowrap", md: "nowrap" },
+                  }}
+                >
+                  <Select
                     fullWidth
                     value={doseStrength}
                     onChange={handleDoseStrengthChange}
                     displayEmpty
                     variant="outlined"
+                    sx={{
+                      padding: "0 5px",
+                      borderRadius: "50px",
+                      fontSize: { xs: "13px", sm: "14px", md: "15px" },
+                      color: "#747474",
+                      fontWeight: "500",
+                      maxHeight: "40px",
+                      backgroundColor: "#FFF",
+                    }}
                   >
                     <MenuItem value="" disabled>
                       Dose Strength
@@ -214,12 +233,21 @@ const TreatmentRecommendation = () => {
                     <MenuItem value="medium">Medium</MenuItem>
                     <MenuItem value="high">High</MenuItem>
                   </Select>
-                  <Select style={treatmentStyle.prodDrop}
+                  <Select
                     fullWidth
                     value={sharpsBin}
                     onChange={handleSharpsBinChange}
                     displayEmpty
                     variant="outlined"
+                    sx={{
+                      padding: "0 5px",
+                      borderRadius: "50px",
+                      fontSize: { xs: "13px", sm: "14px", md: "15px" },
+                      color: "#747474",
+                      fontWeight: "500",
+                      maxHeight: "40px",
+                      backgroundColor: "#FFF",
+                    }}
                   >
                     <MenuItem value="" disabled>
                       Sharps Bin
@@ -229,7 +257,28 @@ const TreatmentRecommendation = () => {
                   </Select>
                 </Box>
 
-                <Button style={treatmentStyle.prodBtn} variant="contained" fullWidth sx={{ mt: 2 }}>
+                <Button
+                  variant="contained"
+                  fullWidth
+                  sx={{
+                    mt: 2,
+                    fontSize: { xs: "13px", sm: "13px", md: "14px" },
+                    fontWeight: "600",
+                    lineHeight: "1.4",
+                    backgroundColor: "#104239",
+                    color: "#FFF",
+                    borderRadius: "50px",
+                    border: "none",
+                    padding: {
+                      xs: "10px 10px",
+                      sm: "11px 20px",
+                      md: "12px 25px",
+                    },
+                    width: "100%",
+                    boxShadow: "none",
+                    textTransform: "capitalize",
+                  }}
+                >
                   Select Treatment{" "}
                   <svg
                     style={{ marginLeft: "10px" }}
@@ -255,8 +304,26 @@ const TreatmentRecommendation = () => {
       </Grid2>
 
       {visibleProducts < products.length && (
-        <Box textAlign="center" sx={{ mt: 5 }}>
-          <Button style={treatmentStyle.loadMoreBtn} variant="outlined" onClick={loadMore}>
+        <Box
+          textAlign="center"
+          sx={{ marginTop: { xs: "20px", sm: "30px", md: "40px" } }}
+        >
+          <Button
+            variant="outlined"
+            onClick={loadMore}
+            sx={{
+              fontSize: { xs: "14px", sm: "15px", md: "17px" },
+              fontWeight: "600",
+              lineHeight: "1.4",
+              backgroundColor: "#FD6400",
+              color: "#FFF",
+              borderRadius: "50px",
+              border: "none",
+              padding: "15px 35px",
+              boxShadow: "none",
+              textTransform: "uppercase",
+            }}
+          >
             Load More{" "}
             <svg
               style={{ marginLeft: "10px" }}

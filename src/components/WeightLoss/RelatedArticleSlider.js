@@ -70,7 +70,10 @@ const PrevArrow = (props) => {
       <img
         src={PrevArrowImg}
         alt="Previous"
-        style={{ width: "50px", height: "50px" }}
+        style={{
+          width: window.innerWidth <= 768 ? "35px" : "50px", // Adjust width for mobile
+          height: window.innerWidth <= 768 ? "35px" : "50px", // Adjust height for mobile
+        }}
       />
     </div>
   );
@@ -94,7 +97,10 @@ const NextArrow = (props) => {
       <img
         src={NextArrowImg}
         alt="Next"
-        style={{ width: "50px", height: "50px" }}
+        style={{
+          width: window.innerWidth <= 768 ? "35px" : "50px", // Adjust width for mobile
+          height: window.innerWidth <= 768 ? "35px" : "50px", // Adjust height for mobile
+        }}
       />
     </div>
   );
@@ -133,21 +139,7 @@ const RelatedArticleSlider = () => {
     ],
   };
 
-  const gridSlider = {
-    ImgParent: {
-      position: "relative",
-      "&::before": {
-        content: '""',
-        position: "absolute",
-        top: 0,
-        left: 0,
-        width: "100%",
-        height: "100%",
-        backgroundColor: "#333",
-        zIndex: 9,
-      },
-    },
-  };
+  
 
   const isMobile = window.innerWidth < 767; // Adjust breakpoint as needed
 
