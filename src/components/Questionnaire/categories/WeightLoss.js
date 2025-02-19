@@ -12,14 +12,14 @@ import {
   Typography,
   Checkbox,
 } from "@mui/material";
-import "../../../src/globalStyle.css";
+import "../../../../src/globalStyle.css";
 
-import BmiCalculate from "../Questionnaire/Consultation"; // Import the BMI calculation component
-import { useApp } from "../../Context/AppContext";
-import { useMessage } from "../../Context/MessageContext";
+import BmiCalculate from "../Consultation"; // Import the BMI calculation component
+import { useApp } from "../../../Context/AppContext";
+import { useMessage } from "../../../Context/MessageContext";
 const steps = ["1", "2", "3", "4"];
 
-function MultiStepForm() {
+function WeightLossQuestion() {
   const [activeStep, setActiveStep] = useState(0);
   const [answers, setAnswers] = useState({
     agedBetween: "",
@@ -766,4 +766,4 @@ function MultiStepForm() {
   );
 }
 
-export default MultiStepForm;
+export default WeightLossQuestion;

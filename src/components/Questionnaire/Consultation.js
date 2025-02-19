@@ -28,7 +28,7 @@ const BMI_Calculator = () => {
 
   const calculateBMI = () => {
     if (height === 0 || weight === 0) {
-      showMessage("fill all required fields", "error");
+      showMessage("Height and weight are required", "error");
       return;
     }
     let calculatedBMI = 0;

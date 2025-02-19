@@ -49,7 +49,7 @@ function YourDetailForm() {
     city: "",
     country: "",
   });
-  const { setSelectedTab } = useApp();
+  const { setSelectedTab, userDetails } = useApp();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -202,12 +202,24 @@ function YourDetailForm() {
   };
 
   useEffect(() => {
-    const userData = localStorage.getItem("questionnaire_info");
-    if (userData) {
-      const parsedData = JSON.parse(userData);
-      setFormData(parsedData?.user);
+    const qaData = JSON.parse(
+      localStorage.getItem("questionnaire_info") || "{}"
+    );
+    const { user } = qaData;
+    if (user) {
+      setFormData(user);
+    } else {
+      if (userDetails) {
+        const { first_name, last_name } = userDetails;
+        const data = {
+          ...formData,
+          firstName: first_name,
+          lastName: last_name,
+        };
+        setFormData(data);
+      }
     }
-  }, []);
+  }, [userDetails]);
 
   return (
     <LocalizationProvider dateAdapter={AdapterMoment}>
@@ -235,25 +247,28 @@ function YourDetailForm() {
           Please complete the below details to create your account and continue
           your consultation.
         </Typography>
-        <Typography
-          sx={{
-            fontSize: { xs: "15px", sm: "16px", md: "18px" },
-            color: "#333333",
-            lineHeight: "1.3",
-            fontWeight: "600",
-            marginTop: { xs: "10px", sm: "5px", md: "5px" },
-          }}
-          variant="h6"
-          fontWeight="bold"
-        >
-          Already have an account?{" "}
-          <Link
-            to="/signin"
-            style={{ textDecoration: "none", color: "#FD6400" }}
+        {!userDetails && (
+          <Typography
+            sx={{
+              fontSize: { xs: "15px", sm: "16px", md: "18px" },
+              color: "#333333",
+              lineHeight: "1.3",
+              fontWeight: "600",
+              marginTop: { xs: "10px", sm: "5px", md: "5px" },
+            }}
+            variant="h6"
+            fontWeight="bold"
           >
-            Sign In
-          </Link>
-        </Typography>
+            Already have an account?{" "}
+            <Link
+              to="/login"
+              style={{ textDecoration: "none", color: "#FD6400" }}
+            >
+              Sign In
+            </Link>
+          </Typography>
+        )}
+
         <Grid2
           container
           spacing={{ xs: 2, sm: 2, md: 3 }}
@@ -356,7 +371,16 @@ function YourDetailForm() {
                       </MenuItem>
                     ))}
                   </Select>
-                  {errors.day && <FormHelperText>{errors.day}</FormHelperText>}
+                  {errors.day && (
+                    <FormHelperText
+                      sx={{
+                        fontWeight: "500 !important", // Make text bold
+                        color: "red !important",
+                      }}
+                    >
+                      {errors.day}
+                    </FormHelperText>
+                  )}
                 </FormControl>
               </Grid2>
               <Grid2 size={{ xs: 12, sm: 4, md: 4 }} spacing={2}>
@@ -392,7 +416,14 @@ function YourDetailForm() {
                     ))}
                   </Select>
                   {errors.month && (
-                    <FormHelperText>{errors.month}</FormHelperText>
+                    <FormHelperText
+                      sx={{
+                        fontWeight: "500 !important", // Make text bold
+                        color: "red !important",
+                      }}
+                    >
+                      {errors.month}
+                    </FormHelperText>
                   )}
                 </FormControl>
               </Grid2>
@@ -415,7 +446,14 @@ function YourDetailForm() {
                     ))}
                   </Select>
                   {errors.year && (
-                    <FormHelperText>{errors.year}</FormHelperText>
+                    <FormHelperText
+                      sx={{
+                        fontWeight: "500 !important", // Make text bold
+                        color: "red !important",
+                      }}
+                    >
+                      {errors.year}
+                    </FormHelperText>
                   )}
                 </FormControl>
               </Grid2>
@@ -556,7 +594,12 @@ function YourDetailForm() {
         </Grid2>
 
         {/* Submit Button */}
-        <Box sx={{ marginTop: { xs: "0px", sm: "10px", md: "20px" }, textAlign: "center" }}>
+        <Box
+          sx={{
+            marginTop: { xs: "0px", sm: "10px", md: "20px" },
+            textAlign: "center",
+          }}
+        >
           <Button
             variant="contained"
             type="submit"

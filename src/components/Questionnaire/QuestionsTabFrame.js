@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   Box,
   Tabs,
@@ -14,9 +14,10 @@ import {
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import YourDetail from "../Questionnaire/YourDetails";
-import MultiStepQuestion from "../Questionnaire/MultiStepQuestion";
+import { WeightLossQuestion } from "./categories";
 import YourTreatment from "../Questionnaire/YourTreatment";
 import { useApp } from "../../Context/AppContext";
+import CheckoutPage from "./CheckoutPage";
 
 const tabData = [
   {
@@ -29,7 +30,7 @@ const tabData = [
     number: "2",
     title: "Consultation",
     subtitle: "A consultation provides a personalized approach to weight loss.",
-    content: <MultiStepQuestion />,
+    content: <WeightLossQuestion />,
   },
   {
     number: "3",
@@ -41,7 +42,7 @@ const tabData = [
     number: "4",
     title: "Checkout",
     subtitle: "Securely Complete Your Purchase and Start Your Journey.",
-    content: "Securely Complete Your Purchase and Start Your Journey.",
+    content: <CheckoutPage />,
   },
 ];
 
@@ -102,7 +103,8 @@ function VerticalTabs() {
   const accordionRefs = useRef([]);
 
   const handleAccordionChange = (index) => {
-    setSelectedTab(index);
+    // setSelectedTab(index);
+    handleTabChange(index);
     setTimeout(() => {
       if (accordionRefs.current[index]) {
         const element = accordionRefs.current[index];
@@ -110,7 +112,7 @@ function VerticalTabs() {
         const absoluteElementTop = elementRect.top + window.scrollY;
         const middleOfScreen = window.innerHeight / 2 - elementRect.height / 2;
         window.scrollTo({
-          top: absoluteElementTop - middleOfScreen,
+          top: 100,
           behavior: "smooth",
         });
       }
@@ -128,6 +130,20 @@ function VerticalTabs() {
       handleAccordionChange(selectedTab - 1);
     }
   };
+
+  function handleTabChange(tab) {
+    const qaData = JSON.parse(
+      localStorage.getItem("questionnaire_info") || "{}"
+    );
+    const { user, bmiData, answers } = qaData;
+    if (tab == 0) {
+      setSelectedTab(tab);
+    } else if (tab === 1 && user) {
+      setSelectedTab(tab);
+    } else if (tab === 2 && bmiData && answers) {
+      setSelectedTab(tab);
+    }
+  }
 
   return (
     <Container>
@@ -154,8 +170,8 @@ function VerticalTabs() {
                   borderRadius: "10px !important",
                   marginBottom: "10px",
                   "&::before": {
-                    display: "none"
-    },
+                    display: "none",
+                  },
                 }}
               >
                 <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -258,7 +274,7 @@ function VerticalTabs() {
                 <Tabs
                   orientation="vertical"
                   value={selectedTab}
-                  onChange={(event, newValue) => setSelectedTab(newValue)}
+                  onChange={(event, newValue) => handleTabChange(newValue)}
                   sx={{ height: "100%", padding: "0" }}
                 >
                   {tabData.map((tab, index) => (

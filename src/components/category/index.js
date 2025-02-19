@@ -221,8 +221,8 @@ function Category(props) {
 }
 
 export default function CategoryPage({ products }) {
-  const isMobile = useMediaQuery("(max-width:600px)");
-  const { setFilteredProducts } = useApp();
+  const isMobile = useMediaQuery("(max-width: 960px)");
+  const { setFilteredProducts, sortOption } = useApp();
 
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [priceRange, setPriceRange] = useState([0, 1000]);
@@ -258,7 +258,32 @@ export default function CategoryPage({ products }) {
   }, []);
 
   useEffect(() => {
-    const filteredProducts = products.filter(
+    let filteredProducts = [...products];
+
+    // Apply category filtering
+    if (Object.keys(selectedCategories).length > 0) {
+      filteredProducts = filteredProducts.filter((product) =>
+        product.categories.some(
+          (category) => selectedCategories[String(category.id)] // Ensure string comparison for category.id
+        )
+      );
+    } else {
+      filteredProducts = [...products]; // ✅ Ensure all products reset when no category is selected
+    }
+
+    // Apply sorting and price range filtering
+    if (sortOption === "priceLowHigh") {
+      filteredProducts.sort(
+        (a, b) => (a.sale_price || a.price) - (b.sale_price || b.price)
+      );
+    } else if (sortOption === "priceHighLow") {
+      filteredProducts.sort(
+        (a, b) => (b.sale_price || b.price) - (a.sale_price || a.price)
+      );
+    }
+
+    // Apply price range filtering
+    filteredProducts = filteredProducts.filter(
       (product) =>
         (selectedCategories.length === 0 ||
           product.categories.some((category) =>
@@ -267,8 +292,9 @@ export default function CategoryPage({ products }) {
         (product.sale_price || product.price) >= priceRange[0] &&
         (product.sale_price || product.price) <= priceRange[1]
     );
+
     setFilteredProducts(filteredProducts);
-  }, [products, selectedCategories, priceRange]);
+  }, [products, sortOption, priceRange, selectedCategories]);
 
   return isMobile ? (
     <MobileCategory

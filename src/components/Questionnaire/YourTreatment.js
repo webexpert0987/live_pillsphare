@@ -10,6 +10,7 @@ import {
   Button,
   Box,
 } from "@mui/material";
+import { useApp } from "../../Context/AppContext";
 
 const products = [
   {
@@ -75,6 +76,7 @@ const TreatmentRecommendation = () => {
   const [dosingSchedule, setDosingSchedule] = useState("");
   const [doseStrength, setDoseStrength] = useState("");
   const [sharpsBin, setSharpsBin] = useState("");
+  const { setSelectedTab, userDetails, setQaCart } = useApp();
 
   const loadMore = () => {
     setVisibleProducts((prev) => prev + 4); // Load 4 more products each time
@@ -90,6 +92,11 @@ const TreatmentRecommendation = () => {
 
   const handleSharpsBinChange = (event) => {
     setSharpsBin(event.target.value);
+  };
+
+  const handleSubmit = (product) => {
+    setQaCart([product]);
+    setSelectedTab(3);
   };
 
   return (
@@ -278,6 +285,7 @@ const TreatmentRecommendation = () => {
                     boxShadow: "none",
                     textTransform: "capitalize",
                   }}
+                  onClick={() => handleSubmit(product)}
                 >
                   Select Treatment{" "}
                   <svg
