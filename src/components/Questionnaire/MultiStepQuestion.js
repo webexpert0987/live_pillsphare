@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Stepper,
   Step,
@@ -15,7 +15,8 @@ import {
 import "../../../src/globalStyle.css";
 
 import BmiCalculate from "../Questionnaire/Consultation"; // Import the BMI calculation component
-
+import { useApp } from "../../Context/AppContext";
+import { useMessage } from "../../Context/MessageContext";
 const steps = ["1", "2", "3", "4"];
 
 function MultiStepForm() {
@@ -43,17 +44,109 @@ function MultiStepForm() {
     photoID: "",
     weightVerificationPhoto: "",
   });
-
-  const handleNext = () => {
-    setActiveStep((prevStep) => prevStep + 1);
+  const boxRef = useRef(null);
+  const { setSelectedTab } = useApp();
+  const { showMessage } = useMessage();
+  const handleScroll = () => {
+    setTimeout(() => {
+      if (boxRef.current) {
+        const element = boxRef.current;
+        const elementRect = element.getBoundingClientRect();
+        const absoluteElementTop = elementRect.top + window.scrollY;
+        // Adjust the scroll position to be a bit higher (for example, 100px above the middle)
+        const offset = 300; // Change this value as needed
+        window.scrollTo({
+          top: absoluteElementTop - offset,
+          behavior: "smooth",
+        });
+      }
+    }, 100);
   };
 
+  const handleNext = () => {
+    const qaData = JSON.parse(
+      localStorage.getItem("questionnaire_info") || "{}"
+    );
+    const { bmiData } = qaData;
+
+    // Validation logic
+    if (activeStep === 0) {
+      if (!bmiData?.bmi) {
+        showMessage("Please calculate your BMI first", "error");
+        return;
+      }
+    } else if (activeStep === 1) {
+      const requiredFields = [
+        "agedBetween",
+        "AreYouPregnantBreastfeeding",
+        "eatingDisorder",
+        "injectionsOrMedications",
+        "allergicReaction",
+        "familyMembersDiagnosed",
+        "conditions",
+        "medicationStatus",
+        "takingSteroidsMedication",
+        "takenInjectableMedication",
+      ];
+
+      for (const field of requiredFields) {
+        if (
+          Array.isArray(answers[field])
+            ? answers[field].length === 0
+            : !answers[field]
+        ) {
+          showMessage(
+            "Please fill all details before proceeding to the next step.",
+            "error"
+          );
+          return;
+        }
+      }
+    } else if (activeStep === 2) {
+      const requiredAgreements = [
+        "agreeToTerms",
+        "understandGLP1Effect",
+        "understandMoodEffect",
+        "understandNeckLumpsRisk",
+        "understandNoMixingWeightLossMeds",
+        "understandPancreatitisRisk",
+        "understandConceptionRisk",
+      ];
+
+      for (const field of requiredAgreements) {
+        if (!answers[field]) {
+          showMessage(
+            "Please fill all details before proceeding to the next step.",
+            "error"
+          );
+          return;
+        }
+      }
+    }
+
+    setActiveStep((prevStep) => prevStep + 1);
+    handleScroll();
+  };
   const handleBack = () => {
     setActiveStep((prevStep) => prevStep - 1);
+    handleScroll();
   };
 
   const handleSubmit = () => {
     console.log("Form submitted with answers: ", answers);
+    const data = localStorage.getItem("questionnaire_info");
+    let parsedData = {};
+    if (data) {
+      parsedData = JSON.parse(data);
+    }
+    localStorage.setItem(
+      "questionnaire_info",
+      JSON.stringify({
+        ...parsedData,
+        answers: answers,
+      })
+    );
+    setSelectedTab(2);
   };
 
   const renderStepContent = (stepIndex) => {
@@ -599,6 +692,15 @@ function MultiStepForm() {
     }
   };
 
+  useEffect(() => {
+    const data = localStorage.getItem("questionnaire_info");
+    if (data) {
+      const { answers } = JSON.parse(data);
+      if (answers) {
+        setAnswers(answers);
+      }
+    }
+  }, []);
   return (
     <Box
       sx={{
@@ -615,7 +717,7 @@ function MultiStepForm() {
         ))}
       </Stepper>
 
-      <Box sx={{ padding: "20px" }}>
+      <Box sx={{ padding: "20px" }} ref={boxRef}>
         {renderStepContent(activeStep)}
         <Box
           sx={{

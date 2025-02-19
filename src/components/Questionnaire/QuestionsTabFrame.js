@@ -16,6 +16,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import YourDetail from "../Questionnaire/YourDetails";
 import MultiStepQuestion from "../Questionnaire/MultiStepQuestion";
 import YourTreatment from "../Questionnaire/YourTreatment";
+import { useApp } from "../../Context/AppContext";
 
 const tabData = [
   {
@@ -94,7 +95,8 @@ const styles = {
 };
 
 function VerticalTabs() {
-  const [selectedTab, setSelectedTab] = useState(0);
+  // const [selectedTab, setSelectedTab] = useState(0);
+  const { selectedTab, setSelectedTab } = useApp();
   const isMobile = useMediaQuery("(max-width: 960px)");
   const progressHeight = `${(selectedTab / (tabData.length - 1)) * 100}%`;
   const accordionRefs = useRef([]);

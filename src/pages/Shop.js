@@ -40,7 +40,7 @@ const ProductListingPage = () => {
   const [shopCategories, setShopCategories] = useState([]);
 
   const clearFilters = () => {
-    setSelectedCategories({});
+    setSelectedCategories([]);
     setPriceRange([0, 500]);
   };
 
@@ -91,13 +91,13 @@ const ProductListingPage = () => {
         // Check if products are already in localStorage
         const cachedProducts = localStorage.getItem("products");
 
-        if (cachedProducts) {
-          setProducts(JSON.parse(cachedProducts)); // Use cached products
-        } else {
+        // if (cachedProducts) {
+        //   setProducts(JSON.parse(cachedProducts)); // Use cached products
+        // } else {
           const data = await getProducts();
           setProducts(data.products);
           localStorage.setItem("products", JSON.stringify(data.products)); // Cache the products in localStorage
-        }
+        // }
       } catch (error) {
         console.error("Failed to fetch products:", error);
       }

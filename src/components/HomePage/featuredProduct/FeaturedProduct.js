@@ -141,13 +141,13 @@ function FeaturedProducts() {
         // Check if products are already in localStorage
         const cachedProducts = localStorage.getItem("products");
 
-        if (cachedProducts) {
-          setProducts(JSON.parse(cachedProducts)); // Use cached products
-        } else {
+        // if (cachedProducts) {
+        //   setProducts(JSON.parse(cachedProducts)); // Use cached products
+        // } else {
           const data = await getProducts();
           setProducts(data.products);
           localStorage.setItem("products", JSON.stringify(data.products)); // Cache the products in localStorage
-        }
+        // }
       } catch (error) {
         console.error("Failed to fetch products:", error);
       }
@@ -166,9 +166,9 @@ function FeaturedProducts() {
     // navigate(`/product/${id}`)
     const test = 0;
     if (test == 0) {
-        // Show the error message
+      // Show the error message
         showMessage('Sorry, this product is currently out of stock. Please check back later.', 'error');
-        return; // Prevent further actions
+      return; // Prevent further actions
     }
     if (!isLoggedIn) {
       setIsModalOpen(true);
@@ -276,9 +276,10 @@ function FeaturedProducts() {
                 Featured Product
               </Typography>
               <Typography variant="h4" sx={{ 
-                marginTop: "1rem", 
-                fontSize: { xs: "15px", md: "16px"},
-                }}>
+                  marginTop: "1rem",
+                  fontSize: { xs: "15px", md: "16px" },
+                }}
+              >
                 Changes to diet and exercise are often combined with this
                 medication.
               </Typography>
@@ -344,6 +345,10 @@ function FeaturedProducts() {
                       height: "100%",
                       borderRadius: "12px",
                       border: "1px solid #eee",
+                      cursor: "pointer",
+                    }}
+                    onClick={() => {
+                      navigate(`/product/${product.slug}`);
                     }}
                   >
                     <Box
@@ -392,9 +397,6 @@ function FeaturedProducts() {
                             md: "1.25rem",
                             cursor: "pointer",
                           },
-                        }}
-                        onClick={() => {
-                          navigate(`/product/${product.slug}`);
                         }}
                       >
                         {product.name}
@@ -481,7 +483,7 @@ function FeaturedProducts() {
                         variant="contained"
                         sx={{
                           mt: 2,
-                          backgroundColor: "primary.main",
+                          backgroundColor: "#FD6400",
                           width: "100%",
                           borderRadius: "50px",
                           padding: "10px",
@@ -491,16 +493,16 @@ function FeaturedProducts() {
                           textTransform: "none",
                         }}
                         // onClick={()=>handleAddProduct(product, product.variations[0])}
-                        onClick={() =>
-                          handleAddProduct(
-                            product,
-                            product.selectedVariantInfo
-                              ? product.selectedVariantInfo
-                              : product.variations[0]
-                          )
-                        }
+                        // onClick={() =>
+                        //   handleAddProduct(
+                        //     product,
+                        //     product.selectedVariantInfo
+                        //       ? product.selectedVariantInfo
+                        //       : product.variations[0]
+                        //   )
+                        // }
                       >
-                        Add to Cart &nbsp;
+                        View {/* changed "add to cart" to "View */}
                         <Icon
                           icon="solar:arrow-right-broken"
                           color="primary.main"

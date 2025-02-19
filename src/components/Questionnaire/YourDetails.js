@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   TextField,
@@ -14,6 +14,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers";
 // import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import { Link } from "react-router-dom";
+import { useApp } from "../../Context/AppContext";
 
 function YourDetailForm() {
   const [formData, setFormData] = useState({
@@ -48,6 +49,7 @@ function YourDetailForm() {
     city: "",
     country: "",
   });
+  const { setSelectedTab } = useApp();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -81,8 +83,16 @@ function YourDetailForm() {
       newErrors.contactNumber = "Contact Number is required.";
       isValid = false;
     }
-    if (!formData.dob) {
-      newErrors.dob = "Date of Birth is required.";
+    if (!formData.day) {
+      newErrors.day = "Date is required.";
+      isValid = false;
+    }
+    if (!formData.month) {
+      newErrors.month = "Month is required.";
+      isValid = false;
+    }
+    if (!formData.year) {
+      newErrors.year = "Year is required.";
       isValid = false;
     }
     if (!formData.password) {
@@ -119,6 +129,27 @@ function YourDetailForm() {
     if (validateForm()) {
       // Proceed with form submission logic
       console.log("Form submitted successfully:", formData);
+      const data = localStorage.getItem("questionnaire_info");
+      let parsedData = {};
+      if (data) {
+        parsedData = JSON.parse(data);
+      }
+      localStorage.setItem(
+        "questionnaire_info",
+        JSON.stringify({
+          ...parsedData,
+          user: formData,
+        })
+      );
+
+      setSelectedTab(1);
+      setTimeout(() => {
+        window.scrollTo({
+          top: 600,
+          left: 0,
+          behavior: "smooth",
+        });
+      }, 100);
     }
   };
 
@@ -169,6 +200,14 @@ function YourDetailForm() {
       },
     },
   };
+
+  useEffect(() => {
+    const userData = localStorage.getItem("questionnaire_info");
+    if (userData) {
+      const parsedData = JSON.parse(userData);
+      setFormData(parsedData?.user);
+    }
+  }, []);
 
   return (
     <LocalizationProvider dateAdapter={AdapterMoment}>

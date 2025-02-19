@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   FormControl,
@@ -11,13 +11,14 @@ import {
   Grid2,
 } from "@mui/material";
 import BmiIcon from "../../pages/images/bmi-icon.png";
+import { useMessage } from "../../Context/MessageContext";
 
 const BMI_Calculator = () => {
   const [isMetric, setIsMetric] = useState(true);
   const [height, setHeight] = useState(0);
   const [weight, setWeight] = useState(0);
   const [bmi, setBmi] = useState(0);
-
+  const { showMessage } = useMessage();
   const handleToggle = (metric) => {
     setIsMetric(metric);
     setHeight(0);
@@ -26,6 +27,10 @@ const BMI_Calculator = () => {
   };
 
   const calculateBMI = () => {
+    if (height === 0 || weight === 0) {
+      showMessage("fill all required fields", "error");
+      return;
+    }
     let calculatedBMI = 0;
     if (isMetric) {
       // Metric: BMI = weight (kg) / (height (m) * height (m))
@@ -36,7 +41,26 @@ const BMI_Calculator = () => {
       const weightInLbs = weight.stone * 14 + weight.lbs;
       calculatedBMI = (weightInLbs / (heightInInches * heightInInches)) * 703;
     }
+
     setBmi(calculatedBMI.toFixed(2));
+    let bmiData = {
+      height,
+      weight,
+      bmi: calculatedBMI.toFixed(2),
+      isMetric,
+    };
+    const data = localStorage.getItem("questionnaire_info");
+    let parsedData = {};
+    if (data) {
+      parsedData = JSON.parse(data);
+    }
+    localStorage.setItem(
+      "questionnaire_info",
+      JSON.stringify({
+        ...parsedData,
+        bmiData,
+      })
+    );
   };
 
   const getProgressValue = () => {
@@ -87,6 +111,19 @@ const BMI_Calculator = () => {
       },
     },
   };
+
+  useEffect(() => {
+    const data = localStorage.getItem("questionnaire_info");
+    if (data) {
+      const { bmiData } = JSON.parse(data);
+      if (bmiData) {
+        setHeight(bmiData?.height);
+        setWeight(bmiData?.weight);
+        setBmi(bmiData?.bmi);
+        setIsMetric(bmiData?.isMetric);
+      }
+    }
+  }, []);
 
   return (
     <>

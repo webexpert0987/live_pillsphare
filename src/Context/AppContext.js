@@ -14,11 +14,11 @@ export const AppProvider = ({ children }) => {
   const [variantIds, setVariantIds] = useState([]);
   const [isAddingProduct, setIsAddingProduct] = useState(false);
   const {showMessage } = useMessage();
+  const [selectedTab, setSelectedTab] = useState(0);
+  const [filteredProducts, setFilteredProducts] = useState([])
 
-  useEffect(() => {
-    const storedUser = localStorage.getItem('user');
-    
-    const fetchCart = async (user) => {
+  const fetchCart = async (user) => {
+    try {
       const data = await getUserCart({
         user_id: user.user_id,
         token: user.token
@@ -27,9 +27,16 @@ export const AppProvider = ({ children }) => {
       const cartData = JSON.parse(data.cart_value).cart
      
       setCart(cartData);
-      setVariantIds([...new Set(cartData.map((item) => item.selectedVariant))]);
+      setVariantIds([...new Set(cartData.map((item) => item.selectedVariant))]);  
+    } catch (error) {
+      console.error(error);
     }
+  
+  }
 
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user');
+    
     if (storedUser) {
       let user = JSON.parse(storedUser)
       setUserDetails(user);
@@ -41,12 +48,14 @@ export const AppProvider = ({ children }) => {
 
   const login = (userInfo) => {
     setUserDetails(userInfo);
+    fetchCart(userInfo);
     localStorage.setItem('user', JSON.stringify(userInfo));
   };
 
   const logout = () => {
     setUserDetails(null);
     localStorage.removeItem('user');
+    setCart([])
   };
   
   useEffect(()=>{
@@ -61,10 +70,11 @@ export const AppProvider = ({ children }) => {
   useEffect(()=>{
     const addProducts = async () => {
       if(userDetails){
+       const total = calculateTotal()
         const cartData = {
           user_id: userDetails.user_id,
           token: userDetails.token,
-          cart_value: JSON.stringify({ cart, cartTotalAmount })
+          cart_value: JSON.stringify({ cart, cartTotalAmount:total })
         }
         try {
           const response = await addProductToCart(cartData);
@@ -117,9 +127,12 @@ const updateVariantInCart = (productId, newVariantId, quantity = 1) => {
 
 
   const addToCart = (item, variant) => {
-   
     setCart((prev) => {
-      const existingItemIndex = prev.findIndex((cartItem) => cartItem.id === item.id);
+      // Check if the item with the selected variant already exists in the cart
+      const existingItemIndex = prev.findIndex(
+        (cartItem) =>
+          cartItem.id === item.id && cartItem.selectedVariant === variant.variation_id
+      );
   
       if (existingItemIndex !== -1) {
         const updatedCart = [...prev];
@@ -180,18 +193,37 @@ const updateVariantInCart = (productId, newVariantId, quantity = 1) => {
   };
 
   const removeFromCart = (item) => {
-    const removedItem = cart.find((cartItem) => cartItem.id === item.id);
-    setCart((prev) => prev.filter((cartItem) => cartItem.id !== item.id));
+    setCart((prev) => {
+      // Check if the cart contains the item with the selected variant
+      const existingItemIndex = prev.findIndex(
+        (cartItem) =>
+          cartItem.id === item.id && cartItem.selectedVariant === item.selectedVariant
+      );
   
-    setVariantIds((prev) => {
-      if (removedItem && removedItem.selectedVariant) {
-        return prev.filter((variantId) => variantId !== removedItem.selectedVariant);
+      // If the item and variant exist, remove it from the cart
+      if (existingItemIndex !== -1) {
+        const updatedCart = [...prev];
+        updatedCart.splice(existingItemIndex, 1); // Remove the item
+        return updatedCart;
       }
       return prev;
     });
-    
+  
+    // Remove the variant from the variantIds list if it's no longer present in the cart
+    setVariantIds((prev) => {
+      // Check if the item with the specific variant is the last one in the cart
+      const itemWithVariantExists = cart.some(
+        (cartItem) =>
+          cartItem.id === item.id && cartItem.selectedVariant === item.variation_id
+      );
+  
+      if (!itemWithVariantExists) {
+        return prev.filter((variantId) => variantId !== item.variation_id);
+      }
+      return prev;
+    });
+  
     setIsAddingProduct(true);
-    
   };
   
   const cartEmpty = async ()=>{
@@ -226,7 +258,11 @@ const updateVariantInCart = (productId, newVariantId, quantity = 1) => {
       variantIds,
       setVariantIds,
       removeFromCart,
-      cartEmpty
+      cartEmpty,
+      selectedTab,
+      setSelectedTab,
+      filteredProducts, 
+      setFilteredProducts
     }}>
       {children}
     </AppContext.Provider>
