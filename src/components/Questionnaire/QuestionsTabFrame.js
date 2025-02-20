@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, Component } from "react";
 import {
   Box,
   Tabs,
@@ -14,10 +14,24 @@ import {
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import YourDetail from "../Questionnaire/YourDetails";
-import { WeightLossQuestion } from "./categories";
+import {
+  WeightLossQuestion,
+  AcidRefluxQuestion,
+  ContraceptivesQuestion,
+  CystitisQuestion,
+  ErectileDysfunctionQuestion,
+  HairLossQuestion,
+  HighFeverQuestion,
+  MigraineQuestion,
+  PeriodDelayQuestion,
+  PeriodPainQuestion,
+  PrematureQuestion,
+  StopSmokingQuestion,
+} from "./categories";
 import YourTreatment from "../Questionnaire/YourTreatment";
 import { useApp } from "../../Context/AppContext";
 import CheckoutPage from "./CheckoutPage";
+import { useSearchParams } from "react-router-dom";
 
 const tabData = [
   {
@@ -95,12 +109,29 @@ const styles = {
   }),
 };
 
+const QuestionForm = {
+  "weight-loss": <WeightLossQuestion />,
+  "acid-reflux": <AcidRefluxQuestion />,
+  contraceptives: <ContraceptivesQuestion />,
+  cystitis: <CystitisQuestion />,
+  "erectile-dysfunction": <ErectileDysfunctionQuestion />,
+  "hair-loss": <HairLossQuestion />,
+  "high-fever": <HighFeverQuestion />,
+  migraine: <MigraineQuestion />,
+  "period-delay": <PeriodDelayQuestion />,
+  "period-pain": <PeriodPainQuestion />,
+  "premature-ejaculation": <PrematureQuestion />,
+  smoking: <StopSmokingQuestion />,
+};
+
 function VerticalTabs() {
   // const [selectedTab, setSelectedTab] = useState(0);
   const { selectedTab, setSelectedTab } = useApp();
   const isMobile = useMediaQuery("(max-width: 960px)");
   const progressHeight = `${(selectedTab / (tabData.length - 1)) * 100}%`;
   const accordionRefs = useRef([]);
+  const [searchParams] = useSearchParams();
+  const category = searchParams.get("category"); // Get the "category" query param
 
   const handleAccordionChange = (index) => {
     // setSelectedTab(index);
@@ -213,7 +244,12 @@ function VerticalTabs() {
                   </Box>
                 </AccordionSummary>
                 <AccordionDetails>
-                  {tab.content}
+                  {selectedTab === 1 ? (
+                    <>{QuestionForm[category]}</>
+                  ) : (
+                    <>{tab.content}</>
+                  )}
+
                   <Box
                     sx={{
                       display: "flex",
@@ -341,7 +377,13 @@ function VerticalTabs() {
                 padding: "30px 45px",
               }}
             >
-              <Box sx={{}}>{tabData[selectedTab].content}</Box>
+              <Box sx={{}}>
+                {selectedTab === 1 ? (
+                  <>{QuestionForm[category]}</>
+                ) : (
+                  <>{tabData[selectedTab].content}</>
+                )}
+              </Box>
             </Box>
           </Box>
         )}

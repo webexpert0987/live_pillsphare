@@ -259,16 +259,13 @@ export default function CategoryPage({ products }) {
 
   useEffect(() => {
     let filteredProducts = [...products];
-
     // Apply category filtering
-    if (Object.keys(selectedCategories).length > 0) {
+    if (selectedCategories.length > 0) {
       filteredProducts = filteredProducts.filter((product) =>
-        product.categories.some(
-          (category) => selectedCategories[String(category.id)] // Ensure string comparison for category.id
+        product.categories.some((category) =>
+          selectedCategories.includes(category.id)
         )
       );
-    } else {
-      filteredProducts = [...products]; // ✅ Ensure all products reset when no category is selected
     }
 
     // Apply sorting and price range filtering
@@ -285,10 +282,6 @@ export default function CategoryPage({ products }) {
     // Apply price range filtering
     filteredProducts = filteredProducts.filter(
       (product) =>
-        (selectedCategories.length === 0 ||
-          product.categories.some((category) =>
-            selectedCategories.includes(category.id)
-          )) &&
         (product.sale_price || product.price) >= priceRange[0] &&
         (product.sale_price || product.price) <= priceRange[1]
     );

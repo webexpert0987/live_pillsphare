@@ -124,6 +124,37 @@ const nestedListData = [
   },
 ];
 
+const onlineClinicItems = [
+  { id: 1, name: "Weight Loss", link: "/online-clinic/weight-loss" },
+  { id: 2, name: "Acid Reflux", link: "/online-clinic/acid-reflux" },
+  {
+    id: 3,
+    name: "Contraceptives",
+    link: "/online-clinic/contraceptives",
+  },
+  { id: 4, name: "Cystitis", link: "/online-clinic/cystitis" },
+  {
+    id: 5,
+    name: "Erectile Dysfunction",
+    link: "/online-clinic/erectile-dysfunction",
+  },
+  { id: 6, name: "Hair Loss", link: "/online-clinic/hair-loss" },
+  { id: 7, name: "High Fever", link: "/online-clinic/high-fever" },
+  {
+    id: 8,
+    name: "Migraine Treatment Eligibility Questionnaire",
+    link: "/online-clinic/migraine",
+  },
+  { id: 9, name: "Period Delay", link: "/online-clinic/period-delay" },
+  { id: 10, name: "Period Pain", link: "/online-clinic/period-pain" },
+  {
+    id: 11,
+    name: "Premature Ejaculation Assessment",
+    link: "/online-clinic/premature-ejaculation",
+  },
+  { id: 12, name: "Stop Smoking", link: "/online-clinic/smoking" },
+];
+
 const MainHeader = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [loginDrop, setLoginDrop] = React.useState(null);
@@ -140,6 +171,14 @@ const MainHeader = () => {
   const [openCartModel, setOpenCartModel] = useState(false);
   const [shopCategories, setShopCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [onlineClinicAnchorEl, setOnlineClinicAnchorEl] = useState(null);
+  const onlineClinicOpen = Boolean(onlineClinicAnchorEl);
+
+  const handleOnlineClinicClose = () => {
+    setOnlineClinicAnchorEl(null);
+  };
+
+  const handleOnlineClinicClick = () => {};
 
   const handleToggle = (index) => {
     setOpenSections((prevState) => ({
@@ -187,8 +226,12 @@ const MainHeader = () => {
     setOpenDrawer(false);
   };
 
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
+  const handleClick = (event, text) => {
+    if (text === "Shop") {
+      setAnchorEl(event.currentTarget);
+    } else {
+      setOnlineClinicAnchorEl(event.currentTarget);
+    }
   };
 
   const handleClose = () => {
@@ -284,10 +327,10 @@ const MainHeader = () => {
                   <Button
                     key={text}
                     endIcon={
-                      text === "Shop" ? (
+                      text === "Shop" || text === "Online Clinic" ? (
                         <KeyboardArrowDownIcon
                           sx={{ marginLeft: 0 }}
-                          onClick={handleClick}
+                          onClick={(e) => handleClick(e, text)}
                         />
                       ) : null
                     }
@@ -303,7 +346,7 @@ const MainHeader = () => {
                           ? "/shop"
                           : text === "Online Clinic"
                           ? "/online-clinic"
-                          : "/weight-loss"
+                          : "/online-clinic/weight-loss"
                       }
                       style={{ textDecoration: "none" }}
                     >
@@ -662,6 +705,23 @@ const MainHeader = () => {
         <MenuItem onClick={handleLoginClose}>User profile</MenuItem>
         <MenuItem onClick={handorderHitory}>Order history</MenuItem>
         <MenuItem onClick={handleLogout}>Logout</MenuItem>
+      </Menu>
+      {/* Dropdown Menu for Online Clinic */}
+      <Menu
+        anchorEl={onlineClinicAnchorEl}
+        open={onlineClinicOpen}
+        onClose={handleOnlineClinicClose}
+      >
+        {onlineClinicItems.map((item) => (
+          <MenuItem key={item.id} onClick={handleOnlineClinicClose}>
+            <Link
+              to={item.link}
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+              {item.name}
+            </Link>
+          </MenuItem>
+        ))}
       </Menu>
     </Box>
   );

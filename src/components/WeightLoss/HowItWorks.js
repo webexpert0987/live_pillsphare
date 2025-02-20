@@ -14,6 +14,7 @@ const HowItWorks = ({
     "Answer our quick questionnaire and our prescriber will decide whether a prescription weight loss medication will be beneficial for you.",
   ],
   buttonText = "Start Your Consultation",
+  route,
 }) => {
   return (
     <Container>
@@ -131,7 +132,9 @@ const HowItWorks = ({
             <Button
               variant="contained"
               color="primary"
-              onClick={() => (window.location.href = "/questionnaire")}
+              onClick={() =>
+                (window.location.href = `/questionnaire?category=${route}`)
+              }
               sx={{
                 fontSize: { xs: "14px", sm: "17px", md: "18px" },
                 fontWeight: "600",

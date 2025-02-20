@@ -255,34 +255,36 @@ const Product = () => {
                 {/* <Typography variant="subtitle1" mb={1}>
                                 Choose Variant:
                                 </Typography> */}
-                {product && product.price && (
-                  <Select
-                    value={
-                      product.selectedVariant
-                        ? product.selectedVariant
-                        : product?.variations?.[0].variation_id
-                    }
-                    // value={product.variations[0].variation_id}
-                    onChange={(e) =>
-                      handleVariantSelect(product, e.target.value)
-                    }
-                    fullWidth
-                    sx={{
-                      ".MuiSelect-select": {
-                        padding: "12.5px 30px",
-                      },
-                    }}
-                  >
-                    {product?.variations?.map((variant) => (
-                      <MenuItem
-                        key={variant.variation_id}
-                        value={variant.variation_id}
-                      >
-                        {`${variant.attributes.tablets} `}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                )}
+                {product &&
+                  product.price &&
+                  product?.variations?.length > 0 && (
+                    <Select
+                      value={
+                        product.selectedVariant
+                          ? product.selectedVariant
+                          : product?.variations?.[0].variation_id
+                      }
+                      // value={product.variations[0].variation_id}
+                      onChange={(e) =>
+                        handleVariantSelect(product, e.target.value)
+                      }
+                      fullWidth
+                      sx={{
+                        ".MuiSelect-select": {
+                          padding: "12.5px 30px",
+                        },
+                      }}
+                    >
+                      {product?.variations?.map((variant) => (
+                        <MenuItem
+                          key={variant.variation_id}
+                          value={variant.variation_id}
+                        >
+                          {`${variant.attributes.tablets} `}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  )}
               </Box>
               <Box>
                 {/* Add to Cart Button */}

@@ -1,19 +1,20 @@
-import About from '../pages/About';
-import Checkout from '../pages/Checkout';
-import HomePage from '../pages/HomePage';
-import Login from '../pages/Login';
-import Payment from '../pages/Payment';
-import Registration from '../pages/Registration';
-import Product from '../pages/product';
-import ThankYouPage from '../pages/thankyou';
-import Shop from '../pages/Shop';
-import CategoryPage from '../pages/CategoryPage';
-import WeightLoss from '../pages/WeightLoss';
-import Questionnaire from '../components/Questionnaire/QuestionnairePage';
-import OffersPage from '../components/Offers/OffersPage';
-import OnlineClinic from '../components/OnlineClinic/OnlineClinicPage';
-import Faqs from '../components/Faqs/Faqs';
-import Orderhisttory from '../pages/orderHistory';
+import About from "../pages/About";
+import Checkout from "../pages/Checkout";
+import HomePage from "../pages/HomePage";
+import Login from "../pages/Login";
+import Payment from "../pages/Payment";
+import Registration from "../pages/Registration";
+import Product from "../pages/product";
+import ThankYouPage from "../pages/thankyou";
+import Shop from "../pages/Shop";
+import CategoryPage from "../pages/CategoryPage";
+import WeightLoss from "../pages/WeightLoss";
+import Questionnaire from "../components/Questionnaire/QuestionnairePage";
+import OffersPage from "../components/Offers/OffersPage";
+import OnlineClinic from "../components/OnlineClinic/OnlineClinicPage";
+import Faqs from "../components/Faqs/Faqs";
+import Orderhisttory from "../pages/orderHistory";
+import OnlineClinicCategory from "../pages/OnlineClinicCategory";
 
 const routes = [
   {
@@ -91,10 +92,16 @@ const routes = [
     component: Orderhisttory,
     exact: true,
   },
-//   {
-//     path: "*",  // Wildcard for 404 Page
-//     component: NotFoundPage,
-//   }
+  //   {
+  //     path: "*",  // Wildcard for 404 Page
+  //     component: NotFoundPage,
+  //   }
+
+  {
+    path: "/online-clinic/:slug",
+    component: OnlineClinicCategory,
+    exact: true,
+  },
 ];
 
 export default routes;
