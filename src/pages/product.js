@@ -458,15 +458,15 @@ const Product = () => {
             {/********* End **********/}
           </CardContent>
         </Box>
-        {/********* Product Overview **********/}
+        {/********* Product Overview 
         <Box>
           <ProductOverview />
-        </Box>
+        </Box>**********/}
         {/********* Product Overview End **********/}
       </Container>
-      <Box backgroundColor={theme.palette.primary.main}>
+      {/**<Box backgroundColor={theme.palette.primary.main}>
         <RelatedProduct />
-      </Box>
+      </Box> **/}
       {isQuestionModalOpen && (
         <Dialog
           open={isQuestionModalOpen}

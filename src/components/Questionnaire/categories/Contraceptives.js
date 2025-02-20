@@ -11,6 +11,7 @@ import {
   RadioGroup,
   Typography,
   Checkbox,
+  TextField,
 } from "@mui/material";
 import "../../../../src/globalStyle.css";
 
@@ -125,11 +126,12 @@ function ContraceptivesQuestion() {
       case 1:
         return (
           <>
-            {/****** Are you aged between 17-74 years *****/}
+            {/****** 1st	Are you pregnant, breastfeeding, trying to conceive, or have you given birth in the last six weeks? *****/}
 
             <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-                Are you aged between 17-74 years
+              Are you pregnant, breastfeeding, trying to conceive, or 
+              have you given birth in the last six weeks?
               </Typography>
               <RadioGroup
                 row
@@ -144,6 +146,216 @@ function ContraceptivesQuestion() {
               </RadioGroup>
             </FormControl>
 
+             {/****** 2nd Are you currently using any form of contraception, such as the pill?*****/}
+
+             <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+              Are you currently using any form of contraception, such as the pill?
+              </Typography>
+              <RadioGroup
+                row
+                name="agedBetween"
+                value={answers.agedBetween}
+                onChange={(e) =>
+                  setAnswers({ ...answers, agedBetween: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+            </FormControl>
+
+             {/******3rd	Have you previously used a contraceptive pill?*****/}
+
+             <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+              Have you previously used a contraceptive pill?
+              </Typography>
+              <RadioGroup
+                row
+                name="agedBetween"
+                value={answers.agedBetween}
+                onChange={(e) =>
+                  setAnswers({ ...answers, agedBetween: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+            </FormControl>
+
+             {/******	What is your blood pressure? *****/}
+
+             <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+              	What is your blood pressure?
+              </Typography>
+             <TextField 
+             name="bloodPressure"
+             label= "Blood-Pressure"
+             type="number"
+             value={answers.bloodPressure}
+             onChange={(e)=>setAnswers({...answers,bloodPressure: e.target.value})}
+             />
+            </FormControl>
+
+             {/****** Have you had a cervical cancer screening test in the past 3-5 years? Yes/no  *****/}
+
+             <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+              	Have you had a cervical cancer screening test in the past 3-5 years? 
+              </Typography>
+              <RadioGroup
+                row
+                name="agedBetween"
+                value={answers.agedBetween}
+                onChange={(e) =>
+                  setAnswers({ ...answers, agedBetween: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+            </FormControl>
+
+             {/******	Have you or any immediate family member been diagnosed with any of the following health conditions? *****/}
+
+             <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+              Have you or any immediate family member been diagnosed with any of the following health conditions? 
+              <ul>
+                <li>Blood clot in the legs (deep vein thrombosis, DVT), lungs (pulmonary embolism, PE), or other organs</li>
+                <li>Diabetes</li>
+                <li>Migraine</li>
+                <li>Heart attack, stroke, angina, chest pain, mini-stroke (TIA), abnormal heart rhythm, or impaired heart function</li>
+                <li>High blood pressure</li>
+                <li>High cholesterol or triglycerides</li>
+                <li>Cancer (breast, cervical, liver, etc.)</li>
+                <li>Liver or gallbladder disease</li>
+                <li>Epilepsy</li>
+                <li>Systemic lupus erythematosus (SLE)</li>
+                <li>Sickle cell disease or blood disorders</li> 
+                <li>Inflammatory bowel disease (e.g., Crohn’s or ulcerative colitis)</li> 
+                
+              </ul>
+              </Typography>
+              <RadioGroup
+                row
+                name="agedBetween"
+                value={answers.agedBetween}
+                onChange={(e) =>
+                  setAnswers({ ...answers, agedBetween: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+            </FormControl>
+
+             {/****** Are you currently taking any of the following medications? *****/}
+
+             <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+              	Are you currently taking any of the following medications?
+                <ul>
+                <li>HIV Protease Inhibitors (e.g., Atazanavir, Ritonavir)</li>
+                <li>Antifungals (e.g., Itraconazole, Ketoconazole)</li>
+                <li>Antibiotics (e.g., Tetracycline, Ampicillin)</li>
+                <li>Antiepileptics (e.g., Phenobarbital, Phenytoin)</li>
+                <li>Herbal medications (e.g., St John's Wort)</li>
+                <li>Imatinib, Rifampicin, Ciclosporin</li>
+                
+                </ul>
+              </Typography>
+              <RadioGroup
+                row
+                name="agedBetween"
+                value={answers.agedBetween}
+                onChange={(e) =>
+                  setAnswers({ ...answers, agedBetween: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+            </FormControl>
+
+             {/******	Have you undergone any surgery in the past 12 months, or are you currently immobile? *****/}
+
+             <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+              	Have you undergone any surgery in the past 12 months, or are you currently immobile?
+              </Typography>
+              <RadioGroup
+                row
+                name="agedBetween"
+                value={answers.agedBetween}
+                onChange={(e) =>
+                  setAnswers({ ...answers, agedBetween: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+            </FormControl>
+            
+             {/******	Do you experience any unexpected or unusual vaginal bleeding (e.g., bleeding between periods, after sex, very heavy or painful periods)?*****/}
+
+             <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+              	Do you experience any unexpected or unusual vaginal bleeding (e.g., bleeding between periods, after sex, very heavy or painful periods)?
+              </Typography>
+              <RadioGroup
+                row
+                name="agedBetween"
+                value={answers.agedBetween}
+                onChange={(e) =>
+                  setAnswers({ ...answers, agedBetween: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+            </FormControl>
+            
+             {/******	Do you feel vulnerable or under pressure to obtain treatment? *****/}
+
+             <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+              	Do you feel vulnerable or under pressure to obtain treatment?
+              </Typography>
+              <RadioGroup
+                row
+                name="agedBetween"
+                value={answers.agedBetween}
+                onChange={(e) =>
+                  setAnswers({ ...answers, agedBetween: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+            </FormControl>
+             
+               {/******	Are you currently taking or have you recently stopped any prescription, over-the-counter, herbal medications, or recreational drugs?*****/}
+
+             <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+             Are you currently taking or have you recently stopped any prescription, over-the-counter, herbal medications, or recreational drugs?
+              </Typography>
+              <RadioGroup
+                row
+                name="agedBetween"
+                value={answers.agedBetween}
+                onChange={(e) =>
+                  setAnswers({ ...answers, agedBetween: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+            </FormControl>
+             
             {/****** End *****/}
           </>
         );

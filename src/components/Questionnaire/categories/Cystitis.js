@@ -11,6 +11,7 @@ import {
   RadioGroup,
   Typography,
   Checkbox,
+  TextField,
 } from "@mui/material";
 import "../../../../src/globalStyle.css";
 
@@ -125,11 +126,285 @@ function CystitisQuestion() {
       case 1:
         return (
           <>
-            {/****** Are you aged between 17-74 years *****/}
+            {/****** 1st What is your gender? *****/}
 
             <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-                Are you aged between 17-74 years
+                What is your gender? (Male N/A)
+              </Typography>
+              <RadioGroup
+                row
+                name="agedBetween"
+                value={answers.agedBetween}
+                onChange={(e) =>
+                  setAnswers({ ...answers, agedBetween: e.target.value })
+                }
+              >
+                {/* <FormControlLabel value="Male" control={<Radio />} label="Male" /> */}
+                <FormControlLabel value="Female" control={<Radio />} label="Female" />
+              </RadioGroup>
+            </FormControl>
+
+            {/****** Do you need assistance with this questionnaire? *****/}
+
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Do you need assistance with this questionnaire?
+              </Typography>
+              <RadioGroup
+                row
+                name="assistanceNeeded"
+                value={answers.assistanceNeeded}
+                onChange={(e) =>
+                  setAnswers({ ...answers, assistanceNeeded: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+              {answers.assistanceNeeded === "Yes" && (
+                <div>
+                  <Typography variant="h4" >
+                    Call us : 1234567890
+                  </Typography>    
+                  <Typography variant="h4">
+                    Mail us : help@medicusexpress.com 
+                  </Typography>
+                </div>
+              )}
+            </FormControl>
+
+            {/****** Are you able to make decisions about your healthcare? *****/}
+
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Are you able to make decisions about your healthcare?
+              </Typography>
+              <RadioGroup
+                row
+                name="makeDecision"
+                value={answers.makeDecision}
+                onChange={(e) =>
+                  setAnswers({ ...answers, makeDecision: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+              {answers.makeDecision === "No" && (
+                <div>
+                  <Typography variant="h4" >
+                  Sorry we can’t offer you this treatment, please contact your GP or 111 and not proceed .
+                  </Typography>    
+                </div>
+              )}
+            </FormControl>
+
+            {/****** Do you have any diagnosed medical conditions? *****/}
+
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Do you have any diagnosed medical conditions?
+              </Typography>
+              <RadioGroup
+                row
+                name="diagnosedMed"
+                value={answers.diagnoseMed}
+                onChange={(e) =>
+                  setAnswers({ ...answers, diagnoseMed: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+              {answers.diagnoseMed === "Yes" && (<TextField 
+              multiline
+              line={3}
+              value={answers.diagnosisDetails}
+              onChange={(e) =>
+                setAnswers({...answers, diagnosisDetails:e.target.value})
+              } fullWidth placeholder="Please write here"/>
+            )}
+            </FormControl>
+
+            {/******.** Are you currently taking any medications, including prescription, over-the-counter, or homeopathic options? *****/}
+
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Are you currently taking any medications, including prescription, over-the-counter, or homeopathic options?
+              </Typography>
+              <RadioGroup
+                row
+                name="prescription"
+                value={answers.prescription}
+                onChange={(e) =>
+                  setAnswers({ ...answers, prescription: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+              {answers.prescription === "Yes" && (<TextField
+              multiline
+              line={3}
+              value={answers.prescripDetails}
+              onChange={(e) =>
+                setAnswers({...answers, prescripDetails:e.target.value})
+              } fullWidth placeholder="Provide details about your prescriptions"/>
+            )}
+            </FormControl>
+
+            {/****** Do you have any known allergies? *****/}
+
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Do you have any known allergies?
+              </Typography>
+              <RadioGroup
+                row
+                name="allergy"
+                value={answers.allergy}
+                onChange={(e) =>
+                  setAnswers({ ...answers, allergy: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+              {answers.allergy === "Yes" && (<TextField
+              multiline
+              line={3}
+              value={answers.allergyDetails}
+              onChange={(e) =>
+                setAnswers({...answers, allergyDetails:e.target.value})
+              } fullWidth placeholder="Provide details about your allergies"/>
+            )}
+            </FormControl>
+
+            {/****** Is there any additional information that would help us provide appropriate care?*****/}
+
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Is there any additional information that would help us provide appropriate care?
+              </Typography>
+              <RadioGroup
+                row
+                name="additional"
+                value={answers.additional}
+                onChange={(e) =>
+                  setAnswers({ ...answers, additional: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+              {answers.additional === "Yes" && (<TextField
+              multiline
+              line={3}
+              value={answers.additionalDetails}
+              onChange={(e) =>
+                setAnswers({...answers, additionalDetails:e.target.value})
+              } fullWidth placeholder="Provide additional details about you"/>
+            )}
+            </FormControl>
+
+            {/****** Are you over 65?*****/}
+
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Are you over 65?
+              </Typography>
+              <RadioGroup
+                row
+                name="ageover"
+                value={answers.ageover}
+                onChange={(e) =>
+                  setAnswers({ ...answers, ageover: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+              {answers.ageover === "Yes" && (
+                <div>
+                  <Typography variant="h4" >
+                  Note that over the age 65 are more likely to require longer duration and closer monitoring. Therefore please see your GP if unable call 111.
+                  </Typography>    
+              
+                </div>
+              )}
+            </FormControl>
+            {/* ---- Have you previously been diagnosed with cystitis (UTI)?--- */}
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Have you previously been diagnosed with cystitis (UTI)?
+              </Typography>
+              <RadioGroup
+                row
+                name="uti"
+                value={answers.uti}
+                onChange={(e) =>
+                  setAnswers({ ...answers, uti: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+              {answers.uti === "Yes" && (
+              <div> <Typography variant="h4" >
+                  1. Are you passing urine more frequently than usually do?
+                </Typography><RadioGroup
+                  row
+                  name="uti1"
+                  value={answers.uti1}
+                  onChange={(e) => setAnswers({ ...answers, uti1: e.target.value })}
+                >
+                    <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                    <FormControlLabel value="No" control={<Radio />} label="No" />
+                  </RadioGroup>
+                  
+                  <Typography variant="h4" >
+                  2.	Have you got strong desire to urinate and empty bladder
+                </Typography><RadioGroup
+                  row
+                  name="uti2"
+                  value={answers.uti2}
+                  onChange={(e) => setAnswers({ ...answers, uti2: e.target.value })}
+                >
+                    <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                    <FormControlLabel value="No" control={<Radio />} label="No" />
+                  </RadioGroup>
+                  <Typography variant="h4" >
+                  3.	Is your urine cloudy or smell strong 
+                </Typography><RadioGroup
+                  row
+                  name="uti3"
+                  value={answers.uti3}
+                  onChange={(e) => setAnswers({ ...answers, uti3: e.target.value })}
+                >
+                    <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                    <FormControlLabel value="No" control={<Radio />} label="No" />
+                  </RadioGroup>
+                  <Typography variant="h4" >
+                  4. Are you experiencing lower abdominal pain and or discomfort?
+                </Typography><RadioGroup
+                  row
+                  name="uti4"
+                  value={answers.uti4}
+                  onChange={(e) => setAnswers({ ...answers, uti4: e.target.value })}
+                >
+                    <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                    <FormControlLabel value="No" control={<Radio />} label="No" />
+                  </RadioGroup>
+
+                  </div>
+              )}
+            </FormControl>
+
+            {/* ---- Is there any blood in your urine?--- */}
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Is there any blood in your urine?
               </Typography>
               <RadioGroup
                 row
@@ -143,7 +418,194 @@ function CystitisQuestion() {
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
             </FormControl>
-
+            {/* .** Are you currently experiencing lower back pain? */}
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Are you currently experiencing lower back pain?
+              </Typography>
+              <RadioGroup
+                row
+                name="agedBetween"
+                value={answers.agedBetween}
+                onChange={(e) =>
+                  setAnswers({ ...answers, agedBetween: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+            </FormControl>
+            {/* Are you feeling nauseous or vomiting? */}
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Are you feeling nauseous or vomiting?
+              </Typography>
+              <RadioGroup
+                row
+                name="agedBetween"
+                value={answers.agedBetween}
+                onChange={(e) =>
+                  setAnswers({ ...answers, agedBetween: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+            </FormControl>
+            {/* .** Do you have a fever (above 38°C)? */}
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Do you have a fever (above 38°C)?
+              </Typography>
+              <RadioGroup
+                row
+                name="agedBetween"
+                value={answers.agedBetween}
+                onChange={(e) =>
+                  setAnswers({ ...answers, agedBetween: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+            </FormControl>
+            {/* .Are you feeling unusually tired or sleepy? */}
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Are you feeling unusually tired or sleepy?
+              </Typography>
+              <RadioGroup
+                row
+                name="agedBetween"
+                value={answers.agedBetween}
+                onChange={(e) =>
+                  setAnswers({ ...answers, agedBetween: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+            </FormControl>
+            {/* .** Do you have any heart, kidney, or liver issues? */}
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Do you have any heart, kidney, or liver issues?
+              </Typography>
+              <RadioGroup
+                row
+                name="agedBetween"
+                value={answers.agedBetween}
+                onChange={(e) =>
+                  setAnswers({ ...answers, agedBetween: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+            </FormControl>
+            {/* .** Do you have any blood disorders? */}
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Do you have any blood disorders?
+              </Typography>
+              <RadioGroup
+                row
+                name="agedBetween"
+                value={answers.agedBetween}
+                onChange={(e) =>
+                  setAnswers({ ...answers, agedBetween: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+            </FormControl>
+            {/* Are you folic acid deficient? */}
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Are you folic acid deficient?
+              </Typography>
+              <RadioGroup
+                row
+                name="agedBetween"
+                value={answers.agedBetween}
+                onChange={(e) =>
+                  setAnswers({ ...answers, agedBetween: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+            </FormControl>
+            {/*  Have you been diagnosed with porphyria ( a condition which is couased by photosensitivity of the skin, muscle weakness and pain? */}
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Have you been diagnosed with porphyria ( a condition which is couased by photosensitivity of the skin, muscle weakness and pain?
+              </Typography>
+              <RadioGroup
+                row
+                name="agedBetween"
+                value={answers.agedBetween}
+                onChange={(e) =>
+                  setAnswers({ ...answers, agedBetween: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+            </FormControl>
+            {/* Do you agree to seek urgent medical advice if back pain or flu-like symptoms arise?*/}
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Do you agree to seek urgent medical advice if back pain or flu-like symptoms arise?
+              </Typography>
+              <RadioGroup
+                row
+                name="agedBetween"
+                value={answers.agedBetween}
+                onChange={(e) =>
+                  setAnswers({ ...answers, agedBetween: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+            </FormControl>
+            {/* Do you agree not to take UTI medication if pregnant or breastfeeding? */}
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Do you agree not to take UTI medication if pregnant or breastfeeding?
+              </Typography>
+              <RadioGroup
+                row
+                name="agedBetween"
+                value={answers.agedBetween}
+                onChange={(e) =>
+                  setAnswers({ ...answers, agedBetween: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+            </FormControl>
+            {/* How many UTIs have you had in the last 6 months? */}
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                How many UTIs have you had in the last 6 months?
+              </Typography>
+              <RadioGroup
+                row
+                name="agedBetween"
+                value={answers.agedBetween}
+                onChange={(e) =>
+                  setAnswers({ ...answers, agedBetween: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+            </FormControl>
+           
             {/****** End *****/}
           </>
         );

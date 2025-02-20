@@ -125,11 +125,11 @@ function AcidRefluxQuestion() {
       case 1:
         return (
           <>
-            {/****** Are you aged between 17-74 years *****/}
+            {/* 1st Are you over 50 with any new or recently changed symptoms?  */}
 
             <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-                Are you aged between 17-74 years
+                Are you over 50 with any new or recently changed symptoms?
               </Typography>
               <RadioGroup
                 row
@@ -144,6 +144,324 @@ function AcidRefluxQuestion() {
               </RadioGroup>
             </FormControl>
 
+            {/* 2nd Do you experience acid reflux symptoms at least twice a week, including:  */}
+
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Do you experience acid reflux symptoms at least twice a week, including : <br></br>
+                <ul>
+               <li> Burning sensation in the throat or sour/acidic taste.</li>
+               <li> Chest pain after meals, when lying down, or bending.</li>
+                <li> Food sensation “sticking” in the chest or throat.</li> 
+                </ul>
+              </Typography>
+              <RadioGroup
+                row
+                name="experiencedAny"
+                value={answers.experiencedAny}
+                onChange={(e) =>
+                  setAnswers({ ...answers, experiencedAny: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+            </FormControl>
+            {/* ---------------- */}
+
+            {/****** 3rd  Do you have any of these symptoms: difficulty swallowing, unintended weight loss, 
+             * persistent vomiting, severe/persistent diarrhea,
+             *  vomiting blood, blood in stools or black stools,
+             *  iron deficiency anemia, severe liver problems, or abdominal swelling?   *****/}
+
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Do you have any of these symptoms : 
+                <ul>
+                <li>Difficulty swallowing</li> <li>Unintended weight loss</li> <li>Persistent vomiting</li> <li>Severe/persistent diarrhea</li> <li>Vomiting blood</li> <li>Blood in stools or black stools</li>
+                <li>Iron deficiency anemia</li> <li>Severe liver problems or abdominal swelling</li>
+                </ul>
+              </Typography>
+              <RadioGroup
+                row
+                name="AreYouPregnantBreastfeeding"
+                value={answers.AreYouPregnantBreastfeeding}
+                onChange={(e) =>
+                  setAnswers({
+                    ...answers,
+                    AreYouPregnantBreastfeeding: e.target.value,
+                  })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+            </FormControl>
+
+            {/****** 4th Do you have a known allergy to proton pump inhibitors (e.g., omeprazole, pantoprazole)? *****/}
+
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Do you have a known allergy to proton pump inhibitors (e.g., omeprazole, pantoprazole)
+              </Typography>
+              <RadioGroup
+                row
+                name="eatingDisorder"
+                value={answers.eatingDisorder}
+                onChange={(e) =>
+                  setAnswers({ ...answers, eatingDisorder: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+            </FormControl>
+
+            {/****** 5th.** Are you pregnant, possibly pregnant, or breastfeeding?  *****/}
+
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Are you pregnant, possibly pregnant, or breastfeeding?
+              </Typography>
+              <RadioGroup
+                row
+                name="injectionsOrMedications"
+                value={answers.injectionsOrMedications}
+                onChange={(e) =>
+                  setAnswers({
+                    ...answers,
+                    injectionsOrMedications: e.target.value,
+                  })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+            </FormControl>
+
+            {/****** 6th Do you have any of the following conditions:   *****/}
+
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Do you have any of the following conditions:
+                <ul>
+                 <li>Osteoporosis</li>  
+                 <li>Liver disease</li>  
+                 <li>Gastric cancer</li>  
+                 <li>Hypomagnesemia (low blood magnesium) </li> 
+                 </ul>
+              </Typography>
+              <RadioGroup
+                row
+                name="allergicReaction"
+                value={answers.allergicReaction}
+                onChange={(e) =>
+                  setAnswers({ ...answers, allergicReaction: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+            </FormControl>
+
+            {/****** 7th  Have you experienced a ring-shaped or plaque-shaped rash after 
+             * sun exposure while taking a proton pump inhibitor?  *****/}
+
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Have you experienced a ring-shaped or plaque-shaped rash after sun exposure while taking a proton pump inhibitor?
+              </Typography>
+              <RadioGroup
+                row
+                name="familyMembersDiagnosed"
+                value={answers.familyMembersDiagnosed}
+                onChange={(e) =>
+                  setAnswers({
+                    ...answers,
+                    familyMembersDiagnosed: e.target.value,
+                  })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+            </FormControl>
+
+
+            {/****** 8th  Are you taking any medication, including over-the-counter, prescription, or recreational drugs?  *****/}
+
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Are you taking any medication, including over-the-counter, prescription, or recreational drugs?
+              </Typography>
+
+              <RadioGroup
+                row
+                name="medicationStatus" //
+                value={answers.medicationStatus || ""}
+                onChange={(e) =>
+                  setAnswers({ ...answers, medicationStatus: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+            </FormControl>
+
+            {/****** 9th Are you on any of the following medications? *****/}
+
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Are you on any of the following medications?
+              </Typography>
+
+              <RadioGroup
+                row
+                name="takingSteroidsMedication"
+                value={answers.takingSteroidsMedication || ""} // Prevents undefined errors
+                onChange={(e) =>
+                  setAnswers({
+                    ...answers,
+                    takingSteroidsMedication: e.target.value,
+                  })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+            </FormControl>
+
+            {/****** 10th .** Do you agree to:  
+                       - Read the patient information leaflet
+                       - Inform Medicus Express and your GP if you experience side effects or change medications
+                       - Use the treatment for personal use only
+                       - Provide accurate and truthful answers for safe prescribing  *****/}
+
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Do you agree to :
+                <ul>
+                <li>Read the patient information leaflet</li>
+                <li>Use the treatment for personal use only</li>
+                <li> Provide accurate and truthful answers for safe prescribing</li>
+                <li>Inform Medicus Express and your GP if you experience side effects or change medications</li></ul>
+              </Typography>
+
+              <RadioGroup
+                row
+                name="takenInjectableMedication"
+                value={answers.takenInjectableMedication || ""} // Prevents undefined errors
+                onChange={(e) =>
+                  setAnswers({
+                    ...answers,
+                    takenInjectableMedication: e.target.value,
+                  })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+            </FormControl>
+
+            {/* 11th Do you understand that maintaining a healthy diet, reducing alcohol intake, 
+            achieving a healthy weight, and stopping smoking can improve symptoms?   */}
+
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Do you understand that maintaining a healthy diet, reducing alcohol intake,
+                achieving a healthy weight, and stopping smoking can improve symptoms?
+              </Typography>
+
+              <RadioGroup
+                row
+                name="takingSteroidsMedication"
+                value={answers.takingSteroidsMedication || ""} // Prevents undefined errors
+                onChange={(e) =>
+                  setAnswers({
+                    ...answers,
+                    takingSteroidsMedication: e.target.value,
+                  })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+            </FormControl>
+
+            {/* 12th Do you agree to use this medication for the short-term treatment of GORD 
+              (heartburn/acid indigestion) for up to 28 days only?   */}
+
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Do you agree to use this medication for the short-term treatment of GORD
+                (heartburn/acid indigestion) for up to 28 days only?
+              </Typography>
+
+              <RadioGroup
+                row
+                name="takingSteroidsMedication"
+                value={answers.takingSteroidsMedication || ""} // Prevents undefined errors
+                onChange={(e) =>
+                  setAnswers({
+                    ...answers,
+                    takingSteroidsMedication: e.target.value,
+                  })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+            </FormControl>
+
+            {/* 12th Do you agree to use this medication for the short-term treatment of GORD 
+              (heartburn/acid indigestion) for up to 28 days only?   */}
+
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Do you agree to use this medication for the short-term treatment of GORD
+                (heartburn/acid indigestion) for up to 28 days only?
+              </Typography>
+
+              <RadioGroup
+                row
+                name="takingSteroidsMedication"
+                value={answers.takingSteroidsMedication || ""} // Prevents undefined errors
+                onChange={(e) =>
+                  setAnswers({
+                    ...answers,
+                    takingSteroidsMedication: e.target.value,
+                  })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+            </FormControl>
+
+                {/* 13th Do you agree to contact your GP if you have no symptom 
+                relief after 14 days or if symptoms persist beyond 28 days?   */}
+
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+              Do you agree to contact your GP if you have no symptom 
+              relief after 14 days or if symptoms persist beyond 28 days?  
+              </Typography>
+
+              <RadioGroup
+                row
+                name="takingSteroidsMedication"
+                value={answers.takingSteroidsMedication || ""} // Prevents undefined errors
+                onChange={(e) =>
+                  setAnswers({
+                    ...answers,
+                    takingSteroidsMedication: e.target.value,
+                  })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+            </FormControl>
             {/****** End *****/}
           </>
         );
