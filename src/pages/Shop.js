@@ -289,7 +289,7 @@ const ProductListingPage = () => {
                                   },
                                 }}
                               >
-                                ${product.regular_price}
+                                £{product.regular_price}
                               </Typography>
                             )}
                           </Box>

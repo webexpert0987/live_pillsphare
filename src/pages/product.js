@@ -374,7 +374,7 @@ const Product = () => {
                       lineHeight: "1.5",
                     }}
                   >
-                    <strong>Out of Stock</strong> for Sydney, 2000
+                    <strong>Out of Stock</strong>
                   </Typography>
                 </Box>
               </Stack>
