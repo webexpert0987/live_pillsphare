@@ -25,6 +25,17 @@ function HairLossQuestion() {
     agedBetween: "",
     agreeToTerms: "",
     photoID: "",
+    hairLossPatch: "",
+    hairLossLocal: "",
+    healthyScalp: "",
+    suddenHairLoss: "",
+    hairLossMedi: "",
+    diagnosed: "",
+    depressionHistory: "",
+    medicationInfo: "",
+    medicationInfoNext: "",
+    finasteride: "",
+    prescribedFIn: "",
   });
   const boxRef = useRef(null);
   const { setSelectedTab } = useApp();
@@ -144,244 +155,319 @@ function HairLossQuestion() {
               </RadioGroup>
               {answers.agedBetween === "No" && (
                 <div>
-                 "This treatment is not suitable for women or individuals under 18 or over 65." [Do not proceed]
+                  "This treatment is not suitable for women or individuals under 18 or over 65." [Do not proceed]
                 </div>
               )}
             </FormControl>
-              {/*****•	Are you currently experiencing hair loss?*****/}
+            {/*****•	•	Do you have hair loss in patches, or is your scalp itchy or sore?*****/}
 
-              <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-                Are you currently experiencing hair loss?
+                Do you have hair loss in patches, or is your scalp itchy or sore?
               </Typography>
               <RadioGroup
                 row
-                name="hairLoss"
-                value={answers.hairLoss}
+                name="hairLossPatch"
+                value={answers.hairLossPatch}
                 onChange={(e) =>
-                  setAnswers({ ...answers, hairLoss: e.target.value })
+                  setAnswers({ ...answers, hairLossPatch: e.target.value })
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
-              {answers.hairLoss === "No" && (
+              {answers.hairLossPatch === "Yes" && (
                 <div>
-               "This treatment is not suitable for you." [Do not proceed]
+                  This treatment may not be suitable for you. We recommend contacting your GP for further advice." [Do not proceed]
                 </div>
               )}
             </FormControl>
-              {/****** Are you aged between 17-74 years *****/}
+            {/****•	Is your hair loss localized to the temple area?******/}
 
-              <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-                Are you aged between 17-74 years
+                Is your hair loss localized to the temple area?
               </Typography>
               <RadioGroup
                 row
-                name="agedBetween"
-                value={answers.agedBetween}
+                name="hairLossLocal"
+                value={answers.hairLossLocal}
                 onChange={(e) =>
-                  setAnswers({ ...answers, agedBetween: e.target.value })
+                  setAnswers({ ...answers, hairLossLocal: e.target.value })
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
-              {answers.agedBetween === "No" && (
+              {answers.hairLossLocal === "No" && (
                 <div>
-                 "This treatment is not suitable for women or individuals under 18 or over 65." [Do not proceed]
+                  We can still offer treatment, but the range of available medications may be limited.
                 </div>
               )}
             </FormControl>
-              {/****** Are you aged between 17-74 years *****/}
+            {/****** •	Do you have a healthy scalp? *****/}
 
-              <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-                Are you aged between 17-74 years
+                Do you have a healthy scalp?
+                <br></br>
+                Your scalp should not have any of the following:
+                <ul>
+                  <li>Inflammation</li>
+                  <li>Redness</li>
+                  <li>Medical dressings</li>
+                  <li>Shaved areas</li>
+
+                </ul>
               </Typography>
               <RadioGroup
                 row
-                name="agedBetween"
-                value={answers.agedBetween}
+                name="healthyScalp"
+                value={answers.healthyScalp}
                 onChange={(e) =>
-                  setAnswers({ ...answers, agedBetween: e.target.value })
+                  setAnswers({ ...answers, healthyScalp: e.target.value })
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
-              {answers.agedBetween === "No" && (
+              {answers.healthyScalp === "No" && (
                 <div>
-                 "This treatment is not suitable for women or individuals under 18 or over 65." [Do not proceed]
+                  "We are unable to supply treatment. Please consult your GP." [Do not proceed]
                 </div>
               )}
             </FormControl>
-              {/****** Are you aged between 17-74 years *****/}
+            {/****** Are you experiencing sudden or complete hair loss? *****/}
 
-              <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-                Are you aged between 17-74 years
+                Are you experiencing sudden or complete hair loss?
               </Typography>
               <RadioGroup
                 row
-                name="agedBetween"
-                value={answers.agedBetween}
+                name="suddenHairLoss"
+                value={answers.suddenHairLoss}
                 onChange={(e) =>
-                  setAnswers({ ...answers, agedBetween: e.target.value })
+                  setAnswers({ ...answers, suddenHairLoss: e.target.value })
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
-              {answers.agedBetween === "No" && (
+              {answers.suddenHairLoss === "Yes" && (
                 <div>
-                 "This treatment is not suitable for women or individuals under 18 or over 65." [Do not proceed]
+                  "This treatment is not suitable for this type of hair loss. We recommend speaking to your GP for further advice." [Do not proceed]
                 </div>
               )}
             </FormControl>
-              {/****** Are you aged between 17-74 years *****/}
+            {/****** •	Could your hair loss be related to medication, dietary factors, or an illness? *****/}
 
-              <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-                Are you aged between 17-74 years
+                Could your hair loss be related to medication, dietary factors, or an illness?
               </Typography>
               <RadioGroup
                 row
-                name="agedBetween"
-                value={answers.agedBetween}
+                name="hairLossMedi"
+                value={answers.hairLossMedi}
                 onChange={(e) =>
-                  setAnswers({ ...answers, agedBetween: e.target.value })
+                  setAnswers({ ...answers, hairLossMedi: e.target.value })
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
-              {answers.agedBetween === "No" && (
+              {answers.hairLossMedi === "Yes" && (
                 <div>
-                 "This treatment is not suitable for women or individuals under 18 or over 65." [Do not proceed]
+                  "If your hair loss is caused by lifestyle or health factors, we recommend discussing it with your GP." [Do not proceed]
                 </div>
               )}
             </FormControl>
-              {/****** Are you aged between 17-74 years *****/}
+            {/******•	Have you ever been diagnosed with any of the following conditions?  *****/}
 
-              <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-                Are you aged between 17-74 years
+                Have you ever been diagnosed with any of the following conditions?
+                <ul>
+                  <li>Heart disease (including chest pain, angina, heart attack, or any history of cardiovascular events)</li>
+                  <li>Acute Porphyria (a rare hereditary disease affecting haemoglobin)</li>
+                  <li>Pheochromocytoma (cancer of the adrenal glands)</li>
+                  <li>Prostate problems (e.g., prostate enlargement, prostatitis, prostate cancer)</li>
+                  <li>Male breast cancer</li>
+                  <li>High blood pressure</li>
+                </ul>
+
               </Typography>
               <RadioGroup
                 row
-                name="agedBetween"
-                value={answers.agedBetween}
+                name="diagnosed"
+                value={answers.diagnosed}
                 onChange={(e) =>
-                  setAnswers({ ...answers, agedBetween: e.target.value })
+                  setAnswers({ ...answers, diagnosed: e.target.value })
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
-              {answers.agedBetween === "No" && (
+              {answers.diagnosed === "Yes" && (
                 <div>
-                 "This treatment is not suitable for women or individuals under 18 or over 65." [Do not proceed]
+                  "This treatment is not suitable for you." [Do not proceed]
                 </div>
               )}
             </FormControl>
-              {/****** Are you aged between 17-74 years *****/}
+            {/******•	Do you have a history of depression or any other mental health conditions?  *****/}
 
-              <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-                Are you aged between 17-74 years
+                Do you have a history of depression or any other mental health conditions?
               </Typography>
               <RadioGroup
                 row
-                name="agedBetween"
-                value={answers.agedBetween}
+                name="depressionHistory"
+                value={answers.depressionHistory}
                 onChange={(e) =>
-                  setAnswers({ ...answers, agedBetween: e.target.value })
+                  setAnswers({ ...answers, depressionHistory: e.target.value })
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
-              {answers.agedBetween === "No" && (
+              {answers.depressionHistory === "Yes" && (
                 <div>
-                 "This treatment is not suitable for women or individuals under 18 or over 65." [Do not proceed]
+                  We can still offer treatment, but with a limited product range.
                 </div>
               )}
             </FormControl>
-              {/****** Are you aged between 17-74 years *****/}
+            {/****** •	Are you currently taking any medication (including prescription, over-the-counter, or recreational drugs)? *****/}
 
-              <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-                Are you aged between 17-74 years
+                Are you currently taking any medication (including prescription, over-the-counter, or recreational drugs)?
               </Typography>
               <RadioGroup
                 row
-                name="agedBetween"
-                value={answers.agedBetween}
+                name="medicationInfo"
+                value={answers.medicationInfo}
                 onChange={(e) =>
-                  setAnswers({ ...answers, agedBetween: e.target.value })
+                  setAnswers({ ...answers, medicationInfo: e.target.value })
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
-              {answers.agedBetween === "No" && (
+              {answers.medicationInfo === "Yes" && (
                 <div>
-                 "This treatment is not suitable for women or individuals under 18 or over 65." [Do not proceed]
+                  <ul>
+                    <Typography>
+                      Are you taking any of the following medications?
+                    </Typography>
+                    <ul>
+                      <li>
+                        Dithranol (used to treat psoriasis)
+                      </li>
+                      <li>
+                        Tretinoin (used to treat acne or other skin disorders)
+                      </li>
+                      <li>
+                        Corticosteroids (e.g., hydrocortisone, betamethasone dipropionate)
+                      </li>
+                      <li>
+                        Petrolatum (a common ingredient in hair wax and gel)
+                      </li>
+                    </ul>
+
+                    <RadioGroup
+                      row
+                      name="medicationInfoNext"
+                      value={answers.medicationInfoNext}
+                      onChange={(e) =>
+                        setAnswers({ ...answers, medicationInfoNext: e.target.value })
+                      }
+                    >
+                      <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                      <FormControlLabel value="No" control={<Radio />} label="No" />
+                    </RadioGroup>
+                    {answers.medicationInfoNext === "Yes" && (
+                      <div>
+                        "We are unable to supply you with treatment. Please consult your GP." [Do not proceed]
+                      </div>
+                    )}
+                  </ul>
                 </div>
               )}
             </FormControl>
-              {/****** Are you aged between 17-74 years *****/}
+            {/****** •	Do you understand that if prescribed finasteride, and your partner is (or may be) pregnant, they should avoid handling crushed or broken tablets, and that you should always wear a condom during sex?*****/}
 
-              <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-                Are you aged between 17-74 years
+                Do you understand that if prescribed finasteride, and your partner is (or may be) pregnant, they should avoid handling crushed or broken tablets, and that you should always wear a condom during sex?
               </Typography>
               <RadioGroup
                 row
-                name="agedBetween"
-                value={answers.agedBetween}
+                name="finasteride"
+                value={answers.finasteride}
                 onChange={(e) =>
-                  setAnswers({ ...answers, agedBetween: e.target.value })
+                  setAnswers({ ...answers, finasteride: e.target.value })
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
-              {answers.agedBetween === "No" && (
+              {answers.finasteride === "No" && (
                 <div>
-                 "This treatment is not suitable for women or individuals under 18 or over 65." [Do not proceed]
+                  "We are unable to supply you with medication unless you understand and agree to this condition." [Do not proceed]
                 </div>
               )}
             </FormControl>
-              {/****** Are you aged between 17-74 years *****/}
+            {/******	Do you understand that if prescribed finasteride, you should inform your GP before undergoing a PSA blood test for your prostate?  *****/}
 
-              <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-                Are you aged between 17-74 years
+                Do you understand that if prescribed finasteride, you should inform your GP before undergoing a PSA blood test for your prostate?
               </Typography>
               <RadioGroup
                 row
-                name="agedBetween"
-                value={answers.agedBetween}
+                name="prescribedFin"
+                value={answers.prescribedFIn}
                 onChange={(e) =>
-                  setAnswers({ ...answers, agedBetween: e.target.value })
+                  setAnswers({ ...answers, prescribedFIn: e.target.value })
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
-              {answers.agedBetween === "No" && (
+              {answers.prescribedFIn === "No" && (
                 <div>
-                 "This treatment is not suitable for women or individuals under 18 or over 65." [Do not proceed]
+                  "We are unable to supply you with medication unless you understand and agree to this condition." [Do not proceed]
                 </div>
               )}
             </FormControl>
+            {/****** •	I agree to the terms and conditions, and I confirm that I am over 18 years of age. *****/}
 
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                I agree to the terms and conditions, and I confirm that I am over 18 years of age.
+              </Typography>
+              <RadioGroup
+                row
+                name="agreeTC"
+                value={answers.agreeTC}
+                onChange={(e) =>
+                  setAnswers({ ...answers, agreeTC: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+              {answers.agreeTC === "No" && (
+                <div>
+                  "We are unable to supply you with medication unless you understand and agree to this condition." [Do not proceed]
+                </div>
+              )}
+            </FormControl>
             {/****** End *****/}
           </>
-        );
+        )
       //============= Step 03 =============//
       case 2:
         return (

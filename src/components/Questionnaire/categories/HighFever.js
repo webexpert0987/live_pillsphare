@@ -5,6 +5,8 @@ import {
   StepLabel,
   Box,
   Button,
+  Grid2,
+  TextField,
   FormControl,
   FormControlLabel,
   Radio,
@@ -25,6 +27,27 @@ function HighFeverQuestion() {
     agedBetween: "",
     agreeToTerms: "",
     photoID: "",
+    pregnancyDetails: "",
+    additionalDetails: "",
+    smokeDetails: "",
+    smokeDetailsNext: "",
+    weightDetails: "",
+    weightDetailsNext: "",
+    allergicDetails: "",
+    currentSymptoms: "",
+    currentSymptomsDetails: "",
+    otherTreatment: "",
+    otherTreatmentDetails: "",
+    liverIssue: "",
+    otherConditions: "",
+    otherConditionsDetails: "",
+    currentMedication: "",
+    currentMedicationDetails: "",
+    otherAllergy: "",
+    otherAllergyDetails: "",
+    gpDetails: "",
+    agreedTC: "",
+    confirmTC: "",
   });
   const boxRef = useRef(null);
   const { setSelectedTab } = useApp();
@@ -129,7 +152,36 @@ function HighFeverQuestion() {
 
             <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-                Are you aged between 17-74 years
+                Whats is your full name?
+              </Typography>
+              <TextField
+                label="Full Name"
+                variant="outlined"
+                value={answers.fullName}
+                onChange={(e) =>
+                  setAnswers({ ...answers, fullName: e.target.value })
+                }
+                fullWidth
+              />
+            </FormControl>
+
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Are you purchasing this medication for personal use?
+              </Typography>
+              <TextField
+                label="Your answer"
+                variant="outlined"
+                value={answers.medicationDetails}
+                onChange={(e) =>
+                  setAnswers({ ...answers, medicationDetails: e.target.value })
+                }
+                fullWidth
+              />
+            </FormControl>
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Are you 18 years of age or older?
               </Typography>
               <RadioGroup
                 row
@@ -137,6 +189,471 @@ function HighFeverQuestion() {
                 value={answers.agedBetween}
                 onChange={(e) =>
                   setAnswers({ ...answers, agedBetween: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+            </FormControl>
+            {/* .......... */}
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Are you currently pregnant, breastfeeding, or planning a pregnancy? (If yes, please provide more details.)
+              </Typography>
+              <RadioGroup
+                row
+                name="pregnancyDetails"
+                value={answers.pregnancyDetails}
+                onChange={(e) =>
+                  setAnswers({ ...answers, pregnancyDetails: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+              {answers.pregnancyDetails === "Yes" && (<TextField
+                multiline
+                line={3}
+                value={answers.additionalDetails}
+                onChange={(e) =>
+                  setAnswers({ ...answers, additionalDetails: e.target.value })
+                } fullWidth placeholder="Provide additional details about you" />
+              )}
+            </FormControl>
+            {/* ....... */}
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Do you smoke?
+              </Typography>
+              <RadioGroup
+                row
+                name="smokeDetails"
+                value={answers.smokeDetails}
+                onChange={(e) =>
+                  setAnswers({ ...answers, smokeDetails: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+              {answers.smokeDetails === "Yes" && (
+                <div>
+                  <Typography>
+                    Would you like more information?
+                  </Typography>
+                  <RadioGroup
+                    row
+                    name="smokeDetailsNext"
+                    value={answers.smokeDetailsNext}
+                    onChange={(e) =>
+                      setAnswers({ ...answers, smokeDetailsNext: e.target.value })
+                    }
+                  >
+                    <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                    <FormControlLabel value="No" control={<Radio />} label="No" />
+                  </RadioGroup>
+
+                </div>
+              )}
+            </FormControl>
+            {/* ............... */}
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Do you consume alcohal ?
+              </Typography>
+              <RadioGroup
+                row
+                name="alcohalDetails"
+                value={answers.alcohalDetails}
+                onChange={(e) =>
+                  setAnswers({ ...answers, alcohalDetails: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+              {answers.alcohalDetails === "Yes" && (
+                <div>
+                  <Typography>
+                    Would you like information on safe consumption?
+                  </Typography>
+                  <RadioGroup
+                    row
+                    name="alcohalDetailsNext"
+                    value={answers.alcohalDetailsNext}
+                    onChange={(e) =>
+                      setAnswers({ ...answers, alcohalDetailsNext: e.target.value })
+                    }
+                  >
+                    <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                    <FormControlLabel value="No" control={<Radio />} label="No" />
+                  </RadioGroup>
+
+                </div>
+              )}
+            </FormControl>
+            {/* ................. */}
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Are you overweight?
+              </Typography>
+              <RadioGroup
+                row
+                name="weightDetails"
+                value={answers.weightDetails}
+                onChange={(e) =>
+                  setAnswers({ ...answers, weightDetails: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+              {answers.weightDetails === "Yes" && (
+                <div>
+                  <Typography>
+                    Would you like guidance on weight management?
+                  </Typography>
+                  <RadioGroup
+                    row
+                    name="weightDetailsNext"
+                    value={answers.weightDetailsNext}
+                    onChange={(e) =>
+                      setAnswers({ ...answers, weightDetailsNext: e.target.value })
+                    }
+                  >
+                    <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                    <FormControlLabel value="No" control={<Radio />} label="No" />
+                  </RadioGroup>
+
+                </div>
+              )}
+            </FormControl>
+            {/* ......... */}
+
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Are you experiencing allergic rhinitis or hayfever?
+              </Typography>
+              <RadioGroup
+                row
+                name="allergicDetails"
+                value={answers.allergicDetails}
+                onChange={(e) =>
+                  setAnswers({ ...answers, allergicDetails: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+            </FormControl>
+
+            {/* ......... */}
+
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Which of the following symptoms do you have? (List options like sneezing, runny nose, etc.)
+                Here’s a shuffled version of the symptoms:
+              </Typography>
+              <ul>
+
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label="Headache"
+                /><br></br>
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label="Sneezing and coughing"
+                /><br></br>
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label="Itchy throat, mouth, nose, and ears"
+                /><br></br>
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label="Loss of smell"
+                /><br></br>
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label="Pain around temples and forehead"
+                /><br></br>
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label="A runny or blocked nose"
+                /><br></br>
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label="Earache"
+                /><br></br>
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label="Itchy, red, or watery eyes"
+                />
+              </ul>
+            </FormControl>
+            {/* ......... */}
+
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Are your current symptoms different from previous hayfever/allergic rhinitis episodes?
+              </Typography>
+              <RadioGroup
+                row
+                name="currentSymptoms"
+                value={answers.currentSymptoms}
+                onChange={(e) =>
+                  setAnswers({ ...answers, currentSymptoms: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+              {answers.currentSymptoms === "Yes" && (
+                <>
+                  <Typography>Please Provide More details</Typography>
+                  <TextField
+                    multiline
+                    line={3}
+                    value={answers.currentSymptomsDetails}
+                    onChange={(e) =>
+                      setAnswers({ ...answers, currentSymptomsDetails: e.target.value })
+                    } fullWidth placeholder="Please tell about symptoms" />
+                </>
+              )}
+            </FormControl>
+            {/* ................ */}
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Have you previously tried other treatments for hayfever or allergic rhinitis?
+              </Typography>
+              <RadioGroup
+                row
+                name="otherTreatment"
+                value={answers.otherTreatment}
+                onChange={(e) =>
+                  setAnswers({ ...answers, otherTreatment: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+              {answers.otherTreatment === "Yes" && (
+                <>
+                  <Typography>Please Provide More details</Typography>
+                  <TextField
+                    multiline
+                    line={3}
+                    value={answers.otherTreatmentDetails}
+                    onChange={(e) =>
+                      setAnswers({ ...answers, otherTreatmentDetails: e.target.value })
+                    } fullWidth placeholder="Specify what was used and its effectiveness." />
+                </>
+              )}
+            </FormControl>
+            {/* ......... */}
+
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Do you have any of the following additional symptoms? (List specific symptoms like nasal pain, eye discomfort, etc.)
+              </Typography>
+              <ul>
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label="Eye pain or changes in vision"
+                /><br></br>
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label="Frequent episodes of nosebleeds"
+                /><br></br>
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label="Structural changes to the nasal septum"
+                /><br></br>
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label="Discomfort or pain within the nasal area"
+                /><br></br>
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label="Presence of blood in nasal discharge"
+                /><br></br>
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label="Treatment not providing the desired relief"
+                /><br></br>
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label="Persistent symptoms affecting a single eye or nostril"
+                /><br></br>
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label="None"
+                /><br></br>
+              </ul>
+            </FormControl>
+
+            {/* ................ */}
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Do you have any liver or kidney conditions?
+              </Typography>
+              <RadioGroup
+                row
+                name="liverIssue"
+                value={answers.liverIssue}
+                onChange={(e) =>
+                  setAnswers({ ...answers, liverIssue: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+            </FormControl>
+
+            {/* ................ */}
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Do you have other medical conditions or past surgeries?
+              </Typography>
+              <RadioGroup
+                row
+                name="otherConditions"
+                value={answers.otherConditions}
+                onChange={(e) =>
+                  setAnswers({ ...answers, otherConditions: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+              {answers.otherConditions === "Yes" && (
+                <>
+                  <Typography>Please Provide More details</Typography>
+                  <TextField
+                    multiline
+                    line={3}
+                    value={answers.otherConditionsDetails}
+                    onChange={(e) =>
+                      setAnswers({ ...answers, otherConditionsDetails: e.target.value })
+                    } fullWidth placeholder="Provide more details." />
+                </>
+              )}
+            </FormControl>
+
+            {/* ................ */}
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Are you currently or recently taking any medications, including prescription, over-the-counter, herbal, or recreational drugs?
+              </Typography>
+              <RadioGroup
+                row
+                name="currentMedication"
+                value={answers.currentMedication}
+                onChange={(e) =>
+                  setAnswers({ ...answers, currentMedication: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+              {answers.currentMedication === "Yes" && (
+                <>
+                  <Typography>Please Provide More details</Typography>
+                  <TextField
+                    multiline
+                    line={3}
+                    value={answers.currentMedicationDetails}
+                    onChange={(e) =>
+                      setAnswers({ ...answers, currentMedicationDetails: e.target.value })
+                    } fullWidth placeholder="Provide more details." />
+                </>
+              )}
+            </FormControl>
+
+            {/* ................ */}
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Do you have any allergies to medications or other substances (e.g., peanuts, soy)?
+              </Typography>
+              <RadioGroup
+                row
+                name="otherAllergy"
+                value={answers.otherAllergy}
+                onChange={(e) =>
+                  setAnswers({ ...answers, otherAllergy: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+              {answers.otherAllergy === "Yes" && (
+                <>
+                  <Typography>Please Provide More details</Typography>
+                  <TextField
+                    multiline
+                    line={3}
+                    value={answers.otherAllergyDetails}
+                    onChange={(e) =>
+                      setAnswers({ ...answers, otherAllergyDetails: e.target.value })
+                    } fullWidth placeholder="Provide more details." />
+                </>
+              )}
+            </FormControl>
+
+            {/* ................ */}
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Would you like us to inform your GP about your treatment?
+              </Typography>
+              <RadioGroup
+                row
+                name="gpDetails"
+                value={answers.gpDetails}
+                onChange={(e) =>
+                  setAnswers({ ...answers, gpDetails: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+            </FormControl>
+
+            {/* ................ */}
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Do you agree to follow the patient information, use the treatment solely for personal use, and understand that incorrect answers may impact treatment safety?
+                </Typography><ul>
+                  <li>" You confirm that you have reviewed the treatment information, including side effects, effectiveness, and available alternatives"</li>
+                  <li>"You agree to contact your GP if there’s no improvement after 14 days or if symptoms persist beyond 28 days."</li>
+                  <li>"Your answers are truthful, and this treatment is intended solely for your own use."</li>
+                  <li>"You will read and understand the patient information leaflet provided."</li>
+                  <li>"While optional, you acknowledge the importance of informing your GP to ensure safe care."</li>
+                  <li>"You understand that prescriptions rely on accurate information, and orders may be declined if unsuitable.."</li>
+                </ul>
+             
+              <RadioGroup
+                row
+                name="agreedTC"
+                value={answers.agreedTC}
+                onChange={(e) =>
+                  setAnswers({ ...answers, agreedTC: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+            </FormControl>
+
+            {/* ................ */}
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+              I confirm I have read all the information in this questionnaire and will follow the advice in the patient information leaflet provided?
+              </Typography>
+              <RadioGroup
+                row
+                name="confirmTC"
+                value={answers.confirmTC}
+                onChange={(e) =>
+                  setAnswers({ ...answers, confirmTC: e.target.value })
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />

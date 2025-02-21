@@ -26,6 +26,24 @@ function ErectileDysfunctionQuestion() {
     agedBetween: "",
     agreeToTerms: "",
     photoID: "",
+    smoke: "",
+    alcohal: "",
+    erectileCount: "",
+    erection: "",
+    bloodPressure: "",
+    bloodPressure90: "",
+    walking: "",
+    strenuous: "",
+    depression: "",
+    allergies: "",
+    healthCd: "",
+    medication1: "",
+    medication2: "",
+    dysfunction: "",
+    proErection: "",
+    agreeFollowing: "",
+    agreeTC: "",
+
   });
   const boxRef = useRef(null);
   const { setSelectedTab } = useApp();

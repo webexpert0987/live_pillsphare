@@ -25,6 +25,17 @@ function MigraineQuestion() {
     agedBetween: "",
     agreeToTerms: "",
     photoID: "",
+    migrain: "",
+    migrainTime: "",
+    experienceMigrain: "",
+    anySymptoms: "",
+    diagnosed: "",
+    otherAllergy: "",
+    triptans: "",
+    diagnoseAny: "",
+    medicationAny1: "",
+    medicationAny2: "",
+    agreedTC1: "",
   });
   const boxRef = useRef(null);
   const { setSelectedTab } = useApp();
@@ -125,11 +136,11 @@ function MigraineQuestion() {
       case 1:
         return (
           <>
-            {/****** Are you aged between 17-74 years *****/}
+            {/****** Are you between 18 and 65 years old?**  ****/}
 
             <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-                Are you aged between 17-74 years
+                Are you between 18 and 65 years old?
               </Typography>
               <RadioGroup
                 row
@@ -142,6 +153,305 @@ function MigraineQuestion() {
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
+              {answers.agedBetween === "No" && (
+                <div>
+                  Please consult your GP for a migraine treatment plan.
+                </div>
+              )}
+            </FormControl>
+            {/****** ****/}
+
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Do your migraines follow a consistent pattern?
+              </Typography>
+              <RadioGroup
+                row
+                name="migrain"
+                value={answers.migrain}
+                onChange={(e) =>
+                  setAnswers({ ...answers, migrain: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+              {answers.migrain === "No" && (
+                <div>
+                  Please consult your GP for device.
+                </div>
+              )}
+            </FormControl>
+            {/****** Are you between 18 and 65 years old?**  ****/}
+
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Do your migraines last less than 4 hours or longer than 24 hours?
+              </Typography>
+              <RadioGroup
+                row
+                name="migrainTime"
+                value={answers.migrainTime}
+                onChange={(e) =>
+                  setAnswers({ ...answers, migrainTime: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+              {answers.migrainTime === "Yes" && (
+                <div>
+                  Please consult your GP for a management plan.
+                </div>
+              )}
+            </FormControl>
+            {/****** Are you between 18 and 65 years old?**  ****/}
+
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Do you experience migraines more than 10 days per month?
+              </Typography>
+              <RadioGroup
+                row
+                name="experienceMigrain"
+                value={answers.experienceMigrain}
+                onChange={(e) =>
+                  setAnswers({ ...answers, experienceMigrain: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+              {answers.experienceMigrain === "Yes" && (
+                <div>
+                  Please consult your GP for further guidance.
+                </div>
+              )}
+            </FormControl>
+            {/****** Are you between 18 and 65 years old?**  ****/}
+
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Do you have any of the following symptoms
+                <ul>
+                  <li>Coordination issues   </li>
+                  <li>Back-of-head pain  </li>
+                  <li>Ringing in ears  </li>
+                  <li>Seizure-like episodes  </li>
+                  <li>Recent rash with headache</li>
+                  <li>Reduced alertness  </li>
+                  <li>Blurred/double vision  </li>
+                  <li>Increased frequency, severity, or duration of migraines  </li>
+                  <li>One-sided weakness  </li>
+                </ul>
+              </Typography>
+              <RadioGroup
+                row
+                name="anySymptoms"
+                value={answers.anySymptoms}
+                onChange={(e) =>
+                  setAnswers({ ...answers, anySymptoms: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+              {answers.anySymptoms === "Yes" && (
+                <div>
+                  Consult your GP.
+                </div>
+              )}
+            </FormControl>
+            {/****** Are you between 18 and 65 years old?**  ****/}
+
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Have you been diagnosed with migraines, and do triptans relieve them?
+              </Typography>
+              <RadioGroup
+                row
+                name="diagnosed"
+                value={answers.diagnosed}
+                onChange={(e) =>
+                  setAnswers({ ...answers, diagnosed: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+              {answers.diagnosed === "No" && (
+                <div>
+                  Consult your GP.
+                </div>
+              )}
+            </FormControl>
+            {/****** Are you between 18 and 65 years old?**  ****/}
+
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Do you have an allergy to any of the following medications?
+                <ul>
+                  <li>Sumatriptan  </li>
+                  <li>Rizatriptan  </li>
+                  <li>Zolmitriptan  </li>
+                </ul>
+              </Typography>
+              <RadioGroup
+                row
+                name="otherAllergy"
+                value={answers.otherAllergy}
+                onChange={(e) =>
+                  setAnswers({ ...answers, otherAllergy: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+              {answers.otherAllergy === "Yes" && (
+                <div>
+                  Consult your GP.
+                </div>
+              )}
+            </FormControl>
+            {/****** Are you between 18 and 65 years old?**  ****/}
+
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Have you experienced any of the following after taking triptans?
+                <ul>
+                  <li>Chest tightness  </li>
+                  <li>Palpitations or dizziness  </li>
+                  <li>Worsening nausea  </li>
+                  <li>Increased blood pressure  </li>
+                </ul>
+              </Typography>
+              <RadioGroup
+                row
+                name="triptans"
+                value={answers.triptans}
+                onChange={(e) =>
+                  setAnswers({ ...answers, triptans: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+              {answers.triptans === "Yes" && (
+                <div>
+                  Consult your GP.
+                </div>
+              )}
+            </FormControl>
+            {/****** Are you between 18 and 65 years old?**  ****/}
+
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Have you been diagnosed with any of the following conditions?
+                <ul>
+                  <li>Heart disease  </li>
+                  <li>Stroke or mini-stroke  </li>
+                  <li>High blood pressure  </li>
+                  <li>Epilepsy  </li>
+                  <li>Serious medical conditions requiring hospitalization  </li>
+                </ul>
+              </Typography>
+              <RadioGroup
+                row
+                name="diagnoseAny"
+                value={answers.diagnoseAny}
+                onChange={(e) =>
+                  setAnswers({ ...answers, diagnoseAny: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+              {answers.diagnoseAny === "Yes" && (
+                <div>
+                  Consult your GP.
+                </div>
+              )}
+            </FormControl>
+            {/****** Are you between 18 and 65 years old?**  ****/}
+
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Are you currently taking any medications?
+              </Typography>
+              <RadioGroup
+                row
+                name="medicationAny1"
+                value={answers.medicationAny1}
+                onChange={(e) =>
+                  setAnswers({ ...answers, medicationAny1: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+              {answers.medicationAny1 === "Yes" && (
+                <div>
+                  Please check for the following:
+                  <ul>
+                    <li>Ergotamine or Methysergide  </li>
+                    <li>Another triptan in the last 24 hours  </li>
+                    <li>MAOIs (recent use)  </li>
+                    <li>SSRIs  </li>
+                    <li>SNRIs  </li>
+                    <li>Lithium  </li>
+                    <li>Current antibiotics</li>
+                    <li>Antifungals  </li>
+                    <li>Combined oral contraceptive  </li>
+                  </ul>
+                  <RadioGroup
+                    row
+                    name="medicationAny2"
+                    value={answers.medicationAny2}
+                    onChange={(e) =>
+                      setAnswers({ ...answers, medicationAny2: e.target.value })
+                    }
+                  >
+                    <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                    <FormControlLabel value="No" control={<Radio />} label="No" />
+                  </RadioGroup>
+                  {answers.medicationAny2 === "Yes" && (
+                <div>
+                  Consult your GP.
+                </div>
+              )}
+                </div>
+
+              )}
+            </FormControl>
+
+             {/****** Do you agree to the following terms?**    ****/}
+
+             <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+              Do you agree to the following terms?**  
+                <ul>
+                  <li> I will read the patient information leaflet  </li>
+                  <li>I will inform Medicus Express and my GP about any side effects or changes in condition.    </li>
+                  <li>The treatment is for my personal use.   </li>
+                  <li>I confirm all answers are truthful.   </li>
+                </ul>
+              </Typography>
+              <RadioGroup
+                row
+                name="agreedTC1"
+                value={answers.agreedTC1}
+                onChange={(e) =>
+                  setAnswers({ ...answers, agreedTC1: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+              {answers.agreedTC1 === "No" && (
+                <div>
+                  Treatment cannot be provided.
+                </div>
+              )}
             </FormControl>
 
             {/****** End *****/}
