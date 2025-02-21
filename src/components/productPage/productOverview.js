@@ -37,7 +37,7 @@ const StyledTab = styled(Tab)(({ theme }) => ({
   },
 }));
 
-const ProductOverview = () => {
+const ProductOverview = ({product}) => {
   const [tabIndex, setTabIndex] = useState(0);
   const isMobile = useMediaQuery(theme.breakpoints.down("md")); // Detect screen size
 
@@ -87,15 +87,15 @@ const ProductOverview = () => {
                   </Typography>
                 ),
               },
-              {
-                title: "Delivery",
-                content: (
-                  <Typography>
-                    Details about shipping, delivery timelines, and return
-                    policies.
-                  </Typography>
-                ),
-              },
+              // {
+              //   title: "Delivery",
+              //   content: (
+              //     <Typography>
+              //       Details about shipping, delivery timelines, and return
+              //       policies.
+              //     </Typography>
+              //   ),
+              // },
             ].map((tab, index) => (
               <Accordion
                 key={index}
@@ -210,7 +210,7 @@ const ProductOverview = () => {
                   "&::after": {
                     content: '""',
                     position: "absolute",
-                    right: "0",
+                    right: "0", 
                     color: "#FFF",
                     width: "1px",
                     height: "24px",
@@ -244,7 +244,7 @@ const ProductOverview = () => {
                   },
                 }}
               />
-              <StyledTab
+              {/* <StyledTab
                 icon={
                   <Icon
                     icon="solar:box-linear"
@@ -254,7 +254,7 @@ const ProductOverview = () => {
                   />
                 }
                 label="Delivery"
-              />
+              /> */}
             </Tabs>
 
             {/* Main Content */}
@@ -266,7 +266,7 @@ const ProductOverview = () => {
                 flexDirection: "column",
               }}
             >
-              {tabIndex === 0 && <VerticalTabs />}
+              {tabIndex === 0 && <VerticalTabs product={product} />}
               {tabIndex === 1 && (
                 <Typography
                   sx={{
@@ -275,8 +275,7 @@ const ProductOverview = () => {
                     color: "#333",
                   }}
                 >
-                  Here is the product information, including specifications,
-                  ingredients, and other relevant details.
+                { product?.short_description || "No Side Information available."}
                 </Typography>
               )}
               {tabIndex === 2 && (
@@ -287,10 +286,11 @@ const ProductOverview = () => {
                     color: "#333",
                   }}
                 >
-                  Find answers to common questions about the product here.
+               {product?.questions || "No questions available."}
+
                 </Typography>
               )}
-              {tabIndex === 3 && (
+              {/* {tabIndex === 3 && (
                 <Typography
                   sx={{
                     fontSize: { xs: "15px", sm: "16px", md: "16px" },
@@ -301,7 +301,7 @@ const ProductOverview = () => {
                   Details about shipping, delivery timelines, and return
                   policies.
                 </Typography>
-              )}
+              )} */}
             </Box>
           </>
         )}

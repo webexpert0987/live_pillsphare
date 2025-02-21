@@ -13,6 +13,10 @@ export const getProductImages = (productId) =>
     apiClient.get(`/wp-json/wp/v2/product-images/${productId}`);
 
 
+export const getRelatedProduct = (productId) =>
+    apiClient.get(`/wp-json/wp/v2/related-products/${productId}`);
+
+
 // export const createUser = (data) => apiClient.post('/users', data);
 
 // export const updateUser = (id, data) => apiClient.put(`/users/${id}`, data);

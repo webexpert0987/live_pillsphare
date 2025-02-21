@@ -13,35 +13,31 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import axios from "axios";
 import theme from "../../Theme/theme"; // Make sure to import your theme if needed
 
-const VerticalTabs = () => {
+const VerticalTabs = ({product}) => {
   const [value, setValue] = useState(0);
   const [tabContent, setTabContent] = useState([
     {
-      title: "Buy Vitabiotics Wellman Energy",
-      description: "The ultimate supplement for energy and vitality!",
-    },
-    {
       title: "Directions",
-      description: "Take one tablet daily with water, preferably with a meal.",
+      description: product?.directions || "No directions available.",
     },
     {
       title: "Side Effects",
       description:
-        "Some users may experience mild stomach discomfort. Consult a doctor if adverse reactions occur.",
+                product?.side_effects || "No Side Effects available.",
     },
     {
       title: "Warnings",
       description:
-        "Keep out of reach of children. Do not exceed the recommended dosage.",
+                product?.warnings || "No Side Warnings available.",
     },
   ]);
 
-  useEffect(() => {
-    axios
-      .get("https://api.example.com/tabs")
-      .then((response) => setTabContent(response.data))
-      .catch((error) => console.error("Error fetching data:", error));
-  }, []);
+  // useEffect(() => {
+  //   axios
+  //     .get("https://api.example.com/tabs")
+  //     .then((response) => setTabContent(response.data))
+  //     .catch((error) => console.error("Error fetching data:", error));
+  // }, []);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);

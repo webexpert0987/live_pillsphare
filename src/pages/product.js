@@ -14,7 +14,7 @@ import {
 import VerticalImageSlider from "../components/productSlider/ProductSlider";
 import { useApp } from "../Context/AppContext";
 import { useParams } from "react-router-dom";
-import { getProductBySlug } from "../apis/apisList/productApi";
+import { getProductBySlug , getRelatedProduct} from "../apis/apisList/productApi";
 import { useMessage } from "../Context/MessageContext";
 import theme from "../Theme/theme";
 import { Icon } from "@iconify/react";
@@ -36,6 +36,7 @@ const Product = () => {
   const { showMessage } = useMessage();
   const { addToCart } = useApp();
   const [product, setProduct] = useState({});
+  const [relatedProducts, setRelatedProducts] = useState([]);
   const [quantity, setQuantity] = useState(1);
   const [isLoggedIn, setIsLoggedIn] = useState(false); // Mocked login state
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -59,18 +60,11 @@ const Product = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        // Check if the product is cached in localStorage
-        const cachedProduct = localStorage.getItem(`product-${slug}`);
-
-        if (cachedProduct) {
-          setProduct(JSON.parse(cachedProduct)); // Use cached product
-        } else {
-          const response = await getProductBySlug(slug);
-          setProduct(response.product);
-          localStorage.setItem(
-            `product-${slug}`,
-            JSON.stringify(response.product)
-          ); // Cache the product
+        const response = await getProductBySlug(slug);
+        setProduct(response.product);
+        
+        if (response.product?.id) {
+          fetchRelatedProducts(response.product.id);
         }
       } catch (error) {
         showMessage(
@@ -80,15 +74,23 @@ const Product = () => {
       }
     };
 
-    // Check if user is logged in
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      setIsLoggedIn(true);
-    }
+    const fetchRelatedProducts = async (productId) => {
+      try {
+        const relatedResponse = await getRelatedProduct(productId);
+          setRelatedProducts(relatedResponse.related_products);
+      } catch (error) {
+        showMessage(
+          error.response?.data?.message || "Failed to fetch related products",
+          "error"
+        );
+      }
+    };
 
     fetchProduct();
-    window.scrollTo(0, 0);
   }, [slug]);
+
+ 
+  
 
   const handleVariantSelect = (product, variantId) => {
     const variantDetail = product.variations.find((item) => {
@@ -360,7 +362,7 @@ const Product = () => {
                     icon="material-symbols:circle"
                     width="20"
                     height="20"
-                    style={{ color: "#57ac4f" }}
+                    style={{ color: "#FF0000" }}
                   />
                 </Box>
                 <Box>
@@ -372,7 +374,7 @@ const Product = () => {
                       lineHeight: "1.5",
                     }}
                   >
-                    <strong>In Stock</strong> for Sydney, 2000
+                    <strong>Out of Stock</strong> for Sydney, 2000
                   </Typography>
                 </Box>
               </Stack>
@@ -445,12 +447,7 @@ const Product = () => {
                       lineHeight: "1.5",
                     }}
                   >
-                    Need an extra boost of energy? Vitabiotics Wellman Energy
-                    are effervescent tablets for men that dissolve into a tasty
-                    orange-flavoured drink. Whether you’re dealing with a hectic
-                    life, late nights or travel, these tablets provide a welcome
-                    nutritional boost with vitamin C, B1, B6, biotin, iron,
-                    magnesium and selenium.
+                   {product?.description}
                   </Typography>
                 </Box>
               </Stack>
@@ -460,12 +457,13 @@ const Product = () => {
         </Box>
         {/********* Product Overview **********/}
         <Box>
-          <ProductOverview />
+          <ProductOverview product={product}/>
         </Box>
         {/********* Product Overview End **********/}
       </Container>
       <Box backgroundColor={theme.palette.primary.main}>
-        <RelatedProduct />
+      <RelatedProduct relatedProducts={relatedProducts} />
+
       </Box>
       {isQuestionModalOpen && (
         <Dialog
