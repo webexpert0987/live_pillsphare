@@ -327,7 +327,7 @@ const MainHeader = () => {
                   <Button
                     key={text}
                     endIcon={
-                      text === "Shop" /* || text === "Online Clinic" */ ? (
+                      text === "Shop"  || text === "Online Clinic"  ? (
                         <KeyboardArrowDownIcon
                           sx={{ marginLeft: 0 }}
                           onClick={(e) => handleClick(e, text)}

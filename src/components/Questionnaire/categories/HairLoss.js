@@ -142,6 +142,241 @@ function HairLossQuestion() {
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
+              {answers.agedBetween === "No" && (
+                <div>
+                 "This treatment is not suitable for women or individuals under 18 or over 65." [Do not proceed]
+                </div>
+              )}
+            </FormControl>
+              {/*****•	Are you currently experiencing hair loss?*****/}
+
+              <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Are you currently experiencing hair loss?
+              </Typography>
+              <RadioGroup
+                row
+                name="hairLoss"
+                value={answers.hairLoss}
+                onChange={(e) =>
+                  setAnswers({ ...answers, hairLoss: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+              {answers.hairLoss === "No" && (
+                <div>
+               "This treatment is not suitable for you." [Do not proceed]
+                </div>
+              )}
+            </FormControl>
+              {/****** Are you aged between 17-74 years *****/}
+
+              <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Are you aged between 17-74 years
+              </Typography>
+              <RadioGroup
+                row
+                name="agedBetween"
+                value={answers.agedBetween}
+                onChange={(e) =>
+                  setAnswers({ ...answers, agedBetween: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+              {answers.agedBetween === "No" && (
+                <div>
+                 "This treatment is not suitable for women or individuals under 18 or over 65." [Do not proceed]
+                </div>
+              )}
+            </FormControl>
+              {/****** Are you aged between 17-74 years *****/}
+
+              <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Are you aged between 17-74 years
+              </Typography>
+              <RadioGroup
+                row
+                name="agedBetween"
+                value={answers.agedBetween}
+                onChange={(e) =>
+                  setAnswers({ ...answers, agedBetween: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+              {answers.agedBetween === "No" && (
+                <div>
+                 "This treatment is not suitable for women or individuals under 18 or over 65." [Do not proceed]
+                </div>
+              )}
+            </FormControl>
+              {/****** Are you aged between 17-74 years *****/}
+
+              <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Are you aged between 17-74 years
+              </Typography>
+              <RadioGroup
+                row
+                name="agedBetween"
+                value={answers.agedBetween}
+                onChange={(e) =>
+                  setAnswers({ ...answers, agedBetween: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+              {answers.agedBetween === "No" && (
+                <div>
+                 "This treatment is not suitable for women or individuals under 18 or over 65." [Do not proceed]
+                </div>
+              )}
+            </FormControl>
+              {/****** Are you aged between 17-74 years *****/}
+
+              <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Are you aged between 17-74 years
+              </Typography>
+              <RadioGroup
+                row
+                name="agedBetween"
+                value={answers.agedBetween}
+                onChange={(e) =>
+                  setAnswers({ ...answers, agedBetween: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+              {answers.agedBetween === "No" && (
+                <div>
+                 "This treatment is not suitable for women or individuals under 18 or over 65." [Do not proceed]
+                </div>
+              )}
+            </FormControl>
+              {/****** Are you aged between 17-74 years *****/}
+
+              <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Are you aged between 17-74 years
+              </Typography>
+              <RadioGroup
+                row
+                name="agedBetween"
+                value={answers.agedBetween}
+                onChange={(e) =>
+                  setAnswers({ ...answers, agedBetween: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+              {answers.agedBetween === "No" && (
+                <div>
+                 "This treatment is not suitable for women or individuals under 18 or over 65." [Do not proceed]
+                </div>
+              )}
+            </FormControl>
+              {/****** Are you aged between 17-74 years *****/}
+
+              <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Are you aged between 17-74 years
+              </Typography>
+              <RadioGroup
+                row
+                name="agedBetween"
+                value={answers.agedBetween}
+                onChange={(e) =>
+                  setAnswers({ ...answers, agedBetween: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+              {answers.agedBetween === "No" && (
+                <div>
+                 "This treatment is not suitable for women or individuals under 18 or over 65." [Do not proceed]
+                </div>
+              )}
+            </FormControl>
+              {/****** Are you aged between 17-74 years *****/}
+
+              <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Are you aged between 17-74 years
+              </Typography>
+              <RadioGroup
+                row
+                name="agedBetween"
+                value={answers.agedBetween}
+                onChange={(e) =>
+                  setAnswers({ ...answers, agedBetween: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+              {answers.agedBetween === "No" && (
+                <div>
+                 "This treatment is not suitable for women or individuals under 18 or over 65." [Do not proceed]
+                </div>
+              )}
+            </FormControl>
+              {/****** Are you aged between 17-74 years *****/}
+
+              <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Are you aged between 17-74 years
+              </Typography>
+              <RadioGroup
+                row
+                name="agedBetween"
+                value={answers.agedBetween}
+                onChange={(e) =>
+                  setAnswers({ ...answers, agedBetween: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+              {answers.agedBetween === "No" && (
+                <div>
+                 "This treatment is not suitable for women or individuals under 18 or over 65." [Do not proceed]
+                </div>
+              )}
+            </FormControl>
+              {/****** Are you aged between 17-74 years *****/}
+
+              <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Are you aged between 17-74 years
+              </Typography>
+              <RadioGroup
+                row
+                name="agedBetween"
+                value={answers.agedBetween}
+                onChange={(e) =>
+                  setAnswers({ ...answers, agedBetween: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+              {answers.agedBetween === "No" && (
+                <div>
+                 "This treatment is not suitable for women or individuals under 18 or over 65." [Do not proceed]
+                </div>
+              )}
             </FormControl>
 
             {/****** End *****/}
