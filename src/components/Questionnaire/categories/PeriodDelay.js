@@ -9,6 +9,7 @@ import {
   FormControlLabel,
   Radio,
   RadioGroup,
+  TextField,
   Typography,
   Checkbox,
 } from "@mui/material";
@@ -125,11 +126,33 @@ function PeriodDelayQuestion() {
       case 1:
         return (
           <>
-            {/****** Are you aged between 17-74 years *****/}
+            {/****** •	Are you female? *****/}
 
             <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-                Are you aged between 17-74 years
+                Are you female?
+              </Typography>
+              <RadioGroup
+                row
+                name="gender"
+                value={answers.gender}
+                onChange={(e) =>
+                  setAnswers({ ...answers, gender: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+              {answers.gender === "No" && (
+                <div>
+                  "This treatment is only available to women. Please consult your GP for alternative options." </div>
+              )}
+            </FormControl>
+            {/****** •	Are you aged 18 or over?*****/}
+
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Are you aged 18 or over?
               </Typography>
               <RadioGroup
                 row
@@ -142,6 +165,434 @@ function PeriodDelayQuestion() {
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
+              {answers.agedBetween === "No" && (
+                <div>
+                  "This treatment is only suitable for individuals aged 18 or older." </div>
+              )}
+            </FormControl>
+            {/****** •	Do you have any of the following health conditions? *****/}
+
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Do you have any of the following health conditions?
+              </Typography>
+              <ul>
+
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label="Pregnancy"
+                /><br></br>
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label="Breastfeeding"
+                /><br></br>
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label="Severe liver disease"
+                /><br></br>
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label="Severe kidney disease"
+                /><br></br>
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label="History of blood clots or stroke"
+                /><br></br>
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label="Hormonal disorders"
+                /><br></br>
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label="History of any types of cancer (e.g., breast or ovarian cancer)"
+                /><br></br>
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label="Severe high blood pressure"
+                />
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label="Any serious health condition that requires immediate hospital treatment"
+                />
+              </ul>
+            </FormControl>
+            {/******•	Are you currently taking any of the following medications? *****/}
+
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Are you currently taking any of the following medications?
+              </Typography>
+              <ul>
+
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label="Hormonal medication (e.g., contraceptive pills, HRT)"
+                /><br></br>
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label="Blood thinners (e.g., Warfarin)"
+                /><br></br>
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label="Steroids"
+                /><br></br>
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label="Anti-seizure medication"
+                /><br></br>
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label="Any other prescription or over-the-counter medications"
+                />
+              </ul>
+            </FormControl>
+            {/****** •	Do you have any allergies to any medications or substances (e.g., peanuts, latex)? *****/}
+
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Do you have any allergies to any medications or substances (e.g., peanuts, latex)?
+              </Typography>
+              <RadioGroup
+                row
+                name="allergy"
+                value={answers.allergy}
+                onChange={(e) =>
+                  setAnswers({ ...answers, allergy: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+              {answers.allergy === "Yes" && (
+                <TextField
+                  multiline
+                  line={3}
+                  value={answers.allergyIssue}
+                  onChange={(e) =>
+                    setAnswers({ ...answers, allergyIssue: e.target.value })
+                  } fullWidth placeholder="Tell us more about your issue ?"
+                />
+              )}
+            </FormControl>
+            {/******•	Are you currently having a period or expecting your period soon?  *****/}
+
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Are you currently having a period or expecting your period soon?
+              </Typography>
+              <RadioGroup
+                row
+                name="period"
+                value={answers.period}
+                onChange={(e) =>
+                  setAnswers({ ...answers, period: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+              {answers.period === "No" && (
+                <div>
+                  "This treatment is specifically designed to delay your period. Please consult your GP for alternative options if you're not currently menstruating."</div>
+              )}
+            </FormControl>
+            {/****** •	Are you female? *****/}
+
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                How long would you like to delay your period?
+              </Typography>
+              <RadioGroup
+                row
+                name="delayPeriod"
+                value={answers.delayPeriod}
+                onChange={(e) =>
+                  setAnswers({ ...answers, delayPeriod: e.target.value })
+                }
+              >
+                <FormControlLabel value="1" control={<Radio />} label="1 Week" />
+                <FormControlLabel value="2" control={<Radio />} label="2 Week" />
+                <FormControlLabel value="Other" control={<Radio />} label="Other" />
+              </RadioGroup>
+              {answers.delayPeriod === "Other" && (
+                <TextField
+                  multiline
+                  line={3}
+                  value={answers.periodDetails}
+                  onChange={(e) =>
+                    setAnswers({ ...answers, periodDetails: e.target.value })
+                  } fullWidth placeholder="Please Specify?"
+                />)}
+            </FormControl>
+            {/****** •	Have you ever used period delay medication before?*****/}
+
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Have you ever used period delay medication before?
+              </Typography>
+              <RadioGroup
+                row
+                name="periodDelay1"
+                value={answers.periodDelay1}
+                onChange={(e) =>
+                  setAnswers({ ...answers, periodDelay1: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+              {answers.periodDelay1 === "Yes" && (
+                <div>
+                  "Please indicate the medication you previously used and whether you experienced any side effects:" </div>
+              )}
+            </FormControl>
+            {/******•	Do you have a history of any of the following conditions that could affect your menstrual cycle? *****/}
+
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Do you have a history of any of the following conditions that could affect your menstrual cycle?
+              </Typography>
+              <ul>
+
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label="Irregular periods"
+                /><br></br>
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label="Endometriosis"
+                /><br></br>
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label="Fibroids"
+                /><br></br>
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label="Polycystic Ovary Syndrome (PCOS)"
+                /><br></br>
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label="Menstrual disorders"
+                /><br></br>
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label="Other"
+                // value={answers.menstrual}
+                />
+              </ul>
+              {answers.menstrual === "Other" && (
+                <div>
+                  "Please indicate the medication you previously used and whether you experienced any side effects:" </div>
+              )}
+            </FormControl>
+            {/******•	When was the first day of your last period? *****/}
+
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                When was the first day of your last period?
+              </Typography>
+              <input
+                type="date"
+                value={answers.periodDelay1}
+                onChange={(e) =>
+                  setAnswers({ ...answers, periodDelay1: e.target.value })
+                }
+              />
+            </FormControl>
+            {/******•	How long does your typical period last? *****/}
+
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+             	How long does your typical period last?
+              </Typography>
+              <RadioGroup
+                row
+                name="periodTime"
+                value={answers.periodTime}
+                onChange={(e) =>
+                  setAnswers({ ...answers, periodTime: e.target.value })
+                }
+              >
+                <FormControlLabel value="3-5 days" control={<Radio />} label="3-5 days" />
+                <FormControlLabel value="6-7 days" control={<Radio />} label="6-7 days" />
+                <FormControlLabel value="more than 7 days" control={<Radio />} label="more than 7 days" />
+              </RadioGroup>
+            </FormControl>
+            {/******•	Are your periods regular? *****/}
+
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+               	Are your periods regular?
+              </Typography>
+              <RadioGroup
+                row
+                name="regularPeriod"
+                value={answers.regularPeriod}
+                onChange={(e) =>
+                  setAnswers({ ...answers, regularPeriod: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+              {answers.regularPeriod === "No" && (
+                <div>
+                 "If your periods are irregular, it is recommended to consult your GP before using period delay treatment." </div>
+              )}
+            </FormControl>
+             {/*****•	Are you currently pregnant or trying to conceive?******/}
+
+             <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+             	Are you currently pregnant or trying to conceive?
+              </Typography>
+              <RadioGroup
+                row
+                name="pregnant"
+                value={answers.pregnant}
+                onChange={(e) =>
+                  setAnswers({ ...answers, pregnant: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+              {answers.pregnant === "Yes" && (
+                <div>
+                  "This treatment is not suitable for pregnant women. Please consult your GP for alternative options."</div>
+              )}
+            </FormControl>
+             {/******•	Are you currently breastfeeding? *****/}
+
+             <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+              Are you currently breastfeeding?
+              </Typography>
+              <RadioGroup
+                row
+                name="breastfeeding"
+                value={answers.breastfeeding}
+                onChange={(e) =>
+                  setAnswers({ ...answers, breastfeeding: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+              {answers.breastfeeding === "Yes" && (
+                <div>
+                "This treatment is not recommended for breastfeeding women. Please consult your GP for alternative options."</div>
+              )}
+            </FormControl>
+             {/******•	Do you understand that delaying your period may have potential side effects, and that you should consult your GP if you experience any issues? *****/}
+
+             <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+               	Do you understand that delaying your period may have potential side effects, and that you should consult your GP if you experience any issues?
+              </Typography>
+              <RadioGroup
+                row
+                name="delayingperiod"
+                value={answers.delayingperiod}
+                onChange={(e) =>
+                  setAnswers({ ...answers, delayingperiod: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+              {answers.delayingperiod === "No" && (
+                <div>
+                "We cannot proceed with your treatment unless you understand and agree to this information."</div>
+              )}
+            </FormControl>
+              {/******•	Do you understand that it is essential to follow the provided instructions for the medication to be effective and safe? *****/}
+
+              <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+               Do you understand that it is essential to follow the provided instructions for the medication to be effective and safe?
+              </Typography>
+              <RadioGroup
+                row
+                name="safeUse"
+                value={answers.safeUse}
+                onChange={(e) =>
+                  setAnswers({ ...answers, safeUse: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+              {answers.safeUse === "No" && (
+                <div>
+                "You must agree to the instructions and consult your GP for further guidance if needed."</div>
+              )}
+            </FormControl>
+              {/******•	Do you confirm that all the information you have provided is accurate and complete to the best of your knowledge?	 *****/}
+
+              <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+              	Do you confirm that all the information you have provided is accurate and complete to the best of your knowledge?
+              </Typography>
+              <RadioGroup
+                row
+                name="confirmAll"
+                value={answers.confirmAll}
+                onChange={(e) =>
+                  setAnswers({ ...answers, confirmAll: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+              {answers.confirmAll === "No" && (
+                <div>
+               "Please ensure that all details are correct before proceeding. Inaccurate information may impact the suitability of the treatment."</div>
+              )}
+            </FormControl>
+              {/******•	Do you agree to Medicus Express's terms and conditions and privacy policy for this consultation and treatment? *****/}
+
+              <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+              	Do you agree to Medicus Express's terms and conditions and privacy policy for this consultation and treatment?
+              </Typography>
+              <RadioGroup
+                row
+                name="agreeMedicus"
+                value={answers.agreeMedicus}
+                onChange={(e) =>
+                  setAnswers({ ...answers, agreeMedicus: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+              {answers.agreeMedicus === "No" && (
+                <div>
+                "You must agree to the terms and conditions before continuing."</div>
+              )}
+            </FormControl>
+             {/******•	Do you confirm that you are over 18 years of age and fully understand the nature of the treatment prescribed?	 *****/}
+
+             <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+              	Do you confirm that you are over 18 years of age and fully understand the nature of the treatment prescribed?
+              </Typography>
+              <RadioGroup
+                row
+                name="confirmAge"
+                value={answers.confirmAge}
+                onChange={(e) =>
+                  setAnswers({ ...answers, confirmAge: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+              {answers.confirmAge === "No" && (
+                <div>
+                "You must be at least 18 years old to proceed with this treatment."</div>
+              )}
             </FormControl>
 
             {/****** End *****/}

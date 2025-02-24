@@ -700,7 +700,7 @@ function ErectileDysfunctionQuestion() {
                   setAnswers({ ...answers, agreeTC: e.target.value })
                 }
               >
-                <FormControlLabel value="Yes" control={<Radio />} label="I Confirm" disabled checked />
+                <FormControlLabel value="Yes" control={<Radio />} label="I Confirm" />
               </RadioGroup>
             </FormControl>
 

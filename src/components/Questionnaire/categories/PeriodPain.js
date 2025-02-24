@@ -8,9 +8,12 @@ import {
   FormControl,
   FormControlLabel,
   Radio,
+  TextField,
   RadioGroup,
   Typography,
   Checkbox,
+  InputLabel,
+  Select,
 } from "@mui/material";
 import "../../../../src/globalStyle.css";
 
@@ -25,6 +28,8 @@ function PeriodPainQuestion() {
     agedBetween: "",
     agreeToTerms: "",
     photoID: "",
+    periodPain: "",
+    experienceChange: "",
   });
   const boxRef = useRef(null);
   const { setSelectedTab } = useApp();
@@ -125,11 +130,11 @@ function PeriodPainQuestion() {
       case 1:
         return (
           <>
-            {/****** Are you aged between 17-74 years *****/}
+            {/****** 1.	Are you female and aged between 18-65?*****/}
 
             <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-                Are you aged between 17-74 years
+                Are you female and aged between 18-65?
               </Typography>
               <RadioGroup
                 row
@@ -142,6 +147,390 @@ function PeriodPainQuestion() {
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
+              {answers.agedBetween === "No" && (
+                <div>"This treatment is only suitable for women aged between 18 and 65. If you do not meet this criterion, you may not be eligible for treatment."
+                </div>
+              )}
+            </FormControl>
+            {/******2.	Do you currently experience period pain (dysmenorrhea)? *****/}
+
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Do you currently experience period pain (dysmenorrhea)?
+              </Typography>
+              <RadioGroup
+                row
+                name="periodPain"
+                value={answers.periodPain}
+                onChange={(e) =>
+                  setAnswers({ ...answers, periodPain: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+              {answers.periodPain === "No" && (
+                <div>"It appears that you do not suffer from period pain. We are unable to provide treatment for you. Please consult your healthcare provider for more information."
+                </div>
+              )}
+            </FormControl>
+            {/****** 3.	Do you experience moderate to severe pain during menstruation?****/}
+
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Do you experience moderate to severe pain during menstruation?
+              </Typography>
+              <RadioGroup
+                row
+                name="experience"
+                value={answers.experience}
+                onChange={(e) =>
+                  setAnswers({ ...answers, experience: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+              {answers.experience === "No" && (
+                <div>"Please confirm the severity of your period pain (mild, moderate, or severe) to help us determine the best treatment option."
+                </div>
+              )}
+            </FormControl>
+            {/******4.	Do you also experience any of the following symptoms with your period pain? *****/}
+
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Do you also experience any of the following symptoms with your period pain?
+              </Typography>
+              <ul>
+
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label="Bloating"
+                /><br></br>
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label="Fatigue"
+                /><br></br>
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label="Nausea / Vomiting"
+                /><br></br>
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label="Back pain"
+                /><br></br>
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label="Other"
+                />
+              </ul>
+            </FormControl>
+            {/******5.	Have you experienced significant changes in the intensity or duration of your period pain in the past 6 months? *****/}
+
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Have you experienced significant changes in the intensity or duration of your period pain in the past 6 months?
+              </Typography>
+              <RadioGroup
+                row
+                name="experienceChange"
+                value={answers.experienceChange}
+                onChange={(e) =>
+                  setAnswers({ ...answers, experienceChange: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+              {answers.experienceChange === "No" && (
+                <div>"It is important to discuss any changes in your symptoms with your GP to rule out underlying conditions. We recommend consulting with your healthcare provider before proceeding."
+                </div>
+              )}
+            </FormControl>
+            {/******6.	Is your period pain accompanied by any other medical symptoms, such as pelvic pain, heavy bleeding, or irregular periods? *****/}
+
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Is your period pain accompanied by any other medical symptoms, such as pelvic pain, heavy bleeding, or irregular periods?
+              </Typography>
+              <RadioGroup
+                row
+                name="periodPain"
+                value={answers.periodPain}
+                onChange={(e) =>
+                  setAnswers({ ...answers, periodPain: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+              {answers.periodPain === "Yes" && (
+                <div>"This could be a sign of another condition, such as endometriosis or fibroids. We recommend you consult your GP for further evaluation."
+                </div>
+              )}
+            </FormControl>
+            {/******7.	Have you ever been diagnosed with any of the following conditions? *****/}
+
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Have you ever been diagnosed with any of the following conditions?
+              </Typography>
+              <ul>
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label="Endometriosis"
+                /><br></br>
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label="Fibroids"
+                /><br></br>
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label="Pelvic inflammatory disease (PID)"
+                /><br></br>
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label="Ovarian cysts"
+                /><br></br>
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label="Chronic pelvic pain"
+                />
+                <br></br>
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label="Other (please specify): "
+                />
+              </ul>
+            </FormControl>
+            {/******8.	Do you have any known allergies to medications, especially pain relief medications like NSAIDs (e.g., ibuprofen, aspirin)? *****/}
+
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Do you have any known allergies to medications, especially pain relief medications like NSAIDs (e.g., ibuprofen, aspirin)?
+              </Typography>
+              <RadioGroup
+                row
+                name="knownAllergy"
+                value={answers.knownAllergy}
+                onChange={(e) =>
+                  setAnswers({ ...answers, knownAllergy: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+              {answers.knownAllergy === "Yes" && (
+                <>
+                  <Typography>"Please specify the medication(s) to which you are allergic so we can avoid recommending any contraindicated treatments."</Typography>
+                  <TextField
+                    multiline
+                    line={3}
+                    value={answers.knownAllergyIssue}
+                    onChange={(e) =>
+                      setAnswers({ ...answers, knownAllergyIssue: e.target.value })
+                    } fullWidth placeholder="Tell us more ?"
+                  />
+                </>
+              )}
+            </FormControl>
+            {/******9.	Are you currently on any of the following medications? *****/}
+
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Are you currently on any of the following medications?
+              </Typography>
+              <> <ul>
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label="Birth control (oral contraceptives, IUD, etc.)"
+                /><br></br>
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label="Hormonal therapy"
+                /><br></br>
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label="Pain relief medication (e.g., ibuprofen, paracetamol)"
+                /><br></br>
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label="Antidepressants or antianxiety medication"
+                /><br></br>
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label="Any other relevant medications (please specify):"
+                />
+                <RadioGroup
+                  row
+                  name="otherMedication"
+                  value={answers.otherMedication}
+                  onChange={(e) =>
+                    setAnswers({ ...answers, otherMedication: e.target.value })
+                  }
+                >
+                  <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                  <FormControlLabel value="No" control={<Radio />} label="No" />
+                </RadioGroup>
+                {answers.otherMedication === "Yes" && (
+                  <div>
+                    "Some medications can interact with period pain treatments. Please consult your GP if you're unsure about any potential interactions."
+                  </div>
+                )}
+              </ul>
+              </>
+            </FormControl>
+            {/******10.	Have you used any treatments in the past for period pain, such as: *****/}
+
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Have you used any treatments in the past for period pain, such as:
+              </Typography>
+              <ul>
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label="Over-the-counter pain relief (e.g., ibuprofen, paracetamol)"
+                /><br></br>
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label="Prescription medication (e.g., hormonal treatments, stronger painkillers)"
+                /><br></br>
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label="Surgery (e.g., laparoscopy for endometriosis)"
+                /><br></br>
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label="Other treatments (please specify): "
+                />
+              </ul>
+            </FormControl>
+            {/******11.	Did any of the above treatments work for you? *****/}
+
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Did any of the above treatments work for you?
+              </Typography>
+              <RadioGroup
+                row
+                name="anyTreatment"
+                value={answers.anyTreatment}
+                onChange={(e) =>
+                  setAnswers({ ...answers, anyTreatment: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+              {answers.anyTreatment === "No" && (
+                <Typography>"If you did not respond to previous treatments, we recommend speaking to your GP for alternative options."</Typography>
+              )}
+            </FormControl>
+            {/******12.	On a scale of 1-10, how severe is your period pain? (1 being mild and 10 being unbearable) *****/}
+
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                On a scale of 1-10, how severe is your period pain? (1 being mild and 10 being unbearable)
+              </Typography>
+             <FormControl fullWidth>
+              <InputLabel>
+              <Select>
+                
+                </Select></InputLabel>
+             </FormControl>
+            </FormControl>
+            {/******13.	Do you experience any pain during activities such as exercising, working, or socializing due to your period pain? *****/}
+
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+             	Do you experience any pain during activities such as exercising, working, or socializing due to your period pain?
+             </Typography>
+              <RadioGroup
+                row
+                name="painActivity"
+                value={answers.painActivity}
+                onChange={(e) =>
+                  setAnswers({ ...answers, painActivity: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+              {answers.painActivity === "Yes" && (
+              <div>
+                "If your period pain significantly impacts your daily life, this may require a more intensive treatment approach. We recommend a consultation with your GP to explore further options."
+              </div>
+              )}
+            </FormControl>
+             {/******13.	Do you experience any pain during activities such as exercising, working, or socializing due to your period pain? *****/}
+
+             <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+             	Do you experience any pain during activities such as exercising, working, or socializing due to your period pain?
+             </Typography>
+              <RadioGroup
+                row
+                name="painActivity"
+                value={answers.painActivity}
+                onChange={(e) =>
+                  setAnswers({ ...answers, painActivity: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+              {answers.painActivity === "Yes" && (
+              <div>
+                "If your period pain significantly impacts your daily life, this may require a more intensive treatment approach. We recommend a consultation with your GP to explore further options."
+              </div>
+              )}
+            </FormControl>
+             {/******13.	Do you experience any pain during activities such as exercising, working, or socializing due to your period pain? *****/}
+
+             <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+             	Do you experience any pain during activities such as exercising, working, or socializing due to your period pain?
+             </Typography>
+              <RadioGroup
+                row
+                name="painActivity"
+                value={answers.painActivity}
+                onChange={(e) =>
+                  setAnswers({ ...answers, painActivity: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+              {answers.painActivity === "Yes" && (
+              <div>
+                "If your period pain significantly impacts your daily life, this may require a more intensive treatment approach. We recommend a consultation with your GP to explore further options."
+              </div>
+              )}
+            </FormControl>
+             {/******13.	Do you experience any pain during activities such as exercising, working, or socializing due to your period pain? *****/}
+
+             <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+             	Do you experience any pain during activities such as exercising, working, or socializing due to your period pain?
+             </Typography>
+              <RadioGroup
+                row
+                name="painActivity"
+                value={answers.painActivity}
+                onChange={(e) =>
+                  setAnswers({ ...answers, painActivity: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+              {answers.painActivity === "Yes" && (
+              <div>
+                
+              </div>
+              )}
             </FormControl>
 
             {/****** End *****/}
