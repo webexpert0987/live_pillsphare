@@ -26,6 +26,17 @@ function ContraceptivesQuestion() {
     agedBetween: "",
     agreeToTerms: "",
     photoID: "",
+    contraPill: "",
+    contraception: "",
+    bloodPressure: "",
+    cervicalCancer: "",
+    diagnosed: "",
+    anyMedication: "",
+    surgery: "",
+    bleeding: "",
+    vulnerable: "",
+    prescription: "",
+    
   });
   const boxRef = useRef(null);
   const { setSelectedTab } = useApp();
@@ -154,10 +165,10 @@ function ContraceptivesQuestion() {
               </Typography>
               <RadioGroup
                 row
-                name="agedBetween"
-                value={answers.agedBetween}
+                name="contraception"
+                value={answers.contraception}
                 onChange={(e) =>
-                  setAnswers({ ...answers, agedBetween: e.target.value })
+                  setAnswers({ ...answers, contraception: e.target.value })
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
@@ -173,10 +184,10 @@ function ContraceptivesQuestion() {
               </Typography>
               <RadioGroup
                 row
-                name="agedBetween"
-                value={answers.agedBetween}
+                name="contraPill"
+                value={answers.contraPill}
                 onChange={(e) =>
-                  setAnswers({ ...answers, agedBetween: e.target.value })
+                  setAnswers({ ...answers, contraPill: e.target.value })
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
@@ -288,7 +299,7 @@ function ContraceptivesQuestion() {
               </Typography>
               <RadioGroup
                 row
-                name="sergery"
+                name="surgery"
                 value={answers.surgery}
                 onChange={(e) =>
                   setAnswers({ ...answers, surgery: e.target.value })

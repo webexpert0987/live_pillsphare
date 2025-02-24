@@ -525,87 +525,47 @@ function ErectileDysfunctionQuestion() {
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
               {answers.medication2 === "Yes" && (
-                <ul>
+                <FormControl component="fieldset" className="QuestionBox">
+                  {[
+                    "Diabetes",
+                    "High blood pressure",
+                    "Heart disease",
+                    "Kidney Disease",
+                    "Liver Disease",
+                    "Epilepsy",
+                    "Depression",
+                    "Anxiety",
+                    "Mental health disorders",
+                    "Any other medical conditions",
+                  ].map((condition, index) => (
+                    <FormControlLabel
+                      className="checkbox2Col"
+                      key={index}
+                      control={
+                        <Checkbox
+                          checked={answers.conditions.includes(condition)}
+                          onChange={(e) => {
+                            const { value, checked } = e.target;
+                            let newConditions = [...answers.conditions];
 
-                  <FormControlLabel
-                    control={<Checkbox />}
-                    label="Treatment for erectile dysfunction (apart from Viagra, Levitra, Cialis, Spedra)"
-                  />
+                            if (checked) {
+                              newConditions.push(value);
+                            } else {
+                              newConditions = newConditions.filter(
+                                (item) => item !== value
+                              );
+                            }
 
-                  <FormControlLabel
-                    control={<Checkbox />}
-                    label="Anti-virals (e.g., atazanavir, ritonavir)"
-                  />
-<br></br>                  
-                  <FormControlLabel
-                    control={<Checkbox />}
-                    label="Recreational drugs (Class A, B, or C)"
-                  />
-<br></br>
-                  <FormControlLabel
-                    control={<Checkbox />}
-                    label="Quinidine, procainamide, amiodarone"
-                  />
-<br></br>
-                  <FormControlLabel
-                    control={<Checkbox />}
-                    label="Alpha-blockers (e.g., tamsulosin)"
-                  />
-<br></br>
-                  <FormControlLabel
-                    control={<Checkbox />}
-                    label="Recreational nitrates ('poppers')"
-                  />
-<br></br>
-                  <FormControlLabel
-                    control={<Checkbox />}
-                    label="Theophylline"
-                  />
-<br></br>
-                  <FormControlLabel
-                    control={<Checkbox />}
-                    label="Anti-fungals (e.g., ketoconazole)"
-                  />
-<br></br>
-                  <FormControlLabel
-                    control={<Checkbox />}
-                    label="Nicorandil"
-                  />
-<br></br>
-                  <FormControlLabel
-                    control={<Checkbox />}
-                    label="Warfarin"
-                  />
-<br></br>
-                  <FormControlLabel
-                    control={<Checkbox />}
-                    label="High blood pressure medications"
-                  />
-<br></br>
-                  <FormControlLabel
-                    control={<Checkbox />}
-                    label="Erythromycin, clarithromycin, cimetidine"
-                  />
-                  <FormControlLabel
-                    control={<Checkbox />}
-                    label="Medicinal nitrates (e.g., glyceryl trinitrate, isosorbide mononitrate)"
-                  />
-<br></br>
-                  <FormControlLabel
-                    control={<Checkbox />}
-                    label="Rifampicin"
-                  />
-<br></br>
-                  <FormControlLabel
-                    control={<Checkbox />}
-                    label="Riociguat"
-                  />
-                  <br></br>
-                  <FormControlLabel
-                    control={<Checkbox />}
-                    label="Anticonvulsants (e.g., phenobarbital, phenytoin)"
-                  />
-                </ul>
+                            setAnswers({ ...answers, conditions: newConditions });
+                          }}
+                          value={condition}
+                        />
+                      }
+                      label={condition}
+                    />
+                  ))}
+
+                </FormControl>
               )}
             </FormControl>
             {/*****15.	Do you understand that erectile dysfunction may be related to underlying health conditions (e.g., hypertension, diabetes, high cholesterol, cardiovascular disease)? You should consult your doctor within 6 months of starting treatment for a clinical review.******/}
@@ -662,10 +622,10 @@ function ErectileDysfunctionQuestion() {
               <Typography variant="h4" className="labelOne">
                 Do you agree to the following conditions?
                 <ul>
-                <li>You will read the patient information leaflet provided with your medication.</li>
-                <li>You will inform your GP and us if you experience any side effects or changes in your medical conditions during treatment.</li>
-                <li>The treatment is solely for your personal use.</li>
-                <li>You have answered all questions truthfully and accurately. You understand that the prescriber's decisions are based on your responses, and that incorrect information can be harmful to your health.</li>
+                  <li>You will read the patient information leaflet provided with your medication.</li>
+                  <li>You will inform your GP and us if you experience any side effects or changes in your medical conditions during treatment.</li>
+                  <li>The treatment is solely for your personal use.</li>
+                  <li>You have answered all questions truthfully and accurately. You understand that the prescriber's decisions are based on your responses, and that incorrect information can be harmful to your health.</li>
                 </ul>
               </Typography>
               <RadioGroup

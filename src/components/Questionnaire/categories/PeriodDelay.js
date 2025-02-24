@@ -26,6 +26,24 @@ function PeriodDelayQuestion() {
     agedBetween: "",
     agreeToTerms: "",
     photoID: "",
+    gender: "",
+    allergy: "",
+    allergyIssue: "",
+    period: "",
+    delayPeriod: "",
+    periodDelay1: "",
+    periodDelay2: "",
+    periodDetails: "",
+    periodTime: "",
+    regularPeriod: "",
+    pregnant: "",
+    breastfeeding: "",
+    delayingperiod: "",
+    safeUse: "",
+    confirmAll: "",
+    agreeMedicus: "",
+    confirmAge: "",
+    
   });
   const boxRef = useRef(null);
   const { setSelectedTab } = useApp();
@@ -393,9 +411,9 @@ function PeriodDelayQuestion() {
               </Typography>
               <input
                 type="date"
-                value={answers.periodDelay1}
+                value={answers.periodDelay2}
                 onChange={(e) =>
-                  setAnswers({ ...answers, periodDelay1: e.target.value })
+                  setAnswers({ ...answers, periodDelay2: e.target.value })
                 }
               />
             </FormControl>

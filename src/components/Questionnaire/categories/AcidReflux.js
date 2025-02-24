@@ -25,6 +25,19 @@ function AcidRefluxQuestion() {
     agedBetween: "",
     agreeToTerms: "",
     photoID: "",
+    experiencedAny: "",
+    AreYouPregnantBreastfeeding: "",
+    eatingDisorder: "",
+    injectionsOrMedications: "",
+    allergicReaction: "",
+    familyMembersDiagnosed: "",
+    medicationStatus: "",
+    takingSteroidsMedication: "",
+    takingSteroidsMedication1: "",
+    takingSteroidsMedication2: "",
+    takingSteroidsMedication3: "",
+    takenInjectableMedication: "",
+    agree: "",
   });
   const boxRef = useRef(null);
   const { setSelectedTab } = useApp();
@@ -374,12 +387,12 @@ function AcidRefluxQuestion() {
 
               <RadioGroup
                 row
-                name="takingSteroidsMedication"
-                value={answers.takingSteroidsMedication || ""} // Prevents undefined errors
+                name="takingSteroidsMedication1"
+                value={answers.takingSteroidsMedication1 || ""} // Prevents undefined errors
                 onChange={(e) =>
                   setAnswers({
                     ...answers,
-                    takingSteroidsMedication: e.target.value,
+                    takingSteroidsMedication1: e.target.value,
                   })
                 }
               >
@@ -399,12 +412,12 @@ function AcidRefluxQuestion() {
 
               <RadioGroup
                 row
-                name="takingSteroidsMedication"
-                value={answers.takingSteroidsMedication || ""} // Prevents undefined errors
+                name="takingSteroidsMedication2"
+                value={answers.takingSteroidsMedication2 || ""} // Prevents undefined errors
                 onChange={(e) =>
                   setAnswers({
                     ...answers,
-                    takingSteroidsMedication: e.target.value,
+                    takingSteroidsMedication2: e.target.value,
                   })
                 }
               >
@@ -424,12 +437,12 @@ function AcidRefluxQuestion() {
 
               <RadioGroup
                 row
-                name="takingSteroidsMedication"
-                value={answers.takingSteroidsMedication || ""} // Prevents undefined errors
+                name="takingSteroidsMedication3"
+                value={answers.takingSteroidsMedication3 || ""} // Prevents undefined errors
                 onChange={(e) =>
                   setAnswers({
                     ...answers,
-                    takingSteroidsMedication: e.target.value,
+                    takingSteroidsMedication3: e.target.value,
                   })
                 }
               >
@@ -449,12 +462,12 @@ function AcidRefluxQuestion() {
 
               <RadioGroup
                 row
-                name="takingSteroidsMedication"
-                value={answers.takingSteroidsMedication || ""} // Prevents undefined errors
+                name="agree"
+                value={answers.agree || ""} // Prevents undefined errors
                 onChange={(e) =>
                   setAnswers({
                     ...answers,
-                    takingSteroidsMedication: e.target.value,
+                    agree: e.target.value,
                   })
                 }
               >
