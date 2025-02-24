@@ -15,6 +15,7 @@ import OnlineClinic from "../components/OnlineClinic/OnlineClinicPage";
 import Faqs from "../components/Faqs/Faqs";
 import Orderhisttory from "../pages/orderHistory";
 import OnlineClinicCategory from "../pages/OnlineClinicCategory";
+import SupportPage from "../components/Support/Support";
 
 const routes = [
   {
@@ -100,6 +101,11 @@ const routes = [
   {
     path: "/online-clinic/:slug",
     component: OnlineClinicCategory,
+    exact: true,
+  },
+  {
+    path: "/support",
+    component: SupportPage,
     exact: true,
   },
 ];

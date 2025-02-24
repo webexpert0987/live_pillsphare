@@ -45,7 +45,7 @@ const ExplainHowItWorks = () => {
     <Box
       sx={{
         backgroundColor: "primary.main",
-        marginTop: { xs: "30px", sm: "40px", md: "50px" },
+        //marginTop: { xs: "30px", sm: "40px", md: "50px" },
         textAlign: "center",
       }}
     >

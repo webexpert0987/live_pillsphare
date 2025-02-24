@@ -16,15 +16,17 @@ const Treatments = ({
   // Define styles inside the component
 
   return (
+    <>
+    <Box sx={{ backgroundColor: "#F6EFDF" }}>
     <Container>
       <Box
         sx={{
           maxWidth: "100%",
           margin: "auto",
           padding: {
-            xs: "30px 0 30px 0",
-            sm: "50px 0 40px 0",
-            md: "70px 0 60px 0",
+            xs: "30px 0 50px 0",
+            sm: "50px 0 60px 0",
+            md: "70px 0 90px 0",
           },
         }}
       >
@@ -175,6 +177,8 @@ const Treatments = ({
         </Grid2>
       </Box>
     </Container>
+    </Box>
+    </>
   );
 };
 
