@@ -23,20 +23,19 @@ const steps = ["1", "2", "3", "4"];
 function ContraceptivesQuestion() {
   const [activeStep, setActiveStep] = useState(0);
   const [answers, setAnswers] = useState({
-    agedBetween: "",
+    pregnancyStatus: "",
+    contraceptionUsage: "",
+    previousContraceptivePill: "",
+    bloodPressure: "",
+    cervicalCancerScreening: "",
+    diagnosedConditions: "",
+    currentMedications: "",
+    recentSurgery: "",
+    unusualBleeding: "",
+    feelingVulnerable: "",
+    prescriptionUsage: "",
     agreeToTerms: "",
     photoID: "",
-    contraPill: "",
-    contraception: "",
-    bloodPressure: "",
-    cervicalCancer: "",
-    diagnosed: "",
-    anyMedication: "",
-    surgery: "",
-    bleeding: "",
-    vulnerable: "",
-    prescription: "",
-    
   });
   const boxRef = useRef(null);
   const { setSelectedTab } = useApp();
@@ -70,7 +69,19 @@ function ContraceptivesQuestion() {
         return;
       }
     } else if (activeStep === 1) {
-      const requiredFields = ["agedBetween"];
+      const requiredFields = [
+        "pregnancyStatus",
+        "contraceptionUsage",
+        "previousContraceptivePill",
+        "bloodPressure",
+        "cervicalCancerScreening",
+        "diagnosedConditions",
+        "currentMedications",
+        "recentSurgery",
+        "unusualBleeding",
+        "feelingVulnerable",
+        "prescriptionUsage",
+      ];
 
       for (const field of requiredFields) {
         if (
@@ -114,10 +125,15 @@ function ContraceptivesQuestion() {
     if (data) {
       parsedData = JSON.parse(data);
     }
+
+    const { user, bmiData } = parsedData;
+
     localStorage.setItem(
       "questionnaire_info",
       JSON.stringify({
-        ...parsedData,
+        // ...parsedData,
+        user,
+        bmiData,
         answers: answers,
       })
     );
@@ -141,15 +157,15 @@ function ContraceptivesQuestion() {
 
             <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-              Are you pregnant, breastfeeding, trying to conceive, or 
-              have you given birth in the last six weeks?
+                Are you pregnant, breastfeeding, trying to conceive, or have you
+                given birth in the last six weeks?
               </Typography>
               <RadioGroup
                 row
-                name="agedBetween"
-                value={answers.agedBetween}
+                name="pregnancyStatus"
+                value={answers.pregnancyStatus}
                 onChange={(e) =>
-                  setAnswers({ ...answers, agedBetween: e.target.value })
+                  setAnswers({ ...answers, pregnancyStatus: e.target.value })
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
@@ -157,18 +173,19 @@ function ContraceptivesQuestion() {
               </RadioGroup>
             </FormControl>
 
-             {/****** 2nd Are you currently using any form of contraception, such as the pill?*****/}
+            {/****** 2nd Are you currently using any form of contraception, such as the pill?*****/}
 
-             <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-              Are you currently using any form of contraception, such as the pill?
+                Are you currently using any form of contraception, such as the
+                pill?
               </Typography>
               <RadioGroup
                 row
-                name="contraception"
-                value={answers.contraception}
+                name="contraceptionUsage"
+                value={answers.contraceptionUsage}
                 onChange={(e) =>
-                  setAnswers({ ...answers, contraception: e.target.value })
+                  setAnswers({ ...answers, contraceptionUsage: e.target.value })
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
@@ -176,18 +193,21 @@ function ContraceptivesQuestion() {
               </RadioGroup>
             </FormControl>
 
-             {/******3rd	Have you previously used a contraceptive pill?*****/}
+            {/******3rd	Have you previously used a contraceptive pill?*****/}
 
-             <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-              Have you previously used a contraceptive pill?
+                Have you previously used a contraceptive pill?
               </Typography>
               <RadioGroup
                 row
-                name="contraPill"
-                value={answers.contraPill}
+                name="previousContraceptivePill"
+                value={answers.previousContraceptivePill}
                 onChange={(e) =>
-                  setAnswers({ ...answers, contraPill: e.target.value })
+                  setAnswers({
+                    ...answers,
+                    previousContraceptivePill: e.target.value,
+                  })
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
@@ -195,33 +215,39 @@ function ContraceptivesQuestion() {
               </RadioGroup>
             </FormControl>
 
-             {/******	What is your blood pressure? *****/}
+            {/******	What is your blood pressure? *****/}
 
-             <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-              	What is your blood pressure?
+                What is your blood pressure?
               </Typography>
-             <TextField 
-             name="bloodPressure"
-             label= "Blood-Pressure"
-             type="number"
-             value={answers.bloodPressure}
-             onChange={(e)=>setAnswers({...answers,bloodPressure: e.target.value})}
-             />
+              <TextField
+                name="bloodPressure"
+                label="Blood-Pressure"
+                type="number"
+                value={answers.bloodPressure}
+                onChange={(e) =>
+                  setAnswers({ ...answers, bloodPressure: e.target.value })
+                }
+              />
             </FormControl>
 
-             {/****** Have you had a cervical cancer screening test in the past 3-5 years? Yes/no  *****/}
+            {/****** Have you had a cervical cancer screening test in the past 3-5 years? Yes/no  *****/}
 
-             <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-              	Have you had a cervical cancer screening test in the past 3-5 years? 
+                Have you had a cervical cancer screening test in the past 3-5
+                years?
               </Typography>
               <RadioGroup
                 row
-                name="cervicalCancer"
-                value={answers.cervicalCancer}
+                name="cervicalCancerScreening"
+                value={answers.cervicalCancerScreening}
                 onChange={(e) =>
-                  setAnswers({ ...answers, cervicalCancer: e.target.value })
+                  setAnswers({
+                    ...answers,
+                    cervicalCancerScreening: e.target.value,
+                  })
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
@@ -229,61 +255,45 @@ function ContraceptivesQuestion() {
               </RadioGroup>
             </FormControl>
 
-             {/******	Have you or any immediate family member been diagnosed with any of the following health conditions? *****/}
+            {/******	Have you or any immediate family member been diagnosed with any of the following health conditions? *****/}
 
-             <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-              Have you or any immediate family member been diagnosed with any of the following health conditions? 
-              <ul>
-                <li>Blood clot in the legs (deep vein thrombosis, DVT), lungs (pulmonary embolism, PE), or other organs</li>
-                <li>Diabetes</li>
-                <li>Migraine</li>
-                <li>Heart attack, stroke, angina, chest pain, mini-stroke (TIA), abnormal heart rhythm, or impaired heart function</li>
-                <li>High blood pressure</li>
-                <li>High cholesterol or triglycerides</li>
-                <li>Cancer (breast, cervical, liver, etc.)</li>
-                <li>Liver or gallbladder disease</li>
-                <li>Epilepsy</li>
-                <li>Systemic lupus erythematosus (SLE)</li>
-                <li>Sickle cell disease or blood disorders</li> 
-                <li>Inflammatory bowel disease (e.g., Crohn’s or ulcerative colitis)</li> 
-                
-              </ul>
-              </Typography>
-              <RadioGroup
-                row
-                name="diagnosed"
-                value={answers.diagnosed}
-                onChange={(e) =>
-                  setAnswers({ ...answers, diagnosed: e.target.value })
-                }
-              >
-                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
-                <FormControlLabel value="No" control={<Radio />} label="No" />
-              </RadioGroup>
-            </FormControl>
-
-             {/****** Are you currently taking any of the following medications? *****/}
-
-             <FormControl component="fieldset" className="QuestionBox">
-              <Typography variant="h4" className="labelOne">
-              	Are you currently taking any of the following medications?
+                Have you or any immediate family member been diagnosed with any
+                of the following health conditions?
                 <ul>
-                <li>HIV Protease Inhibitors (e.g., Atazanavir, Ritonavir)</li>
-                <li>Antifungals (e.g., Itraconazole, Ketoconazole)</li>
-                <li>Antibiotics (e.g., Tetracycline, Ampicillin)</li>
-                <li>Antiepileptics (e.g., Phenobarbital, Phenytoin)</li>
-                <li>Herbal medications (e.g., St John's Wort)</li>
-                <li>Imatinib, Rifampicin, Ciclosporin</li>
-                
+                  <li>
+                    Blood clot in the legs (deep vein thrombosis, DVT), lungs
+                    (pulmonary embolism, PE), or other organs
+                  </li>
+                  <li>Diabetes</li>
+                  <li>Migraine</li>
+                  <li>
+                    Heart attack, stroke, angina, chest pain, mini-stroke (TIA),
+                    abnormal heart rhythm, or impaired heart function
+                  </li>
+                  <li>High blood pressure</li>
+                  <li>High cholesterol or triglycerides</li>
+                  <li>Cancer (breast, cervical, liver, etc.)</li>
+                  <li>Liver or gallbladder disease</li>
+                  <li>Epilepsy</li>
+                  <li>Systemic lupus erythematosus (SLE)</li>
+                  <li>Sickle cell disease or blood disorders</li>
+                  <li>
+                    Inflammatory bowel disease (e.g., Crohn’s or ulcerative
+                    colitis)
+                  </li>
                 </ul>
               </Typography>
               <RadioGroup
                 row
-                name="anyMedication"
-                value={answers.anyMedication}
+                name="diagnosedConditions"
+                value={answers.diagnosedConditions}
                 onChange={(e) =>
-                  setAnswers({ ...answers, anyMedication: e.target.value })
+                  setAnswers({
+                    ...answers,
+                    diagnosedConditions: e.target.value,
+                  })
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
@@ -291,82 +301,114 @@ function ContraceptivesQuestion() {
               </RadioGroup>
             </FormControl>
 
-             {/******	Have you undergone any surgery in the past 12 months, or are you currently immobile? *****/}
+            {/****** Are you currently taking any of the following medications? *****/}
 
-             <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-              	Have you undergone any surgery in the past 12 months, or are you currently immobile?
+                Are you currently taking any of the following medications?
+                <ul>
+                  <li>HIV Protease Inhibitors (e.g., Atazanavir, Ritonavir)</li>
+                  <li>Antifungals (e.g., Itraconazole, Ketoconazole)</li>
+                  <li>Antibiotics (e.g., Tetracycline, Ampicillin)</li>
+                  <li>Antiepileptics (e.g., Phenobarbital, Phenytoin)</li>
+                  <li>Herbal medications (e.g., St John's Wort)</li>
+                  <li>Imatinib, Rifampicin, Ciclosporin</li>
+                </ul>
               </Typography>
               <RadioGroup
                 row
-                name="surgery"
-                value={answers.surgery}
+                name="currentMedications"
+                value={answers.currentMedications}
                 onChange={(e) =>
-                  setAnswers({ ...answers, surgery: e.target.value })
+                  setAnswers({ ...answers, currentMedications: e.target.value })
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
             </FormControl>
-            
-             {/******	Do you experience any unexpected or unusual vaginal bleeding (e.g., bleeding between periods, after sex, very heavy or painful periods)?*****/}
 
-             <FormControl component="fieldset" className="QuestionBox">
+            {/******	Have you undergone any surgery in the past 12 months, or are you currently immobile? *****/}
+
+            <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-              	Do you experience any unexpected or unusual vaginal bleeding (e.g., bleeding between periods, after sex, very heavy or painful periods)?
+                Have you undergone any surgery in the past 12 months, or are you
+                currently immobile?
               </Typography>
               <RadioGroup
                 row
-                name="bleeding"
-                value={answers.bleeding}
+                name="recentSurgery"
+                value={answers.recentSurgery}
                 onChange={(e) =>
-                  setAnswers({ ...answers, bleeding: e.target.value })
+                  setAnswers({ ...answers, recentSurgery: e.target.value })
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
             </FormControl>
-            
-             {/******	Do you feel vulnerable or under pressure to obtain treatment? *****/}
 
-             <FormControl component="fieldset" className="QuestionBox">
+            {/******	Do you experience any unexpected or unusual vaginal bleeding (e.g., bleeding between periods, after sex, very heavy or painful periods)?*****/}
+
+            <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-              	Do you feel vulnerable or under pressure to obtain treatment?
+                Do you experience any unexpected or unusual vaginal bleeding
+                (e.g., bleeding between periods, after sex, very heavy or
+                painful periods)?
               </Typography>
               <RadioGroup
                 row
-                name="vulnerable"
-                value={answers.vulnerable}
+                name="unusualBleeding"
+                value={answers.unusualBleeding}
                 onChange={(e) =>
-                  setAnswers({ ...answers, vulnerable: e.target.value })
+                  setAnswers({ ...answers, unusualBleeding: e.target.value })
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
             </FormControl>
-             
-               {/******	Are you currently taking or have you recently stopped any prescription, over-the-counter, herbal medications, or recreational drugs?*****/}
 
-             <FormControl component="fieldset" className="QuestionBox">
+            {/******	Do you feel vulnerable or under pressure to obtain treatment? *****/}
+
+            <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-             Are you currently taking or have you recently stopped any prescription, over-the-counter, herbal medications, or recreational drugs?
+                Do you feel vulnerable or under pressure to obtain treatment?
               </Typography>
               <RadioGroup
                 row
-                name="prescription"
-                value={answers.prescription}
+                name="feelingVulnerable"
+                value={answers.feelingVulnerable}
                 onChange={(e) =>
-                  setAnswers({ ...answers, prescription: e.target.value })
+                  setAnswers({ ...answers, feelingVulnerable: e.target.value })
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
             </FormControl>
-             
+
+            {/******	Are you currently taking or have you recently stopped any prescription, over-the-counter, herbal medications, or recreational drugs?*****/}
+
+            <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Are you currently taking or have you recently stopped any
+                prescription, over-the-counter, herbal medications, or
+                recreational drugs?
+              </Typography>
+              <RadioGroup
+                row
+                name="prescriptionUsage"
+                value={answers.prescriptionUsage}
+                onChange={(e) =>
+                  setAnswers({ ...answers, prescriptionUsage: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+            </FormControl>
+
             {/****** End *****/}
           </>
         );

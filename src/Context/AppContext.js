@@ -18,6 +18,7 @@ export const AppProvider = ({ children }) => {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [sortOption, setSortOption] = useState("relevance");
   const [qaCart, setQaCart] = useState([]);
+  const [questionData, setQuestionData] = useState({});
 
   const fetchCart = async (user) => {
     try {
@@ -275,6 +276,8 @@ export const AppProvider = ({ children }) => {
         setQaCart,
         sortOption,
         setSortOption,
+        questionData,
+        setQuestionData,
       }}
     >
       {children}

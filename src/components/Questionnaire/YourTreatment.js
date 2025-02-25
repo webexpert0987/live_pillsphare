@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Grid2,
   Card,
@@ -11,72 +11,18 @@ import {
   Box,
 } from "@mui/material";
 import { useApp } from "../../Context/AppContext";
-
-const products = [
-  {
-    id: 1,
-    title: "Wegovy® (Semaglutide) - Weekly Weight Loss Injection",
-    price: "$50",
-    image:
-      "https://admin.pillsphere.com/wp-content/uploads/2025/01/Chlorphenamine.png",
-  },
-  {
-    id: 2,
-    title: "Wegovy® (Semaglutide) - Weekly Weight Loss Injection",
-    price: "$75",
-    image:
-      "https://admin.pillsphere.com/wp-content/uploads/2025/01/Chlorphenamine.png",
-  },
-  {
-    id: 3,
-    title: "Wegovy® (Semaglutide) - Weekly Weight Loss Injection",
-    price: "$100",
-    image:
-      "https://admin.pillsphere.com/wp-content/uploads/2025/01/Chlorphenamine.png",
-  },
-  {
-    id: 4,
-    title: "Wegovy® (Semaglutide) - Weekly Weight Loss Injection",
-    price: "$125",
-    image:
-      "https://admin.pillsphere.com/wp-content/uploads/2025/01/Chlorphenamine.png",
-  },
-  {
-    id: 5,
-    title: "Wegovy® (Semaglutide) - Weekly Weight Loss Injection",
-    price: "$150",
-    image:
-      "https://admin.pillsphere.com/wp-content/uploads/2025/01/Chlorphenamine.png",
-  },
-  {
-    id: 6,
-    title: "Wegovy® (Semaglutide) - Weekly Weight Loss Injection",
-    price: "$175",
-    image:
-      "https://admin.pillsphere.com/wp-content/uploads/2025/01/Chlorphenamine.png",
-  },
-  {
-    id: 7,
-    title: "Wegovy® (Semaglutide) - Weekly Weight Loss Injection",
-    price: "$200",
-    image:
-      "https://admin.pillsphere.com/wp-content/uploads/2025/01/Chlorphenamine.png",
-  },
-  {
-    id: 8,
-    title: "Wegovy® (Semaglutide) - Weekly Weight Loss Injection",
-    price: "$225",
-    image:
-      "https://admin.pillsphere.com/wp-content/uploads/2025/01/Chlorphenamine.png",
-  },
-];
+import { getProductByCategory } from "../../apis/apisList/productApi";
+import { useSearchParams } from "react-router-dom";
 
 const TreatmentRecommendation = () => {
   const [visibleProducts, setVisibleProducts] = useState(4); // Start by showing 4 products
   const [dosingSchedule, setDosingSchedule] = useState("");
   const [doseStrength, setDoseStrength] = useState("");
   const [sharpsBin, setSharpsBin] = useState("");
+  const [products, setProducts] = useState([]);
   const { setSelectedTab, userDetails, setQaCart } = useApp();
+  const [searchParams] = useSearchParams();
+  const category = searchParams.get("category"); // Get the "category" query param
 
   const loadMore = () => {
     setVisibleProducts((prev) => prev + 4); // Load 4 more products each time
@@ -98,6 +44,38 @@ const TreatmentRecommendation = () => {
     setQaCart([product]);
     setSelectedTab(3);
   };
+  const handleVariantSelect = (product, variantId) => {
+    const variantDetail = product?.variations?.find(
+      (item) => item.id == variantId
+    );
+
+    const updatedProduct = {
+      ...product,
+      selectedVariant: variantDetail,
+    };
+
+    setProducts((prevProducts) =>
+      prevProducts.map((p) => (p.id === product.id ? updatedProduct : p))
+    );
+  };
+
+  useEffect(() => {
+    if (category) {
+      async function getProducts() {
+        try {
+          const response = await getProductByCategory(category);
+          const result = response.map((product) => ({
+            ...product,
+            selectedVariant: product.variations[0],
+          }));
+          setProducts(result);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      getProducts();
+    }
+  }, []);
 
   return (
     <Box>
@@ -130,8 +108,8 @@ const TreatmentRecommendation = () => {
       </Typography>
 
       <Grid2 container spacing={{ xs: 1, sm: 3, md: 4 }} mt={4}>
-        {products.slice(0, visibleProducts).map((product) => (
-          <Grid2 size={{ xs: 6, sm: 6, md: 6 }} key={product.id}>
+        {products.slice(0, visibleProducts).map((product, index) => (
+          <Grid2 size={{ xs: 6, sm: 6, md: 6 }} key={index}>
             <Card
               sx={{
                 boxShadow: "none",
@@ -144,7 +122,7 @@ const TreatmentRecommendation = () => {
                 component="img"
                 height={{ xs: 100, sm: 200, md: 250 }}
                 image={product.image}
-                alt={product.title}
+                alt={product.name}
               />
               <CardContent
                 sx={{ padding: { xs: "15px", sm: "18px", md: "20px" } }}
@@ -165,7 +143,7 @@ const TreatmentRecommendation = () => {
                       lineHeight: "1.3",
                     }}
                   >
-                    {product.title}
+                    {product.name}
                   </Typography>
                   <Typography
                     variant="body1"
@@ -180,7 +158,7 @@ const TreatmentRecommendation = () => {
                       },
                     }}
                   >
-                    {product.price}
+                    ${product.price}
                   </Typography>
                 </Box>
 
@@ -208,7 +186,6 @@ const TreatmentRecommendation = () => {
                   <MenuItem value="mid">Mid-Cycle</MenuItem>
                   <MenuItem value="end">End of Cycle</MenuItem>
                 </Select>
-
                 <Box
                   display="flex"
                   gap={2}
@@ -262,6 +239,44 @@ const TreatmentRecommendation = () => {
                     <MenuItem value="yes">Yes</MenuItem>
                     <MenuItem value="no">No</MenuItem>
                   </Select>
+                </Box>
+                <Box
+                  display="flex"
+                  gap={2}
+                  sx={{
+                    mt: 2,
+                    flexWrap: { xs: "wrap", sm: "nowrap", md: "nowrap" },
+                  }}
+                >
+                  {product?.variations?.length > 0 && (
+                    <Select
+                      value={
+                        product.selectedVariant
+                          ? product.selectedVariant.id
+                          : product?.variations?.[0].id
+                      }
+                      onChange={(e) =>
+                        handleVariantSelect(product, e.target.value)
+                      }
+                      fullWidth
+                      variant="outlined"
+                      sx={{
+                        padding: "0 5px",
+                        borderRadius: "50px",
+                        fontSize: { xs: "13px", sm: "14px", md: "15px" },
+                        color: "#747474",
+                        fontWeight: "500",
+                        maxHeight: "40px",
+                        backgroundColor: "#FFF",
+                      }}
+                    >
+                      {product?.variations?.map((variant) => (
+                        <MenuItem key={variant.id} value={variant.id}>
+                          {`${variant.attributes.attribute_tablets} `}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  )}
                 </Box>
 
                 <Button

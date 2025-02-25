@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Stepper,
   Step,
@@ -11,7 +11,6 @@ import {
   RadioGroup,
   Typography,
   Checkbox,
-  TextField,
 } from "@mui/material";
 import "../../../../src/globalStyle.css";
 
@@ -20,30 +19,30 @@ import { useApp } from "../../../Context/AppContext";
 import { useMessage } from "../../../Context/MessageContext";
 const steps = ["1", "2", "3", "4"];
 
-function ErectileDysfunctionQuestion() {
-  const [activeStep, setActiveStep] = useState(0);
-  const [answers, setAnswers] = useState({
-    agedBetween: "",
-    agreeToTerms: "",
-    photoID: "",
-    smoke: "",
-    alcohal: "",
-    erectileCount: "",
-    erection: "",
-    bloodPressure: "",
-    bloodPressure90: "",
-    walking: "",
-    strenuous: "",
-    depression: "",
-    allergies: "",
-    healthCd: "",
-    medication1: "",
-    medication2: "",
-    dysfunction: "",
-    proErection: "",
-    agreeFollowing: "",
-    agreeTC: "",
-
+// Rename the main function
+function ErectileDysfunctionQuestionnaire() {
+  const [currentStep, setCurrentStep] = useState(0);
+  const [questionnaireResponses, setQuestionnaireResponses] = useState({
+    isAgedBetween18And75: "",
+    agreesToTerms: "",
+    photoIDFile: "",
+    isSmoker: "",
+    consumesAlcohol: "",
+    hasTakenEDMedicationsBefore: "",
+    hasErectionDifficulties: "",
+    hasHighBloodPressure: "",
+    hasLowBloodPressure: "",
+    hasDifficultyWalking: "",
+    advisedAgainstStrenuousExercise: "",
+    hasUntreatedDepression: "",
+    hasAllergiesOrAdverseReactions: "",
+    hasPreviousHealthConditions: "",
+    takesNitratesOrNitricOxideDonors: "",
+    takesOtherMedications: "",
+    understandsUnderlyingConditions: "",
+    agreesToSeekHelpForProlongedErection: "",
+    agreesToConditions: "",
+    confirmsAgeAndAgreesToTerms: "",
   });
   const boxRef = useRef(null);
   const { setSelectedTab } = useApp();
@@ -71,19 +70,38 @@ function ErectileDysfunctionQuestion() {
     const { bmiData } = qaData;
 
     // Validation logic
-    if (activeStep === 0) {
+    if (currentStep === 0) {
       if (!bmiData?.bmi) {
         showMessage("Please calculate your BMI first", "error");
         return;
       }
-    } else if (activeStep === 1) {
-      const requiredFields = ["agedBetween"];
+    } else if (currentStep === 1) {
+      const requiredFields = [
+        "isAgedBetween18And75",
+        "isSmoker",
+        "consumesAlcohol",
+        "hasTakenEDMedicationsBefore",
+        "hasErectionDifficulties",
+        "hasHighBloodPressure",
+        "hasLowBloodPressure",
+        "hasDifficultyWalking",
+        "advisedAgainstStrenuousExercise",
+        "hasUntreatedDepression",
+        "hasAllergiesOrAdverseReactions",
+        "hasPreviousHealthConditions",
+        "takesNitratesOrNitricOxideDonors",
+        "takesOtherMedications",
+        "understandsUnderlyingConditions",
+        "agreesToSeekHelpForProlongedErection",
+        "agreesToConditions",
+        "confirmsAgeAndAgreesToTerms",
+      ];
 
       for (const field of requiredFields) {
         if (
-          Array.isArray(answers[field])
-            ? answers[field].length === 0
-            : !answers[field]
+          Array.isArray(questionnaireResponses[field])
+            ? questionnaireResponses[field].length === 0
+            : !questionnaireResponses[field]
         ) {
           showMessage(
             "Please fill all details before proceeding to the next step.",
@@ -92,11 +110,11 @@ function ErectileDysfunctionQuestion() {
           return;
         }
       }
-    } else if (activeStep === 2) {
-      const requiredAgreements = ["agreeToTerms"];
+    } else if (currentStep === 2) {
+      const requiredAgreements = ["agreesToTerms"];
 
       for (const field of requiredAgreements) {
-        if (!answers[field]) {
+        if (!questionnaireResponses[field]) {
           showMessage(
             "Please fill all details before proceeding to the next step.",
             "error"
@@ -106,26 +124,31 @@ function ErectileDysfunctionQuestion() {
       }
     }
 
-    setActiveStep((prevStep) => prevStep + 1);
+    setCurrentStep((prevStep) => prevStep + 1);
     handleScroll();
   };
   const handleBack = () => {
-    setActiveStep((prevStep) => prevStep - 1);
+    setCurrentStep((prevStep) => prevStep - 1);
     handleScroll();
   };
 
   const handleSubmit = () => {
-    console.log("Form submitted with answers: ", answers);
+    console.log("Form submitted with answers: ", questionnaireResponses);
     const data = localStorage.getItem("questionnaire_info");
     let parsedData = {};
     if (data) {
       parsedData = JSON.parse(data);
     }
+   
+    const { user, bmiData } = parsedData;
+
     localStorage.setItem(
       "questionnaire_info",
       JSON.stringify({
-        ...parsedData,
-        answers: answers,
+        // ...parsedData,
+        user,
+        bmiData,
+        answers: questionnaireResponses,
       })
     );
     setSelectedTab(2);
@@ -152,10 +175,13 @@ function ErectileDysfunctionQuestion() {
               </Typography>
               <RadioGroup
                 row
-                name="agedBetween"
-                value={answers.agedBetween}
+                name="isAgedBetween18And75"
+                value={questionnaireResponses.isAgedBetween18And75}
                 onChange={(e) =>
-                  setAnswers({ ...answers, agedBetween: e.target.value })
+                  setQuestionnaireResponses({
+                    ...questionnaireResponses,
+                    isAgedBetween18And75: e.target.value,
+                  })
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
@@ -171,10 +197,13 @@ function ErectileDysfunctionQuestion() {
               </Typography>
               <RadioGroup
                 row
-                name="smoke"
-                value={answers.smoke}
+                name="isSmoker"
+                value={questionnaireResponses.isSmoker}
                 onChange={(e) =>
-                  setAnswers({ ...answers, smoke: e.target.value })
+                  setQuestionnaireResponses({
+                    ...questionnaireResponses,
+                    isSmoker: e.target.value,
+                  })
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
@@ -190,19 +219,25 @@ function ErectileDysfunctionQuestion() {
               </Typography>
               <RadioGroup
                 row
-                name="alcohal"
-                value={answers.alcohal}
+                name="consumesAlcohol"
+                value={questionnaireResponses.consumesAlcohol}
                 onChange={(e) =>
-                  setAnswers({ ...answers, alcohal: e.target.value })
+                  setQuestionnaireResponses({
+                    ...questionnaireResponses,
+                    consumesAlcohol: e.target.value,
+                  })
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
-              {answers.alcohal === "Yes" && (
+              {questionnaireResponses.consumesAlcohol === "Yes" && (
                 <div>
                   <Typography>
-                    "You are eligible for treatment, however, please be aware that alcohol consumption and smoking may worsen erectile difficulties. We recommend consulting your GP for advice on quitting smoking."
+                    "You are eligible for treatment, however, please be aware
+                    that alcohol consumption and smoking may worsen erectile
+                    difficulties. We recommend consulting your GP for advice on
+                    quitting smoking."
                   </Typography>
                 </div>
               )}
@@ -212,39 +247,32 @@ function ErectileDysfunctionQuestion() {
 
             <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-                Have you taken any of the following medications for erectile dysfunction (at least 4 times previously) without experiencing any adverse effects?
+                Have you taken any of the following medications for erectile
+                dysfunction (at least 4 times previously) without experiencing
+                any adverse effects?
                 <ul>
-                  <li>
-                    Levitra (vardenafil)
-                  </li>
-                  <li>
-                    Spedra
-                  </li>
-                  <li>
-                    Viagra (sildenafil)
-                  </li>
-                  <li>
-                    Nipatra
-                  </li>
-                  <li>
-                    Cialis (tadalafil)
-                  </li>
+                  <li>Levitra (vardenafil)</li>
+                  <li>Spedra</li>
+                  <li>Viagra (sildenafil)</li>
+                  <li>Nipatra</li>
+                  <li>Cialis (tadalafil)</li>
                 </ul>
               </Typography>
               <RadioGroup
                 row
-                name="erectileCount"
-                value={answers.erectileCount}
+                name="hasTakenEDMedicationsBefore"
+                value={questionnaireResponses.hasTakenEDMedicationsBefore}
                 onChange={(e) =>
-                  setAnswers({ ...answers, erectileCount: e.target.value })
+                  setQuestionnaireResponses({
+                    ...questionnaireResponses,
+                    hasTakenEDMedicationsBefore: e.target.value,
+                  })
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
-
             </FormControl>
-
 
             {/****** 5.	Do you have difficulty achieving or maintaining an erection?*****/}
 
@@ -254,20 +282,26 @@ function ErectileDysfunctionQuestion() {
               </Typography>
               <RadioGroup
                 row
-                name="erection"
-                value={answers.erection}
+                name="hasErectionDifficulties"
+                value={questionnaireResponses.hasErectionDifficulties}
                 onChange={(e) =>
-                  setAnswers({ ...answers, erection: e.target.value })
+                  setQuestionnaireResponses({
+                    ...questionnaireResponses,
+                    hasErectionDifficulties: e.target.value,
+                  })
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
-              {answers.erection === "No" && (
+              {questionnaireResponses.hasErectionDifficulties === "No" && (
                 <div>
                   <Typography>
-                    "It does not appear that you have erectile dysfunction. We are unable to provide you with treatment. Please consult your GP for further information."
-                    <br></br><br></br>Please Do not proceed.
+                    "It does not appear that you have erectile dysfunction. We
+                    are unable to provide you with treatment. Please consult
+                    your GP for further information."
+                    <br></br>
+                    <br></br>Please Do not proceed.
                   </Typography>
                 </div>
               )}
@@ -277,25 +311,33 @@ function ErectileDysfunctionQuestion() {
 
             <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-                Do you have high blood pressure (above 160/90) or are you currently receiving treatment for high blood pressure?
-                <br></br>(If unsure, you can have your blood pressure measured at your local pharmacy or GP surgery.)
+                Do you have high blood pressure (above 160/90) or are you
+                currently receiving treatment for high blood pressure?
+                <br></br>(If unsure, you can have your blood pressure measured
+                at your local pharmacy or GP surgery.)
               </Typography>
               <RadioGroup
                 row
-                name="bloodPressure"
-                value={answers.bloodPressure}
+                name="hasHighBloodPressure"
+                value={questionnaireResponses.hasHighBloodPressure}
                 onChange={(e) =>
-                  setAnswers({ ...answers, bloodPressure: e.target.value })
+                  setQuestionnaireResponses({
+                    ...questionnaireResponses,
+                    hasHighBloodPressure: e.target.value,
+                  })
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
-              {answers.bloodPressure === "Yes" && (
+              {questionnaireResponses.hasHighBloodPressure === "Yes" && (
                 <div>
                   <Typography>
-                    "We are unable to provide you with treatment if you have high blood pressure. Please consult your GP for further information."
-                    <br></br><br></br>Please Do not proceed.
+                    "We are unable to provide you with treatment if you have
+                    high blood pressure. Please consult your GP for further
+                    information."
+                    <br></br>
+                    <br></br>Please Do not proceed.
                   </Typography>
                 </div>
               )}
@@ -306,24 +348,31 @@ function ErectileDysfunctionQuestion() {
             <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
                 Do you have low blood pressure (below 90/50)?
-                <br></br>(If unsure, you can have your blood pressure measured at your local pharmacy or GP surgery.)
+                <br></br>(If unsure, you can have your blood pressure measured
+                at your local pharmacy or GP surgery.)
               </Typography>
               <RadioGroup
                 row
-                name="bloodPressure90"
-                value={answers.bloodPressure90}
+                name="hasLowBloodPressure"
+                value={questionnaireResponses.hasLowBloodPressure}
                 onChange={(e) =>
-                  setAnswers({ ...answers, bloodPressure90: e.target.value })
+                  setQuestionnaireResponses({
+                    ...questionnaireResponses,
+                    hasLowBloodPressure: e.target.value,
+                  })
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
-              {answers.bloodPressure90 === "Yes" && (
+              {questionnaireResponses.hasLowBloodPressure === "Yes" && (
                 <div>
                   <Typography>
-                    "We are unable to provide you with treatment if you have low blood pressure. Please consult your GP for further information."
-                    <br></br><br></br>Please Do not proceed.
+                    "We are unable to provide you with treatment if you have low
+                    blood pressure. Please consult your GP for further
+                    information."
+                    <br></br>
+                    <br></br>Please Do not proceed.
                   </Typography>
                 </div>
               )}
@@ -337,20 +386,24 @@ function ErectileDysfunctionQuestion() {
               </Typography>
               <RadioGroup
                 row
-                name="walking"
-                value={answers.walking}
+                name="hasDifficultyWalking"
+                value={questionnaireResponses.hasDifficultyWalking}
                 onChange={(e) =>
-                  setAnswers({ ...answers, walking: e.target.value })
+                  setQuestionnaireResponses({
+                    ...questionnaireResponses,
+                    hasDifficultyWalking: e.target.value,
+                  })
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
-              {answers.walking === "Yes" && (
+              {questionnaireResponses.hasDifficultyWalking === "Yes" && (
                 <div>
-                  "We are unable to provide you with treatment at this time. Please consult your GP."
-                  <br></br><br></br>Please Do not proceed.
-
+                  "We are unable to provide you with treatment at this time.
+                  Please consult your GP."
+                  <br></br>
+                  <br></br>Please Do not proceed.
                 </div>
               )}
             </FormControl>
@@ -363,20 +416,25 @@ function ErectileDysfunctionQuestion() {
               </Typography>
               <RadioGroup
                 row
-                name="strenuous"
-                value={answers.strenuous}
+                name="advisedAgainstStrenuousExercise"
+                value={questionnaireResponses.advisedAgainstStrenuousExercise}
                 onChange={(e) =>
-                  setAnswers({ ...answers, strenuous: e.target.value })
+                  setQuestionnaireResponses({
+                    ...questionnaireResponses,
+                    advisedAgainstStrenuousExercise: e.target.value,
+                  })
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
-              {answers.strenuous === "Yes" && (
+              {questionnaireResponses.advisedAgainstStrenuousExercise ===
+                "Yes" && (
                 <div>
-                  "We are unable to provide you with treatment at this time. Please consult your GP."
-                  <br></br><br></br>Please Do not proceed.
-
+                  "We are unable to provide you with treatment at this time.
+                  Please consult your GP."
+                  <br></br>
+                  <br></br>Please Do not proceed.
                 </div>
               )}
             </FormControl>
@@ -389,20 +447,24 @@ function ErectileDysfunctionQuestion() {
               </Typography>
               <RadioGroup
                 row
-                name="depression"
-                value={answers.depression}
+                name="hasUntreatedDepression"
+                value={questionnaireResponses.hasUntreatedDepression}
                 onChange={(e) =>
-                  setAnswers({ ...answers, depression: e.target.value })
+                  setQuestionnaireResponses({
+                    ...questionnaireResponses,
+                    hasUntreatedDepression: e.target.value,
+                  })
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
-              {answers.depression === "Yes" && (
+              {questionnaireResponses.hasUntreatedDepression === "Yes" && (
                 <div>
-                  "We are unable to provide you with treatment at this time. Please consult your GP."
-                  <br></br><br></br>Please Do not proceed.
-
+                  "We are unable to provide you with treatment at this time.
+                  Please consult your GP."
+                  <br></br>
+                  <br></br>Please Do not proceed.
                 </div>
               )}
             </FormControl>
@@ -411,24 +473,32 @@ function ErectileDysfunctionQuestion() {
 
             <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-                Do you have any allergies to Viagra (sildenafil), Levitra (vardenafil), Spedra (avanafil), Cialis (tadalafil), or any other erectile dysfunction medication? Or have you experienced any adverse reactions to these medications in the past?
+                Do you have any allergies to Viagra (sildenafil), Levitra
+                (vardenafil), Spedra (avanafil), Cialis (tadalafil), or any
+                other erectile dysfunction medication? Or have you experienced
+                any adverse reactions to these medications in the past?
               </Typography>
               <RadioGroup
                 row
-                name="allergies"
-                value={answers.allergies}
+                name="hasAllergiesOrAdverseReactions"
+                value={questionnaireResponses.hasAllergiesOrAdverseReactions}
                 onChange={(e) =>
-                  setAnswers({ ...answers, allergies: e.target.value })
+                  setQuestionnaireResponses({
+                    ...questionnaireResponses,
+                    hasAllergiesOrAdverseReactions: e.target.value,
+                  })
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
-              {answers.allergies === "Yes" && (
+              {questionnaireResponses.hasAllergiesOrAdverseReactions ===
+                "Yes" && (
                 <div>
-                  "We are unable to provide you with treatment at this time. Please consult your GP."
-                  <br></br><br></br>Please Do not proceed.
-
+                  "We are unable to provide you with treatment at this time.
+                  Please consult your GP."
+                  <br></br>
+                  <br></br>Please Do not proceed.
                 </div>
               )}
             </FormControl>
@@ -440,36 +510,57 @@ function ErectileDysfunctionQuestion() {
                 Have you ever had any of the following health conditions?
                 <ul>
                   <li>Kidney problems</li>
-                  <li>Heart problems (e.g., angina, chest pain, heart failure, irregular heartbeat, heart attack, myocardial infarction, cardiomyopathy, valvular heart disease)</li>
+                  <li>
+                    Heart problems (e.g., angina, chest pain, heart failure,
+                    irregular heartbeat, heart attack, myocardial infarction,
+                    cardiomyopathy, valvular heart disease)
+                  </li>
                   <li>Inherited eye diseases (e.g., retinitis pigmentosa)</li>
                   <li>Liver problems</li>
-                  <li>Blood disorders (e.g., haemophilia, sickle cell anaemia, leukaemia)</li>
+                  <li>
+                    Blood disorders (e.g., haemophilia, sickle cell anaemia,
+                    leukaemia)
+                  </li>
                   <li>Multiple myeloma (bone marrow cancer)</li>
                   <li>Prolonged erections (lasting more than 4 hours)</li>
-                  <li>Physical conditions affecting the shape of the penis (e.g., Peyronie’s disease)</li>
-                  <li>Galactose intolerance or glucose-galactose malabsorption</li>
+                  <li>
+                    Physical conditions affecting the shape of the penis (e.g.,
+                    Peyronie’s disease)
+                  </li>
+                  <li>
+                    Galactose intolerance or glucose-galactose malabsorption
+                  </li>
                   <li>Stomach ulcers (e.g., peptic/gastric ulcers)</li>
-                  <li>Sight loss due to poor circulation or Non-Arteritic Anterior Ischemic Optic Neuropathy (NAION)</li>
+                  <li>
+                    Sight loss due to poor circulation or Non-Arteritic Anterior
+                    Ischemic Optic Neuropathy (NAION)
+                  </li>
                   <li>Stroke</li>
-                  <li>Any serious medical condition requiring hospitalisation</li>
+                  <li>
+                    Any serious medical condition requiring hospitalisation
+                  </li>
                 </ul>
               </Typography>
               <RadioGroup
                 row
-                name="healthCd"
-                value={answers.healthCd}
+                name="hasPreviousHealthConditions"
+                value={questionnaireResponses.hasPreviousHealthConditions}
                 onChange={(e) =>
-                  setAnswers({ ...answers, healthCd: e.target.value })
+                  setQuestionnaireResponses({
+                    ...questionnaireResponses,
+                    hasPreviousHealthConditions: e.target.value,
+                  })
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
-              {answers.healthCd === "Yes" && (
+              {questionnaireResponses.hasPreviousHealthConditions === "Yes" && (
                 <div>
-                  "We are unable to provide you with treatment at this time. Please consult your GP."
-                  <br></br><br></br>Please Do not proceed.
-
+                  "We are unable to provide you with treatment at this time.
+                  Please consult your GP."
+                  <br></br>
+                  <br></br>Please Do not proceed.
                 </div>
               )}
             </FormControl>
@@ -481,29 +572,36 @@ function ErectileDysfunctionQuestion() {
                 Are you currently taking any of the following medications?
                 <ul>
                   <li>
-                    Nitrates (e.g., glyceryl trinitrate, isosorbide mononitrate, isosorbide dinitrate)
+                    Nitrates (e.g., glyceryl trinitrate, isosorbide mononitrate,
+                    isosorbide dinitrate)
                   </li>
-                  <li>
-                    Nitric oxide donors ('poppers') for chest pain/angina
-                  </li>
+                  <li>Nitric oxide donors ('poppers') for chest pain/angina</li>
                 </ul>
               </Typography>
               <RadioGroup
                 row
-                name="medication1"
-                value={answers.medication1}
+                name="takesNitratesOrNitricOxideDonors"
+                value={questionnaireResponses.takesNitratesOrNitricOxideDonors}
                 onChange={(e) =>
-                  setAnswers({ ...answers, medication1: e.target.value })
+                  setQuestionnaireResponses({
+                    ...questionnaireResponses,
+                    takesNitratesOrNitricOxideDonors: e.target.value,
+                  })
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
-              {answers.medication1 === "Yes" && (
+              {questionnaireResponses.takesNitratesOrNitricOxideDonors ===
+                "Yes" && (
                 <div>
-                  "We do not recommend using recreational drugs with PDE5 inhibitors, especially nitric oxide donors ('poppers'), as they may cause a dangerous drop in blood pressure. We are unable to provide you with treatment. Please consult your doctor for more information".
-                  <br></br><br></br>Please Do not proceed.
-
+                  "We do not recommend using recreational drugs with PDE5
+                  inhibitors, especially nitric oxide donors ('poppers'), as
+                  they may cause a dangerous drop in blood pressure. We are
+                  unable to provide you with treatment. Please consult your
+                  doctor for more information".
+                  <br></br>
+                  <br></br>Please Do not proceed.
                 </div>
               )}
             </FormControl>
@@ -511,20 +609,24 @@ function ErectileDysfunctionQuestion() {
 
             <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-                Are you currently taking any other medication (including prescription, over-the-counter, or recreational drugs)?
+                Are you currently taking any other medication (including
+                prescription, over-the-counter, or recreational drugs)?
               </Typography>
               <RadioGroup
                 row
-                name="medication2"
-                value={answers.medication2}
+                name="takesOtherMedications"
+                value={questionnaireResponses.takesOtherMedications}
                 onChange={(e) =>
-                  setAnswers({ ...answers, medication2: e.target.value })
+                  setQuestionnaireResponses({
+                    ...questionnaireResponses,
+                    takesOtherMedications: e.target.value,
+                  })
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
-              {answers.medication2 === "Yes" && (
+              {questionnaireResponses.takesOtherMedications === "Yes" && (
                 <FormControl component="fieldset" className="QuestionBox">
                   {[
                     "Diabetes",
@@ -543,10 +645,14 @@ function ErectileDysfunctionQuestion() {
                       key={index}
                       control={
                         <Checkbox
-                          checked={answers.conditions.includes(condition)}
+                          checked={questionnaireResponses.conditions?.includes(
+                            condition
+                          )}
                           onChange={(e) => {
                             const { value, checked } = e.target;
-                            let newConditions = [...answers.conditions];
+                            let newConditions = [
+                              ...(questionnaireResponses.conditions || []),
+                            ];
 
                             if (checked) {
                               newConditions.push(value);
@@ -556,7 +662,10 @@ function ErectileDysfunctionQuestion() {
                               );
                             }
 
-                            setAnswers({ ...answers, conditions: newConditions });
+                            setQuestionnaireResponses({
+                              ...questionnaireResponses,
+                              conditions: newConditions,
+                            });
                           }}
                           value={condition}
                         />
@@ -564,7 +673,6 @@ function ErectileDysfunctionQuestion() {
                       label={condition}
                     />
                   ))}
-
                 </FormControl>
               )}
             </FormControl>
@@ -572,22 +680,31 @@ function ErectileDysfunctionQuestion() {
 
             <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-                Do you understand that erectile dysfunction may be related to underlying health conditions (e.g., hypertension, diabetes, high cholesterol, cardiovascular disease)? You should consult your doctor within 6 months of starting treatment for a clinical review.
+                Do you understand that erectile dysfunction may be related to
+                underlying health conditions (e.g., hypertension, diabetes, high
+                cholesterol, cardiovascular disease)? You should consult your
+                doctor within 6 months of starting treatment for a clinical
+                review.
               </Typography>
               <RadioGroup
                 row
-                name="dysfunction"
-                value={answers.dysfunction}
+                name="understandsUnderlyingConditions"
+                value={questionnaireResponses.understandsUnderlyingConditions}
                 onChange={(e) =>
-                  setAnswers({ ...answers, dysfunction: e.target.value })
+                  setQuestionnaireResponses({
+                    ...questionnaireResponses,
+                    understandsUnderlyingConditions: e.target.value,
+                  })
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
-              {answers.dysfunction === "No" && (
+              {questionnaireResponses.understandsUnderlyingConditions ===
+                "No" && (
                 <div>
-                  "You must agree to this before continuing. If you need assistance, please contact customer support."
+                  "You must agree to this before continuing. If you need
+                  assistance, please contact customer support."
                 </div>
               )}
             </FormControl>
@@ -596,22 +713,31 @@ function ErectileDysfunctionQuestion() {
 
             <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-                In the rare event of obtaining a prolonged erection lasting more than 4 hours, or experiencing sudden visual impairment, I agree to seek immediate medical assistance?
+                In the rare event of obtaining a prolonged erection lasting more
+                than 4 hours, or experiencing sudden visual impairment, I agree
+                to seek immediate medical assistance?
               </Typography>
               <RadioGroup
                 row
-                name="proErection"
-                value={answers.proErection}
+                name="agreesToSeekHelpForProlongedErection"
+                value={
+                  questionnaireResponses.agreesToSeekHelpForProlongedErection
+                }
                 onChange={(e) =>
-                  setAnswers({ ...answers, proErection: e.target.value })
+                  setQuestionnaireResponses({
+                    ...questionnaireResponses,
+                    agreesToSeekHelpForProlongedErection: e.target.value,
+                  })
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
-              {answers.proErection === "No" && (
+              {questionnaireResponses.agreesToSeekHelpForProlongedErection ===
+                "No" && (
                 <div>
-                  "You must agree to this before continuing. If you need assistance, please contact customer support."
+                  "You must agree to this before continuing. If you need
+                  assistance, please contact customer support."
                 </div>
               )}
             </FormControl>
@@ -622,26 +748,42 @@ function ErectileDysfunctionQuestion() {
               <Typography variant="h4" className="labelOne">
                 Do you agree to the following conditions?
                 <ul>
-                  <li>You will read the patient information leaflet provided with your medication.</li>
-                  <li>You will inform your GP and us if you experience any side effects or changes in your medical conditions during treatment.</li>
+                  <li>
+                    You will read the patient information leaflet provided with
+                    your medication.
+                  </li>
+                  <li>
+                    You will inform your GP and us if you experience any side
+                    effects or changes in your medical conditions during
+                    treatment.
+                  </li>
                   <li>The treatment is solely for your personal use.</li>
-                  <li>You have answered all questions truthfully and accurately. You understand that the prescriber's decisions are based on your responses, and that incorrect information can be harmful to your health.</li>
+                  <li>
+                    You have answered all questions truthfully and accurately.
+                    You understand that the prescriber's decisions are based on
+                    your responses, and that incorrect information can be
+                    harmful to your health.
+                  </li>
                 </ul>
               </Typography>
               <RadioGroup
                 row
-                name="agreeFollowing"
-                value={answers.agreeFollowing}
+                name="agreesToConditions"
+                value={questionnaireResponses.agreesToConditions}
                 onChange={(e) =>
-                  setAnswers({ ...answers, agreeFollowing: e.target.value })
+                  setQuestionnaireResponses({
+                    ...questionnaireResponses,
+                    agreesToConditions: e.target.value,
+                  })
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
-              {answers.agreeFollowing === "No" && (
+              {questionnaireResponses.agreesToConditions === "No" && (
                 <div>
-                  "You must agree to this before continuing. If you need assistance, please contact customer support."
+                  "You must agree to this before continuing. If you need
+                  assistance, please contact customer support."
                 </div>
               )}
             </FormControl>
@@ -650,17 +792,25 @@ function ErectileDysfunctionQuestion() {
 
             <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-                I confirm that I am over 18 years old and I agree to the terms and conditions.
+                I confirm that I am over 18 years old and I agree to the terms
+                and conditions.
               </Typography>
               <RadioGroup
                 row
-                name="agreeTC"
-                value={answers.agreeTC}
+                name="confirmsAgeAndAgreesToTerms"
+                value={questionnaireResponses.confirmsAgeAndAgreesToTerms}
                 onChange={(e) =>
-                  setAnswers({ ...answers, agreeTC: e.target.value })
+                  setQuestionnaireResponses({
+                    ...questionnaireResponses,
+                    confirmsAgeAndAgreesToTerms: e.target.value,
+                  })
                 }
               >
-                <FormControlLabel value="Yes" control={<Radio />} label="I Confirm" />
+                <FormControlLabel
+                  value="Yes"
+                  control={<Radio />}
+                  label="I Confirm"
+                />
               </RadioGroup>
             </FormControl>
 
@@ -692,11 +842,14 @@ function ErectileDysfunctionQuestion() {
               <FormControlLabel
                 control={
                   <Checkbox
-                    checked={answers.agreeToTerms || false}
+                    checked={questionnaireResponses.agreesToTerms || false}
                     onChange={(e) =>
-                      setAnswers({ ...answers, agreeToTerms: e.target.checked })
+                      setQuestionnaireResponses({
+                        ...questionnaireResponses,
+                        agreesToTerms: e.target.checked,
+                      })
                     }
-                    name="agreeToTerms"
+                    name="agreesToTerms"
                   />
                 }
                 label="I agree"
@@ -722,12 +875,12 @@ function ErectileDysfunctionQuestion() {
                 </Typography>
                 <input
                   type="file"
-                  name="photoID"
+                  name="photoIDFile"
                   accept=".jpg,.jpeg,.png,.pdf"
                   onChange={(e) =>
-                    setAnswers({
-                      ...answers,
-                      photoID: e.target.files[0],
+                    setQuestionnaireResponses({
+                      ...questionnaireResponses,
+                      photoIDFile: e.target.files[0],
                     })
                   }
                   style={{ marginTop: "10px" }}
@@ -746,7 +899,7 @@ function ErectileDysfunctionQuestion() {
     if (data) {
       const { answers } = JSON.parse(data);
       if (answers) {
-        setAnswers(answers);
+        setQuestionnaireResponses(answers);
       }
     }
   }, []);
@@ -758,7 +911,7 @@ function ErectileDysfunctionQuestion() {
         margin: "0 auto",
       }}
     >
-      <Stepper activeStep={activeStep} alternativeLabel>
+      <Stepper activeStep={currentStep} alternativeLabel>
         {steps.map((label, index) => (
           <Step key={index}>
             <StepLabel>{/** {label}*/}</StepLabel>
@@ -767,7 +920,7 @@ function ErectileDysfunctionQuestion() {
       </Stepper>
 
       <Box sx={{ padding: "20px" }} ref={boxRef}>
-        {renderStepContent(activeStep)}
+        {renderStepContent(currentStep)}
         <Box
           sx={{
             display: "flex",
@@ -778,7 +931,7 @@ function ErectileDysfunctionQuestion() {
           <Button
             variant="contained"
             onClick={handleBack}
-            disabled={activeStep === 0}
+            disabled={currentStep === 0}
             sx={{
               fontSize: { xs: "13px", sm: "15px", md: "16px" },
             }}
@@ -786,7 +939,7 @@ function ErectileDysfunctionQuestion() {
             Back
           </Button>
           <Box>
-            {activeStep === steps.length - 1 ? (
+            {currentStep === steps.length - 1 ? (
               <Button
                 variant="contained"
                 color="primary"
@@ -815,4 +968,4 @@ function ErectileDysfunctionQuestion() {
   );
 }
 
-export default ErectileDysfunctionQuestion;
+export default ErectileDysfunctionQuestionnaire;

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Stepper,
   Step,
@@ -19,23 +19,24 @@ import { useApp } from "../../../Context/AppContext";
 import { useMessage } from "../../../Context/MessageContext";
 const steps = ["1", "2", "3", "4"];
 
-function HairLossQuestion() {
-  const [activeStep, setActiveStep] = useState(0);
-  const [answers, setAnswers] = useState({
-    agedBetween: "",
-    agreeToTerms: "",
-    photoID: "",
-    hairLossPatch: "",
-    hairLossLocal: "",
-    healthyScalp: "",
-    suddenHairLoss: "",
-    hairLossMedi: "",
-    diagnosed: "",
-    depressionHistory: "",
-    medicationInfo: "",
-    medicationInfoNext: "",
-    finasteride: "",
-    prescribedFIn: "",
+function HairLossQuestionnaire() {
+  const [currentStep, setCurrentStep] = useState(0);
+  const [questionnaireResponses, setQuestionnaireResponses] = useState({
+    isAgedBetween17And74: "",
+    agreesToTermsAndConditions: "",
+    photoIDFile: "",
+    hasHairLossInPatchesOrScalpIssues: "",
+    isHairLossLocalizedToTempleArea: "",
+    hasHealthyScalp: "",
+    hasSuddenOrCompleteHairLoss: "",
+    isHairLossRelatedToMedicationOrIllness: "",
+    hasDiagnosedMedicalConditions: "",
+    hasHistoryOfDepressionOrMentalHealth: "",
+    isTakingAnyMedication: "",
+    isTakingSpecificMedications: "",
+    understandsFinasterideRisks: "",
+    understandsPSATestImplications: "",
+    agreesToTermsAndConfirmsAge: "",
   });
   const boxRef = useRef(null);
   const { setSelectedTab } = useApp();
@@ -56,26 +57,40 @@ function HairLossQuestion() {
     }, 100);
   };
 
-  const handleNext = () => {
+  const goToNextStep = () => {
     const qaData = JSON.parse(
       localStorage.getItem("questionnaire_info") || "{}"
     );
     const { bmiData } = qaData;
 
     // Validation logic
-    if (activeStep === 0) {
+    if (currentStep === 0) {
       if (!bmiData?.bmi) {
         showMessage("Please calculate your BMI first", "error");
         return;
       }
-    } else if (activeStep === 1) {
-      const requiredFields = ["agedBetween"];
+    } else if (currentStep === 1) {
+      const requiredFields = [
+        "isAgedBetween17And74",
+        "hasHairLossInPatchesOrScalpIssues",
+        "isHairLossLocalizedToTempleArea",
+        "hasHealthyScalp",
+        "hasSuddenOrCompleteHairLoss",
+        "isHairLossRelatedToMedicationOrIllness",
+        "hasDiagnosedMedicalConditions",
+        "hasHistoryOfDepressionOrMentalHealth",
+        "isTakingAnyMedication",
+        "isTakingSpecificMedications",
+        "understandsFinasterideRisks",
+        "understandsPSATestImplications",
+        "agreesToTermsAndConfirmsAge",
+      ];
 
       for (const field of requiredFields) {
         if (
-          Array.isArray(answers[field])
-            ? answers[field].length === 0
-            : !answers[field]
+          Array.isArray(questionnaireResponses[field])
+            ? questionnaireResponses[field].length === 0
+            : !questionnaireResponses[field]
         ) {
           showMessage(
             "Please fill all details before proceeding to the next step.",
@@ -84,11 +99,11 @@ function HairLossQuestion() {
           return;
         }
       }
-    } else if (activeStep === 2) {
-      const requiredAgreements = ["agreeToTerms"];
+    } else if (currentStep === 2) {
+      const requiredAgreements = ["agreesToTermsAndConditions"];
 
       for (const field of requiredAgreements) {
-        if (!answers[field]) {
+        if (!questionnaireResponses[field]) {
           showMessage(
             "Please fill all details before proceeding to the next step.",
             "error"
@@ -98,32 +113,37 @@ function HairLossQuestion() {
       }
     }
 
-    setActiveStep((prevStep) => prevStep + 1);
+    setCurrentStep((prevStep) => prevStep + 1);
     handleScroll();
   };
-  const handleBack = () => {
-    setActiveStep((prevStep) => prevStep - 1);
+  const goToPreviousStep = () => {
+    setCurrentStep((prevStep) => prevStep - 1);
     handleScroll();
   };
 
   const handleSubmit = () => {
-    console.log("Form submitted with answers: ", answers);
+    console.log("Form submitted with answers: ", questionnaireResponses);
     const data = localStorage.getItem("questionnaire_info");
     let parsedData = {};
     if (data) {
       parsedData = JSON.parse(data);
     }
+ 
+    const { user, bmiData } = parsedData;
+
     localStorage.setItem(
       "questionnaire_info",
       JSON.stringify({
-        ...parsedData,
-        answers: answers,
+        // ...parsedData,
+        user,
+        bmiData,
+        answers: questionnaireResponses,
       })
     );
     setSelectedTab(2);
   };
 
-  const renderStepContent = (stepIndex) => {
+  const displayStepContent = (stepIndex) => {
     switch (stepIndex) {
       //============= Step 01 =============//
       case 0:
@@ -144,18 +164,22 @@ function HairLossQuestion() {
               </Typography>
               <RadioGroup
                 row
-                name="agedBetween"
-                value={answers.agedBetween}
+                name="isAgedBetween17And74"
+                value={questionnaireResponses.isAgedBetween17And74}
                 onChange={(e) =>
-                  setAnswers({ ...answers, agedBetween: e.target.value })
+                  setQuestionnaireResponses({
+                    ...questionnaireResponses,
+                    isAgedBetween17And74: e.target.value,
+                  })
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
-              {answers.agedBetween === "No" && (
+              {questionnaireResponses.isAgedBetween17And74 === "No" && (
                 <div>
-                  "This treatment is not suitable for women or individuals under 18 or over 65." [Do not proceed]
+                  "This treatment is not suitable for women or individuals under
+                  18 or over 65." [Do not proceed]
                 </div>
               )}
             </FormControl>
@@ -163,22 +187,28 @@ function HairLossQuestion() {
 
             <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-                Do you have hair loss in patches, or is your scalp itchy or sore?
+                Do you have hair loss in patches, or is your scalp itchy or
+                sore?
               </Typography>
               <RadioGroup
                 row
-                name="hairLossPatch"
-                value={answers.hairLossPatch}
+                name="hasHairLossInPatchesOrScalpIssues"
+                value={questionnaireResponses.hasHairLossInPatchesOrScalpIssues}
                 onChange={(e) =>
-                  setAnswers({ ...answers, hairLossPatch: e.target.value })
+                  setQuestionnaireResponses({
+                    ...questionnaireResponses,
+                    hasHairLossInPatchesOrScalpIssues: e.target.value,
+                  })
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
-              {answers.hairLossPatch === "Yes" && (
+              {questionnaireResponses.hasHairLossInPatchesOrScalpIssues ===
+                "Yes" && (
                 <div>
-                  This treatment may not be suitable for you. We recommend contacting your GP for further advice." [Do not proceed]
+                  This treatment may not be suitable for you. We recommend
+                  contacting your GP for further advice." [Do not proceed]
                 </div>
               )}
             </FormControl>
@@ -190,18 +220,23 @@ function HairLossQuestion() {
               </Typography>
               <RadioGroup
                 row
-                name="hairLossLocal"
-                value={answers.hairLossLocal}
+                name="isHairLossLocalizedToTempleArea"
+                value={questionnaireResponses.isHairLossLocalizedToTempleArea}
                 onChange={(e) =>
-                  setAnswers({ ...answers, hairLossLocal: e.target.value })
+                  setQuestionnaireResponses({
+                    ...questionnaireResponses,
+                    isHairLossLocalizedToTempleArea: e.target.value,
+                  })
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
-              {answers.hairLossLocal === "No" && (
+              {questionnaireResponses.isHairLossLocalizedToTempleArea ===
+                "No" && (
                 <div>
-                  We can still offer treatment, but the range of available medications may be limited.
+                  We can still offer treatment, but the range of available
+                  medications may be limited.
                 </div>
               )}
             </FormControl>
@@ -217,23 +252,26 @@ function HairLossQuestion() {
                   <li>Redness</li>
                   <li>Medical dressings</li>
                   <li>Shaved areas</li>
-
                 </ul>
               </Typography>
               <RadioGroup
                 row
-                name="healthyScalp"
-                value={answers.healthyScalp}
+                name="hasHealthyScalp"
+                value={questionnaireResponses.hasHealthyScalp}
                 onChange={(e) =>
-                  setAnswers({ ...answers, healthyScalp: e.target.value })
+                  setQuestionnaireResponses({
+                    ...questionnaireResponses,
+                    hasHealthyScalp: e.target.value,
+                  })
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
-              {answers.healthyScalp === "No" && (
+              {questionnaireResponses.hasHealthyScalp === "No" && (
                 <div>
-                  "We are unable to supply treatment. Please consult your GP." [Do not proceed]
+                  "We are unable to supply treatment. Please consult your GP."
+                  [Do not proceed]
                 </div>
               )}
             </FormControl>
@@ -245,18 +283,23 @@ function HairLossQuestion() {
               </Typography>
               <RadioGroup
                 row
-                name="suddenHairLoss"
-                value={answers.suddenHairLoss}
+                name="hasSuddenOrCompleteHairLoss"
+                value={questionnaireResponses.hasSuddenOrCompleteHairLoss}
                 onChange={(e) =>
-                  setAnswers({ ...answers, suddenHairLoss: e.target.value })
+                  setQuestionnaireResponses({
+                    ...questionnaireResponses,
+                    hasSuddenOrCompleteHairLoss: e.target.value,
+                  })
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
-              {answers.suddenHairLoss === "Yes" && (
+              {questionnaireResponses.hasSuddenOrCompleteHairLoss === "Yes" && (
                 <div>
-                  "This treatment is not suitable for this type of hair loss. We recommend speaking to your GP for further advice." [Do not proceed]
+                  "This treatment is not suitable for this type of hair loss. We
+                  recommend speaking to your GP for further advice." [Do not
+                  proceed]
                 </div>
               )}
             </FormControl>
@@ -264,22 +307,30 @@ function HairLossQuestion() {
 
             <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-                Could your hair loss be related to medication, dietary factors, or an illness?
+                Could your hair loss be related to medication, dietary factors,
+                or an illness?
               </Typography>
               <RadioGroup
                 row
-                name="hairLossMedi"
-                value={answers.hairLossMedi}
+                name="isHairLossRelatedToMedicationOrIllness"
+                value={
+                  questionnaireResponses.isHairLossRelatedToMedicationOrIllness
+                }
                 onChange={(e) =>
-                  setAnswers({ ...answers, hairLossMedi: e.target.value })
+                  setQuestionnaireResponses({
+                    ...questionnaireResponses,
+                    isHairLossRelatedToMedicationOrIllness: e.target.value,
+                  })
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
-              {answers.hairLossMedi === "Yes" && (
+              {questionnaireResponses.isHairLossRelatedToMedicationOrIllness ===
+                "Yes" && (
                 <div>
-                  "If your hair loss is caused by lifestyle or health factors, we recommend discussing it with your GP." [Do not proceed]
+                  "If your hair loss is caused by lifestyle or health factors,
+                  we recommend discussing it with your GP." [Do not proceed]
                 </div>
               )}
             </FormControl>
@@ -287,29 +338,42 @@ function HairLossQuestion() {
 
             <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-                Have you ever been diagnosed with any of the following conditions?
+                Have you ever been diagnosed with any of the following
+                conditions?
                 <ul>
-                  <li>Heart disease (including chest pain, angina, heart attack, or any history of cardiovascular events)</li>
-                  <li>Acute Porphyria (a rare hereditary disease affecting haemoglobin)</li>
+                  <li>
+                    Heart disease (including chest pain, angina, heart attack,
+                    or any history of cardiovascular events)
+                  </li>
+                  <li>
+                    Acute Porphyria (a rare hereditary disease affecting
+                    haemoglobin)
+                  </li>
                   <li>Pheochromocytoma (cancer of the adrenal glands)</li>
-                  <li>Prostate problems (e.g., prostate enlargement, prostatitis, prostate cancer)</li>
+                  <li>
+                    Prostate problems (e.g., prostate enlargement, prostatitis,
+                    prostate cancer)
+                  </li>
                   <li>Male breast cancer</li>
                   <li>High blood pressure</li>
                 </ul>
-
               </Typography>
               <RadioGroup
                 row
-                name="diagnosed"
-                value={answers.diagnosed}
+                name="hasDiagnosedMedicalConditions"
+                value={questionnaireResponses.hasDiagnosedMedicalConditions}
                 onChange={(e) =>
-                  setAnswers({ ...answers, diagnosed: e.target.value })
+                  setQuestionnaireResponses({
+                    ...questionnaireResponses,
+                    hasDiagnosedMedicalConditions: e.target.value,
+                  })
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
-              {answers.diagnosed === "Yes" && (
+              {questionnaireResponses.hasDiagnosedMedicalConditions ===
+                "Yes" && (
                 <div>
                   "This treatment is not suitable for you." [Do not proceed]
                 </div>
@@ -319,22 +383,30 @@ function HairLossQuestion() {
 
             <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-                Do you have a history of depression or any other mental health conditions?
+                Do you have a history of depression or any other mental health
+                conditions?
               </Typography>
               <RadioGroup
                 row
-                name="depressionHistory"
-                value={answers.depressionHistory}
+                name="hasHistoryOfDepressionOrMentalHealth"
+                value={
+                  questionnaireResponses.hasHistoryOfDepressionOrMentalHealth
+                }
                 onChange={(e) =>
-                  setAnswers({ ...answers, depressionHistory: e.target.value })
+                  setQuestionnaireResponses({
+                    ...questionnaireResponses,
+                    hasHistoryOfDepressionOrMentalHealth: e.target.value,
+                  })
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
-              {answers.depressionHistory === "Yes" && (
+              {questionnaireResponses.hasHistoryOfDepressionOrMentalHealth ===
+                "Yes" && (
                 <div>
-                  We can still offer treatment, but with a limited product range.
+                  We can still offer treatment, but with a limited product
+                  range.
                 </div>
               )}
             </FormControl>
@@ -342,34 +414,37 @@ function HairLossQuestion() {
 
             <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-                Are you currently taking any medication (including prescription, over-the-counter, or recreational drugs)?
+                Are you currently taking any medication (including prescription,
+                over-the-counter, or recreational drugs)?
               </Typography>
               <RadioGroup
                 row
-                name="medicationInfo"
-                value={answers.medicationInfo}
+                name="isTakingAnyMedication"
+                value={questionnaireResponses.isTakingAnyMedication}
                 onChange={(e) =>
-                  setAnswers({ ...answers, medicationInfo: e.target.value })
+                  setQuestionnaireResponses({
+                    ...questionnaireResponses,
+                    isTakingAnyMedication: e.target.value,
+                  })
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
-              {answers.medicationInfo === "Yes" && (
+              {questionnaireResponses.isTakingAnyMedication === "Yes" && (
                 <div>
                   <ul>
                     <Typography>
                       Are you taking any of the following medications?
                     </Typography>
                     <ul>
-                      <li>
-                        Dithranol (used to treat psoriasis)
-                      </li>
+                      <li>Dithranol (used to treat psoriasis)</li>
                       <li>
                         Tretinoin (used to treat acne or other skin disorders)
                       </li>
                       <li>
-                        Corticosteroids (e.g., hydrocortisone, betamethasone dipropionate)
+                        Corticosteroids (e.g., hydrocortisone, betamethasone
+                        dipropionate)
                       </li>
                       <li>
                         Petrolatum (a common ingredient in hair wax and gel)
@@ -378,18 +453,31 @@ function HairLossQuestion() {
 
                     <RadioGroup
                       row
-                      name="medicationInfoNext"
-                      value={answers.medicationInfoNext}
+                      name="isTakingSpecificMedications"
+                      value={questionnaireResponses.isTakingSpecificMedications}
                       onChange={(e) =>
-                        setAnswers({ ...answers, medicationInfoNext: e.target.value })
+                        setQuestionnaireResponses({
+                          ...questionnaireResponses,
+                          isTakingSpecificMedications: e.target.value,
+                        })
                       }
                     >
-                      <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
-                      <FormControlLabel value="No" control={<Radio />} label="No" />
+                      <FormControlLabel
+                        value="Yes"
+                        control={<Radio />}
+                        label="Yes"
+                      />
+                      <FormControlLabel
+                        value="No"
+                        control={<Radio />}
+                        label="No"
+                      />
                     </RadioGroup>
-                    {answers.medicationInfoNext === "Yes" && (
+                    {questionnaireResponses.isTakingSpecificMedications ===
+                      "Yes" && (
                       <div>
-                        "We are unable to supply you with treatment. Please consult your GP." [Do not proceed]
+                        "We are unable to supply you with treatment. Please
+                        consult your GP." [Do not proceed]
                       </div>
                     )}
                   </ul>
@@ -400,22 +488,29 @@ function HairLossQuestion() {
 
             <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-                Do you understand that if prescribed finasteride, and your partner is (or may be) pregnant, they should avoid handling crushed or broken tablets, and that you should always wear a condom during sex?
+                Do you understand that if prescribed finasteride, and your
+                partner is (or may be) pregnant, they should avoid handling
+                crushed or broken tablets, and that you should always wear a
+                condom during sex?
               </Typography>
               <RadioGroup
                 row
-                name="finasteride"
-                value={answers.finasteride}
+                name="understandsFinasterideRisks"
+                value={questionnaireResponses.understandsFinasterideRisks}
                 onChange={(e) =>
-                  setAnswers({ ...answers, finasteride: e.target.value })
+                  setQuestionnaireResponses({
+                    ...questionnaireResponses,
+                    understandsFinasterideRisks: e.target.value,
+                  })
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
-              {answers.finasteride === "No" && (
+              {questionnaireResponses.understandsFinasterideRisks === "No" && (
                 <div>
-                  "We are unable to supply you with medication unless you understand and agree to this condition." [Do not proceed]
+                  "We are unable to supply you with medication unless you
+                  understand and agree to this condition." [Do not proceed]
                 </div>
               )}
             </FormControl>
@@ -423,22 +518,29 @@ function HairLossQuestion() {
 
             <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-                Do you understand that if prescribed finasteride, you should inform your GP before undergoing a PSA blood test for your prostate?
+                Do you understand that if prescribed finasteride, you should
+                inform your GP before undergoing a PSA blood test for your
+                prostate?
               </Typography>
               <RadioGroup
                 row
-                name="prescribedFin"
-                value={answers.prescribedFIn}
+                name="understandsPSATestImplications"
+                value={questionnaireResponses.understandsPSATestImplications}
                 onChange={(e) =>
-                  setAnswers({ ...answers, prescribedFIn: e.target.value })
+                  setQuestionnaireResponses({
+                    ...questionnaireResponses,
+                    understandsPSATestImplications: e.target.value,
+                  })
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
-              {answers.prescribedFIn === "No" && (
+              {questionnaireResponses.understandsPSATestImplications ===
+                "No" && (
                 <div>
-                  "We are unable to supply you with medication unless you understand and agree to this condition." [Do not proceed]
+                  "We are unable to supply you with medication unless you
+                  understand and agree to this condition." [Do not proceed]
                 </div>
               )}
             </FormControl>
@@ -446,28 +548,33 @@ function HairLossQuestion() {
 
             <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-                I agree to the terms and conditions, and I confirm that I am over 18 years of age.
+                I agree to the terms and conditions, and I confirm that I am
+                over 18 years of age.
               </Typography>
               <RadioGroup
                 row
-                name="agreeTC"
-                value={answers.agreeTC}
+                name="agreesToTermsAndConfirmsAge"
+                value={questionnaireResponses.agreesToTermsAndConfirmsAge}
                 onChange={(e) =>
-                  setAnswers({ ...answers, agreeTC: e.target.value })
+                  setQuestionnaireResponses({
+                    ...questionnaireResponses,
+                    agreesToTermsAndConfirmsAge: e.target.value,
+                  })
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
-              {answers.agreeTC === "No" && (
+              {questionnaireResponses.agreesToTermsAndConfirmsAge === "No" && (
                 <div>
-                  "We are unable to supply you with medication unless you understand and agree to this condition." [Do not proceed]
+                  "We are unable to supply you with medication unless you
+                  understand and agree to this condition." [Do not proceed]
                 </div>
               )}
             </FormControl>
             {/****** End *****/}
           </>
-        )
+        );
       //============= Step 03 =============//
       case 2:
         return (
@@ -493,11 +600,16 @@ function HairLossQuestion() {
               <FormControlLabel
                 control={
                   <Checkbox
-                    checked={answers.agreeToTerms || false}
-                    onChange={(e) =>
-                      setAnswers({ ...answers, agreeToTerms: e.target.checked })
+                    checked={
+                      questionnaireResponses.agreesToTermsAndConditions || false
                     }
-                    name="agreeToTerms"
+                    onChange={(e) =>
+                      setQuestionnaireResponses({
+                        ...questionnaireResponses,
+                        agreesToTermsAndConditions: e.target.checked,
+                      })
+                    }
+                    name="agreesToTermsAndConditions"
                   />
                 }
                 label="I agree"
@@ -523,12 +635,12 @@ function HairLossQuestion() {
                 </Typography>
                 <input
                   type="file"
-                  name="photoID"
+                  name="photoIDFile"
                   accept=".jpg,.jpeg,.png,.pdf"
                   onChange={(e) =>
-                    setAnswers({
-                      ...answers,
-                      photoID: e.target.files[0],
+                    setQuestionnaireResponses({
+                      ...questionnaireResponses,
+                      photoIDFile: e.target.files[0],
                     })
                   }
                   style={{ marginTop: "10px" }}
@@ -547,7 +659,7 @@ function HairLossQuestion() {
     if (data) {
       const { answers } = JSON.parse(data);
       if (answers) {
-        setAnswers(answers);
+        setQuestionnaireResponses(answers);
       }
     }
   }, []);
@@ -559,7 +671,7 @@ function HairLossQuestion() {
         margin: "0 auto",
       }}
     >
-      <Stepper activeStep={activeStep} alternativeLabel>
+      <Stepper activeStep={currentStep} alternativeLabel>
         {steps.map((label, index) => (
           <Step key={index}>
             <StepLabel>{/** {label}*/}</StepLabel>
@@ -568,7 +680,7 @@ function HairLossQuestion() {
       </Stepper>
 
       <Box sx={{ padding: "20px" }} ref={boxRef}>
-        {renderStepContent(activeStep)}
+        {displayStepContent(currentStep)}
         <Box
           sx={{
             display: "flex",
@@ -578,8 +690,8 @@ function HairLossQuestion() {
         >
           <Button
             variant="contained"
-            onClick={handleBack}
-            disabled={activeStep === 0}
+            onClick={goToPreviousStep}
+            disabled={currentStep === 0}
             sx={{
               fontSize: { xs: "13px", sm: "15px", md: "16px" },
             }}
@@ -587,7 +699,7 @@ function HairLossQuestion() {
             Back
           </Button>
           <Box>
-            {activeStep === steps.length - 1 ? (
+            {currentStep === steps.length - 1 ? (
               <Button
                 variant="contained"
                 color="primary"
@@ -601,7 +713,7 @@ function HairLossQuestion() {
             ) : (
               <Button
                 variant="contained"
-                onClick={handleNext}
+                onClick={goToNextStep}
                 sx={{
                   fontSize: { xs: "13px", sm: "15px", md: "16px" },
                 }}
@@ -616,4 +728,4 @@ function HairLossQuestion() {
   );
 }
 
-export default HairLossQuestion;
+export default HairLossQuestionnaire;

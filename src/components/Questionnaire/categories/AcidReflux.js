@@ -22,25 +22,24 @@ const steps = ["1", "2", "3", "4"];
 function AcidRefluxQuestion() {
   const [activeStep, setActiveStep] = useState(0);
   const [answers, setAnswers] = useState({
-    agedBetween: "",
+    over50WithNewSymptoms: "",
     agreeToTerms: "",
     photoID: "",
-    experiencedAny: "",
-    AreYouPregnantBreastfeeding: "",
-    eatingDisorder: "",
-    injectionsOrMedications: "",
-    allergicReaction: "",
-    familyMembersDiagnosed: "",
-    medicationStatus: "",
-    takingSteroidsMedication: "",
-    takingSteroidsMedication1: "",
-    takingSteroidsMedication2: "",
-    takingSteroidsMedication3: "",
-    takenInjectableMedication: "",
+    acidRefluxSymptoms: "",
+    difficultySwallowing: "",
+    allergyToPPIs: "",
+    pregnantOrBreastfeeding: "",
+    otherConditions: "",
+    rashAfterPPIs: "",
+    takingMedications: "",
+    onSteroids: "",
+    healthyLifestyle: "",
+    shortTermUse: "",
+    contactGP: "",
     agree: "",
   });
   const boxRef = useRef(null);
-  const { setSelectedTab } = useApp();
+  const { setSelectedTab, setQuestionData } = useApp();
   const { showMessage } = useMessage();
   const handleScroll = () => {
     setTimeout(() => {
@@ -71,7 +70,21 @@ function AcidRefluxQuestion() {
         return;
       }
     } else if (activeStep === 1) {
-      const requiredFields = ["agedBetween"];
+      const requiredFields = [
+        "over50WithNewSymptoms",
+        "acidRefluxSymptoms",
+        "difficultySwallowing",
+        "allergyToPPIs",
+        "pregnantOrBreastfeeding",
+        "otherConditions",
+        "rashAfterPPIs",
+        "takingMedications",
+        "onSteroids",
+        "healthyLifestyle",
+        "shortTermUse",
+        "contactGP",
+        "agree",
+      ];
 
       for (const field of requiredFields) {
         if (
@@ -115,10 +128,15 @@ function AcidRefluxQuestion() {
     if (data) {
       parsedData = JSON.parse(data);
     }
+
+    const { user, bmiData } = parsedData;
+
     localStorage.setItem(
       "questionnaire_info",
       JSON.stringify({
-        ...parsedData,
+        // ...parsedData,
+        user,
+        bmiData,
         answers: answers,
       })
     );
@@ -146,10 +164,13 @@ function AcidRefluxQuestion() {
               </Typography>
               <RadioGroup
                 row
-                name="agedBetween"
-                value={answers.agedBetween}
+                name="over50WithNewSymptoms"
+                value={answers.over50WithNewSymptoms}
                 onChange={(e) =>
-                  setAnswers({ ...answers, agedBetween: e.target.value })
+                  setAnswers({
+                    ...answers,
+                    over50WithNewSymptoms: e.target.value,
+                  })
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
@@ -161,19 +182,23 @@ function AcidRefluxQuestion() {
 
             <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-                Do you experience acid reflux symptoms at least twice a week, including : <br></br>
+                Do you experience acid reflux symptoms at least twice a week,
+                including : <br></br>
                 <ul>
-               <li> Burning sensation in the throat or sour/acidic taste.</li>
-               <li> Chest pain after meals, when lying down, or bending.</li>
-                <li> Food sensation “sticking” in the chest or throat.</li> 
+                  <li>
+                    {" "}
+                    Burning sensation in the throat or sour/acidic taste.
+                  </li>
+                  <li> Chest pain after meals, when lying down, or bending.</li>
+                  <li> Food sensation “sticking” in the chest or throat.</li>
                 </ul>
               </Typography>
               <RadioGroup
                 row
-                name="experiencedAny"
-                value={answers.experiencedAny}
+                name="acidRefluxSymptoms"
+                value={answers.acidRefluxSymptoms}
                 onChange={(e) =>
-                  setAnswers({ ...answers, experiencedAny: e.target.value })
+                  setAnswers({ ...answers, acidRefluxSymptoms: e.target.value })
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
@@ -182,27 +207,31 @@ function AcidRefluxQuestion() {
             </FormControl>
             {/* ---------------- */}
 
-            {/****** 3rd  Do you have any of these symptoms: difficulty swallowing, unintended weight loss, 
+            {/****** 3rd  Do you have any of these symptoms: difficulty swallowing, unintended weight loss,
              * persistent vomiting, severe/persistent diarrhea,
              *  vomiting blood, blood in stools or black stools,
              *  iron deficiency anemia, severe liver problems, or abdominal swelling?   *****/}
 
             <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-                Do you have any of these symptoms : 
+                Do you have any of these symptoms :
                 <ul>
-                <li>Difficulty swallowing</li> <li>Unintended weight loss</li> <li>Persistent vomiting</li> <li>Severe/persistent diarrhea</li> <li>Vomiting blood</li> <li>Blood in stools or black stools</li>
-                <li>Iron deficiency anemia</li> <li>Severe liver problems or abdominal swelling</li>
+                  <li>Difficulty swallowing</li> <li>Unintended weight loss</li>{" "}
+                  <li>Persistent vomiting</li>{" "}
+                  <li>Severe/persistent diarrhea</li> <li>Vomiting blood</li>{" "}
+                  <li>Blood in stools or black stools</li>
+                  <li>Iron deficiency anemia</li>{" "}
+                  <li>Severe liver problems or abdominal swelling</li>
                 </ul>
               </Typography>
               <RadioGroup
                 row
-                name="AreYouPregnantBreastfeeding"
-                value={answers.AreYouPregnantBreastfeeding}
+                name="difficultySwallowing"
+                value={answers.difficultySwallowing}
                 onChange={(e) =>
                   setAnswers({
                     ...answers,
-                    AreYouPregnantBreastfeeding: e.target.value,
+                    difficultySwallowing: e.target.value,
                   })
                 }
               >
@@ -215,14 +244,15 @@ function AcidRefluxQuestion() {
 
             <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-                Do you have a known allergy to proton pump inhibitors (e.g., omeprazole, pantoprazole)
+                Do you have a known allergy to proton pump inhibitors (e.g.,
+                omeprazole, pantoprazole)
               </Typography>
               <RadioGroup
                 row
-                name="eatingDisorder"
-                value={answers.eatingDisorder}
+                name="allergyToPPIs"
+                value={answers.allergyToPPIs}
                 onChange={(e) =>
-                  setAnswers({ ...answers, eatingDisorder: e.target.value })
+                  setAnswers({ ...answers, allergyToPPIs: e.target.value })
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
@@ -238,12 +268,12 @@ function AcidRefluxQuestion() {
               </Typography>
               <RadioGroup
                 row
-                name="injectionsOrMedications"
-                value={answers.injectionsOrMedications}
+                name="pregnantOrBreastfeeding"
+                value={answers.pregnantOrBreastfeeding}
                 onChange={(e) =>
                   setAnswers({
                     ...answers,
-                    injectionsOrMedications: e.target.value,
+                    pregnantOrBreastfeeding: e.target.value,
                   })
                 }
               >
@@ -258,18 +288,18 @@ function AcidRefluxQuestion() {
               <Typography variant="h4" className="labelOne">
                 Do you have any of the following conditions:
                 <ul>
-                 <li>Osteoporosis</li>  
-                 <li>Liver disease</li>  
-                 <li>Gastric cancer</li>  
-                 <li>Hypomagnesemia (low blood magnesium) </li> 
-                 </ul>
+                  <li>Osteoporosis</li>
+                  <li>Liver disease</li>
+                  <li>Gastric cancer</li>
+                  <li>Hypomagnesemia (low blood magnesium) </li>
+                </ul>
               </Typography>
               <RadioGroup
                 row
-                name="allergicReaction"
-                value={answers.allergicReaction}
+                name="otherConditions"
+                value={answers.otherConditions}
                 onChange={(e) =>
-                  setAnswers({ ...answers, allergicReaction: e.target.value })
+                  setAnswers({ ...answers, otherConditions: e.target.value })
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
@@ -277,21 +307,22 @@ function AcidRefluxQuestion() {
               </RadioGroup>
             </FormControl>
 
-            {/****** 7th  Have you experienced a ring-shaped or plaque-shaped rash after 
+            {/****** 7th  Have you experienced a ring-shaped or plaque-shaped rash after
              * sun exposure while taking a proton pump inhibitor?  *****/}
 
             <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-                Have you experienced a ring-shaped or plaque-shaped rash after sun exposure while taking a proton pump inhibitor?
+                Have you experienced a ring-shaped or plaque-shaped rash after
+                sun exposure while taking a proton pump inhibitor?
               </Typography>
               <RadioGroup
                 row
-                name="familyMembersDiagnosed"
-                value={answers.familyMembersDiagnosed}
+                name="rashAfterPPIs"
+                value={answers.rashAfterPPIs}
                 onChange={(e) =>
                   setAnswers({
                     ...answers,
-                    familyMembersDiagnosed: e.target.value,
+                    rashAfterPPIs: e.target.value,
                   })
                 }
               >
@@ -300,20 +331,20 @@ function AcidRefluxQuestion() {
               </RadioGroup>
             </FormControl>
 
-
             {/****** 8th  Are you taking any medication, including over-the-counter, prescription, or recreational drugs?  *****/}
 
             <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-                Are you taking any medication, including over-the-counter, prescription, or recreational drugs?
+                Are you taking any medication, including over-the-counter,
+                prescription, or recreational drugs?
               </Typography>
 
               <RadioGroup
                 row
-                name="medicationStatus" //
-                value={answers.medicationStatus || ""}
+                name="takingMedications" //
+                value={answers.takingMedications || ""}
                 onChange={(e) =>
-                  setAnswers({ ...answers, medicationStatus: e.target.value })
+                  setAnswers({ ...answers, takingMedications: e.target.value })
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
@@ -330,12 +361,12 @@ function AcidRefluxQuestion() {
 
               <RadioGroup
                 row
-                name="takingSteroidsMedication"
-                value={answers.takingSteroidsMedication || ""} // Prevents undefined errors
+                name="onSteroids"
+                value={answers.onSteroids || ""} // Prevents undefined errors
                 onChange={(e) =>
                   setAnswers({
                     ...answers,
-                    takingSteroidsMedication: e.target.value,
+                    onSteroids: e.target.value,
                   })
                 }
               >
@@ -345,29 +376,36 @@ function AcidRefluxQuestion() {
             </FormControl>
 
             {/****** 10th .** Do you agree to:  
-                       - Read the patient information leaflet
-                       - Inform Medicus Express and your GP if you experience side effects or change medications
-                       - Use the treatment for personal use only
-                       - Provide accurate and truthful answers for safe prescribing  *****/}
+                     - Read the patient information leaflet
+                     - Inform Medicus Express and your GP if you experience side effects or change medications
+                     - Use the treatment for personal use only
+                     - Provide accurate and truthful answers for safe prescribing  *****/}
 
             <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
                 Do you agree to :
                 <ul>
-                <li>Read the patient information leaflet</li>
-                <li>Use the treatment for personal use only</li>
-                <li> Provide accurate and truthful answers for safe prescribing</li>
-                <li>Inform Medicus Express and your GP if you experience side effects or change medications</li></ul>
+                  <li>Read the patient information leaflet</li>
+                  <li>Use the treatment for personal use only</li>
+                  <li>
+                    {" "}
+                    Provide accurate and truthful answers for safe prescribing
+                  </li>
+                  <li>
+                    Inform Medicus Express and your GP if you experience side
+                    effects or change medications
+                  </li>
+                </ul>
               </Typography>
 
               <RadioGroup
                 row
-                name="takenInjectableMedication"
-                value={answers.takenInjectableMedication || ""} // Prevents undefined errors
+                name="healthyLifestyle"
+                value={answers.healthyLifestyle || ""} // Prevents undefined errors
                 onChange={(e) =>
                   setAnswers({
                     ...answers,
-                    takenInjectableMedication: e.target.value,
+                    healthyLifestyle: e.target.value,
                   })
                 }
               >
@@ -377,22 +415,23 @@ function AcidRefluxQuestion() {
             </FormControl>
 
             {/* 11th Do you understand that maintaining a healthy diet, reducing alcohol intake, 
-            achieving a healthy weight, and stopping smoking can improve symptoms?   */}
+          achieving a healthy weight, and stopping smoking can improve symptoms?   */}
 
             <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-                Do you understand that maintaining a healthy diet, reducing alcohol intake,
-                achieving a healthy weight, and stopping smoking can improve symptoms?
+                Do you understand that maintaining a healthy diet, reducing
+                alcohol intake, achieving a healthy weight, and stopping smoking
+                can improve symptoms?
               </Typography>
 
               <RadioGroup
                 row
-                name="takingSteroidsMedication1"
-                value={answers.takingSteroidsMedication1 || ""} // Prevents undefined errors
+                name="shortTermUse"
+                value={answers.shortTermUse || ""} // Prevents undefined errors
                 onChange={(e) =>
                   setAnswers({
                     ...answers,
-                    takingSteroidsMedication1: e.target.value,
+                    shortTermUse: e.target.value,
                   })
                 }
               >
@@ -402,22 +441,22 @@ function AcidRefluxQuestion() {
             </FormControl>
 
             {/* 12th Do you agree to use this medication for the short-term treatment of GORD 
-              (heartburn/acid indigestion) for up to 28 days only?   */}
+            (heartburn/acid indigestion) for up to 28 days only?   */}
 
             <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-                Do you agree to use this medication for the short-term treatment of GORD
-                (heartburn/acid indigestion) for up to 28 days only?
+                Do you agree to use this medication for the short-term treatment
+                of GORD (heartburn/acid indigestion) for up to 28 days only?
               </Typography>
 
               <RadioGroup
                 row
-                name="takingSteroidsMedication2"
-                value={answers.takingSteroidsMedication2 || ""} // Prevents undefined errors
+                name="contactGP"
+                value={answers.contactGP || ""} // Prevents undefined errors
                 onChange={(e) =>
                   setAnswers({
                     ...answers,
-                    takingSteroidsMedication2: e.target.value,
+                    contactGP: e.target.value,
                   })
                 }
               >
@@ -426,38 +465,13 @@ function AcidRefluxQuestion() {
               </RadioGroup>
             </FormControl>
 
-            {/* 12th Do you agree to use this medication for the short-term treatment of GORD 
-              (heartburn/acid indigestion) for up to 28 days only?   */}
+            {/* 13th Do you agree to contact your GP if you have no symptom 
+              relief after 14 days or if symptoms persist beyond 28 days?   */}
 
             <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-                Do you agree to use this medication for the short-term treatment of GORD
-                (heartburn/acid indigestion) for up to 28 days only?
-              </Typography>
-
-              <RadioGroup
-                row
-                name="takingSteroidsMedication3"
-                value={answers.takingSteroidsMedication3 || ""} // Prevents undefined errors
-                onChange={(e) =>
-                  setAnswers({
-                    ...answers,
-                    takingSteroidsMedication3: e.target.value,
-                  })
-                }
-              >
-                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
-                <FormControlLabel value="No" control={<Radio />} label="No" />
-              </RadioGroup>
-            </FormControl>
-
-                {/* 13th Do you agree to contact your GP if you have no symptom 
-                relief after 14 days or if symptoms persist beyond 28 days?   */}
-
-            <FormControl component="fieldset" className="QuestionBox">
-              <Typography variant="h4" className="labelOne">
-              Do you agree to contact your GP if you have no symptom 
-              relief after 14 days or if symptoms persist beyond 28 days?  
+                Do you agree to contact your GP if you have no symptom relief
+                after 14 days or if symptoms persist beyond 28 days?
               </Typography>
 
               <RadioGroup

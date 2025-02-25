@@ -23,46 +23,45 @@ import { useApp } from "../../../Context/AppContext";
 import { useMessage } from "../../../Context/MessageContext";
 const steps = ["1", "2", "3", "4"];
 
-function CystitisQuestion() {
-  const [activeStep, setActiveStep] = useState(0);
-  const [answers, setAnswers] = useState({
-    agedBetween: "",
-    agreeToTerms: "",
-    photoID: "",
-    assistanceNeeded: "",
-    makeDecision: "",
-    diagnoseMed: "",
+function CystitisQuestionnaire() {
+  const [currentStep, setCurrentStep] = useState(0);
+  const [questionnaireResponses, setQuestionnaireResponses] = useState({
+    gender: "",
+    requiresAssistance: "",
+    canMakeHealthcareDecisions: "",
+    hasDiagnosedMedicalConditions: "",
     diagnosisDetails: "",
     prescripDetails: "",
-    prescription: "",
-    allergy: "",
+    isTakingMedications: "",
+    hasAllergies: "",
     allergyDetails: "",
-    additional: "",
+    hasAdditionalInformation: "",
     additionalDetails: "",
-    ageover: "",
-    uti: "",
+    isOver65: "",
+    hasPreviousUTIDiagnosis: "",
     uti1: "",
     uti2: "",
     uti3: "",
     uti4: "",
-    bloodurine: "",
-    lowerpain: "",
+    hasBloodInUrine: "",
+    hasLowerBackPain: "",
     painDetails: "",
-    vomit: "",
-    fever: "",
-    tired: "",
-    liverIssue: "",
+    hasNauseaOrVomiting: "",
+    hasFever: "",
+    hasUnusualFatigue: "",
+    hasHeartKidneyOrLiverIssues: "",
     infoIssue: "",
-    bloodDisorder: "",
+    hasBloodDisorders: "",
     infobloodDis: "",
-    folicDef: "",
+    hasFolicAcidDeficiency: "",
     folicDefMore: "",
-    porphyria: "",
+    hasPorphyria: "",
     porphyriaDetails: "",
-    flusymptoms: "",
-    utiMedi: "",
-    utiCount: "",
-    
+    agreesToSeekAdviceForSymptoms: "",
+    agreesNotToTakeUTIMedicationIfPregnant: "",
+    numberOfUTIsInLast6Months: "",
+    hasAgreedToTerms: "",
+    photoIDFile: "",
   });
   const boxRef = useRef(null);
   const { setSelectedTab } = useApp();
@@ -83,26 +82,50 @@ function CystitisQuestion() {
     }, 100);
   };
 
-  const handleNext = () => {
+  const goToNextStep = () => {
     const qaData = JSON.parse(
       localStorage.getItem("questionnaire_info") || "{}"
     );
     const { bmiData } = qaData;
 
     // Validation logic
-    if (activeStep === 0) {
+    if (currentStep === 0) {
       if (!bmiData?.bmi) {
         showMessage("Please calculate your BMI first", "error");
         return;
       }
-    } else if (activeStep === 1) {
-      const requiredFields = ["agedBetween"];
+    } else if (currentStep === 1) {
+      const requiredFields = [
+        "gender",
+        "requiresAssistance",
+        "canMakeHealthcareDecisions",
+        "hasDiagnosedMedicalConditions",
+        "isTakingMedications",
+        "hasAllergies",
+        "hasAdditionalInformation",
+        "isOver65",
+        "hasPreviousUTIDiagnosis",
+        "hasBloodInUrine",
+        "hasLowerBackPain",
+        "hasNauseaOrVomiting",
+        "hasFever",
+        "hasUnusualFatigue",
+        "hasHeartKidneyOrLiverIssues",
+        "hasBloodDisorders",
+        "hasFolicAcidDeficiency",
+        "hasPorphyria",
+        "agreesToSeekAdviceForSymptoms",
+        "agreesNotToTakeUTIMedicationIfPregnant",
+        "numberOfUTIsInLast6Months",
+      ];
+
+      console.log(">>>>>", questionnaireResponses.numberOfUTIsInLast6Months);
 
       for (const field of requiredFields) {
         if (
-          Array.isArray(answers[field])
-            ? answers[field].length === 0
-            : !answers[field]
+          Array.isArray(questionnaireResponses[field])
+            ? questionnaireResponses[field].length === 0
+            : !questionnaireResponses[field]
         ) {
           showMessage(
             "Please fill all details before proceeding to the next step.",
@@ -111,11 +134,11 @@ function CystitisQuestion() {
           return;
         }
       }
-    } else if (activeStep === 2) {
-      const requiredAgreements = ["agreeToTerms"];
+    } else if (currentStep === 2) {
+      const requiredAgreements = ["hasAgreedToTerms"];
 
       for (const field of requiredAgreements) {
-        if (!answers[field]) {
+        if (!questionnaireResponses[field]) {
           showMessage(
             "Please fill all details before proceeding to the next step.",
             "error"
@@ -125,32 +148,37 @@ function CystitisQuestion() {
       }
     }
 
-    setActiveStep((prevStep) => prevStep + 1);
+    setCurrentStep((prevStep) => prevStep + 1);
     handleScroll();
   };
-  const handleBack = () => {
-    setActiveStep((prevStep) => prevStep - 1);
+  const goToPreviousStep = () => {
+    setCurrentStep((prevStep) => prevStep - 1);
     handleScroll();
   };
 
-  const handleSubmit = () => {
-    console.log("Form submitted with answers: ", answers);
+  const submitQuestionnaire = () => {
+    console.log("Form submitted with answers: ", questionnaireResponses);
     const data = localStorage.getItem("questionnaire_info");
     let parsedData = {};
     if (data) {
       parsedData = JSON.parse(data);
     }
+
+    const { user, bmiData } = parsedData;
+
     localStorage.setItem(
       "questionnaire_info",
       JSON.stringify({
-        ...parsedData,
-        answers: answers,
+        // ...parsedData,
+        user,
+        bmiData,
+        answers: questionnaireResponses,
       })
     );
     setSelectedTab(2);
   };
 
-  const renderStepContent = (stepIndex) => {
+  const displayStepContent = (stepIndex) => {
     switch (stepIndex) {
       //============= Step 01 =============//
       case 0:
@@ -171,14 +199,21 @@ function CystitisQuestion() {
               </Typography>
               <RadioGroup
                 row
-                name="agedBetween"
-                value={answers.agedBetween}
+                name="gender"
+                value={questionnaireResponses.gender}
                 onChange={(e) =>
-                  setAnswers({ ...answers, agedBetween: e.target.value })
+                  setQuestionnaireResponses({
+                    ...questionnaireResponses,
+                    gender: e.target.value,
+                  })
                 }
               >
                 {/* <FormControlLabel value="Male" control={<Radio />} label="Male" /> */}
-                <FormControlLabel value="Female" control={<Radio />} label="Female" />
+                <FormControlLabel
+                  value="Female"
+                  control={<Radio />}
+                  label="Female"
+                />
               </RadioGroup>
             </FormControl>
 
@@ -190,22 +225,23 @@ function CystitisQuestion() {
               </Typography>
               <RadioGroup
                 row
-                name="assistanceNeeded"
-                value={answers.assistanceNeeded}
+                name="requiresAssistance"
+                value={questionnaireResponses.requiresAssistance}
                 onChange={(e) =>
-                  setAnswers({ ...answers, assistanceNeeded: e.target.value })
+                  setQuestionnaireResponses({
+                    ...questionnaireResponses,
+                    requiresAssistance: e.target.value,
+                  })
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
-              {answers.assistanceNeeded === "Yes" && (
+              {questionnaireResponses.requiresAssistance === "Yes" && (
                 <div>
-                  <Typography variant="h4" >
-                    Call us : 1234567890
-                  </Typography>    
+                  <Typography variant="h4">Call us : 1234567890</Typography>
                   <Typography variant="h4">
-                    Mail us : help@medicusexpress.com 
+                    Mail us : help@medicusexpress.com
                   </Typography>
                 </div>
               )}
@@ -219,20 +255,24 @@ function CystitisQuestion() {
               </Typography>
               <RadioGroup
                 row
-                name="makeDecision"
-                value={answers.makeDecision}
+                name="canMakeHealthcareDecisions"
+                value={questionnaireResponses.canMakeHealthcareDecisions}
                 onChange={(e) =>
-                  setAnswers({ ...answers, makeDecision: e.target.value })
+                  setQuestionnaireResponses({
+                    ...questionnaireResponses,
+                    canMakeHealthcareDecisions: e.target.value,
+                  })
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
-              {answers.makeDecision === "No" && (
+              {questionnaireResponses.canMakeHealthcareDecisions === "No" && (
                 <div>
-                  <Typography variant="h4" >
-                  Sorry we can’t offer you this treatment, please contact your GP or 111 and not proceed .
-                  </Typography>    
+                  <Typography variant="h4">
+                    Sorry we can’t offer you this treatment, please contact your
+                    GP or 111 and not proceed .
+                  </Typography>
                 </div>
               )}
             </FormControl>
@@ -245,50 +285,72 @@ function CystitisQuestion() {
               </Typography>
               <RadioGroup
                 row
-                name="diagnosedMed"
-                value={answers.diagnoseMed}
+                name="hasDiagnosedMedicalConditions"
+                value={questionnaireResponses.hasDiagnosedMedicalConditions}
                 onChange={(e) =>
-                  setAnswers({ ...answers, diagnoseMed: e.target.value })
+                  setQuestionnaireResponses({
+                    ...questionnaireResponses,
+                    hasDiagnosedMedicalConditions: e.target.value,
+                  })
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
-              {answers.diagnoseMed === "Yes" && (<TextField 
-              multiline
-              line={3}
-              value={answers.diagnosisDetails}
-              onChange={(e) =>
-                setAnswers({...answers, diagnosisDetails:e.target.value})
-              } fullWidth placeholder="Please write here"/>
-            )}
+              {questionnaireResponses.hasDiagnosedMedicalConditions ===
+                "Yes" && (
+                <TextField
+                  multiline
+                  line={3}
+                  value={questionnaireResponses.diagnosisDetails}
+                  onChange={(e) =>
+                    setQuestionnaireResponses({
+                      ...questionnaireResponses,
+                      diagnosisDetails: e.target.value,
+                    })
+                  }
+                  fullWidth
+                  placeholder="Please write here"
+                />
+              )}
             </FormControl>
 
             {/******.** Are you currently taking any medications, including prescription, over-the-counter, or homeopathic options? *****/}
 
             <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-                Are you currently taking any medications, including prescription, over-the-counter, or homeopathic options?
+                Are you currently taking any medications, including
+                prescription, over-the-counter, or homeopathic options?
               </Typography>
               <RadioGroup
                 row
-                name="prescription"
-                value={answers.prescription}
+                name="isTakingMedications"
+                value={questionnaireResponses.isTakingMedications}
                 onChange={(e) =>
-                  setAnswers({ ...answers, prescription: e.target.value })
+                  setQuestionnaireResponses({
+                    ...questionnaireResponses,
+                    isTakingMedications: e.target.value,
+                  })
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
-              {answers.prescription === "Yes" && (<TextField
-              multiline
-              line={3}
-              value={answers.prescripDetails}
-              onChange={(e) =>
-                setAnswers({...answers, prescripDetails:e.target.value})
-              } fullWidth placeholder="Provide details about your prescriptions"/>
-            )}
+              {questionnaireResponses.isTakingMedications === "Yes" && (
+                <TextField
+                  multiline
+                  line={3}
+                  value={questionnaireResponses.prescripDetails}
+                  onChange={(e) =>
+                    setQuestionnaireResponses({
+                      ...questionnaireResponses,
+                      prescripDetails: e.target.value,
+                    })
+                  }
+                  fullWidth
+                  placeholder="Provide details about your prescriptions"
+                />
+              )}
             </FormControl>
 
             {/****** Do you have any known allergies? *****/}
@@ -299,50 +361,71 @@ function CystitisQuestion() {
               </Typography>
               <RadioGroup
                 row
-                name="allergy"
-                value={answers.allergy}
+                name="hasAllergies"
+                value={questionnaireResponses.hasAllergies}
                 onChange={(e) =>
-                  setAnswers({ ...answers, allergy: e.target.value })
+                  setQuestionnaireResponses({
+                    ...questionnaireResponses,
+                    hasAllergies: e.target.value,
+                  })
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
-              {answers.allergy === "Yes" && (<TextField
-              multiline
-              line={3}
-              value={answers.allergyDetails}
-              onChange={(e) =>
-                setAnswers({...answers, allergyDetails:e.target.value})
-              } fullWidth placeholder="Provide details about your allergies"/>
-            )}
+              {questionnaireResponses.hasAllergies === "Yes" && (
+                <TextField
+                  multiline
+                  line={3}
+                  value={questionnaireResponses.allergyDetails}
+                  onChange={(e) =>
+                    setQuestionnaireResponses({
+                      ...questionnaireResponses,
+                      allergyDetails: e.target.value,
+                    })
+                  }
+                  fullWidth
+                  placeholder="Provide details about your allergies"
+                />
+              )}
             </FormControl>
 
             {/****** Is there any additional information that would help us provide appropriate care?*****/}
 
             <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-                Is there any additional information that would help us provide appropriate care?
+                Is there any additional information that would help us provide
+                appropriate care?
               </Typography>
               <RadioGroup
                 row
-                name="additional"
-                value={answers.additional}
+                name="hasAdditionalInformation"
+                value={questionnaireResponses.hasAdditionalInformation}
                 onChange={(e) =>
-                  setAnswers({ ...answers, additional: e.target.value })
+                  setQuestionnaireResponses({
+                    ...questionnaireResponses,
+                    hasAdditionalInformation: e.target.value,
+                  })
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
-              {answers.additional === "Yes" && (<TextField
-              multiline
-              line={3}
-              value={answers.additionalDetails}
-              onChange={(e) =>
-                setAnswers({...answers, additionalDetails:e.target.value})
-              } fullWidth placeholder="Provide additional details about you"/>
-            )}
+              {questionnaireResponses.hasAdditionalInformation === "Yes" && (
+                <TextField
+                  multiline
+                  line={3}
+                  value={questionnaireResponses.additionalDetails}
+                  onChange={(e) =>
+                    setQuestionnaireResponses({
+                      ...questionnaireResponses,
+                      additionalDetails: e.target.value,
+                    })
+                  }
+                  fullWidth
+                  placeholder="Provide additional details about you"
+                />
+              )}
             </FormControl>
 
             {/****** Are you over 65?*****/}
@@ -353,21 +436,25 @@ function CystitisQuestion() {
               </Typography>
               <RadioGroup
                 row
-                name="ageover"
-                value={answers.ageover}
+                name="isOver65"
+                value={questionnaireResponses.isOver65}
                 onChange={(e) =>
-                  setAnswers({ ...answers, ageover: e.target.value })
+                  setQuestionnaireResponses({
+                    ...questionnaireResponses,
+                    isOver65: e.target.value,
+                  })
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
-              {answers.ageover === "Yes" && (
+              {questionnaireResponses.isOver65 === "Yes" && (
                 <div>
-                  <Typography variant="h4" >
-                  Note that over the age 65 are more likely to require longer duration and closer monitoring. Therefore please see your GP if unable call 111.
-                  </Typography>    
-              
+                  <Typography variant="h4">
+                    Note that over the age 65 are more likely to require longer
+                    duration and closer monitoring. Therefore please see your GP
+                    if unable call 111.
+                  </Typography>
                 </div>
               )}
             </FormControl>
@@ -378,63 +465,123 @@ function CystitisQuestion() {
               </Typography>
               <RadioGroup
                 row
-                name="uti"
-                value={answers.uti}
+                name="hasPreviousUTIDiagnosis"
+                value={questionnaireResponses.hasPreviousUTIDiagnosis}
                 onChange={(e) =>
-                  setAnswers({ ...answers, uti: e.target.value })
+                  setQuestionnaireResponses({
+                    ...questionnaireResponses,
+                    hasPreviousUTIDiagnosis: e.target.value,
+                  })
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
-              {answers.uti === "Yes" && (
-              <div> <Typography variant="h4" >
-                  1. Are you passing urine more frequently than usually do?
-                </Typography><RadioGroup
-                  row
-                  name="uti1"
-                  value={answers.uti1}
-                  onChange={(e) => setAnswers({ ...answers, uti1: e.target.value })}
-                >
-                    <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
-                    <FormControlLabel value="No" control={<Radio />} label="No" />
+              {questionnaireResponses.hasPreviousUTIDiagnosis === "Yes" && (
+                <div>
+                  {" "}
+                  <Typography variant="h4">
+                    1. Are you passing urine more frequently than usually do?
+                  </Typography>
+                  <RadioGroup
+                    row
+                    name="uti1"
+                    value={questionnaireResponses.uti1}
+                    onChange={(e) =>
+                      setQuestionnaireResponses({
+                        ...questionnaireResponses,
+                        uti1: e.target.value,
+                      })
+                    }
+                  >
+                    <FormControlLabel
+                      value="Yes"
+                      control={<Radio />}
+                      label="Yes"
+                    />
+                    <FormControlLabel
+                      value="No"
+                      control={<Radio />}
+                      label="No"
+                    />
                   </RadioGroup>
-                  
-                  <Typography variant="h4" >
-                  2.	Have you got strong desire to urinate and empty bladder
-                </Typography><RadioGroup
-                  row
-                  name="uti2"
-                  value={answers.uti2}
-                  onChange={(e) => setAnswers({ ...answers, uti2: e.target.value })}
-                >
-                    <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
-                    <FormControlLabel value="No" control={<Radio />} label="No" />
+                  <Typography variant="h4">
+                    2. Have you got strong desire to urinate and empty bladder
+                  </Typography>
+                  <RadioGroup
+                    row
+                    name="uti2"
+                    value={questionnaireResponses.uti2}
+                    onChange={(e) =>
+                      setQuestionnaireResponses({
+                        ...questionnaireResponses,
+                        uti2: e.target.value,
+                      })
+                    }
+                  >
+                    <FormControlLabel
+                      value="Yes"
+                      control={<Radio />}
+                      label="Yes"
+                    />
+                    <FormControlLabel
+                      value="No"
+                      control={<Radio />}
+                      label="No"
+                    />
                   </RadioGroup>
-                  <Typography variant="h4" >
-                  3.	Is your urine cloudy or smell strong 
-                </Typography><RadioGroup
-                  row
-                  name="uti3"
-                  value={answers.uti3}
-                  onChange={(e) => setAnswers({ ...answers, uti3: e.target.value })}
-                >
-                    <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
-                    <FormControlLabel value="No" control={<Radio />} label="No" />
+                  <Typography variant="h4">
+                    3. Is your urine cloudy or smell strong
+                  </Typography>
+                  <RadioGroup
+                    row
+                    name="uti3"
+                    value={questionnaireResponses.uti3}
+                    onChange={(e) =>
+                      setQuestionnaireResponses({
+                        ...questionnaireResponses,
+                        uti3: e.target.value,
+                      })
+                    }
+                  >
+                    <FormControlLabel
+                      value="Yes"
+                      control={<Radio />}
+                      label="Yes"
+                    />
+                    <FormControlLabel
+                      value="No"
+                      control={<Radio />}
+                      label="No"
+                    />
                   </RadioGroup>
-                  <Typography variant="h4" >
-                  4. Are you experiencing lower abdominal pain and or discomfort?
-                </Typography><RadioGroup
-                  row
-                  name="uti4"
-                  value={answers.uti4}
-                  onChange={(e) => setAnswers({ ...answers, uti4: e.target.value })}
-                >
-                    <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
-                    <FormControlLabel value="No" control={<Radio />} label="No" />
+                  <Typography variant="h4">
+                    4. Are you experiencing lower abdominal pain and or
+                    discomfort?
+                  </Typography>
+                  <RadioGroup
+                    row
+                    name="uti4"
+                    value={questionnaireResponses.uti4}
+                    onChange={(e) =>
+                      setQuestionnaireResponses({
+                        ...questionnaireResponses,
+                        uti4: e.target.value,
+                      })
+                    }
+                  >
+                    <FormControlLabel
+                      value="Yes"
+                      control={<Radio />}
+                      label="Yes"
+                    />
+                    <FormControlLabel
+                      value="No"
+                      control={<Radio />}
+                      label="No"
+                    />
                   </RadioGroup>
-
-                  </div>
+                </div>
               )}
             </FormControl>
 
@@ -445,10 +592,13 @@ function CystitisQuestion() {
               </Typography>
               <RadioGroup
                 row
-                name="bloodurine"
-                value={answers.bloodurine}
+                name="hasBloodInUrine"
+                value={questionnaireResponses.hasBloodInUrine}
                 onChange={(e) =>
-                  setAnswers({ ...answers, bloodurine: e.target.value })
+                  setQuestionnaireResponses({
+                    ...questionnaireResponses,
+                    hasBloodInUrine: e.target.value,
+                  })
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
@@ -463,25 +613,33 @@ function CystitisQuestion() {
               </Typography>
               <RadioGroup
                 row
-                name="lowerpain"
-                value={answers.lowerpain}
+                name="hasLowerBackPain"
+                value={questionnaireResponses.hasLowerBackPain}
                 onChange={(e) =>
-                  setAnswers({ ...answers, lowerpain: e.target.value })
+                  setQuestionnaireResponses({
+                    ...questionnaireResponses,
+                    hasLowerBackPain: e.target.value,
+                  })
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
-            {answers.lowerpain === "Yes" && (
-              <TextField
-              multiline
-              line={3}
-              value={answers.painDetails}
-              onChange={(e) =>
-                setAnswers({...answers,painDetails: e.target.value})
-              } fullWidth placeholder="Tell us exactly at what location you're having the pain"
-              />
-            )}
+              {questionnaireResponses.hasLowerBackPain === "Yes" && (
+                <TextField
+                  multiline
+                  line={3}
+                  value={questionnaireResponses.painDetails}
+                  onChange={(e) =>
+                    setQuestionnaireResponses({
+                      ...questionnaireResponses,
+                      painDetails: e.target.value,
+                    })
+                  }
+                  fullWidth
+                  placeholder="Tell us exactly at what location you're having the pain"
+                />
+              )}
             </FormControl>
             {/* Are you feeling nauseous or vomiting? */}
             <FormControl component="fieldset" className="QuestionBox">
@@ -490,10 +648,13 @@ function CystitisQuestion() {
               </Typography>
               <RadioGroup
                 row
-                name="vomit"
-                value={answers.vomit}
+                name="hasNauseaOrVomiting"
+                value={questionnaireResponses.hasNauseaOrVomiting}
                 onChange={(e) =>
-                  setAnswers({ ...answers, vomit: e.target.value })
+                  setQuestionnaireResponses({
+                    ...questionnaireResponses,
+                    hasNauseaOrVomiting: e.target.value,
+                  })
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
@@ -507,10 +668,13 @@ function CystitisQuestion() {
               </Typography>
               <RadioGroup
                 row
-                name="fever"
-                value={answers.fever}
+                name="hasFever"
+                value={questionnaireResponses.hasFever}
                 onChange={(e) =>
-                  setAnswers({ ...answers, fever: e.target.value })
+                  setQuestionnaireResponses({
+                    ...questionnaireResponses,
+                    hasFever: e.target.value,
+                  })
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
@@ -524,10 +688,13 @@ function CystitisQuestion() {
               </Typography>
               <RadioGroup
                 row
-                name="tired"
-                value={answers.tired}
+                name="hasUnusualFatigue"
+                value={questionnaireResponses.hasUnusualFatigue}
                 onChange={(e) =>
-                  setAnswers({ ...answers, tired: e.target.value })
+                  setQuestionnaireResponses({
+                    ...questionnaireResponses,
+                    hasUnusualFatigue: e.target.value,
+                  })
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
@@ -541,23 +708,31 @@ function CystitisQuestion() {
               </Typography>
               <RadioGroup
                 row
-                name="liverIssue"
-                value={answers.liverIssue}
+                name="hasHeartKidneyOrLiverIssues"
+                value={questionnaireResponses.hasHeartKidneyOrLiverIssues}
                 onChange={(e) =>
-                  setAnswers({ ...answers, liverIssue: e.target.value })
+                  setQuestionnaireResponses({
+                    ...questionnaireResponses,
+                    hasHeartKidneyOrLiverIssues: e.target.value,
+                  })
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
-              {answers.liverIssue === "Yes" && (
+              {questionnaireResponses.hasHeartKidneyOrLiverIssues === "Yes" && (
                 <TextField
-                multiline
-                line={3}
-                value={answers.infoIssue}
-                onChange={(e) =>
-                  setAnswers({...answers,infoIssue:e.target.value})
-                } fullWidth placeholder="Tell us more about your issue type and locatin"
+                  multiline
+                  line={3}
+                  value={questionnaireResponses.infoIssue}
+                  onChange={(e) =>
+                    setQuestionnaireResponses({
+                      ...questionnaireResponses,
+                      infoIssue: e.target.value,
+                    })
+                  }
+                  fullWidth
+                  placeholder="Tell us more about your issue type and locatin"
                 />
               )}
             </FormControl>
@@ -568,24 +743,31 @@ function CystitisQuestion() {
               </Typography>
               <RadioGroup
                 row
-                name="bloodDisorder"
-                value={answers.bloodDisorder}
+                name="hasBloodDisorders"
+                value={questionnaireResponses.hasBloodDisorders}
                 onChange={(e) =>
-                  setAnswers({ ...answers, bloodDisorder: e.target.value })
+                  setQuestionnaireResponses({
+                    ...questionnaireResponses,
+                    hasBloodDisorders: e.target.value,
+                  })
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
-              {answers.bloodDisorder === "Yes" && (
+              {questionnaireResponses.hasBloodDisorders === "Yes" && (
                 <TextField
-                multiline
-                lline={3}
-                value={answers.infobloodDis}
-                onChange={(e) => 
-                  setAnswers({...answers,infobloodDis:e.target.value})
-                }
-                fullWidth placeholder="Tell us more about your blood disorder"
+                  multiline
+                  lline={3}
+                  value={questionnaireResponses.infobloodDis}
+                  onChange={(e) =>
+                    setQuestionnaireResponses({
+                      ...questionnaireResponses,
+                      infobloodDis: e.target.value,
+                    })
+                  }
+                  fullWidth
+                  placeholder="Tell us more about your blood disorder"
                 />
               )}
             </FormControl>
@@ -596,84 +778,109 @@ function CystitisQuestion() {
               </Typography>
               <RadioGroup
                 row
-                name="folicDef"
-                value={answers.folicDef}
+                name="hasFolicAcidDeficiency"
+                value={questionnaireResponses.hasFolicAcidDeficiency}
                 onChange={(e) =>
-                  setAnswers({ ...answers, folicDef: e.target.value })
+                  setQuestionnaireResponses({
+                    ...questionnaireResponses,
+                    hasFolicAcidDeficiency: e.target.value,
+                  })
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
-              {answers.folicDef === "Yes" && (
+              {questionnaireResponses.hasFolicAcidDeficiency === "Yes" && (
                 <TextField
-                multiline
-                lline={3}
-                value={answers.folicDefMore}
-                onChange={(e) => 
-                  setAnswers({...answers,folicDefMore:e.target.value})
-                }
-                fullWidth placeholder="Tell us more about acid deficient"
+                  multiline
+                  lline={3}
+                  value={questionnaireResponses.folicDefMore}
+                  onChange={(e) =>
+                    setQuestionnaireResponses({
+                      ...questionnaireResponses,
+                      folicDefMore: e.target.value,
+                    })
+                  }
+                  fullWidth
+                  placeholder="Tell us more about acid deficient"
                 />
               )}
             </FormControl>
             {/*  Have you been diagnosed with porphyria ( a condition which is couased by photosensitivity of the skin, muscle weakness and pain? */}
             <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-                Have you been diagnosed with porphyria ( a condition which is couased by photosensitivity of the skin, muscle weakness and pain?
+                Have you been diagnosed with porphyria ( a condition which is
+                couased by photosensitivity of the skin, muscle weakness and
+                pain?
               </Typography>
               <RadioGroup
                 row
-                name="porphyria"
-                value={answers.porphyria}
+                name="hasPorphyria"
+                value={questionnaireResponses.hasPorphyria}
                 onChange={(e) =>
-                  setAnswers({ ...answers, porphyria: e.target.value })
+                  setQuestionnaireResponses({
+                    ...questionnaireResponses,
+                    hasPorphyria: e.target.value,
+                  })
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
-              {answers.porphyria === "Yes" && (
+              {questionnaireResponses.hasPorphyria === "Yes" && (
                 <TextField
-                multiline
-                lline={3}
-                value={answers.porphyriaDetails}
-                onChange={(e) => 
-                  setAnswers({...answers,porphyriaDetails:e.target.value})
-                }
-                fullWidth placeholder="Please provide more informations"
+                  multiline
+                  lline={3}
+                  value={questionnaireResponses.porphyriaDetails}
+                  onChange={(e) =>
+                    setQuestionnaireResponses({
+                      ...questionnaireResponses,
+                      porphyriaDetails: e.target.value,
+                    })
+                  }
+                  fullWidth
+                  placeholder="Please provide more informations"
                 />
               )}
             </FormControl>
             {/* Do you agree to seek urgent medical advice if back pain or flu-like symptoms arise?*/}
             <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-                Do you agree to seek urgent medical advice if back pain or flu-like symptoms arise?
+                Do you agree to seek urgent medical advice if back pain or
+                flu-like symptoms arise?
               </Typography>
               <RadioGroup
                 row
-                name="flusymptoms"
-                value={answers.flusymptoms}
+                name="agreesToSeekAdviceForSymptoms"
+                value={questionnaireResponses.agreesToSeekAdviceForSymptoms}
                 onChange={(e) =>
-                  setAnswers({ ...answers, flusymptoms: e.target.value })
+                  setQuestionnaireResponses({
+                    ...questionnaireResponses,
+                    agreesToSeekAdviceForSymptoms: e.target.value,
+                  })
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
-              
             </FormControl>
             {/* Do you agree not to take UTI medication if pregnant or breastfeeding? */}
             <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-                Do you agree not to take UTI medication if pregnant or breastfeeding?
+                Do you agree not to take UTI medication if pregnant or
+                breastfeeding?
               </Typography>
               <RadioGroup
                 row
-                name="utiMedi"
-                value={answers.utiMedi}
+                name="agreesNotToTakeUTIMedicationIfPregnant"
+                value={
+                  questionnaireResponses.agreesNotToTakeUTIMedicationIfPregnant
+                }
                 onChange={(e) =>
-                  setAnswers({ ...answers, utiMedi: e.target.value })
+                  setQuestionnaireResponses({
+                    ...questionnaireResponses,
+                    agreesNotToTakeUTIMedicationIfPregnant: e.target.value,
+                  })
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
@@ -682,25 +889,35 @@ function CystitisQuestion() {
             </FormControl>
             {/* How many UTIs have you had in the last 6 months? */}
             <FormControl component="fieldset" className="QuestionBox">
-             <Typography variant="h4" className="labelOne">
-             How many UTI have you had in last 6 months?</Typography>
-             <Select width="500"
-            //  labelId=""
-            //  id=""
-            name="utiCount"
-             value={answers.utiCount}
-             label="Select"
-             >
-            <MenuItem value="Select">
-            <em>None</em>
-            </MenuItem>
-            <MenuItem value="Less than 6 months">Less than 6 months
-            </MenuItem>
-            <MenuItem value="More than 6 months">More than 6 months
-            </MenuItem>
-             </Select>
+              <Typography variant="h4" className="labelOne">
+                How many UTI have you had in last 6 months?
+              </Typography>
+              <Select
+                width="500"
+                //  labelId=""
+                //  id=""
+                name="numberOfUTIsInLast6Months"
+                value={questionnaireResponses.numberOfUTIsInLast6Months}
+                label="Select"
+                onChange={(e) =>
+                  setQuestionnaireResponses({
+                    ...questionnaireResponses,
+                    numberOfUTIsInLast6Months: e.target.value,
+                  })
+                }
+              >
+                <MenuItem value="">
+                  <em>None</em>
+                </MenuItem>
+                <MenuItem value="Less than 6 months">
+                  Less than 6 months
+                </MenuItem>
+                <MenuItem value="More than 6 months">
+                  More than 6 months
+                </MenuItem>
+              </Select>
             </FormControl>
-           
+
             {/****** End *****/}
           </>
         );
@@ -729,11 +946,14 @@ function CystitisQuestion() {
               <FormControlLabel
                 control={
                   <Checkbox
-                    checked={answers.agreeToTerms || false}
+                    checked={questionnaireResponses.hasAgreedToTerms || false}
                     onChange={(e) =>
-                      setAnswers({ ...answers, agreeToTerms: e.target.checked })
+                      setQuestionnaireResponses({
+                        ...questionnaireResponses,
+                        hasAgreedToTerms: e.target.checked,
+                      })
                     }
-                    name="agreeToTerms"
+                    name="hasAgreedToTerms"
                   />
                 }
                 label="I agree"
@@ -759,12 +979,12 @@ function CystitisQuestion() {
                 </Typography>
                 <input
                   type="file"
-                  name="photoID"
+                  name="photoIDFile"
                   accept=".jpg,.jpeg,.png,.pdf"
                   onChange={(e) =>
-                    setAnswers({
-                      ...answers,
-                      photoID: e.target.files[0],
+                    setQuestionnaireResponses({
+                      ...questionnaireResponses,
+                      photoIDFile: e.target.files[0],
                     })
                   }
                   style={{ marginTop: "10px" }}
@@ -783,7 +1003,7 @@ function CystitisQuestion() {
     if (data) {
       const { answers } = JSON.parse(data);
       if (answers) {
-        setAnswers(answers);
+        setQuestionnaireResponses(answers);
       }
     }
   }, []);
@@ -795,7 +1015,7 @@ function CystitisQuestion() {
         margin: "0 auto",
       }}
     >
-      <Stepper activeStep={activeStep} alternativeLabel>
+      <Stepper activeStep={currentStep} alternativeLabel>
         {steps.map((label, index) => (
           <Step key={index}>
             <StepLabel>{/** {label}*/}</StepLabel>
@@ -804,7 +1024,7 @@ function CystitisQuestion() {
       </Stepper>
 
       <Box sx={{ padding: "20px" }} ref={boxRef}>
-        {renderStepContent(activeStep)}
+        {displayStepContent(currentStep)}
         <Box
           sx={{
             display: "flex",
@@ -814,8 +1034,8 @@ function CystitisQuestion() {
         >
           <Button
             variant="contained"
-            onClick={handleBack}
-            disabled={activeStep === 0}
+            onClick={goToPreviousStep}
+            disabled={currentStep === 0}
             sx={{
               fontSize: { xs: "13px", sm: "15px", md: "16px" },
             }}
@@ -823,11 +1043,11 @@ function CystitisQuestion() {
             Back
           </Button>
           <Box>
-            {activeStep === steps.length - 1 ? (
+            {currentStep === steps.length - 1 ? (
               <Button
                 variant="contained"
                 color="primary"
-                onClick={handleSubmit}
+                onClick={submitQuestionnaire}
                 sx={{
                   fontSize: { xs: "13px", sm: "15px", md: "16px" },
                 }}
@@ -837,7 +1057,7 @@ function CystitisQuestion() {
             ) : (
               <Button
                 variant="contained"
-                onClick={handleNext}
+                onClick={goToNextStep}
                 sx={{
                   fontSize: { xs: "13px", sm: "15px", md: "16px" },
                 }}
@@ -852,4 +1072,4 @@ function CystitisQuestion() {
   );
 }
 
-export default CystitisQuestion;
+export default CystitisQuestionnaire;

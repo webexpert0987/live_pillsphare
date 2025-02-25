@@ -210,28 +210,6 @@ function CheckoutForm() {
   }, [canPay]);
 
   useEffect(() => {
-    const questionAnswersMap = {};
-
-    // Loop through each product in the cart
-    cart.forEach((item) => {
-      const productId = item.id;
-
-      // Fetch the question answers from localStorage using the product ID
-      const storedAnswers = localStorage.getItem(
-        `product-questions-${productId}`
-      );
-
-      // If answers exist, parse and store them in the map
-      if (storedAnswers) {
-        questionAnswersMap[productId] = JSON.parse(storedAnswers);
-      }
-    });
-
-    // Set the state with the gathered data
-    setquestionAnswersdata(questionAnswersMap);
-  }, [cart]);
-
-  useEffect(() => {
     async function payment() {
       if (makePayment) {
         setIsProcessing(true);
@@ -264,11 +242,13 @@ function CheckoutForm() {
             } else if (paymentIntent.status === "succeeded") {
               setPaymentStatus("Payment successful!");
               showMessage("Payment successful!", "success");
+              const qaData = localStorage.getItem("questionnaire_info");
+              console.log(">>>qaData>>", qaData);
               const ordInfo = {
                 user_id: userDetails.user_id,
                 token: userDetails.token,
-                // variation_ids: variantIds,
-                questionAnswers_data: JSON.stringify(questionAnswersdata),
+                variation_ids: [cart?.[0]?.selectedVariant?.id],
+                questionAnswers_data: qaData,
                 payment_intent_id: paymentIntent.id,
                 billing_address: {
                   first_name: billingDetails.billing_address.first_name,
@@ -304,6 +284,8 @@ function CheckoutForm() {
                 setMakePayment(false);
                 setCanPay(false);
                 setCart([]);
+                localStorage.removeItem("questionnaire_info");
+
                 // setVariantIds([]);
                 // cartEmpty();
                 navigate("/thankyou");
@@ -384,7 +366,6 @@ function CheckoutForm() {
       },
     }));
   };
-
   return (
     <>
       <Box
@@ -436,7 +417,7 @@ function CheckoutForm() {
                             <Box>
                               <img
                                 src={item.image}
-                                alt={item.title}
+                                alt={item.name}
                                 style={{ width: "160px" }}
                               />
                             </Box>
@@ -447,30 +428,22 @@ function CheckoutForm() {
                               gap={"10px"}
                             >
                               <Box width={"100%"}>
-                                <Text> {item.title}</Text>
-                                {/* {item.variations.map((variant) => {
-                                  // Conditional rendering
-                                  if (
-                                    variant.variation_id ===
-                                    item.selectedVariant  
-                                  ) {
-                                    return (
-                                      <Typography key={variant.id}>
-                                        {variant.attributes.tablets}
-                                      </Typography>
-                                    );
+                                <Text> {item.name}</Text>
+                                <Typography>
+                                  {
+                                    item?.selectedVariant?.attributes
+                                      ?.attribute_tablets
                                   }
-                                  return null;
-                                })} */}
+                                </Typography>
                               </Box>
-                              <Box>
+                              {/* <Box>
                                 <Typography variant="h4" fontWeight={600}>
                                   {item.price}
                                 </Typography>
-                              </Box>
+                              </Box> */}
                             </Box>
                           </Box>
-                          <Divider />
+                          {/* <Divider /> */}
                         </>
                       ))}
                     </Stack>
@@ -790,7 +763,7 @@ function CheckoutForm() {
                           disabled={
                             !stripe || isProcessing || !isDetailComplete
                           }
-                          // onClick={handleCheckoutSubmit}
+                          onClick={handleCheckoutSubmit}
                           sx={{ marginTop: 2 }}
                         >
                           {isProcessing ? (

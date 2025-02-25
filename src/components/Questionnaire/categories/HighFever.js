@@ -125,10 +125,14 @@ function HighFeverQuestion() {
     if (data) {
       parsedData = JSON.parse(data);
     }
+    const { user, bmiData } = parsedData;
+
     localStorage.setItem(
       "questionnaire_info",
       JSON.stringify({
-        ...parsedData,
+        // ...parsedData,
+        user,
+        bmiData,
         answers: answers,
       })
     );
@@ -198,7 +202,8 @@ function HighFeverQuestion() {
             {/* .......... */}
             <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-                Are you currently pregnant, breastfeeding, or planning a pregnancy? (If yes, please provide more details.)
+                Are you currently pregnant, breastfeeding, or planning a
+                pregnancy? (If yes, please provide more details.)
               </Typography>
               <RadioGroup
                 row
@@ -211,13 +216,20 @@ function HighFeverQuestion() {
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
-              {answers.pregnancyDetails === "Yes" && (<TextField
-                multiline
-                line={3}
-                value={answers.additionalDetails}
-                onChange={(e) =>
-                  setAnswers({ ...answers, additionalDetails: e.target.value })
-                } fullWidth placeholder="Provide additional details about you" />
+              {answers.pregnancyDetails === "Yes" && (
+                <TextField
+                  multiline
+                  line={3}
+                  value={answers.additionalDetails}
+                  onChange={(e) =>
+                    setAnswers({
+                      ...answers,
+                      additionalDetails: e.target.value,
+                    })
+                  }
+                  fullWidth
+                  placeholder="Provide additional details about you"
+                />
               )}
             </FormControl>
             {/* ....... */}
@@ -238,21 +250,29 @@ function HighFeverQuestion() {
               </RadioGroup>
               {answers.smokeDetails === "Yes" && (
                 <div>
-                  <Typography>
-                    Would you like more information?
-                  </Typography>
+                  <Typography>Would you like more information?</Typography>
                   <RadioGroup
                     row
                     name="smokeDetailsNext"
                     value={answers.smokeDetailsNext}
                     onChange={(e) =>
-                      setAnswers({ ...answers, smokeDetailsNext: e.target.value })
+                      setAnswers({
+                        ...answers,
+                        smokeDetailsNext: e.target.value,
+                      })
                     }
                   >
-                    <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
-                    <FormControlLabel value="No" control={<Radio />} label="No" />
+                    <FormControlLabel
+                      value="Yes"
+                      control={<Radio />}
+                      label="Yes"
+                    />
+                    <FormControlLabel
+                      value="No"
+                      control={<Radio />}
+                      label="No"
+                    />
                   </RadioGroup>
-
                 </div>
               )}
             </FormControl>
@@ -282,13 +302,23 @@ function HighFeverQuestion() {
                     name="alcohalDetailsNext"
                     value={answers.alcohalDetailsNext}
                     onChange={(e) =>
-                      setAnswers({ ...answers, alcohalDetailsNext: e.target.value })
+                      setAnswers({
+                        ...answers,
+                        alcohalDetailsNext: e.target.value,
+                      })
                     }
                   >
-                    <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
-                    <FormControlLabel value="No" control={<Radio />} label="No" />
+                    <FormControlLabel
+                      value="Yes"
+                      control={<Radio />}
+                      label="Yes"
+                    />
+                    <FormControlLabel
+                      value="No"
+                      control={<Radio />}
+                      label="No"
+                    />
                   </RadioGroup>
-
                 </div>
               )}
             </FormControl>
@@ -318,13 +348,23 @@ function HighFeverQuestion() {
                     name="weightDetailsNext"
                     value={answers.weightDetailsNext}
                     onChange={(e) =>
-                      setAnswers({ ...answers, weightDetailsNext: e.target.value })
+                      setAnswers({
+                        ...answers,
+                        weightDetailsNext: e.target.value,
+                      })
                     }
                   >
-                    <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
-                    <FormControlLabel value="No" control={<Radio />} label="No" />
+                    <FormControlLabel
+                      value="Yes"
+                      control={<Radio />}
+                      label="Yes"
+                    />
+                    <FormControlLabel
+                      value="No"
+                      control={<Radio />}
+                      label="No"
+                    />
                   </RadioGroup>
-
                 </div>
               )}
             </FormControl>
@@ -351,39 +391,40 @@ function HighFeverQuestion() {
 
             <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-                Which of the following symptoms do you have? (List options like sneezing, runny nose, etc.)
-                Here’s a shuffled version of the symptoms:
+                Which of the following symptoms do you have? (List options like
+                sneezing, runny nose, etc.) Here’s a shuffled version of the
+                symptoms:
               </Typography>
               <ul>
-
-                <FormControlLabel
-                  control={<Checkbox />}
-                  label="Headache"
-                /><br></br>
+                <FormControlLabel control={<Checkbox />} label="Headache" />
+                <br></br>
                 <FormControlLabel
                   control={<Checkbox />}
                   label="Sneezing and coughing"
-                /><br></br>
+                />
+                <br></br>
                 <FormControlLabel
                   control={<Checkbox />}
                   label="Itchy throat, mouth, nose, and ears"
-                /><br></br>
+                />
+                <br></br>
                 <FormControlLabel
                   control={<Checkbox />}
                   label="Loss of smell"
-                /><br></br>
+                />
+                <br></br>
                 <FormControlLabel
                   control={<Checkbox />}
                   label="Pain around temples and forehead"
-                /><br></br>
+                />
+                <br></br>
                 <FormControlLabel
                   control={<Checkbox />}
                   label="A runny or blocked nose"
-                /><br></br>
-                <FormControlLabel
-                  control={<Checkbox />}
-                  label="Earache"
-                /><br></br>
+                />
+                <br></br>
+                <FormControlLabel control={<Checkbox />} label="Earache" />
+                <br></br>
                 <FormControlLabel
                   control={<Checkbox />}
                   label="Itchy, red, or watery eyes"
@@ -394,7 +435,8 @@ function HighFeverQuestion() {
 
             <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-                Are your current symptoms different from previous hayfever/allergic rhinitis episodes?
+                Are your current symptoms different from previous
+                hayfever/allergic rhinitis episodes?
               </Typography>
               <RadioGroup
                 row
@@ -415,15 +457,22 @@ function HighFeverQuestion() {
                     line={3}
                     value={answers.currentSymptomsDetails}
                     onChange={(e) =>
-                      setAnswers({ ...answers, currentSymptomsDetails: e.target.value })
-                    } fullWidth placeholder="Please tell about symptoms" />
+                      setAnswers({
+                        ...answers,
+                        currentSymptomsDetails: e.target.value,
+                      })
+                    }
+                    fullWidth
+                    placeholder="Please tell about symptoms"
+                  />
                 </>
               )}
             </FormControl>
             {/* ................ */}
             <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-                Have you previously tried other treatments for hayfever or allergic rhinitis?
+                Have you previously tried other treatments for hayfever or
+                allergic rhinitis?
               </Typography>
               <RadioGroup
                 row
@@ -444,8 +493,14 @@ function HighFeverQuestion() {
                     line={3}
                     value={answers.otherTreatmentDetails}
                     onChange={(e) =>
-                      setAnswers({ ...answers, otherTreatmentDetails: e.target.value })
-                    } fullWidth placeholder="Specify what was used and its effectiveness." />
+                      setAnswers({
+                        ...answers,
+                        otherTreatmentDetails: e.target.value,
+                      })
+                    }
+                    fullWidth
+                    placeholder="Specify what was used and its effectiveness."
+                  />
                 </>
               )}
             </FormControl>
@@ -453,41 +508,47 @@ function HighFeverQuestion() {
 
             <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-                Do you have any of the following additional symptoms? (List specific symptoms like nasal pain, eye discomfort, etc.)
+                Do you have any of the following additional symptoms? (List
+                specific symptoms like nasal pain, eye discomfort, etc.)
               </Typography>
               <ul>
                 <FormControlLabel
                   control={<Checkbox />}
                   label="Eye pain or changes in vision"
-                /><br></br>
+                />
+                <br></br>
                 <FormControlLabel
                   control={<Checkbox />}
                   label="Frequent episodes of nosebleeds"
-                /><br></br>
+                />
+                <br></br>
                 <FormControlLabel
                   control={<Checkbox />}
                   label="Structural changes to the nasal septum"
-                /><br></br>
+                />
+                <br></br>
                 <FormControlLabel
                   control={<Checkbox />}
                   label="Discomfort or pain within the nasal area"
-                /><br></br>
+                />
+                <br></br>
                 <FormControlLabel
                   control={<Checkbox />}
                   label="Presence of blood in nasal discharge"
-                /><br></br>
+                />
+                <br></br>
                 <FormControlLabel
                   control={<Checkbox />}
                   label="Treatment not providing the desired relief"
-                /><br></br>
+                />
+                <br></br>
                 <FormControlLabel
                   control={<Checkbox />}
                   label="Persistent symptoms affecting a single eye or nostril"
-                /><br></br>
-                <FormControlLabel
-                  control={<Checkbox />}
-                  label="None"
-                /><br></br>
+                />
+                <br></br>
+                <FormControlLabel control={<Checkbox />} label="None" />
+                <br></br>
               </ul>
             </FormControl>
 
@@ -533,8 +594,14 @@ function HighFeverQuestion() {
                     line={3}
                     value={answers.otherConditionsDetails}
                     onChange={(e) =>
-                      setAnswers({ ...answers, otherConditionsDetails: e.target.value })
-                    } fullWidth placeholder="Provide more details." />
+                      setAnswers({
+                        ...answers,
+                        otherConditionsDetails: e.target.value,
+                      })
+                    }
+                    fullWidth
+                    placeholder="Provide more details."
+                  />
                 </>
               )}
             </FormControl>
@@ -542,7 +609,8 @@ function HighFeverQuestion() {
             {/* ................ */}
             <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-                Are you currently or recently taking any medications, including prescription, over-the-counter, herbal, or recreational drugs?
+                Are you currently or recently taking any medications, including
+                prescription, over-the-counter, herbal, or recreational drugs?
               </Typography>
               <RadioGroup
                 row
@@ -563,8 +631,14 @@ function HighFeverQuestion() {
                     line={3}
                     value={answers.currentMedicationDetails}
                     onChange={(e) =>
-                      setAnswers({ ...answers, currentMedicationDetails: e.target.value })
-                    } fullWidth placeholder="Provide more details." />
+                      setAnswers({
+                        ...answers,
+                        currentMedicationDetails: e.target.value,
+                      })
+                    }
+                    fullWidth
+                    placeholder="Provide more details."
+                  />
                 </>
               )}
             </FormControl>
@@ -572,7 +646,8 @@ function HighFeverQuestion() {
             {/* ................ */}
             <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-                Do you have any allergies to medications or other substances (e.g., peanuts, soy)?
+                Do you have any allergies to medications or other substances
+                (e.g., peanuts, soy)?
               </Typography>
               <RadioGroup
                 row
@@ -593,8 +668,14 @@ function HighFeverQuestion() {
                     line={3}
                     value={answers.otherAllergyDetails}
                     onChange={(e) =>
-                      setAnswers({ ...answers, otherAllergyDetails: e.target.value })
-                    } fullWidth placeholder="Provide more details." />
+                      setAnswers({
+                        ...answers,
+                        otherAllergyDetails: e.target.value,
+                      })
+                    }
+                    fullWidth
+                    placeholder="Provide more details."
+                  />
                 </>
               )}
             </FormControl>
@@ -620,16 +701,38 @@ function HighFeverQuestion() {
             {/* ................ */}
             <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-                Do you agree to follow the patient information, use the treatment solely for personal use, and understand that incorrect answers may impact treatment safety?
-                </Typography><ul>
-                  <li>" You confirm that you have reviewed the treatment information, including side effects, effectiveness, and available alternatives"</li>
-                  <li>"You agree to contact your GP if there’s no improvement after 14 days or if symptoms persist beyond 28 days."</li>
-                  <li>"Your answers are truthful, and this treatment is intended solely for your own use."</li>
-                  <li>"You will read and understand the patient information leaflet provided."</li>
-                  <li>"While optional, you acknowledge the importance of informing your GP to ensure safe care."</li>
-                  <li>"You understand that prescriptions rely on accurate information, and orders may be declined if unsuitable.."</li>
-                </ul>
-             
+                Do you agree to follow the patient information, use the
+                treatment solely for personal use, and understand that incorrect
+                answers may impact treatment safety?
+              </Typography>
+              <ul>
+                <li>
+                  " You confirm that you have reviewed the treatment
+                  information, including side effects, effectiveness, and
+                  available alternatives"
+                </li>
+                <li>
+                  "You agree to contact your GP if there’s no improvement after
+                  14 days or if symptoms persist beyond 28 days."
+                </li>
+                <li>
+                  "Your answers are truthful, and this treatment is intended
+                  solely for your own use."
+                </li>
+                <li>
+                  "You will read and understand the patient information leaflet
+                  provided."
+                </li>
+                <li>
+                  "While optional, you acknowledge the importance of informing
+                  your GP to ensure safe care."
+                </li>
+                <li>
+                  "You understand that prescriptions rely on accurate
+                  information, and orders may be declined if unsuitable.."
+                </li>
+              </ul>
+
               <RadioGroup
                 row
                 name="agreedTC"
@@ -646,7 +749,9 @@ function HighFeverQuestion() {
             {/* ................ */}
             <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-              I confirm I have read all the information in this questionnaire and will follow the advice in the patient information leaflet provided?
+                I confirm I have read all the information in this questionnaire
+                and will follow the advice in the patient information leaflet
+                provided?
               </Typography>
               <RadioGroup
                 row

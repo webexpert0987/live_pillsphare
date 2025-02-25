@@ -102,10 +102,14 @@ function StopSmokingQuestion() {
     if (data) {
       parsedData = JSON.parse(data);
     }
+    const { user, bmiData } = parsedData;
+
     localStorage.setItem(
       "questionnaire_info",
       JSON.stringify({
-        ...parsedData,
+        // ...parsedData,
+        user,
+        bmiData,
         answers: answers,
       })
     );

@@ -113,10 +113,14 @@ function MigraineQuestion() {
     if (data) {
       parsedData = JSON.parse(data);
     }
+    const { user, bmiData } = parsedData;
+
     localStorage.setItem(
       "questionnaire_info",
       JSON.stringify({
-        ...parsedData,
+        // ...parsedData,
+        user,
+        bmiData,
         answers: answers,
       })
     );
@@ -154,9 +158,7 @@ function MigraineQuestion() {
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
               {answers.agedBetween === "No" && (
-                <div>
-                  Please consult your GP for a migraine treatment plan.
-                </div>
+                <div>Please consult your GP for a migraine treatment plan.</div>
               )}
             </FormControl>
             {/****** ****/}
@@ -177,16 +179,15 @@ function MigraineQuestion() {
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
               {answers.migrain === "No" && (
-                <div>
-                  Please consult your GP for device.
-                </div>
+                <div>Please consult your GP for device.</div>
               )}
             </FormControl>
             {/****** Are you between 18 and 65 years old?**  ****/}
 
             <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-                Do your migraines last less than 4 hours or longer than 24 hours?
+                Do your migraines last less than 4 hours or longer than 24
+                hours?
               </Typography>
               <RadioGroup
                 row
@@ -200,9 +201,7 @@ function MigraineQuestion() {
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
               {answers.migrainTime === "Yes" && (
-                <div>
-                  Please consult your GP for a management plan.
-                </div>
+                <div>Please consult your GP for a management plan.</div>
               )}
             </FormControl>
             {/****** Are you between 18 and 65 years old?**  ****/}
@@ -223,9 +222,7 @@ function MigraineQuestion() {
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
               {answers.experienceMigrain === "Yes" && (
-                <div>
-                  Please consult your GP for further guidance.
-                </div>
+                <div>Please consult your GP for further guidance.</div>
               )}
             </FormControl>
             {/****** Are you between 18 and 65 years old?**  ****/}
@@ -234,15 +231,17 @@ function MigraineQuestion() {
               <Typography variant="h4" className="labelOne">
                 Do you have any of the following symptoms
                 <ul>
-                  <li>Coordination issues   </li>
-                  <li>Back-of-head pain  </li>
-                  <li>Ringing in ears  </li>
-                  <li>Seizure-like episodes  </li>
+                  <li>Coordination issues </li>
+                  <li>Back-of-head pain </li>
+                  <li>Ringing in ears </li>
+                  <li>Seizure-like episodes </li>
                   <li>Recent rash with headache</li>
-                  <li>Reduced alertness  </li>
-                  <li>Blurred/double vision  </li>
-                  <li>Increased frequency, severity, or duration of migraines  </li>
-                  <li>One-sided weakness  </li>
+                  <li>Reduced alertness </li>
+                  <li>Blurred/double vision </li>
+                  <li>
+                    Increased frequency, severity, or duration of migraines{" "}
+                  </li>
+                  <li>One-sided weakness </li>
                 </ul>
               </Typography>
               <RadioGroup
@@ -256,17 +255,14 @@ function MigraineQuestion() {
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
-              {answers.anySymptoms === "Yes" && (
-                <div>
-                  Consult your GP.
-                </div>
-              )}
+              {answers.anySymptoms === "Yes" && <div>Consult your GP.</div>}
             </FormControl>
             {/****** Are you between 18 and 65 years old?**  ****/}
 
             <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-                Have you been diagnosed with migraines, and do triptans relieve them?
+                Have you been diagnosed with migraines, and do triptans relieve
+                them?
               </Typography>
               <RadioGroup
                 row
@@ -279,11 +275,7 @@ function MigraineQuestion() {
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
-              {answers.diagnosed === "No" && (
-                <div>
-                  Consult your GP.
-                </div>
-              )}
+              {answers.diagnosed === "No" && <div>Consult your GP.</div>}
             </FormControl>
             {/****** Are you between 18 and 65 years old?**  ****/}
 
@@ -291,9 +283,9 @@ function MigraineQuestion() {
               <Typography variant="h4" className="labelOne">
                 Do you have an allergy to any of the following medications?
                 <ul>
-                  <li>Sumatriptan  </li>
-                  <li>Rizatriptan  </li>
-                  <li>Zolmitriptan  </li>
+                  <li>Sumatriptan </li>
+                  <li>Rizatriptan </li>
+                  <li>Zolmitriptan </li>
                 </ul>
               </Typography>
               <RadioGroup
@@ -307,11 +299,7 @@ function MigraineQuestion() {
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
-              {answers.otherAllergy === "Yes" && (
-                <div>
-                  Consult your GP.
-                </div>
-              )}
+              {answers.otherAllergy === "Yes" && <div>Consult your GP.</div>}
             </FormControl>
             {/****** Are you between 18 and 65 years old?**  ****/}
 
@@ -319,10 +307,10 @@ function MigraineQuestion() {
               <Typography variant="h4" className="labelOne">
                 Have you experienced any of the following after taking triptans?
                 <ul>
-                  <li>Chest tightness  </li>
-                  <li>Palpitations or dizziness  </li>
-                  <li>Worsening nausea  </li>
-                  <li>Increased blood pressure  </li>
+                  <li>Chest tightness </li>
+                  <li>Palpitations or dizziness </li>
+                  <li>Worsening nausea </li>
+                  <li>Increased blood pressure </li>
                 </ul>
               </Typography>
               <RadioGroup
@@ -336,11 +324,7 @@ function MigraineQuestion() {
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
-              {answers.triptans === "Yes" && (
-                <div>
-                  Consult your GP.
-                </div>
-              )}
+              {answers.triptans === "Yes" && <div>Consult your GP.</div>}
             </FormControl>
             {/****** Are you between 18 and 65 years old?**  ****/}
 
@@ -348,11 +332,11 @@ function MigraineQuestion() {
               <Typography variant="h4" className="labelOne">
                 Have you been diagnosed with any of the following conditions?
                 <ul>
-                  <li>Heart disease  </li>
-                  <li>Stroke or mini-stroke  </li>
-                  <li>High blood pressure  </li>
-                  <li>Epilepsy  </li>
-                  <li>Serious medical conditions requiring hospitalization  </li>
+                  <li>Heart disease </li>
+                  <li>Stroke or mini-stroke </li>
+                  <li>High blood pressure </li>
+                  <li>Epilepsy </li>
+                  <li>Serious medical conditions requiring hospitalization </li>
                 </ul>
               </Typography>
               <RadioGroup
@@ -366,11 +350,7 @@ function MigraineQuestion() {
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
-              {answers.diagnoseAny === "Yes" && (
-                <div>
-                  Consult your GP.
-                </div>
-              )}
+              {answers.diagnoseAny === "Yes" && <div>Consult your GP.</div>}
             </FormControl>
             {/****** Are you between 18 and 65 years old?**  ****/}
 
@@ -393,15 +373,15 @@ function MigraineQuestion() {
                 <div>
                   Please check for the following:
                   <ul>
-                    <li>Ergotamine or Methysergide  </li>
-                    <li>Another triptan in the last 24 hours  </li>
-                    <li>MAOIs (recent use)  </li>
-                    <li>SSRIs  </li>
-                    <li>SNRIs  </li>
-                    <li>Lithium  </li>
+                    <li>Ergotamine or Methysergide </li>
+                    <li>Another triptan in the last 24 hours </li>
+                    <li>MAOIs (recent use) </li>
+                    <li>SSRIs </li>
+                    <li>SNRIs </li>
+                    <li>Lithium </li>
                     <li>Current antibiotics</li>
-                    <li>Antifungals  </li>
-                    <li>Combined oral contraceptive  </li>
+                    <li>Antifungals </li>
+                    <li>Combined oral contraceptive </li>
                   </ul>
                   <RadioGroup
                     row
@@ -411,29 +391,37 @@ function MigraineQuestion() {
                       setAnswers({ ...answers, medicationAny2: e.target.value })
                     }
                   >
-                    <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
-                    <FormControlLabel value="No" control={<Radio />} label="No" />
+                    <FormControlLabel
+                      value="Yes"
+                      control={<Radio />}
+                      label="Yes"
+                    />
+                    <FormControlLabel
+                      value="No"
+                      control={<Radio />}
+                      label="No"
+                    />
                   </RadioGroup>
                   {answers.medicationAny2 === "Yes" && (
-                <div>
-                  Consult your GP.
+                    <div>Consult your GP.</div>
+                  )}
                 </div>
-              )}
-                </div>
-
               )}
             </FormControl>
 
-             {/****** Do you agree to the following terms?**    ****/}
+            {/****** Do you agree to the following terms?**    ****/}
 
-             <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-              Do you agree to the following terms?**  
+                Do you agree to the following terms?**
                 <ul>
-                  <li> I will read the patient information leaflet  </li>
-                  <li>I will inform Medicus Express and my GP about any side effects or changes in condition.    </li>
-                  <li>The treatment is for my personal use.   </li>
-                  <li>I confirm all answers are truthful.   </li>
+                  <li> I will read the patient information leaflet </li>
+                  <li>
+                    I will inform Medicus Express and my GP about any side
+                    effects or changes in condition.{" "}
+                  </li>
+                  <li>The treatment is for my personal use. </li>
+                  <li>I confirm all answers are truthful. </li>
                 </ul>
               </Typography>
               <RadioGroup
@@ -448,9 +436,7 @@ function MigraineQuestion() {
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
               {answers.agreedTC1 === "No" && (
-                <div>
-                  Treatment cannot be provided.
-                </div>
+                <div>Treatment cannot be provided.</div>
               )}
             </FormControl>
 

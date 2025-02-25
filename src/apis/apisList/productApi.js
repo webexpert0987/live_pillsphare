@@ -16,6 +16,8 @@ export const getProductImages = (productId) =>
 export const getRelatedProduct = (productId) =>
     apiClient.get(`/wp-json/wp/v2/related-products/${productId}`);
 
+export const getProductByCategory = (slug) => apiClient.get(`/wp-json/wp/v2/productsbycategory/${slug}`);
+
 
 // export const createUser = (data) => apiClient.post('/users', data);
 
