@@ -16,6 +16,8 @@ import Faqs from "../components/Faqs/Faqs";
 import Orderhisttory from "../pages/orderHistory";
 import OnlineClinicCategory from "../pages/OnlineClinicCategory";
 import SupportPage from "../components/Support/Support";
+import HeyFever from "../components/CategoryInfoPages/HayFever";
+import CystitisTreatment  from "../components/CategoryInfoPages/CystitisTreatment";
 
 const routes = [
   {
@@ -108,6 +110,18 @@ const routes = [
     component: SupportPage,
     exact: true,
   },
+  {
+    path: "/heyfever",
+    component: HeyFever,
+    exact: true,
+  },
+  {
+    path: "/cystitis-treatment",
+    component: CystitisTreatment,
+    exact: true,
+  },
+  
+  
 ];
 
 export default routes;

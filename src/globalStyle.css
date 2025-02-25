@@ -5,8 +5,76 @@
 .QuestionBox label span { font-weight: 500 !important; font-size: 15px !important; }
 .noteTxt { font-weight: 500 !important; font-size: 15px !important; color: #999 !important; }
 .MuiBox-root.css-1ruxp1v { padding: 0 !important; }
+/**********************/
+ul.infoList {
+    padding-left: 20px;
+}
+.infoList li {
+    margin: 10px 0;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+/* Table Header */
+.table th {
+    font-size: 18px;
+    color: #FFF;
+    font-weight: bold;
+    width: 20%;
+    padding: 18px 25px;
+    line-height: 1.4;
+    border-bottom: 1px solid var(--border-color);
+    border-right: 1px solid var(--border-color);
+  }
+  
+  /* Table Body */
+  .table td {
+    font-size: 18px;
+    color: #333333;
+    font-weight: 500;
+    width: 20%;
+    padding: 18px 25px;
+    line-height: 1.4;
+    border-bottom: 1px solid var(--border-color);
+    border-right: 1px solid var(--border-color);
+  }
+  
+  /* Remove right border for last column */
+  .table td:last-child,
+  .table th:last-child {
+    border-right: none;
+  }
+  
+  /* Remove bottom border for last row */
+  .table tr:last-child td {
+    border-bottom: none;
+  }
+  
+  /* Responsive Styles */
+  @media (max-width: 991px) {
+    .table th,
+    .table td {
+      font-size: 16px;
+      padding: 12px 15px;
+    }
+  }
+  
+  @media (max-width: 767px) {
+    .table th,
+    .table td {
+      font-size: 15px;
+      padding: 10px 12px;
+    }
+  }
+  
+
+
  @media only screen and (max-width: 767px) {
 .QuestionBox { padding: 10px 0 !important; }
 .labelOne { font-size: 15px !important; margin-top: 10px !important; margin-bottom: 5px !important; }
 .QuestionBox label span { font-size: 14px !important; }
+.infoList li {
+    margin: 10px 0;
+    font-size: 15px;
+}
 }
