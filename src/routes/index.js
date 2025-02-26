@@ -18,7 +18,7 @@ import OnlineClinicCategory from "../pages/OnlineClinicCategory";
 import SupportPage from "../components/Support/Support";
 import HeyFever from "../components/CategoryInfoPages/HayFever";
 import CystitisTreatment  from "../components/CategoryInfoPages/CystitisTreatment";
-
+import Verification from "../pages/Verification";
 const routes = [
   {
     path: "/",
@@ -120,8 +120,12 @@ const routes = [
     component: CystitisTreatment,
     exact: true,
   },
-  
-  
+
+  {
+    path: "/verification",
+    component: Verification,
+    exact: true,
+  },
 ];
 
 export default routes;

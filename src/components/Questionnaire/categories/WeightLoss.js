@@ -22,27 +22,28 @@ const steps = ["1", "2", "3", "4"];
 function WeightLossQuestion() {
   const [activeStep, setActiveStep] = useState(0);
   const [answers, setAnswers] = useState({
-    agedBetween: "",
-    AreYouPregnantBreastfeeding: "",
-    eatingDisorder: "",
-    injectionsOrMedications: "",
-    allergicReaction: "",
-    familyMembersDiagnosed: "",
-    conditions: "",
-    takingAnyMedications: "",
-    takingSteroidsMedication: "",
-    takenInjectableMedication: "",
-    medicationFile: "",
-    agreeToTerms: "",
-    understandGLP1Effect: "",
-    understandMoodEffect: "",
-    understandNeckLumpsRisk: "",
-    understandNoMixingWeightLossMeds: "",
-    understandPancreatitisRisk: "",
-    understandConceptionRisk: "",
+    ageRange: "",
+    isPregnantOrBreastfeeding: "",
+    hasEatingDisorder: "",
+    usesBloodSugarMedications: "",
+    hadAllergicReaction: "",
+    hasFamilyHistoryThyroidCancer: "",
+    diagnosedConditions: [],
+    isTakingMedications: "",
+    isTakingSteroidsOrThyroidMeds: "",
+    usedInjectableWeightLossMedLast4Weeks: "",
+    previousMedicationProof: "",
 
-    photoID: "",
-    weightVerificationPhoto: "",
+    agreedToTerms: "",
+    understandsGLP1Effects: "",
+    understandsMoodEffects: "",
+    understandsNeckLumpRisks: "",
+    understandsNoMixingWeightLossMeds: "",
+    understandsPancreatitisRisk: "",
+    understandsConceptionRisk: "",
+
+    photoIDUpload: "",
+    weightVerificationPhotoUpload: "",
   });
   const boxRef = useRef(null);
   const { setSelectedTab } = useApp();
@@ -77,16 +78,15 @@ function WeightLossQuestion() {
       }
     } else if (activeStep === 1) {
       const requiredFields = [
-        "agedBetween",
-        "AreYouPregnantBreastfeeding",
-        "eatingDisorder",
-        "injectionsOrMedications",
-        "allergicReaction",
-        "familyMembersDiagnosed",
-        "conditions",
-        "medicationStatus",
-        "takingSteroidsMedication",
-        "takenInjectableMedication",
+        "ageRange",
+        "isPregnantOrBreastfeeding",
+        "hasEatingDisorder",
+        "usesBloodSugarMedications",
+        "hadAllergicReaction",
+        "hasFamilyHistoryThyroidCancer",
+        "isTakingMedications",
+        "isTakingSteroidsOrThyroidMeds",
+        "usedInjectableWeightLossMedLast4Weeks",
       ];
 
       for (const field of requiredFields) {
@@ -104,13 +104,13 @@ function WeightLossQuestion() {
       }
     } else if (activeStep === 2) {
       const requiredAgreements = [
-        "agreeToTerms",
-        "understandGLP1Effect",
-        "understandMoodEffect",
-        "understandNeckLumpsRisk",
-        "understandNoMixingWeightLossMeds",
-        "understandPancreatitisRisk",
-        "understandConceptionRisk",
+        "agreedToTerms",
+        "acknowledgeGLP1Effects",
+        "acknowledgeMoodEffects",
+        "acknowledgeNeckLumpRisk",
+        "acknowledgeNoMixingWeightLossMeds",
+        "acknowledgePancreatitisRisk",
+        "acknowledgeConceptionRisk",
       ];
 
       for (const field of requiredAgreements) {
@@ -166,18 +166,20 @@ function WeightLossQuestion() {
       case 1:
         return (
           <>
-            {/****** Are you aged between 17-74 years *****/}
-
+            {/****** Are you aged between 17-74 years? *****/}
             <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-                Are you aged between 17-74 years
+                Are you aged between 17-74 years?
               </Typography>
               <RadioGroup
                 row
-                name="agedBetween"
-                value={answers.agedBetween}
+                name="ageRange"
+                value={answers.ageRange}
                 onChange={(e) =>
-                  setAnswers({ ...answers, agedBetween: e.target.value })
+                  setAnswers({
+                    ...answers,
+                    ageRange: e.target.value,
+                  })
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
@@ -186,19 +188,18 @@ function WeightLossQuestion() {
             </FormControl>
 
             {/****** Are you pregnant or breastfeeding? *****/}
-
             <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
                 Are you pregnant or breastfeeding?
               </Typography>
               <RadioGroup
                 row
-                name="AreYouPregnantBreastfeeding"
-                value={answers.AreYouPregnantBreastfeeding}
+                name="isPregnantOrBreastfeeding"
+                value={answers.isPregnantOrBreastfeeding}
                 onChange={(e) =>
                   setAnswers({
                     ...answers,
-                    AreYouPregnantBreastfeeding: e.target.value,
+                    isPregnantOrBreastfeeding: e.target.value,
                   })
                 }
               >
@@ -207,18 +208,20 @@ function WeightLossQuestion() {
               </RadioGroup>
             </FormControl>
 
-            {/****** Have you ever suffered with an eating disorder? *****/}
-
+            {/****** Have you ever suffered from an eating disorder? *****/}
             <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-                Have you ever suffered with an eating disorder?
+                Have you ever suffered from an eating disorder?
               </Typography>
               <RadioGroup
                 row
-                name="eatingDisorder"
-                value={answers.eatingDisorder}
+                name="hasEatingDisorder"
+                value={answers.hasEatingDisorder}
                 onChange={(e) =>
-                  setAnswers({ ...answers, eatingDisorder: e.target.value })
+                  setAnswers({
+                    ...answers,
+                    hasEatingDisorder: e.target.value,
+                  })
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
@@ -226,22 +229,21 @@ function WeightLossQuestion() {
               </RadioGroup>
             </FormControl>
 
-            {/****** Are you currently using any injections or medications, aside from metformin, to manage your blood sugar if you have type 2 diabetes?" *****/}
-
+            {/****** Using injections/medications (excluding Metformin) for Type 2 Diabetes? *****/}
             <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
                 Are you currently using any injections or medications, aside
-                from metformin, to manage your blood sugar if you have type 2
-                diabetes?"
+                from Metformin, to manage your blood sugar if you have Type 2
+                diabetes?
               </Typography>
               <RadioGroup
                 row
-                name="injectionsOrMedications"
-                value={answers.injectionsOrMedications}
+                name="usesBloodSugarMedications"
+                value={answers.usesBloodSugarMedications}
                 onChange={(e) =>
                   setAnswers({
                     ...answers,
-                    injectionsOrMedications: e.target.value,
+                    usesBloodSugarMedications: e.target.value,
                   })
                 }
               >
@@ -250,19 +252,21 @@ function WeightLossQuestion() {
               </RadioGroup>
             </FormControl>
 
-            {/****** Have you experienced an allergic reaction to Wegovy, Mounjaro, Semaglutide, Saxenda or Liraglutide before? *****/}
-
+            {/****** Experienced allergic reactions to specific medications? *****/}
             <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
                 Have you experienced an allergic reaction to Wegovy, Mounjaro,
-                Semaglutide, Saxenda or Liraglutide before?
+                Semaglutide, Saxenda, or Liraglutide before?
               </Typography>
               <RadioGroup
                 row
-                name="allergicReaction"
-                value={answers.allergicReaction}
+                name="hadAllergicReaction"
+                value={answers.hadAllergicReaction}
                 onChange={(e) =>
-                  setAnswers({ ...answers, allergicReaction: e.target.value })
+                  setAnswers({
+                    ...answers,
+                    hadAllergicReaction: e.target.value,
+                  })
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
@@ -270,8 +274,7 @@ function WeightLossQuestion() {
               </RadioGroup>
             </FormControl>
 
-            {/****** Have you or any family members ever been diagnosed with Medullary Thyroid Cancer, Thyroid Cancer, or Multiple Endocrine Neoplasia Type 2 (MEN2) syndrome? *****/}
-
+            {/****** Family history of Thyroid Cancer or MEN2 syndrome? *****/}
             <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
                 Have you or any family members ever been diagnosed with
@@ -280,12 +283,12 @@ function WeightLossQuestion() {
               </Typography>
               <RadioGroup
                 row
-                name="familyMembersDiagnosed"
-                value={answers.familyMembersDiagnosed}
+                name="hasFamilyHistoryThyroidCancer"
+                value={answers.hasFamilyHistoryThyroidCancer}
                 onChange={(e) =>
                   setAnswers({
                     ...answers,
-                    familyMembersDiagnosed: e.target.value,
+                    hasFamilyHistoryThyroidCancer: e.target.value,
                   })
                 }
               >
@@ -294,71 +297,21 @@ function WeightLossQuestion() {
               </RadioGroup>
             </FormControl>
 
-            {/****** Have you ever received a diagnosis or undergone surgery for any of the following conditions? *****/}
-
+            {/****** Are you taking any medications? (Prescription, over-the-counter, or recreational) *****/}
             <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-                Have you ever received a diagnosis or undergone surgery for any
-                of the following conditions?
+                Are you taking any medications? (Prescription, over-the-counter,
+                or recreational drugs)
               </Typography>
-
-              {[
-                "Pancreatitis",
-                "Severe gastrointestinal disease (e.g. inflammatory bowel disease, ulcerative colitis, Crohn's disease)",
-                "Type 1 Diabetes",
-                "Kidney Disease",
-                "Liver Disease",
-                "Hypoglycaemia",
-                "Heart Failure",
-                "Gastric surgery (bariatric surgery)",
-                "Gallbladder, Bile duct or Pancreas disease",
-                "Chronic Malabsorption Syndrome",
-                "Cushings Syndrome",
-                "Acromegaly or any growth hormone problem",
-                "None",
-              ].map((condition, index) => (
-                <FormControlLabel
-                  className="checkbox2Col"
-                  key={index}
-                  control={
-                    <Checkbox
-                      checked={answers.conditions.includes(condition)}
-                      onChange={(e) => {
-                        const { value, checked } = e.target;
-                        let newConditions = [...answers.conditions];
-
-                        if (checked) {
-                          newConditions.push(value);
-                        } else {
-                          newConditions = newConditions.filter(
-                            (item) => item !== value
-                          );
-                        }
-
-                        setAnswers({ ...answers, conditions: newConditions });
-                      }}
-                      value={condition}
-                    />
-                  }
-                  label={condition}
-                />
-              ))}
-            </FormControl>
-
-            {/****** Are you taking any medications? (This can be over the counter, from your doctor, or any recreational drugs. *****/}
-
-            <FormControl component="fieldset" className="QuestionBox">
-              <Typography variant="h4" className="labelOne">
-                Are you taking any medications? This can be over the counter,
-                from your doctor, or any recreational drugs.
-              </Typography>
-
               <RadioGroup
                 row
-                name="medicationStatus" //
-                value={answers.medicationStatus || ""}
+                name="isTakingMedications"
+                value={answers.isTakingMedications}
                 onChange={(e) =>
-                  setAnswers({ ...answers, medicationStatus: e.target.value })
+                  setAnswers({
+                    ...answers,
+                    isTakingMedications: e.target.value,
+                  })
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
@@ -367,21 +320,18 @@ function WeightLossQuestion() {
             </FormControl>
 
             {/****** Are you taking steroids or medication to treat your thyroid? *****/}
-
             <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
                 Are you taking steroids or medication to treat your thyroid?
-                (Required)
               </Typography>
-
               <RadioGroup
                 row
-                name="takingSteroidsMedication"
-                value={answers.takingSteroidsMedication || ""} // Prevents undefined errors
+                name="isTakingSteroidsOrThyroidMeds"
+                value={answers.isTakingSteroidsOrThyroidMeds}
                 onChange={(e) =>
                   setAnswers({
                     ...answers,
-                    takingSteroidsMedication: e.target.value,
+                    isTakingSteroidsOrThyroidMeds: e.target.value,
                   })
                 }
               >
@@ -391,21 +341,19 @@ function WeightLossQuestion() {
             </FormControl>
 
             {/****** Have you taken injectable weight loss medication in the last 4 weeks? *****/}
-
             <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
                 Have you taken injectable weight loss medication in the last 4
-                weeks? (Required)
+                weeks?
               </Typography>
-
               <RadioGroup
                 row
-                name="takenInjectableMedication"
-                value={answers.takenInjectableMedication || ""} // Prevents undefined errors
+                name="usedInjectableWeightLossMedLast4Weeks"
+                value={answers.usedInjectableWeightLossMedLast4Weeks}
                 onChange={(e) =>
                   setAnswers({
                     ...answers,
-                    takenInjectableMedication: e.target.value,
+                    usedInjectableWeightLossMedLast4Weeks: e.target.value,
                   })
                 }
               >
@@ -413,22 +361,21 @@ function WeightLossQuestion() {
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
 
-              {/* Conditionally render file upload input when "Yes" is selected */}
-              {answers.takenInjectableMedication === "Yes" && (
+              {/* Conditionally show file upload if "Yes" is selected */}
+              {answers.usedInjectableWeightLossMedLast4Weeks === "Yes" && (
                 <Box sx={{ marginTop: "10px" }}>
                   <Typography variant="body1">
-                    Please upload your previous supply. It must show your name,
-                    name and strength of the medication, and date of supply. You
-                    can send it later.
+                    Please upload proof of previous supply (showing name,
+                    medication, and supply date).
                   </Typography>
                   <input
                     type="file"
-                    name="medicationFile"
+                    name="previousMedicationProof"
                     accept=".jpg,.jpeg,.png,.pdf"
                     onChange={(e) =>
                       setAnswers({
                         ...answers,
-                        medicationFile: e.target.files[0],
+                        previousMedicationProof: e.target.files[0],
                       })
                     }
                     style={{ marginTop: "10px" }}
@@ -436,8 +383,6 @@ function WeightLossQuestion() {
                 </Box>
               )}
             </FormControl>
-
-            {/****** End *****/}
           </>
         );
       //============= Step 03 =============//
@@ -465,11 +410,14 @@ function WeightLossQuestion() {
               <FormControlLabel
                 control={
                   <Checkbox
-                    checked={answers.agreeToTerms || false}
+                    checked={answers.agreedToTerms || false}
                     onChange={(e) =>
-                      setAnswers({ ...answers, agreeToTerms: e.target.checked })
+                      setAnswers({
+                        ...answers,
+                        agreedToTerms: e.target.checked,
+                      })
                     }
-                    name="agreeToTerms"
+                    name="agreedToTerms"
                   />
                 }
                 label="I agree"
@@ -490,14 +438,14 @@ function WeightLossQuestion() {
               <FormControlLabel
                 control={
                   <Checkbox
-                    checked={answers.understandGLP1Effect || false}
+                    checked={answers.acknowledgeGLP1Effects || false}
                     onChange={(e) =>
                       setAnswers({
                         ...answers,
-                        understandGLP1Effect: e.target.checked,
+                        acknowledgeGLP1Effects: e.target.checked,
                       })
                     }
-                    name="understandGLP1Effect"
+                    name="acknowledgeGLP1Effects"
                   />
                 }
                 label="I agree"
@@ -518,14 +466,14 @@ function WeightLossQuestion() {
               <FormControlLabel
                 control={
                   <Checkbox
-                    checked={answers.understandMoodEffect || false}
+                    checked={answers.acknowledgeMoodEffects || false}
                     onChange={(e) =>
                       setAnswers({
                         ...answers,
-                        understandMoodEffect: e.target.checked,
+                        acknowledgeMoodEffects: e.target.checked,
                       })
                     }
-                    name="understandMoodEffect"
+                    name="acknowledgeMoodEffects"
                   />
                 }
                 label="I agree"
@@ -544,14 +492,14 @@ function WeightLossQuestion() {
               <FormControlLabel
                 control={
                   <Checkbox
-                    checked={answers.understandNeckLumpsRisk || false}
+                    checked={answers.acknowledgeNeckLumpRisk || false}
                     onChange={(e) =>
                       setAnswers({
                         ...answers,
-                        understandNeckLumpsRisk: e.target.checked,
+                        acknowledgeNeckLumpRisk: e.target.checked,
                       })
                     }
-                    name="understandNeckLumpsRisk"
+                    name="acknowledgeNeckLumpRisk"
                   />
                 }
                 label="I agree"
@@ -569,14 +517,14 @@ function WeightLossQuestion() {
               <FormControlLabel
                 control={
                   <Checkbox
-                    checked={answers.understandNoMixingWeightLossMeds || false}
+                    checked={answers.acknowledgeNoMixingWeightLossMeds || false}
                     onChange={(e) =>
                       setAnswers({
                         ...answers,
-                        understandNoMixingWeightLossMeds: e.target.checked,
+                        acknowledgeNoMixingWeightLossMeds: e.target.checked,
                       })
                     }
-                    name="understandNoMixingWeightLossMeds"
+                    name="acknowledgeNoMixingWeightLossMeds"
                   />
                 }
                 label="I agree"
@@ -596,14 +544,14 @@ function WeightLossQuestion() {
               <FormControlLabel
                 control={
                   <Checkbox
-                    checked={answers.understandPancreatitisRisk || false}
+                    checked={answers.acknowledgePancreatitisRisk || false}
                     onChange={(e) =>
                       setAnswers({
                         ...answers,
-                        understandPancreatitisRisk: e.target.checked,
+                        acknowledgePancreatitisRisk: e.target.checked,
                       })
                     }
-                    name="understandPancreatitisRisk"
+                    name="acknowledgePancreatitisRisk"
                   />
                 }
                 label="I agree"
@@ -622,14 +570,14 @@ function WeightLossQuestion() {
               <FormControlLabel
                 control={
                   <Checkbox
-                    checked={answers.understandConceptionRisk || false}
+                    checked={answers.acknowledgeConceptionRisk || false}
                     onChange={(e) =>
                       setAnswers({
                         ...answers,
-                        understandConceptionRisk: e.target.checked,
+                        acknowledgeConceptionRisk: e.target.checked,
                       })
                     }
-                    name="understandConceptionRisk"
+                    name="acknowledgeConceptionRisk"
                   />
                 }
                 label="I agree"
