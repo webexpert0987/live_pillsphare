@@ -21,7 +21,7 @@ import "../../../../src/globalStyle.css";
 import BmiCalculate from "../Consultation"; // Import the BMI calculation component
 import { useApp } from "../../../Context/AppContext";
 import { useMessage } from "../../../Context/MessageContext";
-const steps = ["1", "2", "3", "4"];
+const steps = ["1", "2", "3"];
 
 function CystitisQuestionnaire() {
   const [currentStep, setCurrentStep] = useState(0);
@@ -119,8 +119,6 @@ function CystitisQuestionnaire() {
         "numberOfUTIsInLast6Months",
       ];
 
-      console.log(">>>>>", questionnaireResponses.numberOfUTIsInLast6Months);
-
       for (const field of requiredFields) {
         if (
           Array.isArray(questionnaireResponses[field])
@@ -129,6 +127,23 @@ function CystitisQuestionnaire() {
         ) {
           showMessage(
             "Please fill all details before proceeding to the next step.",
+            "error"
+          );
+          return;
+        }
+      }
+
+      const preventProceedConditions = [
+        { field: "canMakeHealthcareDecisions", condition: "No" },
+        { field: "isOver65", condition: "Yes" },
+
+      ];
+
+
+      for (const { field, condition } of preventProceedConditions) {
+        if (questionnaireResponses[field] === condition) {
+          showMessage(
+            "Based on your answers, we are unable to provide you with treatment at this time. Please consult your GP.",
             "error"
           );
           return;
@@ -157,7 +172,13 @@ function CystitisQuestionnaire() {
   };
 
   const submitQuestionnaire = () => {
-    console.log("Form submitted with answers: ", questionnaireResponses);
+    if (!questionnaireResponses.hasAgreedToTerms) {
+      showMessage(
+        "Please fill all details before proceeding to the next step.",
+        "error"
+      );
+      return
+    }
     const data = localStorage.getItem("questionnaire_info");
     let parsedData = {};
     if (data) {
@@ -299,20 +320,20 @@ function CystitisQuestionnaire() {
               </RadioGroup>
               {questionnaireResponses.hasDiagnosedMedicalConditions ===
                 "Yes" && (
-                <TextField
-                  multiline
-                  line={3}
-                  value={questionnaireResponses.diagnosisDetails}
-                  onChange={(e) =>
-                    setQuestionnaireResponses({
-                      ...questionnaireResponses,
-                      diagnosisDetails: e.target.value,
-                    })
-                  }
-                  fullWidth
-                  placeholder="Please write here"
-                />
-              )}
+                  <TextField
+                    multiline
+                    line={3}
+                    value={questionnaireResponses.diagnosisDetails}
+                    onChange={(e) =>
+                      setQuestionnaireResponses({
+                        ...questionnaireResponses,
+                        diagnosisDetails: e.target.value,
+                      })
+                    }
+                    fullWidth
+                    placeholder="Please write here"
+                  />
+                )}
             </FormControl>
 
             {/******.** Are you currently taking any medications, including prescription, over-the-counter, or homeopathic options? *****/}
@@ -909,8 +930,8 @@ function CystitisQuestionnaire() {
                 <MenuItem value="">
                   <em>None</em>
                 </MenuItem>
-                <MenuItem value="Less than 6 months">
-                  Less than 6 months
+                <MenuItem value="Less than 3 months">
+                  Less than 3 months
                 </MenuItem>
                 <MenuItem value="More than 6 months">
                   More than 6 months

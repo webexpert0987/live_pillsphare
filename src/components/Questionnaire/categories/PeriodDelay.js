@@ -18,7 +18,7 @@ import "../../../../src/globalStyle.css";
 import BmiCalculate from "../Consultation"; // Import the BMI calculation component
 import { useApp } from "../../../Context/AppContext";
 import { useMessage } from "../../../Context/MessageContext";
-const steps = ["1", "2", "3", "4"];
+const steps = ["1", "2", "3"];
 
 function PeriodDelayQuestion() {
   const [activeStep, setActiveStep] = useState(0);
@@ -43,7 +43,6 @@ function PeriodDelayQuestion() {
     confirmAll: "",
     agreeMedicus: "",
     confirmAge: "",
-    
   });
   const boxRef = useRef(null);
   const { setSelectedTab } = useApp();
@@ -77,7 +76,22 @@ function PeriodDelayQuestion() {
         return;
       }
     } else if (activeStep === 1) {
-      const requiredFields = ["agedBetween"];
+      const requiredFields = [
+        "gender",
+        "agedBetween",
+        "allergy",
+        "period",
+        "delayPeriod",
+        "periodDelay1",
+        "regularPeriod",
+        "pregnant",
+        "breastfeeding",
+        "delayingperiod",
+        "safeUse",
+        "confirmAll",
+        "agreeMedicus",
+        "confirmAge",
+      ];
 
       for (const field of requiredFields) {
         if (
@@ -87,6 +101,30 @@ function PeriodDelayQuestion() {
         ) {
           showMessage(
             "Please fill all details before proceeding to the next step.",
+            "error"
+          );
+          return;
+        }
+      }
+
+      const preventProceedConditions = [
+        { field: "gender", condition: "No" },
+        { field: "agedBetween", condition: "No" },
+        { field: "period", condition: "No" },
+        { field: "regularPeriod", condition: "No" },
+        { field: "pregnant", condition: "Yes" },
+        { field: "breastfeeding", condition: "Yes" },
+        { field: "delayingperiod", condition: "No" },
+        { field: "safeUse", condition: "No" },
+        { field: "confirmAll", condition: "No" },
+        { field: "agreeMedicus", condition: "No" },
+        { field: "confirmAge", condition: "No" },
+      ];
+
+      for (const { field, condition } of preventProceedConditions) {
+        if (answers[field] === condition) {
+          showMessage(
+            "Based on your answers, we are unable to provide you with treatment at this time. Please consult your GP.",
             "error"
           );
           return;
@@ -115,7 +153,13 @@ function PeriodDelayQuestion() {
   };
 
   const handleSubmit = () => {
-    console.log("Form submitted with answers: ", answers);
+    if (!answers.agreeToTerms) {
+      showMessage(
+        "Please fill all details before proceeding to the next step.",
+        "error"
+      );
+      return;
+    }
     const data = localStorage.getItem("questionnaire_info");
     let parsedData = {};
     if (data) {
@@ -167,7 +211,9 @@ function PeriodDelayQuestion() {
               </RadioGroup>
               {answers.gender === "No" && (
                 <div>
-                  "This treatment is only available to women. Please consult your GP for alternative options." </div>
+                  "This treatment is only available to women. Please consult
+                  your GP for alternative options."{" "}
+                </div>
               )}
             </FormControl>
             {/****** •	Are you aged 18 or over?*****/}
@@ -189,7 +235,9 @@ function PeriodDelayQuestion() {
               </RadioGroup>
               {answers.agedBetween === "No" && (
                 <div>
-                  "This treatment is only suitable for individuals aged 18 or older." </div>
+                  "This treatment is only suitable for individuals aged 18 or
+                  older."{" "}
+                </div>
               )}
             </FormControl>
             {/****** •	Do you have any of the following health conditions? *****/}
@@ -199,35 +247,38 @@ function PeriodDelayQuestion() {
                 Do you have any of the following health conditions?
               </Typography>
               <ul>
-
-                <FormControlLabel
-                  control={<Checkbox />}
-                  label="Pregnancy"
-                /><br></br>
+                <FormControlLabel control={<Checkbox />} label="Pregnancy" />
+                <br></br>
                 <FormControlLabel
                   control={<Checkbox />}
                   label="Breastfeeding"
-                /><br></br>
+                />
+                <br></br>
                 <FormControlLabel
                   control={<Checkbox />}
                   label="Severe liver disease"
-                /><br></br>
+                />
+                <br></br>
                 <FormControlLabel
                   control={<Checkbox />}
                   label="Severe kidney disease"
-                /><br></br>
+                />
+                <br></br>
                 <FormControlLabel
                   control={<Checkbox />}
                   label="History of blood clots or stroke"
-                /><br></br>
+                />
+                <br></br>
                 <FormControlLabel
                   control={<Checkbox />}
                   label="Hormonal disorders"
-                /><br></br>
+                />
+                <br></br>
                 <FormControlLabel
                   control={<Checkbox />}
                   label="History of any types of cancer (e.g., breast or ovarian cancer)"
-                /><br></br>
+                />
+                <br></br>
                 <FormControlLabel
                   control={<Checkbox />}
                   label="Severe high blood pressure"
@@ -245,23 +296,23 @@ function PeriodDelayQuestion() {
                 Are you currently taking any of the following medications?
               </Typography>
               <ul>
-
                 <FormControlLabel
                   control={<Checkbox />}
                   label="Hormonal medication (e.g., contraceptive pills, HRT)"
-                /><br></br>
+                />
+                <br></br>
                 <FormControlLabel
                   control={<Checkbox />}
                   label="Blood thinners (e.g., Warfarin)"
-                /><br></br>
-                <FormControlLabel
-                  control={<Checkbox />}
-                  label="Steroids"
-                /><br></br>
+                />
+                <br></br>
+                <FormControlLabel control={<Checkbox />} label="Steroids" />
+                <br></br>
                 <FormControlLabel
                   control={<Checkbox />}
                   label="Anti-seizure medication"
-                /><br></br>
+                />
+                <br></br>
                 <FormControlLabel
                   control={<Checkbox />}
                   label="Any other prescription or over-the-counter medications"
@@ -272,7 +323,8 @@ function PeriodDelayQuestion() {
 
             <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-                Do you have any allergies to any medications or substances (e.g., peanuts, latex)?
+                Do you have any allergies to any medications or substances
+                (e.g., peanuts, latex)?
               </Typography>
               <RadioGroup
                 row
@@ -292,7 +344,9 @@ function PeriodDelayQuestion() {
                   value={answers.allergyIssue}
                   onChange={(e) =>
                     setAnswers({ ...answers, allergyIssue: e.target.value })
-                  } fullWidth placeholder="Tell us more about your issue ?"
+                  }
+                  fullWidth
+                  placeholder="Tell us more about your issue ?"
                 />
               )}
             </FormControl>
@@ -315,7 +369,10 @@ function PeriodDelayQuestion() {
               </RadioGroup>
               {answers.period === "No" && (
                 <div>
-                  "This treatment is specifically designed to delay your period. Please consult your GP for alternative options if you're not currently menstruating."</div>
+                  "This treatment is specifically designed to delay your period.
+                  Please consult your GP for alternative options if you're not
+                  currently menstruating."
+                </div>
               )}
             </FormControl>
             {/****** •	Are you female? *****/}
@@ -332,9 +389,21 @@ function PeriodDelayQuestion() {
                   setAnswers({ ...answers, delayPeriod: e.target.value })
                 }
               >
-                <FormControlLabel value="1" control={<Radio />} label="1 Week" />
-                <FormControlLabel value="2" control={<Radio />} label="2 Week" />
-                <FormControlLabel value="Other" control={<Radio />} label="Other" />
+                <FormControlLabel
+                  value="1"
+                  control={<Radio />}
+                  label="1 Week"
+                />
+                <FormControlLabel
+                  value="2"
+                  control={<Radio />}
+                  label="2 Week"
+                />
+                <FormControlLabel
+                  value="Other"
+                  control={<Radio />}
+                  label="Other"
+                />
               </RadioGroup>
               {answers.delayPeriod === "Other" && (
                 <TextField
@@ -343,8 +412,11 @@ function PeriodDelayQuestion() {
                   value={answers.periodDetails}
                   onChange={(e) =>
                     setAnswers({ ...answers, periodDetails: e.target.value })
-                  } fullWidth placeholder="Please Specify?"
-                />)}
+                  }
+                  fullWidth
+                  placeholder="Please Specify?"
+                />
+              )}
             </FormControl>
             {/****** •	Have you ever used period delay medication before?*****/}
 
@@ -365,46 +437,52 @@ function PeriodDelayQuestion() {
               </RadioGroup>
               {answers.periodDelay1 === "Yes" && (
                 <div>
-                  "Please indicate the medication you previously used and whether you experienced any side effects:" </div>
+                  "Please indicate the medication you previously used and
+                  whether you experienced any side effects:"{" "}
+                </div>
               )}
             </FormControl>
             {/******•	Do you have a history of any of the following conditions that could affect your menstrual cycle? *****/}
 
             <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-                Do you have a history of any of the following conditions that could affect your menstrual cycle?
+                Do you have a history of any of the following conditions that
+                could affect your menstrual cycle?
               </Typography>
               <ul>
-
                 <FormControlLabel
                   control={<Checkbox />}
                   label="Irregular periods"
-                /><br></br>
+                />
+                <br></br>
                 <FormControlLabel
                   control={<Checkbox />}
                   label="Endometriosis"
-                /><br></br>
-                <FormControlLabel
-                  control={<Checkbox />}
-                  label="Fibroids"
-                /><br></br>
+                />
+                <br></br>
+                <FormControlLabel control={<Checkbox />} label="Fibroids" />
+                <br></br>
                 <FormControlLabel
                   control={<Checkbox />}
                   label="Polycystic Ovary Syndrome (PCOS)"
-                /><br></br>
+                />
+                <br></br>
                 <FormControlLabel
                   control={<Checkbox />}
                   label="Menstrual disorders"
-                /><br></br>
+                />
+                <br></br>
                 <FormControlLabel
                   control={<Checkbox />}
                   label="Other"
-                // value={answers.menstrual}
+                  // value={answers.menstrual}
                 />
               </ul>
               {answers.menstrual === "Other" && (
                 <div>
-                  "Please indicate the medication you previously used and whether you experienced any side effects:" </div>
+                  "Please indicate the medication you previously used and
+                  whether you experienced any side effects:"{" "}
+                </div>
               )}
             </FormControl>
             {/******•	When was the first day of your last period? *****/}
@@ -425,7 +503,7 @@ function PeriodDelayQuestion() {
 
             <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-             	How long does your typical period last?
+                How long does your typical period last?
               </Typography>
               <RadioGroup
                 row
@@ -435,16 +513,28 @@ function PeriodDelayQuestion() {
                   setAnswers({ ...answers, periodTime: e.target.value })
                 }
               >
-                <FormControlLabel value="3-5 days" control={<Radio />} label="3-5 days" />
-                <FormControlLabel value="6-7 days" control={<Radio />} label="6-7 days" />
-                <FormControlLabel value="more than 7 days" control={<Radio />} label="more than 7 days" />
+                <FormControlLabel
+                  value="3-5 days"
+                  control={<Radio />}
+                  label="3-5 days"
+                />
+                <FormControlLabel
+                  value="6-7 days"
+                  control={<Radio />}
+                  label="6-7 days"
+                />
+                <FormControlLabel
+                  value="more than 7 days"
+                  control={<Radio />}
+                  label="more than 7 days"
+                />
               </RadioGroup>
             </FormControl>
             {/******•	Are your periods regular? *****/}
 
             <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-               	Are your periods regular?
+                Are your periods regular?
               </Typography>
               <RadioGroup
                 row
@@ -459,14 +549,16 @@ function PeriodDelayQuestion() {
               </RadioGroup>
               {answers.regularPeriod === "No" && (
                 <div>
-                 "If your periods are irregular, it is recommended to consult your GP before using period delay treatment." </div>
+                  "If your periods are irregular, it is recommended to consult
+                  your GP before using period delay treatment."{" "}
+                </div>
               )}
             </FormControl>
-             {/*****•	Are you currently pregnant or trying to conceive?******/}
+            {/*****•	Are you currently pregnant or trying to conceive?******/}
 
-             <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-             	Are you currently pregnant or trying to conceive?
+                Are you currently pregnant or trying to conceive?
               </Typography>
               <RadioGroup
                 row
@@ -481,14 +573,16 @@ function PeriodDelayQuestion() {
               </RadioGroup>
               {answers.pregnant === "Yes" && (
                 <div>
-                  "This treatment is not suitable for pregnant women. Please consult your GP for alternative options."</div>
+                  "This treatment is not suitable for pregnant women. Please
+                  consult your GP for alternative options."
+                </div>
               )}
             </FormControl>
-             {/******•	Are you currently breastfeeding? *****/}
+            {/******•	Are you currently breastfeeding? *****/}
 
-             <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-              Are you currently breastfeeding?
+                Are you currently breastfeeding?
               </Typography>
               <RadioGroup
                 row
@@ -503,14 +597,18 @@ function PeriodDelayQuestion() {
               </RadioGroup>
               {answers.breastfeeding === "Yes" && (
                 <div>
-                "This treatment is not recommended for breastfeeding women. Please consult your GP for alternative options."</div>
+                  "This treatment is not recommended for breastfeeding women.
+                  Please consult your GP for alternative options."
+                </div>
               )}
             </FormControl>
-             {/******•	Do you understand that delaying your period may have potential side effects, and that you should consult your GP if you experience any issues? *****/}
+            {/******•	Do you understand that delaying your period may have potential side effects, and that you should consult your GP if you experience any issues? *****/}
 
-             <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-               	Do you understand that delaying your period may have potential side effects, and that you should consult your GP if you experience any issues?
+                Do you understand that delaying your period may have potential
+                side effects, and that you should consult your GP if you
+                experience any issues?
               </Typography>
               <RadioGroup
                 row
@@ -525,14 +623,17 @@ function PeriodDelayQuestion() {
               </RadioGroup>
               {answers.delayingperiod === "No" && (
                 <div>
-                "We cannot proceed with your treatment unless you understand and agree to this information."</div>
+                  "We cannot proceed with your treatment unless you understand
+                  and agree to this information."
+                </div>
               )}
             </FormControl>
-              {/******•	Do you understand that it is essential to follow the provided instructions for the medication to be effective and safe? *****/}
+            {/******•	Do you understand that it is essential to follow the provided instructions for the medication to be effective and safe? *****/}
 
-              <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-               Do you understand that it is essential to follow the provided instructions for the medication to be effective and safe?
+                Do you understand that it is essential to follow the provided
+                instructions for the medication to be effective and safe?
               </Typography>
               <RadioGroup
                 row
@@ -547,14 +648,17 @@ function PeriodDelayQuestion() {
               </RadioGroup>
               {answers.safeUse === "No" && (
                 <div>
-                "You must agree to the instructions and consult your GP for further guidance if needed."</div>
+                  "You must agree to the instructions and consult your GP for
+                  further guidance if needed."
+                </div>
               )}
             </FormControl>
-              {/******•	Do you confirm that all the information you have provided is accurate and complete to the best of your knowledge?	 *****/}
+            {/******•	Do you confirm that all the information you have provided is accurate and complete to the best of your knowledge?	 *****/}
 
-              <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-              	Do you confirm that all the information you have provided is accurate and complete to the best of your knowledge?
+                Do you confirm that all the information you have provided is
+                accurate and complete to the best of your knowledge?
               </Typography>
               <RadioGroup
                 row
@@ -569,14 +673,18 @@ function PeriodDelayQuestion() {
               </RadioGroup>
               {answers.confirmAll === "No" && (
                 <div>
-               "Please ensure that all details are correct before proceeding. Inaccurate information may impact the suitability of the treatment."</div>
+                  "Please ensure that all details are correct before proceeding.
+                  Inaccurate information may impact the suitability of the
+                  treatment."
+                </div>
               )}
             </FormControl>
-              {/******•	Do you agree to Medicus Express's terms and conditions and privacy policy for this consultation and treatment? *****/}
+            {/******•	Do you agree to Medicus Express's terms and conditions and privacy policy for this consultation and treatment? *****/}
 
-              <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-              	Do you agree to Medicus Express's terms and conditions and privacy policy for this consultation and treatment?
+                Do you agree to Medicus Express's terms and conditions and
+                privacy policy for this consultation and treatment?
               </Typography>
               <RadioGroup
                 row
@@ -591,14 +699,17 @@ function PeriodDelayQuestion() {
               </RadioGroup>
               {answers.agreeMedicus === "No" && (
                 <div>
-                "You must agree to the terms and conditions before continuing."</div>
+                  "You must agree to the terms and conditions before
+                  continuing."
+                </div>
               )}
             </FormControl>
-             {/******•	Do you confirm that you are over 18 years of age and fully understand the nature of the treatment prescribed?	 *****/}
+            {/******•	Do you confirm that you are over 18 years of age and fully understand the nature of the treatment prescribed?	 *****/}
 
-             <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-              	Do you confirm that you are over 18 years of age and fully understand the nature of the treatment prescribed?
+                Do you confirm that you are over 18 years of age and fully
+                understand the nature of the treatment prescribed?
               </Typography>
               <RadioGroup
                 row
@@ -613,7 +724,9 @@ function PeriodDelayQuestion() {
               </RadioGroup>
               {answers.confirmAge === "No" && (
                 <div>
-                "You must be at least 18 years old to proceed with this treatment."</div>
+                  "You must be at least 18 years old to proceed with this
+                  treatment."
+                </div>
               )}
             </FormControl>
 

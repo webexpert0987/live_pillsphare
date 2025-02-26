@@ -70,6 +70,10 @@ const BMI_Calculator = () => {
     return 90; // Obese
   };
 
+  useEffect(() => {
+    getProgressValue()
+  }, [bmi])
+
   const BmiStyle = {
     switchButton: {
       borderRadius: "0",
@@ -530,13 +534,13 @@ const BMI_Calculator = () => {
             />
             <Box display="flex" justifyContent="space-between" mt={1}>
               <Typography style={BmiStyle.progressTxt} variant="body2">
-                Safest BMI
+                Healthy BMI
               </Typography>
               <Typography style={BmiStyle.progressTxt} variant="body2">
-                Safer BMI
+                Normal BMI
               </Typography>
               <Typography style={BmiStyle.progressTxt} variant="body2">
-                High-Risk BMI
+                Overweight BMI
               </Typography>
             </Box>
           </Box>

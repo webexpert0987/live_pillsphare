@@ -73,8 +73,8 @@ const onlineClinicItems = [
   },
   { 
     id: 7, 
-    name: "High Fever", 
-    link: "high-fever",
+    name: "Hay Fever", 
+    link: "hayfever",
     points: [
       "Fast-acting relief for fever symptoms",
       "Expert medical advice available online",

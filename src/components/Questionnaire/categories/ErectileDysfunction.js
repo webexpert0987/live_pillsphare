@@ -17,7 +17,7 @@ import "../../../../src/globalStyle.css";
 import BmiCalculate from "../Consultation"; // Import the BMI calculation component
 import { useApp } from "../../../Context/AppContext";
 import { useMessage } from "../../../Context/MessageContext";
-const steps = ["1", "2", "3", "4"];
+const steps = ["1", "2", "3"];
 
 // Rename the main function
 function ErectileDysfunctionQuestionnaire() {
@@ -68,7 +68,7 @@ function ErectileDysfunctionQuestionnaire() {
       localStorage.getItem("questionnaire_info") || "{}"
     );
     const { bmiData } = qaData;
-
+    console.log('>>>currentStep>>', currentStep)
     // Validation logic
     if (currentStep === 0) {
       if (!bmiData?.bmi) {
@@ -110,7 +110,35 @@ function ErectileDysfunctionQuestionnaire() {
           return;
         }
       }
+
+      const preventProceedConditions = [
+        { field: "hasErectionDifficulties", condition: "No" },
+        { field: "hasHighBloodPressure", condition: "Yes" },
+        { field: "hasLowBloodPressure", condition: "Yes" },
+        { field: "hasDifficultyWalking", condition: "Yes" },
+        { field: "advisedAgainstStrenuousExercise", condition: "Yes" },
+        { field: "hasUntreatedDepression", condition: "Yes" },
+        { field: "hasAllergiesOrAdverseReactions", condition: "Yes" },
+        { field: "hasPreviousHealthConditions", condition: "Yes" },
+        { field: "takesNitratesOrNitricOxideDonors", condition: "Yes" },
+        { field: "understandsUnderlyingConditions", condition: "No" },
+        { field: "agreesToSeekHelpForProlongedErection", condition: "No" },
+        { field: "agreesToSeekHelpForProlongedErection", condition: "No" },
+
+      ];
+
+
+      for (const { field, condition } of preventProceedConditions) {
+        if (questionnaireResponses[field] === condition) {
+          showMessage(
+            "Based on your answers, we are unable to provide you with treatment at this time. Please consult your GP.",
+            "error"
+          );
+          return;
+        }
+      }
     } else if (currentStep === 2) {
+
       const requiredAgreements = ["agreesToTerms"];
 
       for (const field of requiredAgreements) {
@@ -133,13 +161,19 @@ function ErectileDysfunctionQuestionnaire() {
   };
 
   const handleSubmit = () => {
-    console.log("Form submitted with answers: ", questionnaireResponses);
+    if (!questionnaireResponses.agreesToTerms) {
+      showMessage(
+        "Please fill all details before proceeding to the next step.",
+        "error"
+      );
+      return
+    }
     const data = localStorage.getItem("questionnaire_info");
     let parsedData = {};
     if (data) {
       parsedData = JSON.parse(data);
     }
-   
+
     const { user, bmiData } = parsedData;
 
     localStorage.setItem(
@@ -430,13 +464,13 @@ function ErectileDysfunctionQuestionnaire() {
               </RadioGroup>
               {questionnaireResponses.advisedAgainstStrenuousExercise ===
                 "Yes" && (
-                <div>
-                  "We are unable to provide you with treatment at this time.
-                  Please consult your GP."
-                  <br></br>
-                  <br></br>Please Do not proceed.
-                </div>
-              )}
+                  <div>
+                    "We are unable to provide you with treatment at this time.
+                    Please consult your GP."
+                    <br></br>
+                    <br></br>Please Do not proceed.
+                  </div>
+                )}
             </FormControl>
 
             {/******10.	Do you suffer from depression but have not yet consulted a GP? *****/}
@@ -494,13 +528,13 @@ function ErectileDysfunctionQuestionnaire() {
               </RadioGroup>
               {questionnaireResponses.hasAllergiesOrAdverseReactions ===
                 "Yes" && (
-                <div>
-                  "We are unable to provide you with treatment at this time.
-                  Please consult your GP."
-                  <br></br>
-                  <br></br>Please Do not proceed.
-                </div>
-              )}
+                  <div>
+                    "We are unable to provide you with treatment at this time.
+                    Please consult your GP."
+                    <br></br>
+                    <br></br>Please Do not proceed.
+                  </div>
+                )}
             </FormControl>
 
             {/*****12.	Have you ever had any of the following health conditions?******/}
@@ -594,16 +628,16 @@ function ErectileDysfunctionQuestionnaire() {
               </RadioGroup>
               {questionnaireResponses.takesNitratesOrNitricOxideDonors ===
                 "Yes" && (
-                <div>
-                  "We do not recommend using recreational drugs with PDE5
-                  inhibitors, especially nitric oxide donors ('poppers'), as
-                  they may cause a dangerous drop in blood pressure. We are
-                  unable to provide you with treatment. Please consult your
-                  doctor for more information".
-                  <br></br>
-                  <br></br>Please Do not proceed.
-                </div>
-              )}
+                  <div>
+                    "We do not recommend using recreational drugs with PDE5
+                    inhibitors, especially nitric oxide donors ('poppers'), as
+                    they may cause a dangerous drop in blood pressure. We are
+                    unable to provide you with treatment. Please consult your
+                    doctor for more information".
+                    <br></br>
+                    <br></br>Please Do not proceed.
+                  </div>
+                )}
             </FormControl>
             {/*****14.Are you currently taking any other medication (including prescription, over-the-counter, or recreational drugs)?******/}
 
@@ -702,11 +736,11 @@ function ErectileDysfunctionQuestionnaire() {
               </RadioGroup>
               {questionnaireResponses.understandsUnderlyingConditions ===
                 "No" && (
-                <div>
-                  "You must agree to this before continuing. If you need
-                  assistance, please contact customer support."
-                </div>
-              )}
+                  <div>
+                    "You must agree to this before continuing. If you need
+                    assistance, please contact customer support."
+                  </div>
+                )}
             </FormControl>
 
             {/*****16.	In the rare event of obtaining a prolonged erection lasting more than 4 hours, or experiencing sudden visual impairment, I agree to seek immediate medical assistance?******/}
@@ -735,11 +769,11 @@ function ErectileDysfunctionQuestionnaire() {
               </RadioGroup>
               {questionnaireResponses.agreesToSeekHelpForProlongedErection ===
                 "No" && (
-                <div>
-                  "You must agree to this before continuing. If you need
-                  assistance, please contact customer support."
-                </div>
-              )}
+                  <div>
+                    "You must agree to this before continuing. If you need
+                    assistance, please contact customer support."
+                  </div>
+                )}
             </FormControl>
 
             {/*****17.	Do you agree to the following conditions?******/}

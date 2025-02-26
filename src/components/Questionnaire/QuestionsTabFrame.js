@@ -116,7 +116,7 @@ const QuestionForm = {
   cystitis: <CystitisQuestion />,
   "erectile-dysfunction": <ErectileDysfunctionQuestion />,
   "hair-loss": <HairLossQuestion />,
-  hayfever: <HighFeverQuestion />,
+  "hayfever": <HighFeverQuestion />,
   migraine: <MigraineQuestion />,
   "period-delay": <PeriodDelayQuestion />,
   "period-pain": <PeriodPainQuestion />,

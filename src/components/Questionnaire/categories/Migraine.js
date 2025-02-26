@@ -17,7 +17,7 @@ import "../../../../src/globalStyle.css";
 import BmiCalculate from "../Consultation"; // Import the BMI calculation component
 import { useApp } from "../../../Context/AppContext";
 import { useMessage } from "../../../Context/MessageContext";
-const steps = ["1", "2", "3", "4"];
+const steps = ["1", "2", "3"];
 
 function MigraineQuestion() {
   const [activeStep, setActiveStep] = useState(0);
@@ -69,7 +69,14 @@ function MigraineQuestion() {
         return;
       }
     } else if (activeStep === 1) {
-      const requiredFields = ["agedBetween"];
+      const requiredFields = [
+        "agedBetween",
+        "migrain",
+        "migrainTime",
+        "experienceMigrain",
+        "anySymptoms",
+        "diagnosed",
+      ];
 
       for (const field of requiredFields) {
         if (
@@ -79,6 +86,29 @@ function MigraineQuestion() {
         ) {
           showMessage(
             "Please fill all details before proceeding to the next step.",
+            "error"
+          );
+          return;
+        }
+      }
+      const preventProceedConditions = [
+        { field: "agedBetween", condition: "No" },
+        { field: "migrain", condition: "No" },
+        { field: "migrainTime", condition: "Yes" },
+        { field: "experienceMigrain", condition: "Yes" },
+        { field: "anySymptoms", condition: "Yes" },
+        { field: "diagnosed", condition: "No" },
+        { field: "otherAllergy", condition: "Yes" },
+        { field: "triptans", condition: "Yes" },
+        { field: "diagnoseAny", condition: "Yes" },
+        { field: "medicationAny2", condition: "Yes" },
+        { field: "agreedTC1", condition: "No" },
+      ];
+
+      for (const { field, condition } of preventProceedConditions) {
+        if (answers[field] === condition) {
+          showMessage(
+            "Based on your answers, we are unable to provide you with treatment at this time. Please consult your GP.",
             "error"
           );
           return;
@@ -107,7 +137,13 @@ function MigraineQuestion() {
   };
 
   const handleSubmit = () => {
-    console.log("Form submitted with answers: ", answers);
+    if (!answers.agreeToTerms) {
+      showMessage(
+        "Please fill all details before proceeding to the next step.",
+        "error"
+      );
+      return;
+    }
     const data = localStorage.getItem("questionnaire_info");
     let parsedData = {};
     if (data) {

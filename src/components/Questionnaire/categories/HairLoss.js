@@ -17,7 +17,7 @@ import "../../../../src/globalStyle.css";
 import BmiCalculate from "../Consultation"; // Import the BMI calculation component
 import { useApp } from "../../../Context/AppContext";
 import { useMessage } from "../../../Context/MessageContext";
-const steps = ["1", "2", "3", "4"];
+const steps = ["1", "2", "3"];
 
 function HairLossQuestionnaire() {
   const [currentStep, setCurrentStep] = useState(0);
@@ -99,6 +99,30 @@ function HairLossQuestionnaire() {
           return;
         }
       }
+
+      const preventProceedConditions = [
+        { field: "isAgedBetween17And74", condition: "No" },
+        { field: "hasHairLossInPatchesOrScalpIssues", condition: "Yes" },
+        { field: "hasHealthyScalp", condition: "No" },
+        { field: "hasSuddenOrCompleteHairLoss", condition: "Yes" },
+        { field: "isHairLossRelatedToMedicationOrIllness", condition: "Yes" },
+        { field: "hasDiagnosedMedicalConditions", condition: "Yes" },
+        { field: "isTakingSpecificMedications", condition: "Yes" },
+        { field: "understandsFinasterideRisks", condition: "No" },
+        { field: "understandsPSATestImplications", condition: "No" },
+        { field: "agreesToTermsAndConfirmsAge", condition: "No" },
+      ];
+
+
+      for (const { field, condition } of preventProceedConditions) {
+        if (questionnaireResponses[field] === condition) {
+          showMessage(
+            "Based on your answers, we are unable to provide you with treatment at this time. Please consult your GP.",
+            "error"
+          );
+          return;
+        }
+      }
     } else if (currentStep === 2) {
       const requiredAgreements = ["agreesToTermsAndConditions"];
 
@@ -122,13 +146,19 @@ function HairLossQuestionnaire() {
   };
 
   const handleSubmit = () => {
-    console.log("Form submitted with answers: ", questionnaireResponses);
+    if (!questionnaireResponses.agreesToTermsAndConditions) {
+      showMessage(
+        "Please fill all details before proceeding to the next step.",
+        "error"
+      );
+      return
+    }
     const data = localStorage.getItem("questionnaire_info");
     let parsedData = {};
     if (data) {
       parsedData = JSON.parse(data);
     }
- 
+
     const { user, bmiData } = parsedData;
 
     localStorage.setItem(
@@ -206,11 +236,11 @@ function HairLossQuestionnaire() {
               </RadioGroup>
               {questionnaireResponses.hasHairLossInPatchesOrScalpIssues ===
                 "Yes" && (
-                <div>
-                  This treatment may not be suitable for you. We recommend
-                  contacting your GP for further advice." [Do not proceed]
-                </div>
-              )}
+                  <div>
+                    This treatment may not be suitable for you. We recommend
+                    contacting your GP for further advice." [Do not proceed]
+                  </div>
+                )}
             </FormControl>
             {/****•	Is your hair loss localized to the temple area?******/}
 
@@ -234,11 +264,11 @@ function HairLossQuestionnaire() {
               </RadioGroup>
               {questionnaireResponses.isHairLossLocalizedToTempleArea ===
                 "No" && (
-                <div>
-                  We can still offer treatment, but the range of available
-                  medications may be limited.
-                </div>
-              )}
+                  <div>
+                    We can still offer treatment, but the range of available
+                    medications may be limited.
+                  </div>
+                )}
             </FormControl>
             {/****** •	Do you have a healthy scalp? *****/}
 
@@ -328,11 +358,11 @@ function HairLossQuestionnaire() {
               </RadioGroup>
               {questionnaireResponses.isHairLossRelatedToMedicationOrIllness ===
                 "Yes" && (
-                <div>
-                  "If your hair loss is caused by lifestyle or health factors,
-                  we recommend discussing it with your GP." [Do not proceed]
-                </div>
-              )}
+                  <div>
+                    "If your hair loss is caused by lifestyle or health factors,
+                    we recommend discussing it with your GP." [Do not proceed]
+                  </div>
+                )}
             </FormControl>
             {/******•	Have you ever been diagnosed with any of the following conditions?  *****/}
 
@@ -374,10 +404,10 @@ function HairLossQuestionnaire() {
               </RadioGroup>
               {questionnaireResponses.hasDiagnosedMedicalConditions ===
                 "Yes" && (
-                <div>
-                  "This treatment is not suitable for you." [Do not proceed]
-                </div>
-              )}
+                  <div>
+                    "This treatment is not suitable for you." [Do not proceed]
+                  </div>
+                )}
             </FormControl>
             {/******•	Do you have a history of depression or any other mental health conditions?  *****/}
 
@@ -404,11 +434,11 @@ function HairLossQuestionnaire() {
               </RadioGroup>
               {questionnaireResponses.hasHistoryOfDepressionOrMentalHealth ===
                 "Yes" && (
-                <div>
-                  We can still offer treatment, but with a limited product
-                  range.
-                </div>
-              )}
+                  <div>
+                    We can still offer treatment, but with a limited product
+                    range.
+                  </div>
+                )}
             </FormControl>
             {/****** •	Are you currently taking any medication (including prescription, over-the-counter, or recreational drugs)? *****/}
 
@@ -475,11 +505,11 @@ function HairLossQuestionnaire() {
                     </RadioGroup>
                     {questionnaireResponses.isTakingSpecificMedications ===
                       "Yes" && (
-                      <div>
-                        "We are unable to supply you with treatment. Please
-                        consult your GP." [Do not proceed]
-                      </div>
-                    )}
+                        <div>
+                          "We are unable to supply you with treatment. Please
+                          consult your GP." [Do not proceed]
+                        </div>
+                      )}
                   </ul>
                 </div>
               )}
@@ -538,11 +568,11 @@ function HairLossQuestionnaire() {
               </RadioGroup>
               {questionnaireResponses.understandsPSATestImplications ===
                 "No" && (
-                <div>
-                  "We are unable to supply you with medication unless you
-                  understand and agree to this condition." [Do not proceed]
-                </div>
-              )}
+                  <div>
+                    "We are unable to supply you with medication unless you
+                    understand and agree to this condition." [Do not proceed]
+                  </div>
+                )}
             </FormControl>
             {/****** •	I agree to the terms and conditions, and I confirm that I am over 18 years of age. *****/}
 

@@ -19,7 +19,7 @@ import "../../../../src/globalStyle.css";
 import BmiCalculate from "../Consultation"; // Import the BMI calculation component
 import { useApp } from "../../../Context/AppContext";
 import { useMessage } from "../../../Context/MessageContext";
-const steps = ["1", "2", "3", "4"];
+const steps = ["1", "2", "3"];
 
 function HighFeverQuestion() {
   const [activeStep, setActiveStep] = useState(0);
@@ -81,7 +81,14 @@ function HighFeverQuestion() {
         return;
       }
     } else if (activeStep === 1) {
-      const requiredFields = ["agedBetween"];
+      const requiredFields = [
+        "fullName",
+        "medicationDetails",
+        "agedBetween",
+        "pregnancyDetails",
+        "smokeDetails",
+        "alcohalDetails",
+      ];
 
       for (const field of requiredFields) {
         if (
@@ -95,6 +102,30 @@ function HighFeverQuestion() {
           );
           return;
         }
+      }
+      // Additional checks for conditional fields
+      if (answers.pregnancyDetails === "Yes" && !answers.additionalDetails) {
+        showMessage(
+          "Please provide additional details about your pregnancy.",
+          "error"
+        );
+        return;
+      }
+
+      if (answers.smokeDetails === "Yes" && !answers.smokeDetailsNext) {
+        showMessage(
+          "Please indicate if you would like more information about smoking.",
+          "error"
+        );
+        return;
+      }
+
+      if (answers.alcohalDetails === "Yes" && !answers.alcohalDetailsNext) {
+        showMessage(
+          "Please indicate if you would like information on safe alcohol consumption.",
+          "error"
+        );
+        return;
       }
     } else if (activeStep === 2) {
       const requiredAgreements = ["agreeToTerms"];
@@ -119,7 +150,13 @@ function HighFeverQuestion() {
   };
 
   const handleSubmit = () => {
-    console.log("Form submitted with answers: ", answers);
+    if (!answers.agreeToTerms) {
+      showMessage(
+        "Please fill all details before proceeding to the next step.",
+        "error"
+      );
+      return;
+    }
     const data = localStorage.getItem("questionnaire_info");
     let parsedData = {};
     if (data) {

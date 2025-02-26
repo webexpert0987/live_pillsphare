@@ -139,7 +139,7 @@ const onlineClinicItems = [
     link: "/online-clinic/erectile-dysfunction",
   },
   { id: 6, name: "Hair Loss", link: "/online-clinic/hair-loss" },
-  { id: 7, name: "High Fever", link: "/online-clinic/high-fever" },
+  { id: 7, name: "Hay Fever", link: "/online-clinic/hayfever" },
   {
     id: 8,
     name: "Migraine Treatment Eligibility Questionnaire",
@@ -178,7 +178,7 @@ const MainHeader = () => {
     setOnlineClinicAnchorEl(null);
   };
 
-  const handleOnlineClinicClick = () => {};
+  const handleOnlineClinicClick = () => { };
 
   const handleToggle = (index) => {
     setOpenSections((prevState) => ({
@@ -266,7 +266,7 @@ const MainHeader = () => {
     navigate("/login");
   };
 
-  const handleSearchClick = (e) => {};
+  const handleSearchClick = (e) => { };
 
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -345,8 +345,8 @@ const MainHeader = () => {
                         text === "Shop"
                           ? "/shop"
                           : text === "Online Clinic"
-                          ? "/online-clinic"
-                          : "/online-clinic/weight-loss"
+                            ? "/online-clinic"
+                            : "/online-clinic/weight-loss"
                       }
                       style={{ textDecoration: "none" }}
                     >
@@ -570,7 +570,7 @@ const MainHeader = () => {
               <AddToCartModal
                 open={openCartModel}
                 onClose={() => setOpenCartModel(false)}
-                // product={product}
+              // product={product}
               />
             </Box>
           </Toolbar>
@@ -604,11 +604,11 @@ const MainHeader = () => {
           sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
           component="nav"
           aria-labelledby="nested-list-subheader"
-          // subheader={
-          //     <ListSubheader component="div" id="nested-list-subheader">
-          //         Services
-          //     </ListSubheader>
-          // }
+        // subheader={
+        //     <ListSubheader component="div" id="nested-list-subheader">
+        //         Services
+        //     </ListSubheader>
+        // }
         >
           {nestedListData.map((item, index) => (
             <React.Fragment key={index}>

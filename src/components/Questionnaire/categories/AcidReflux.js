@@ -17,7 +17,7 @@ import "../../../../src/globalStyle.css";
 import BmiCalculate from "../Consultation"; // Import the BMI calculation component
 import { useApp } from "../../../Context/AppContext";
 import { useMessage } from "../../../Context/MessageContext";
-const steps = ["1", "2", "3", "4"];
+const steps = ["1", "2", "3"];
 
 function AcidRefluxQuestion() {
   const [activeStep, setActiveStep] = useState(0);
@@ -41,6 +41,7 @@ function AcidRefluxQuestion() {
   const boxRef = useRef(null);
   const { setSelectedTab, setQuestionData } = useApp();
   const { showMessage } = useMessage();
+  const [stopNext, setStopNext] = useState(false);
   const handleScroll = () => {
     setTimeout(() => {
       if (boxRef.current) {
@@ -99,6 +100,26 @@ function AcidRefluxQuestion() {
           return;
         }
       }
+
+      if (
+        (answers.over50WithNewSymptoms === "Yes" ||
+          answers.acidRefluxSymptoms === "No" ||
+          answers.difficultySwallowing === "Yes" ||
+          answers.allergyToPPIs === "Yes" ||
+          answers.pregnantOrBreastfeeding === "Yes" ||
+          answers.otherConditions === "Yes" ||
+          answers.rashAfterPPIs === "Yes" ||
+          answers.takingMedications === "Yes" ||
+          answers.onSteroids === "Yes" ||
+          answers.healthyLifestyle === "No" ||
+          answers.shortTermUse === "No" ||
+          answers.contactGP === "No" ||
+          answers.agree === "No"
+        )
+      ) {
+        showMessage("We are unable to provide you with treatment at this time. Please consult your GP.", "error");
+        return;
+      }
     } else if (activeStep === 2) {
       const requiredAgreements = ["agreeToTerms"];
 
@@ -122,6 +143,13 @@ function AcidRefluxQuestion() {
   };
 
   const handleSubmit = () => {
+    if (!answers.agreeToTerms) {
+      showMessage(
+        "Please fill all details before proceeding to the next step.",
+        "error"
+      );
+      return
+    }
     console.log("Form submitted with answers: ", answers);
     const data = localStorage.getItem("questionnaire_info");
     let parsedData = {};
@@ -141,6 +169,19 @@ function AcidRefluxQuestion() {
       })
     );
     setSelectedTab(2);
+  };
+
+  const consultMessage = (value, condition) => {
+    if (value !== condition) {
+      return null;
+    }
+    return (
+      <div>
+        We are unable to provide you with treatment at this time. Please consult
+        your GP.
+        <br></br>Please Do not proceed.
+      </div>
+    );
   };
 
   const renderStepContent = (stepIndex) => {
@@ -176,6 +217,7 @@ function AcidRefluxQuestion() {
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
+              {consultMessage(answers.over50WithNewSymptoms, "Yes")}
             </FormControl>
 
             {/* 2nd Do you experience acid reflux symptoms at least twice a week, including:  */}
@@ -204,6 +246,8 @@ function AcidRefluxQuestion() {
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
+
+              {consultMessage(answers.acidRefluxSymptoms, "No")}
             </FormControl>
             {/* ---------------- */}
 
@@ -238,6 +282,7 @@ function AcidRefluxQuestion() {
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
+              {consultMessage(answers.difficultySwallowing, "Yes")}
             </FormControl>
 
             {/****** 4th Do you have a known allergy to proton pump inhibitors (e.g., omeprazole, pantoprazole)? *****/}
@@ -258,6 +303,7 @@ function AcidRefluxQuestion() {
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
+              {consultMessage(answers.allergyToPPIs, "Yes")}
             </FormControl>
 
             {/****** 5th.** Are you pregnant, possibly pregnant, or breastfeeding?  *****/}
@@ -280,6 +326,7 @@ function AcidRefluxQuestion() {
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
+              {consultMessage(answers.pregnantOrBreastfeeding, "Yes")}
             </FormControl>
 
             {/****** 6th Do you have any of the following conditions:   *****/}
@@ -305,6 +352,7 @@ function AcidRefluxQuestion() {
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
+              {consultMessage(answers.otherConditions, "Yes")}
             </FormControl>
 
             {/****** 7th  Have you experienced a ring-shaped or plaque-shaped rash after
@@ -329,6 +377,7 @@ function AcidRefluxQuestion() {
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
+              {consultMessage(answers.rashAfterPPIs, "Yes")}
             </FormControl>
 
             {/****** 8th  Are you taking any medication, including over-the-counter, prescription, or recreational drugs?  *****/}
@@ -350,6 +399,7 @@ function AcidRefluxQuestion() {
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
+              {consultMessage(answers.takingMedications, "Yes")}
             </FormControl>
 
             {/****** 9th Are you on any of the following medications? *****/}
@@ -357,7 +407,17 @@ function AcidRefluxQuestion() {
             <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
                 Are you on any of the following medications?
+                <ul>
+                  <li>NSAIDs (e.g., ibuprofen)</li>
+                  <li>Antifungals (e.g., ketoconazole)</li>
+                  <li>Digoxin, Diazepam, or Ulipristal</li>
+                  <li>Phenytoin, Fosphenytoin, warfarin, or vitamin K blockers</li>
+                  <li>Rifampicin, HIV medications, Ledipasvir, Ciclosporin, Tacrolimus</li>
+                  <li>St John's Wort, Cilostazol, Clopidogrel, Vitamin B12</li>
+                  <li>Certain cancer treatments, antibiotics, Methotrexate, Escitalopram, Clozapine</li>
+                </ul>
               </Typography>
+
 
               <RadioGroup
                 row
@@ -373,6 +433,7 @@ function AcidRefluxQuestion() {
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
+              {consultMessage(answers.onSteroids, "Yes")}
             </FormControl>
 
             {/****** 10th .** Do you agree to:  
