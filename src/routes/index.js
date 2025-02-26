@@ -16,8 +16,18 @@ import Faqs from "../components/Faqs/Faqs";
 import Orderhisttory from "../pages/orderHistory";
 import OnlineClinicCategory from "../pages/OnlineClinicCategory";
 import SupportPage from "../components/Support/Support";
+//////////////////////
 import HeyFever from "../components/CategoryInfoPages/HayFever";
 import CystitisTreatment  from "../components/CategoryInfoPages/CystitisTreatment";
+import ContraceptiveTreatment  from "../components/CategoryInfoPages/ContraceptiveTreatment";
+import AcidReflux  from "../components/CategoryInfoPages/AcidReflux";
+import PrematureEjaculation  from "../components/CategoryInfoPages/PrematureEjaculation";
+import HairLoss  from "../components/CategoryInfoPages/HairLoss";
+import ErectileDysPage  from "../components/CategoryInfoPages/ErectileDysfunction";
+import StopSmokingPage  from "../components/CategoryInfoPages/StopSmoking";
+import PeriodPainPage  from "../components/CategoryInfoPages/PeriodPain";
+import PeriodDelayPage  from "../components/CategoryInfoPages/PeriodDelay";
+import MigraineTreatmentPage  from "../components/CategoryInfoPages/MigraineTreatment";
 
 const routes = [
   {
@@ -120,6 +130,56 @@ const routes = [
     component: CystitisTreatment,
     exact: true,
   },
+  {
+    path: "/contraceptive-treatment",
+    component: ContraceptiveTreatment,
+    exact: true,
+  },
+  {
+    path: "/acid-reflux",
+    component: AcidReflux,
+    exact: true,
+  },
+  {
+    path: "/premature-ejaculation",
+    component: PrematureEjaculation,
+    exact: true,
+  },
+  {
+    path: "/hair-loss",
+    component: HairLoss,
+    exact: true,
+  },
+  {
+    path: "/erectile-dys",
+    component: ErectileDysPage,
+    exact: true,
+  },
+  {
+    path: "/stop-smoking",
+    component: StopSmokingPage,
+    exact: true,
+  },
+  {
+    path: "/period-pain",
+    component: PeriodPainPage,
+    exact: true,
+  },
+  {
+    path: "/period-delay",
+    component: PeriodDelayPage,
+    exact: true,
+  },
+  {
+    path: "/migraine-treatment",
+    component: MigraineTreatmentPage,
+    exact: true,
+  },
+  
+  
+  
+
+  
   
   
 ];
