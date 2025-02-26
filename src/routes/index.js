@@ -29,6 +29,7 @@ import PeriodPainPage  from "../components/CategoryInfoPages/PeriodPain";
 import PeriodDelayPage  from "../components/CategoryInfoPages/PeriodDelay";
 import MigraineTreatmentPage  from "../components/CategoryInfoPages/MigraineTreatment";
 
+import Verification from "../pages/Verification";
 const routes = [
   {
     path: "/",
@@ -175,13 +176,13 @@ const routes = [
     component: MigraineTreatmentPage,
     exact: true,
   },
-  
-  
+  {
+    path: "/verification",
+    component: Verification,
+    exact: true,
+  },
   
 
-  
-  
-  
 ];
 
 export default routes;

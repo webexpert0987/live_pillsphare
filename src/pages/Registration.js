@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import { Link, useNavigate } from "react-router-dom";
@@ -60,12 +60,12 @@ const validationSchema = Yup.object({
 export default function SignUp() {
     const navigate = useNavigate();
     const [error, setError] = useState('');
-    const {showMessage} = useMessage();
-    const {login} = useApp();
+    const { showMessage } = useMessage();
+    const { login } = useApp();
 
-    
+
     const handleSubmit = async (values, { setSubmitting }) => {
-        
+
 
         setError('');
         const userData = {
@@ -78,17 +78,20 @@ export default function SignUp() {
         };
         try {
             const registarRes = await registerUser(userData);
-            
+
             if (registarRes.status == 200) {
                 const userData = { email: values.email, password: values.password };
-                const response = await loginUser(userData);
-                if(response.status == 200) {
-                    let userInfo = {first_name: response.first_name, last_name: response.last_name, user_id: response.user_id, token: response.token}
-                    login(userInfo);
-    
-                    navigate('/');
-                    showMessage(registarRes.message, 'success');
-                }
+                localStorage.setItem('verify_user', JSON.stringify(userData));
+                showMessage("Otp sent to your email", 'success')
+                navigate('/verification');
+                // const response = await loginUser(userData);
+                // if(response.status == 200) {
+                //     let userInfo = {first_name: response.first_name, last_name: response.last_name, user_id: response.user_id, token: response.token}
+                //     login(userInfo);
+
+                //     navigate('/');
+                //     showMessage(registarRes.message, 'success');
+                // }
             }
         } catch (err) {
             setError(err.response.data.message);
@@ -249,7 +252,7 @@ export default function SignUp() {
                                             control={<Checkbox value="remember" color="primary" />}
                                             label="Remember me"
                                         /> */}
-                                        
+
                                         <Button
                                             type="submit"
                                             fullWidth
