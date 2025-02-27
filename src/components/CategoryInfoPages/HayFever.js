@@ -17,13 +17,12 @@ import {
   AccordionDetails,
   Accordion,
 } from "@mui/material";
+import heroImage from "../../pages/images/Info-Images/Hay-Fever/hero.jpg"
+////////////////////////
 import TrustBar from "../../pages/Trustbar";
 import howItWorksBg from "../../pages/images/Info-Images/how-it-works-bg.svg";
-import ImageOne from "../../pages/images/Info-Images/Hay-Fever01.jpg";
-import ImageTwo from "../../pages/images/Info-Images/Hay-Fever02.jpg";
-
-import ImageThree from "../../pages/images/Info-Images/Hay-Fever03.png";
-import ImageFour from "../../pages/images/Info-Images/Hay-Fever04.png";
+import ImageOne from "../../pages/images/Info-Images/Hay-Fever/hey01.jpg";
+import ImageTwo from "../../pages/images/Info-Images/Hay-Fever/hey02.jpg";
 
 import WhyChoosePills from "./WhyChoose";
 
@@ -350,7 +349,7 @@ function HayFever() {
       {/************** Hero Section **************/}
       <Box
         sx={{
-          backgroundImage: `url("https://admin.pillsphere.com/wp-content/uploads/2025/01/categoryHeroImage.jpg")`,
+          backgroundImage: `url(${heroImage})`,
           backgroundSize: "cover",
           backgroundRepeat: "no-repeat",
           backgroundPosition: "center",
@@ -363,7 +362,7 @@ function HayFever() {
         <Container>
           <Box
             sx={{
-              width: "700px",
+              width: { xs: "100%", sm: "600px", md: "700px" },
               maxWidth: "100%",
               paddingTop: { xs: "30px", sm: "35px", md: "50px" },
               paddingBottom: { xs: "30px", sm: "35px", md: "50px" },
@@ -483,8 +482,8 @@ function HayFever() {
             margin: "auto",
             padding: {
               xs: "30px 0 30px 0",
-              sm: "50px 0 50px 0",
-              md: "70px 0 70px 0",
+              sm: "50px 0 60px 0",
+              md: "70px 0 90px 0",
             },
           }}
         >
@@ -526,7 +525,7 @@ function HayFever() {
                       maxWidth: "100%",
                       position: "absolute",
                       right: "0",
-                      bottom: "0",
+                      bottom: "-30px",
                       borderRadius: "20px",
                       zIndex: "2",
                       display: { xs: "none", sm: "block", md: "block" },
@@ -552,7 +551,7 @@ function HayFever() {
                 variant="h4"
                 gutterBottom
                 sx={{
-                  fontSize: { xs: "22px", sm: "30px", md: "32px" },
+                  fontSize: { xs: "22px", sm: "26px", md: "32px" },
                   fontWeight: "700",
                   color: "#333",
                   lineHeight: "1.3",
@@ -638,9 +637,9 @@ function HayFever() {
               maxWidth: "100%",
               margin: "auto",
               padding: {
-                xs: "30px 0 50px 0",
-                sm: "50px 0 60px 0",
-                md: "70px 0 90px 0",
+                xs: "30px 0 30px 0",
+                sm: "50px 0 50px 0",
+                md: "70px 0 70px 0",
               },
             }}
           >
@@ -661,7 +660,7 @@ function HayFever() {
                   variant="h4"
                   gutterBottom
                   sx={{
-                    fontSize: { xs: "22px", sm: "30px", md: "32px" },
+                    fontSize: { xs: "22px", sm: "26px", md: "32px" },
                     fontWeight: "700",
                     color: "#333",
                     lineHeight: "1.3",
@@ -702,7 +701,7 @@ function HayFever() {
                   variant="h4"
                   gutterBottom
                   sx={{
-                    fontSize: { xs: "22px", sm: "30px", md: "32px" },
+                    fontSize: { xs: "22px", sm: "26px", md: "32px" },
                     fontWeight: "700",
                     color: "#333",
                     lineHeight: "1.3",

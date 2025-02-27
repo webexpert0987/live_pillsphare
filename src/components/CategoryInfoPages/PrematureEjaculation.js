@@ -17,13 +17,13 @@ import {
   AccordionDetails,
   Accordion,
 } from "@mui/material";
+import heroImage from "../../pages/images/Info-Images/Premature/hero.jpg"
+////////////////////////
 import TrustBar from "../../pages/Trustbar";
 import howItWorksBg from "../../pages/images/Info-Images/how-it-works-bg.svg";
-import ImageOne from "../../pages/images/Info-Images/Hay-Fever01.jpg";
-import ImageTwo from "../../pages/images/Info-Images/Hay-Fever02.jpg";
+import ImageOne from "../../pages/images/Info-Images/Premature/Premature01.jpg";
+import ImageTwo from "../../pages/images/Info-Images/Premature/Premature02.jpg";
 
-import ImageThree from "../../pages/images/Info-Images/Hay-Fever03.png";
-import ImageFour from "../../pages/images/Info-Images/Hay-Fever04.png";
 
 import WhyChoosePills from "./WhyChoose";
 
@@ -57,6 +57,7 @@ const weightCompStyle = {
     width: "auto",
     padding: "18px 25px",
     lineHeight: "1.4",
+    verticalAlign: "top",
     borderBottom: `1px solid ${borderColor}`, // Bottom border only
     borderRight: `1px solid ${borderColor}`, // Right border only
     "@media (max-width: 991px)": {
@@ -244,7 +245,7 @@ function PrematurePage() {
       {/************** Hero Section **************/}
       <Box
         sx={{
-          backgroundImage: `url("https://admin.pillsphere.com/wp-content/uploads/2025/01/categoryHeroImage.jpg")`,
+          backgroundImage: `url(${heroImage})`,
           backgroundSize: "cover",
           backgroundRepeat: "no-repeat",
           backgroundPosition: "center",
@@ -257,7 +258,7 @@ function PrematurePage() {
         <Container>
           <Box
             sx={{
-              width: "700px",
+              width: { xs: "100%", sm: "600px", md: "700px" },
               maxWidth: "100%",
               paddingTop: { xs: "30px", sm: "35px", md: "50px" },
               paddingBottom: { xs: "30px", sm: "35px", md: "50px" },
@@ -378,8 +379,8 @@ function PrematurePage() {
             margin: "auto",
             padding: {
               xs: "30px 0 30px 0",
-              sm: "50px 0 50px 0",
-              md: "70px 0 70px 0",
+              sm: "50px 0 70px 0",
+              md: "70px 0 90px 0",
             },
           }}
         >
@@ -421,7 +422,7 @@ function PrematurePage() {
                       maxWidth: "100%",
                       position: "absolute",
                       right: "0",
-                      bottom: "0",
+                      bottom: "-30px",
                       borderRadius: "20px",
                       zIndex: "2",
                       display: { xs: "none", sm: "block", md: "block" },
@@ -438,7 +439,7 @@ function PrematurePage() {
               sx={{
                 padding: {
                   xs: "20px 0 0 0px",
-                  sm: "30px 0 0 50px",
+                  sm: "10px 0 0 50px",
                   md: "30px 0 0 80px",
                 },
               }}
@@ -447,7 +448,7 @@ function PrematurePage() {
                 variant="h4"
                 gutterBottom
                 sx={{
-                  fontSize: { xs: "22px", sm: "30px", md: "32px" },
+                  fontSize: { xs: "22px", sm: "26px", md: "32px" },
                   fontWeight: "700",
                   color: "#333",
                   lineHeight: "1.3",
@@ -531,9 +532,9 @@ function PrematurePage() {
               maxWidth: "100%",
               margin: "auto",
               padding: {
-                xs: "30px 0 50px 0",
-                sm: "50px 0 60px 0",
-                md: "70px 0 90px 0",
+                xs: "30px 0 30px 0",
+                sm: "50px 0 50px 0",
+                md: "70px 0 70px 0",
               },
             }}
           >
@@ -545,7 +546,7 @@ function PrematurePage() {
                 sx={{
                   padding: {
                     xs: "0 0 0 0",
-                    sm: "0 10% 0 0",
+                    sm: "0 5% 0 0",
                     md: "0 10% 0 0",
                   },
                 }}
@@ -554,7 +555,7 @@ function PrematurePage() {
                   variant="h4"
                   gutterBottom
                   sx={{
-                    fontSize: { xs: "22px", sm: "30px", md: "32px" },
+                    fontSize: { xs: "22px", sm: "26px", md: "32px" },
                     fontWeight: "700",
                     color: "#333",
                     lineHeight: "1.3",
@@ -593,7 +594,7 @@ function PrematurePage() {
                   variant="h4"
                   gutterBottom
                   sx={{
-                    fontSize: { xs: "22px", sm: "30px", md: "32px" },
+                    fontSize: { xs: "22px", sm: "26px", md: "32px" },
                     fontWeight: "700",
                     color: "#333",
                     lineHeight: "1.3",

@@ -17,13 +17,14 @@ import {
   AccordionDetails,
   Accordion,
 } from "@mui/material";
+import heroImage from "../../pages/images/Info-Images/Period-Delay/hero.jpg"
+////////////////////////
 import TrustBar from "../../pages/Trustbar";
 import howItWorksBg from "../../pages/images/Info-Images/how-it-works-bg.svg";
-import ImageOne from "../../pages/images/Info-Images/Hay-Fever01.jpg";
-import ImageTwo from "../../pages/images/Info-Images/Hay-Fever02.jpg";
+import ImageOne from "../../pages/images/Info-Images/Period-Delay/delay01.jpg";
+import ImageTwo from "../../pages/images/Info-Images/Period-Delay/delay02.jpg";
 
-import ImageThree from "../../pages/images/Info-Images/Hay-Fever03.png";
-import ImageFour from "../../pages/images/Info-Images/Hay-Fever04.png";
+import ImageThree from "../../pages/images/Info-Images/Period-Delay/delay03.jpg";
 
 import WhyChoosePills from "./WhyChoose";
 
@@ -255,7 +256,7 @@ function PeriodDelay() {
       {/************** Hero Section **************/}
       <Box
         sx={{
-          backgroundImage: `url("https://admin.pillsphere.com/wp-content/uploads/2025/01/categoryHeroImage.jpg")`,
+          backgroundImage: `url(${heroImage})`,
           backgroundSize: "cover",
           backgroundRepeat: "no-repeat",
           backgroundPosition: "center",
@@ -268,7 +269,7 @@ function PeriodDelay() {
         <Container>
           <Box
             sx={{
-              width: "700px",
+              width: { xs: "100%", sm: "600px", md: "700px" },
               maxWidth: "100%",
               paddingTop: { xs: "30px", sm: "35px", md: "50px" },
               paddingBottom: { xs: "30px", sm: "35px", md: "50px" },
@@ -388,8 +389,8 @@ function PeriodDelay() {
             margin: "auto",
             padding: {
               xs: "30px 0 30px 0",
-              sm: "50px 0 50px 0",
-              md: "70px 0 70px 0",
+              sm: "50px 0 70px 0",
+              md: "70px 0 90px 0",
             },
           }}
         >
@@ -431,7 +432,7 @@ function PeriodDelay() {
                       maxWidth: "100%",
                       position: "absolute",
                       right: "0",
-                      bottom: "0",
+                      bottom: "-30px",
                       borderRadius: "20px",
                       zIndex: "2",
                       display: { xs: "none", sm: "block", md: "block" },
@@ -457,7 +458,7 @@ function PeriodDelay() {
                 variant="h4"
                 gutterBottom
                 sx={{
-                  fontSize: { xs: "22px", sm: "30px", md: "32px" },
+                  fontSize: { xs: "22px", sm: "26px", md: "32px" },
                   fontWeight: "700",
                   color: "#333",
                   lineHeight: "1.3",
@@ -545,9 +546,9 @@ function PeriodDelay() {
               maxWidth: "100%",
               margin: "auto",
               padding: {
-                xs: "30px 0 50px 0",
-                sm: "50px 0 60px 0",
-                md: "70px 0 90px 0",
+                xs: "30px 0 30px 0",
+                sm: "50px 0 50px 0",
+                md: "70px 0 70px 0",
               },
             }}
           >
@@ -559,7 +560,7 @@ function PeriodDelay() {
                 sx={{
                   padding: {
                     xs: "0 0 0 0",
-                    sm: "0 10% 0 0",
+                    sm: "0 5% 0 0",
                     md: "0 10% 0 0",
                   },
                 }}
@@ -568,7 +569,7 @@ function PeriodDelay() {
                   variant="h4"
                   gutterBottom
                   sx={{
-                    fontSize: { xs: "22px", sm: "30px", md: "32px" },
+                    fontSize: { xs: "22px", sm: "26px", md: "32px" },
                     fontWeight: "700",
                     color: "#333",
                     lineHeight: "1.3",
@@ -605,7 +606,7 @@ function PeriodDelay() {
                   variant="h4"
                   gutterBottom
                   sx={{
-                    fontSize: { xs: "22px", sm: "30px", md: "32px" },
+                    fontSize: { xs: "22px", sm: "26px", md: "32px" },
                     fontWeight: "700",
                     color: "#333",
                     lineHeight: "1.3",
@@ -852,7 +853,7 @@ function PeriodDelay() {
                   <Grid2 item xs={12} sm={5} md={4}>
                     <Box
                       component="img"
-                      src={ImageOne}
+                      src={ImageThree}
                       sx={{
                         maxWidth: "100%",
                         borderRadius: "20px",
@@ -866,12 +867,12 @@ function PeriodDelay() {
 
               {/* Right Column */}
               <Grid2
-                size={{ xs: 12, sm: 7, md: 8 }}
+                size={{ xs: 12, sm: 6, md: 8 }}
                 spacing={2}
                 sx={{
                   padding: {
                     xs: "20px 0 0 0px",
-                    sm: "30px 0 0 50px",
+                    sm: "10px 0 0 50px",
                     md: "30px 0 0 80px",
                   },
                 }}
@@ -880,7 +881,7 @@ function PeriodDelay() {
                   variant="h4"
                   gutterBottom
                   sx={{
-                    fontSize: { xs: "22px", sm: "30px", md: "32px" },
+                    fontSize: { xs: "22px", sm: "26px", md: "32px" },
                     fontWeight: "700",
                     color: "#333",
                     lineHeight: "1.3",

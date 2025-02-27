@@ -17,13 +17,15 @@ import {
   AccordionDetails,
   Accordion,
 } from "@mui/material";
+import heroImage from "../../pages/images/Info-Images/Cystitis/hero.jpg";
+////////////////////////
 import TrustBar from "../../pages/Trustbar";
 import howItWorksBg from "../../pages/images/Info-Images/how-it-works-bg.svg";
-import ImageOne from "../../pages/images/Info-Images/Hay-Fever01.jpg";
-import ImageTwo from "../../pages/images/Info-Images/Hay-Fever02.jpg";
+import ImageOne from "../../pages/images/Info-Images/Cystitis/Cystitis01.jpg";
+import ImageTwo from "../../pages/images/Info-Images/Cystitis/Cystitis02.jpg";
 
-import ImageThree from "../../pages/images/Info-Images/Hay-Fever03.png";
-import ImageFour from "../../pages/images/Info-Images/Hay-Fever04.png";
+import ImageThree from "../../pages/images/Info-Images/Cystitis/Cystitis03.jpg";
+import ImageFour from "../../pages/images/Info-Images/Cystitis/Cystitis04.jpg";
 
 import WhyChoosePills from "./WhyChoose";
 
@@ -57,6 +59,7 @@ const weightCompStyle = {
     width: "auto",
     padding: "18px 25px",
     lineHeight: "1.4",
+    verticalAlign: "top",
     borderBottom: `1px solid ${borderColor}`, // Bottom border only
     borderRight: `1px solid ${borderColor}`, // Right border only
     "@media (max-width: 991px)": {
@@ -79,73 +82,34 @@ const weightCompStyle = {
 function CystitisTreatment() {
   const rowsNitrofurantoin = [
     {
-      LeftTitle: "Active Ingredient:",
-      Rightdescription: "Nitrofurantoin",
-    },
-    {
-      LeftTitle: "Form:",
-      Rightdescription: "Oral capsules or tablets",
-    },
-    {
-      LeftTitle: "Usage",
-      Rightdescription:
+      medicineName: "Nitrofurantoin",
+      ingredients: "Nitrofurantoin",
+      form: "Oral capsules or tablets",
+      usage:
         "Typically taken 2 times daily for 3 days, depending on the prescription.",
-    },
-    {
-      LeftTitle: "Key Benefits",
-      Rightdescription: [
-        "Effectively treats bacterial cystitis",
-        "Targets bacteria in the urinary tract",
-        "Reduces symptoms and prevents complications",
+      keybenefits: [
+        "- Effectively treats bacterial cystitis",
+        "- Targets bacteria in the urinary tract",
+        "- Reduces symptoms and prevents complications",
       ],
-    },
-    {
-      LeftTitle: "Common Side Effects: ",
-      Rightdescription: "Nausea, headache, mild stomach upset",
-    },
-    {
-      LeftTitle: "Prescription Required: ",
-      Rightdescription: "Yes",
-    },
-    {
-      LeftTitle: "Best For: ",
-      Rightdescription:
+      sideeffect: "Nausea, headache, mild stomach upset",
+      prescription: "Yes",
+      bestFor:
         "Individuals with uncomplicated cystitis caused by susceptible bacteria.",
     },
-  ];
-
-  const rowsTrimethoprim = [
     {
-      LeftTitle: "Active Ingredient:",
-      Rightdescription: "Trimethoprim",
-    },
-    {
-      LeftTitle: "Form:",
-      Rightdescription: "Oral tablets",
-    },
-    {
-      LeftTitle: "Usage",
-      Rightdescription: "Typically taken once or twice daily for 3 days.",
-    },
-    {
-      LeftTitle: "Key Benefits",
-      Rightdescription: [
-        "Effective against a wide range of bacteria causing cystitis",
-        "Short course of treatment (usually 3 days)",
-        "Well-tolerated and widely used",
+      medicineName: "Trimethoprim",
+      ingredients: "Trimethoprim",
+      form: "Oral tablets",
+      usage: "Typically taken once or twice daily for 3 days.",
+      keybenefits: [
+        "- Effective against a wide range of bacteria causing cystitis",
+        "- Short course of treatment (usually 3 days)",
+        "- Well-tolerated and widely used",
       ],
-    },
-    {
-      LeftTitle: "Common Side Effects: ",
-      Rightdescription: "Nausea, vomiting, mild stomach upset",
-    },
-    {
-      LeftTitle: "Prescription Required: ",
-      Rightdescription: "Yes",
-    },
-    {
-      LeftTitle: "Best For: ",
-      Rightdescription:
+      sideeffect: "Nausea, vomiting, mild stomach upset",
+      prescription: "Yes",
+      bestFor:
         "Individuals with uncomplicated cystitis who prefer a shorter treatment course.",
     },
   ];
@@ -289,7 +253,7 @@ function CystitisTreatment() {
       {/************** Hero Section **************/}
       <Box
         sx={{
-          backgroundImage: `url("https://admin.pillsphere.com/wp-content/uploads/2025/01/categoryHeroImage.jpg")`,
+          backgroundImage: `url(${heroImage})`,
           backgroundSize: "cover",
           backgroundRepeat: "no-repeat",
           backgroundPosition: "center",
@@ -302,7 +266,7 @@ function CystitisTreatment() {
         <Container>
           <Box
             sx={{
-              width: "700px",
+              width: { xs: "100%", sm: "600px", md: "700px" },
               maxWidth: "100%",
               paddingTop: { xs: "30px", sm: "35px", md: "50px" },
               paddingBottom: { xs: "30px", sm: "35px", md: "50px" },
@@ -422,8 +386,8 @@ function CystitisTreatment() {
             margin: "auto",
             padding: {
               xs: "30px 0 30px 0",
-              sm: "50px 0 50px 0",
-              md: "70px 0 70px 0",
+              sm: "50px 0 70px 0",
+              md: "70px 0 90px 0",
             },
           }}
         >
@@ -465,7 +429,7 @@ function CystitisTreatment() {
                       maxWidth: "100%",
                       position: "absolute",
                       right: "0",
-                      bottom: "0",
+                      bottom: "-30px",
                       borderRadius: "20px",
                       zIndex: "2",
                       display: { xs: "none", sm: "block", md: "block" },
@@ -578,21 +542,21 @@ function CystitisTreatment() {
               maxWidth: "100%",
               margin: "auto",
               padding: {
-                xs: "30px 0 50px 0",
-                sm: "50px 0 60px 0",
-                md: "70px 0 90px 0",
+                xs: "30px 0 30px 0",
+                sm: "50px 0 50px 0",
+                md: "70px 0 70px 0",
               },
             }}
           >
             <Grid2 container spacing={0} sx={{}}>
               {/* Left Column */}
               <Grid2
-                size={{ xs: 12, sm: 6, md: 8 }}
+                size={{ xs: 12, sm: 6, md: 7 }}
                 spacing={2}
                 sx={{
                   padding: {
                     xs: "0 0 0 0",
-                    sm: "0 10% 0 0",
+                    sm: "0 5% 0 0",
                     md: "0 10% 0 0",
                   },
                 }}
@@ -601,7 +565,7 @@ function CystitisTreatment() {
                   variant="h4"
                   gutterBottom
                   sx={{
-                    fontSize: { xs: "22px", sm: "30px", md: "32px" },
+                    fontSize: { xs: "22px", sm: "26px", md: "32px" },
                     fontWeight: "700",
                     color: "#333",
                     lineHeight: "1.3",
@@ -668,7 +632,7 @@ function CystitisTreatment() {
 
               {/* Right Column */}
               <Grid2
-                size={{ xs: 12, sm: 6, md: 4 }}
+                size={{ xs: 12, sm: 6, md: 5 }}
                 spacing={2}
                 sx={{
                   position: "relative",
@@ -744,84 +708,78 @@ function CystitisTreatment() {
               <TableHead>
                 <TableRow sx={{ backgroundColor: "#104239" }}>
                   <TableCell sx={{ ...weightCompStyle.tHead }}>
-                    Nitrofurantoin
+                    Products
                   </TableCell>
-                  <TableCell sx={{ ...weightCompStyle.tHead }}></TableCell>
-                </TableRow>
-              </TableHead>
-
-              {/* Table Body */}
-              <TableBody sx={{ backgroundColor: "#F6EFDF" }}>
-                {rowsNitrofurantoin.map((rowsNitrofurantoin, index) => (
-                  <TableRow key={index}>
-                    <TableCell
-                      sx={{
-                        ...weightCompStyle.tBody,
-                        ...(index === rowsNitrofurantoin.length - 1 &&
-                          weightCompStyle.lastRow),
-                        fontWeight: "700",
-                      }}
-                    >
-                      {rowsNitrofurantoin.LeftTitle}
-                    </TableCell>
-                    <TableCell
-                      sx={{
-                        ...weightCompStyle.tBody,
-                        ...(index === rowsNitrofurantoin.length - 1 &&
-                          weightCompStyle.lastRow),
-                      }}
-                    >
-                      {/* Check if Rightdescription is an array */}
-                      {Array.isArray(rowsNitrofurantoin.Rightdescription)
-                        ? rowsNitrofurantoin.Rightdescription.map((item, i) => (
-                            <React.Fragment key={i}>
-                              {item}
-                              <br />
-                            </React.Fragment>
-                          ))
-                        : rowsNitrofurantoin.Rightdescription}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-
-          {/* Trimethoprim */}
-          <TableContainer
-            component={Paper}
-            sx={{
-              borderRadius: "15px",
-              boxShadow: "none",
-              border: "none",
-              marginTop: { xs: "30px", sm: "35px", md: "40px" },
-            }}
-          >
-            <Table sx={{ border: "none" }}>
-              {/* Table Head */}
-              <TableHead>
-                <TableRow sx={{ backgroundColor: "#104239" }}>
                   <TableCell sx={{ ...weightCompStyle.tHead }}>
-                    Trimethoprim
+                    Active Ingredients
                   </TableCell>
-                  <TableCell sx={{ ...weightCompStyle.tHead }}></TableCell>
+                  <TableCell sx={{ ...weightCompStyle.tHead }}>Form</TableCell>
+                  <TableCell sx={{ ...weightCompStyle.tHead }}>Usage</TableCell>
+                  <TableCell sx={{ ...weightCompStyle.tHead }}>
+                    Key Benefits:
+                  </TableCell>
+                  <TableCell sx={{ ...weightCompStyle.tHead }}>
+                    Common Side Effects
+                  </TableCell>
+                  <TableCell sx={{ ...weightCompStyle.tHead }}>
+                    Prescription Required
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      ...weightCompStyle.tHead,
+                      ...weightCompStyle.lastColumn,
+                    }}
+                  >
+                    Best For
+                  </TableCell>
                 </TableRow>
               </TableHead>
 
               {/* Table Body */}
               <TableBody sx={{ backgroundColor: "#F6EFDF" }}>
-                {rowsTrimethoprim.map((rowsTrimethoprim, index) => (
+                {rowsNitrofurantoin.map((row, index) => (
                   <TableRow key={index}>
                     <TableCell
                       sx={{
                         ...weightCompStyle.tBody,
-                        ...(index === rowsTrimethoprim.length - 1 &&
+                        ...(index === rowsNitrofurantoin.length - 1 &&
                           weightCompStyle.lastRow),
                         fontWeight: "700",
                       }}
                     >
-                      {rowsTrimethoprim.LeftTitle}
+                      {row.medicineName}
                     </TableCell>
+
+                    <TableCell
+                      sx={{
+                        ...weightCompStyle.tBody,
+                        ...(index === rowsNitrofurantoin.length - 1 &&
+                          weightCompStyle.lastRow),
+                      }}
+                    >
+                      {row.ingredients}
+                    </TableCell>
+
+                    <TableCell
+                      sx={{
+                        ...weightCompStyle.tBody,
+                        ...(index === rowsNitrofurantoin.length - 1 &&
+                          weightCompStyle.lastRow),
+                      }}
+                    >
+                      {row.form}
+                    </TableCell>
+
+                    <TableCell
+                      sx={{
+                        ...weightCompStyle.tBody,
+                        ...(index === rowsNitrofurantoin.length - 1 &&
+                          weightCompStyle.lastRow),
+                      }}
+                    >
+                      {row.usage}
+                    </TableCell>
+
                     <TableCell
                       sx={{
                         ...weightCompStyle.tBody,
@@ -830,14 +788,44 @@ function CystitisTreatment() {
                       }}
                     >
                       {/* Check if Rightdescription is an array */}
-                      {Array.isArray(rowsTrimethoprim.Rightdescription)
-                        ? rowsTrimethoprim.Rightdescription.map((item, i) => (
+                      {Array.isArray(row.keybenefits)
+                        ? row.keybenefits.map((item, i) => (
                             <React.Fragment key={i}>
                               {item}
                               <br />
                             </React.Fragment>
                           ))
-                        : rowsTrimethoprim.Rightdescription}
+                        : row.keybenefits}
+                    </TableCell>
+
+                    <TableCell
+                      sx={{
+                        ...weightCompStyle.tBody,
+                        ...(index === rowsNitrofurantoin.length - 1 &&
+                          weightCompStyle.lastRow),
+                      }}
+                    >
+                      {row.sideeffect}
+                    </TableCell>
+                    <TableCell
+                      sx={{
+                        ...weightCompStyle.tBody,
+                        ...(index === rowsNitrofurantoin.length - 1 &&
+                          weightCompStyle.lastRow),
+                      }}
+                    >
+                      {row.prescription}
+                    </TableCell>
+
+                    <TableCell
+                      sx={{
+                        ...weightCompStyle.tBody,
+                        ...weightCompStyle.lastColumn,
+                        ...(index === rowsNitrofurantoin.length - 1 &&
+                          weightCompStyle.lastRow),
+                      }}
+                    >
+                      {row.bestFor}
                     </TableCell>
                   </TableRow>
                 ))}
@@ -855,21 +843,21 @@ function CystitisTreatment() {
               maxWidth: "100%",
               margin: "auto",
               padding: {
-                xs: "30px 0 50px 0",
-                sm: "50px 0 60px 0",
-                md: "70px 0 90px 0",
+                xs: "30px 0 30px 0",
+                sm: "50px 0 50px 0",
+                md: "70px 0 70px 0",
               },
             }}
           >
             <Grid2 container spacing={0} sx={{}}>
               {/* Left Column */}
               <Grid2
-                size={{ xs: 12, sm: 6, md: 8 }}
+                size={{ xs: 12, sm: 6, md: 7 }}
                 spacing={2}
                 sx={{
                   padding: {
                     xs: "0 0 0 0",
-                    sm: "0 10% 0 0",
+                    sm: "0 5% 0 0",
                     md: "0 10% 0 0",
                   },
                 }}
@@ -878,7 +866,7 @@ function CystitisTreatment() {
                   variant="h4"
                   gutterBottom
                   sx={{
-                    fontSize: { xs: "22px", sm: "30px", md: "32px" },
+                    fontSize: { xs: "22px", sm: "26px", md: "32px" },
                     fontWeight: "700",
                     color: "#333",
                     lineHeight: "1.3",
@@ -952,7 +940,7 @@ function CystitisTreatment() {
 
               {/* Right Column */}
               <Grid2
-                size={{ xs: 12, sm: 6, md: 4 }}
+                size={{ xs: 12, sm: 6, md: 5 }}
                 spacing={2}
                 sx={{
                   position: "relative",
@@ -960,7 +948,7 @@ function CystitisTreatment() {
               >
                 <Box
                   component="img"
-                  src={ImageThree}
+                  src={ImageFour}
                   sx={{
                     maxWidth: { xs: "100%", sm: "100%", md: "100%" },
                     borderRadius: "20px",

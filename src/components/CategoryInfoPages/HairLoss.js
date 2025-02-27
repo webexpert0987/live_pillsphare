@@ -17,10 +17,12 @@ import {
   AccordionDetails,
   Accordion,
 } from "@mui/material";
+import heroImage from "../../pages/images/Info-Images/Hair-Loss/hero.jpg"
+////////////////////////
 import TrustBar from "../../pages/Trustbar";
 import howItWorksBg from "../../pages/images/Info-Images/how-it-works-bg.svg";
-import ImageOne from "../../pages/images/Info-Images/Hay-Fever01.jpg";
-import ImageTwo from "../../pages/images/Info-Images/Hay-Fever02.jpg";
+import ImageOne from "../../pages/images/Info-Images/Hair-Loss/hair-loss01.jpg";
+import ImageTwo from "../../pages/images/Info-Images/Hair-Loss/hair-loss02.jpg";
 
 import ImageThree from "../../pages/images/Info-Images/Hay-Fever03.png";
 import ImageFour from "../../pages/images/Info-Images/Hay-Fever04.png";
@@ -247,7 +249,7 @@ function HairLossPage() {
       {/************** Hero Section **************/}
       <Box
         sx={{
-          backgroundImage: `url("https://admin.pillsphere.com/wp-content/uploads/2025/01/categoryHeroImage.jpg")`,
+          backgroundImage: `url(${heroImage})`,
           backgroundSize: "cover",
           backgroundRepeat: "no-repeat",
           backgroundPosition: "center",
@@ -260,7 +262,7 @@ function HairLossPage() {
         <Container>
           <Box
             sx={{
-              width: "700px",
+              width: { xs: "100%", sm: "600px", md: "700px" },
               maxWidth: "100%",
               paddingTop: { xs: "30px", sm: "35px", md: "50px" },
               paddingBottom: { xs: "30px", sm: "35px", md: "50px" },
@@ -380,8 +382,8 @@ function HairLossPage() {
             margin: "auto",
             padding: {
               xs: "30px 0 30px 0",
-              sm: "50px 0 50px 0",
-              md: "70px 0 70px 0",
+              sm: "50px 0 70px 0",
+              md: "70px 0 90px 0",
             },
           }}
         >
@@ -423,7 +425,7 @@ function HairLossPage() {
                       maxWidth: "100%",
                       position: "absolute",
                       right: "0",
-                      bottom: "0",
+                      bottom: "-30px",
                       borderRadius: "20px",
                       zIndex: "2",
                       display: { xs: "none", sm: "block", md: "block" },
@@ -449,7 +451,7 @@ function HairLossPage() {
                 variant="h4"
                 gutterBottom
                 sx={{
-                  fontSize: { xs: "22px", sm: "30px", md: "32px" },
+                  fontSize: { xs: "22px", sm: "26px", md: "32px" },
                   fontWeight: "700",
                   color: "#333",
                   lineHeight: "1.3",
@@ -533,7 +535,7 @@ function HairLossPage() {
               maxWidth: "100%",
               margin: "auto",
               padding: {
-                xs: "30px 0 50px 0",
+                xs: "30px 0 30px 0",
                 sm: "50px 0 60px 0",
                 md: "70px 0 90px 0",
               },
@@ -547,7 +549,7 @@ function HairLossPage() {
                 sx={{
                   padding: {
                     xs: "0 0 0 0",
-                    sm: "0 10% 0 0",
+                    sm: "0 5% 0 0",
                     md: "0 10% 0 0",
                   },
                 }}
@@ -556,7 +558,7 @@ function HairLossPage() {
                   variant="h4"
                   gutterBottom
                   sx={{
-                    fontSize: { xs: "22px", sm: "30px", md: "32px" },
+                    fontSize: { xs: "22px", sm: "26px", md: "32px" },
                     fontWeight: "700",
                     color: "#333",
                     lineHeight: "1.3",
@@ -594,7 +596,7 @@ function HairLossPage() {
                   variant="h4"
                   gutterBottom
                   sx={{
-                    fontSize: { xs: "22px", sm: "30px", md: "32px" },
+                    fontSize: { xs: "22px", sm: "26px", md: "32px" },
                     fontWeight: "700",
                     color: "#333",
                     lineHeight: "1.3",

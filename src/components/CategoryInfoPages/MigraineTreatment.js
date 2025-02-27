@@ -17,13 +17,14 @@ import {
   AccordionDetails,
   Accordion,
 } from "@mui/material";
+import heroImage from "../../pages/images/Info-Images/Migraine/hero.jpg"
+////////////////////////
 import TrustBar from "../../pages/Trustbar";
 import howItWorksBg from "../../pages/images/Info-Images/how-it-works-bg.svg";
-import ImageOne from "../../pages/images/Info-Images/Hay-Fever01.jpg";
-import ImageTwo from "../../pages/images/Info-Images/Hay-Fever02.jpg";
+import ImageOne from "../../pages/images/Info-Images/Migraine/migraine01.jpg";
+import ImageTwo from "../../pages/images/Info-Images/Migraine/migraine02.jpg";
 
-import ImageThree from "../../pages/images/Info-Images/Hay-Fever03.png";
-import ImageFour from "../../pages/images/Info-Images/Hay-Fever04.png";
+import ImageThree from "../../pages/images/Info-Images/Migraine/migraine03.jpg";
 
 import WhyChoosePills from "./WhyChoose";
 
@@ -78,35 +79,54 @@ const weightCompStyle = {
 };
 
 function MigraineTreatment() {
-  const rowsPeriodDelay = [
+  const rowsMigraine = [
     {
-      medicineName: "Norethisterone",
-      ingredients: "Norethisterone",
-      form: "Tablets",
+      medicineName: "Sumatriptan",
+      form: "Tablets, nasal spray, or injections",
       usage:
-        "Take 3 tablets daily (5 mg each), starting 3-4 days before your expected period. Continue for up to 14-17 days.",
+        "Taken at the first sign of a migraine. Dosage varies by form (e.g., 50-100 mg tablets, 10-20 mg nasal spray).",
       keybenefits: [
-        "- Effectively delays periods for special occasions or travel.",
-        "- Easy to use and widely trusted.",
+        "- Fast-acting relief for moderate to severe migraines.",
+        "- Available in multiple forms for convenience.",
       ],
-      sideeffect: "Bloating, breast tenderness, mood changes.",
-      prescription: "Yes.",
-      bestFor: "Individuals needing short-term period delay.",
+      sideeffect: "Dizziness, fatigue, mild chest tightness.",
+      bestFor: "Individuals needing fast relief for acute migraine attacks.",
     },
     {
-      medicineName: "Medroxyprogesterone",
-      ingredients: "Medroxyprogesterone",
+      medicineName: "Rizatriptan",
+      form: "Tablets or orally disintegrating tablets",
+      usage:
+        "Taken at the first sign of a migraine (5-10 mg dose).",
+      keybenefits: [
+        "- Fast-acting and effective for moderate to severe migraines.",
+        "- Orally disintegrating tablets are convenient for those who struggle to swallow pills.",
+      ],
+      sideeffect: "Dizziness, fatigue, dry mouth.",
+      bestFor: "Individuals who prefer quick-dissolving tablets or need rapid relief.",
+    },
+    {
+      medicineName: "Zolmitriptan",
+      form: "Tablets or nasal spray",
+      usage:
+        "Taken at the first sign of a migraine (2.5-5 mg dose).",
+      keybenefits: [
+        "- Effective for moderate to severe migraines.",
+        "- Nasal spray provides faster absorption for quicker relief.",
+      ],
+      sideeffect: "Dizziness, nausea, mild chest tightness.",
+      bestFor: "Individuals who prefer nasal spray or need fast-acting relief.",
+    },
+    {
+      medicineName: "Naratriptan",
       form: "Tablets",
       usage:
-        "Take 1 tablet daily (10 mg), starting 3-4 days before your expected period. Continue for up to 14-17 days.",
+        "Taken at the first sign of a migraine (1-2.5 mg dose).",
       keybenefits: [
-        "- Effective for delaying periods.",
-        "- Suitable for individuals who prefer a lower daily dose.",
+        "- Longer-lasting relief compared to other triptans.",
+        "- Lower risk of side effects.",
       ],
-      sideeffect: "Bloating, breast tenderness, mood changes.",
-      prescription: "Yes.",
-      bestFor:
-        "Individuals needing short-term period delay with a lower daily dose.",
+      sideeffect: "Dizziness, fatigue, mild chest tightness.",
+      bestFor: "Individuals with longer-lasting migraines or those who experience side effects with other triptans.",
     },
   ];
 
@@ -114,35 +134,29 @@ function MigraineTreatment() {
 
   const faqs = [
     {
-      title: "How long can I delay my period?",
+      title: "When should I take a triptan?",
       description:
-        "Both Norethisterone and Medroxyprogesterone can delay your period for up to 14-17 days.",
+        "Take a triptan at the first sign of a migraine for the best results. Do not use it as a preventive medication.",
     },
     {
-      title: "When should I start taking period delay medication?",
+      title: "Can I take triptans with other medications?",
       description:
-        "Start taking the medication 3-4 days before your expected period for best results.",
+        "Triptans should not be taken with other migraine medications (e.g., ergotamines) or certain antidepressants. Always consult a healthcare professional.",
     },
     {
-      title: "What happens when I stop taking the medication?",
+      title: "Are triptans safe for everyone?",
       description:
-        "Your period will usually start 2-3 days after stopping the medication.",
+        "Triptans are not recommended for individuals with certain cardiovascular conditions. A healthcare professional can help determine if they are safe for you.",
     },
     {
-      title: "Are there any side effects of period delay treatments?",
+      title: "What should I do if triptans don't work?",
       description:
-        "Common side effects include bloating, breast tenderness, and mood changes. Serious side effects are rare but consult a healthcare professional if you have concerns.",
+        "If triptans are ineffective, consult a healthcare professional. Alternative treatments or preventive medications may be recommended.",
     },
     {
-      title: "Can I use period delay treatments long-term?",
+      title: "Can I use triptans during pregnancy?",
       description:
-        "These treatments are designed for short-term use only. For long-term menstrual management, consult a healthcare professional.",
-    },
-    {
-      title:
-        "Can I use period delay treatments if I'm on hormonal contraception?",
-      description:
-        "Period delay treatments are not typically needed if you're on hormonal contraception, as you can often manipulate your cycle by adjusting your pill schedule. Consult your healthcare provider for advice.",
+        "Triptans are not recommended during pregnancy. Consult your doctor for safe alternatives.",
     },
   ];
 
@@ -228,25 +242,25 @@ function MigraineTreatment() {
       id: 1,
       image: require("../../pages/images/Info-Images/NICE-Logo.png"),
       title: "National Institute for Health and Care Excellence (NICE)",
-      description: "Guidelines on menstrual management.",
+      description: "Guidelines on migraine treatment.",
     },
     {
       id: 2,
       image: require("../../pages/images/Info-Images/BNF.jpg"),
       title: "British National Formulary (BNF)",
-      description: "Information on Norethisterone and Medroxyprogesterone.",
+      description: "Information on triptans.",
     },
     {
       id: 3,
       image: require("../../pages/images/Info-Images/MHRA.png"),
       title: "MHRA (Medicines and Healthcare products Regulatory Agency)",
-      description: "Safety information for period delay medications.",
+      description: "Safety information for migraine medications.",
     },
     {
       id: 4,
       image: require("../../pages/images/Info-Images/LogoSmPCs.png"),
       title: "Product Summaries of Product Characteristics (SmPCs)",
-      description: "For Norethisterone and Medroxyprogesterone.",
+      description: "For each triptan listed.",
     },
   ];
 
@@ -255,7 +269,7 @@ function MigraineTreatment() {
       {/************** Hero Section **************/}
       <Box
         sx={{
-          backgroundImage: `url("https://admin.pillsphere.com/wp-content/uploads/2025/01/categoryHeroImage.jpg")`,
+          backgroundImage: `url(${heroImage})`,
           backgroundSize: "cover",
           backgroundRepeat: "no-repeat",
           backgroundPosition: "center",
@@ -268,7 +282,7 @@ function MigraineTreatment() {
         <Container>
           <Box
             sx={{
-              width: "700px",
+              width: { xs: "100%", sm: "600px", md: "700px" },
               maxWidth: "100%",
               paddingTop: { xs: "30px", sm: "35px", md: "50px" },
               paddingBottom: { xs: "30px", sm: "35px", md: "50px" },
@@ -381,7 +395,7 @@ function MigraineTreatment() {
       </Box>
       {/************** TrustBar Section **************/}
       <TrustBar />
-      {/************** What is Period Delay? **************/}
+      {/************** What is Migraines **************/}
       <Container>
         <Box
           sx={{
@@ -389,8 +403,8 @@ function MigraineTreatment() {
             margin: "auto",
             padding: {
               xs: "30px 0 30px 0",
-              sm: "50px 0 50px 0",
-              md: "70px 0 70px 0",
+              sm: "50px 0 70px 0",
+              md: "70px 0 90px 0",
             },
           }}
         >
@@ -432,7 +446,7 @@ function MigraineTreatment() {
                       maxWidth: "100%",
                       position: "absolute",
                       right: "0",
-                      bottom: "0",
+                      bottom: "-30px",
                       borderRadius: "20px",
                       zIndex: "2",
                       display: { xs: "none", sm: "block", md: "block" },
@@ -458,7 +472,7 @@ function MigraineTreatment() {
                 variant="h4"
                 gutterBottom
                 sx={{
-                  fontSize: { xs: "22px", sm: "30px", md: "32px" },
+                  fontSize: { xs: "22px", sm: "26px", md: "32px" },
                   fontWeight: "700",
                   color: "#333",
                   lineHeight: "1.3",
@@ -478,22 +492,16 @@ function MigraineTreatment() {
               >
                 <ul className="infoList">
                   <li>
-                    <strong>Definition: </strong> Period delay involves using
-                    medication to temporarily postpone your menstrual period.
+                    <strong>Definition: </strong> A migraine is a neurological condition characterized by intense, throbbing headaches, often accompanied by nausea, vomiting, and sensitivity to light or sound.
                   </li>
                   <li>
-                    <strong>How It Works: </strong> Hormonal treatments like
-                    Norethisterone and Medroxyprogesterone work by maintaining
-                    progesterone levels, preventing the shedding of the uterine
-                    lining.
+                    <strong>Symptoms: </strong> Severe headache, nausea, vomiting, visual disturbances (aura), and sensitivity to light, sound, or smells.
                   </li>
                   <li>
-                    <strong>When to Use: </strong> Ideal for special occasions,
-                    travel, or personal preference.
+                    <strong>Triggers: </strong> Stress, hormonal changes, certain foods, dehydration, and environmental factors.
                   </li>
                   <li>
-                    <strong>Importance of Planning: </strong> Start treatment
-                    3-4 days before your expected period for best results.
+                    <strong>Impact: </strong> Migraines can disrupt work, social life, and overall well-being.
                   </li>
                 </ul>
               </Typography>
@@ -538,7 +546,7 @@ function MigraineTreatment() {
           </Grid2>
         </Box>
       </Container>
-      {/************** Treatment Options for Period Delay **************/}
+      {/************** Treatment Options for Migraines **************/}
       <Box sx={{ backgroundColor: "#F6EFDF" }}>
         <Container>
           <Box
@@ -546,9 +554,9 @@ function MigraineTreatment() {
               maxWidth: "100%",
               margin: "auto",
               padding: {
-                xs: "30px 0 50px 0",
-                sm: "50px 0 60px 0",
-                md: "70px 0 90px 0",
+                xs: "30px 0 30px 0",
+                sm: "50px 0 50px 0",
+                md: "70px 0 70px 0",
               },
             }}
           >
@@ -560,7 +568,7 @@ function MigraineTreatment() {
                 sx={{
                   padding: {
                     xs: "0 0 0 0",
-                    sm: "0 10% 0 0",
+                    sm: "0 5% 0 0",
                     md: "0 10% 0 0",
                   },
                 }}
@@ -569,27 +577,24 @@ function MigraineTreatment() {
                   variant="h4"
                   gutterBottom
                   sx={{
-                    fontSize: { xs: "22px", sm: "30px", md: "32px" },
+                    fontSize: { xs: "22px", sm: "26px", md: "32px" },
                     fontWeight: "700",
                     color: "#333",
                     lineHeight: "1.3",
                     marginBottom: "20px",
                   }}
                 >
-                  Treatment Options for Period Delay
+                  Treatment Options for Migraines
                 </Typography>
                 <ul className="infoList">
                   <li>
-                    <strong>Norethisterone: </strong> A synthetic progesterone
-                    that effectively delays periods.
+                    <strong>Triptans: </strong> Medications like Sumatriptan, Rizatriptan, Zolmitriptan, and Naratriptan are specifically designed to treat migraines by narrowing blood vessels and reducing inflammation.
                   </li>
                   <li>
-                    <strong>Medroxyprogesterone: </strong> Another
-                    progesterone-based option for period delay.
+                    <strong>Pain Relief: </strong> Over-the-counter painkillers like ibuprofen or paracetamol can help with mild migraines.
                   </li>
                   <li>
-                    <strong>Lifestyle Tips: </strong> Plan ahead, stay hydrated,
-                    and maintain a healthy lifestyle.
+                    <strong>Lifestyle Tips: </strong> Identify and avoid triggers, stay hydrated, and maintain a regular sleep schedule.
                   </li>
                 </ul>
               </Grid2>
@@ -606,14 +611,14 @@ function MigraineTreatment() {
                   variant="h4"
                   gutterBottom
                   sx={{
-                    fontSize: { xs: "22px", sm: "30px", md: "32px" },
+                    fontSize: { xs: "22px", sm: "26px", md: "32px" },
                     fontWeight: "700",
                     color: "#333",
                     lineHeight: "1.3",
                     marginBottom: "20px",
                   }}
                 >
-                  How Norethisterone and Medroxyprogesterone Work
+                  How Triptans Work
                 </Typography>
                 <Typography
                   variant="h5"
@@ -626,17 +631,19 @@ function MigraineTreatment() {
                     marginBottom: "20px",
                   }}
                 >
-                  Both medications work by mimicking the hormone progesterone,
-                  which helps maintain the uterine lining and prevents
-                  menstruation. They are taken orally and must be started before
-                  your period begins.
+                  Triptans are a class of medications that target the underlying causes of migraines. They work by:
                 </Typography>
+                <ul className="infoList">
+                  <li>Narrowing blood vessels in the brain to reduce throbbing pain.</li>
+                  <li>Blocking pain pathways in the brain.</li>
+                  <li>Reducing inflammation and other migraine symptoms.</li>
+                </ul>
               </Grid2>
             </Grid2>
           </Box>
         </Container>
       </Box>
-      {/************** Detailed Overview of Period Pain Treatments **************/}
+      {/************** Detailed Overview of Migraine Treatments **************/}
       <Box
         sx={{
           padding: { xs: "30px 0", sm: "50px 0", md: "70px 0" },
@@ -695,18 +702,12 @@ function MigraineTreatment() {
                     Product
                   </TableCell>
                   <TableCell sx={{ ...weightCompStyle.tHead }}>
-                    Active Ingredient
+                  Form
                   </TableCell>
-                  <TableCell sx={{ ...weightCompStyle.tHead }}>Form</TableCell>
                   <TableCell sx={{ ...weightCompStyle.tHead }}>Usage</TableCell>
+                  <TableCell sx={{ ...weightCompStyle.tHead }}>Key Benefits</TableCell>
                   <TableCell sx={{ ...weightCompStyle.tHead }}>
-                    Key Benefits
-                  </TableCell>
-                  <TableCell sx={{ ...weightCompStyle.tHead }}>
-                    Common Side Effects
-                  </TableCell>
-                  <TableCell sx={{ ...weightCompStyle.tHead }}>
-                    Prescription Required
+                  Common Side Effects
                   </TableCell>
                   <TableCell
                     sx={{
@@ -721,14 +722,15 @@ function MigraineTreatment() {
 
               {/* Table Body */}
               <TableBody sx={{ backgroundColor: "#F6EFDF" }}>
-                {rowsPeriodDelay.map((row, index) => (
+                {rowsMigraine.map((row, index) => (
                   <TableRow key={index}>
+
                     <TableCell
                       sx={{
                         ...weightCompStyle.tBody,
-                        ...(index === rowsPeriodDelay.length - 1 &&
+                        ...(index === rowsMigraine.length - 1 &&
                           weightCompStyle.lastRow),
-                        fontWeight: "700",
+                          fontWeight: "700",
                       }}
                     >
                       {row.medicineName}
@@ -737,26 +739,28 @@ function MigraineTreatment() {
                     <TableCell
                       sx={{
                         ...weightCompStyle.tBody,
-                        ...(index === rowsPeriodDelay.length - 1 &&
-                          weightCompStyle.lastRow),
-                      }}
-                    >
-                      {row.ingredients}
-                    </TableCell>
-
-                    <TableCell
-                      sx={{
-                        ...weightCompStyle.tBody,
-                        ...(index === rowsPeriodDelay.length - 1 &&
+                        ...(index === rowsMigraine.length - 1 &&
                           weightCompStyle.lastRow),
                       }}
                     >
                       {row.form}
                     </TableCell>
+
                     <TableCell
                       sx={{
                         ...weightCompStyle.tBody,
-                        ...(index === rowsPeriodDelay.length - 1 &&
+                        ...(index === rowsMigraine.length - 1 &&
+                          weightCompStyle.lastRow),
+                      }}
+                    >
+                      {row.usage}
+                    </TableCell>
+                  
+
+                    <TableCell
+                      sx={{
+                        ...weightCompStyle.tBody,
+                        ...(index === rowsMigraine.length - 1 &&
                           weightCompStyle.lastRow),
                       }}
                     >
@@ -768,51 +772,24 @@ function MigraineTreatment() {
                               <br />
                             </React.Fragment>
                           ))
-                        : row.usage}
-                    </TableCell>
-
-                    <TableCell
-                      sx={{
-                        ...weightCompStyle.tBody,
-                        ...(index === rowsPeriodDelay.length - 1 &&
-                          weightCompStyle.lastRow),
-                      }}
-                    >
-                      {/* Check if Rightdescription is an array */}
-                      {Array.isArray(row.keybenefits)
-                        ? row.keybenefits.map((item, i) => (
-                            <React.Fragment key={i}>
-                              {item}
-                              <br />
-                            </React.Fragment>
-                          ))
                         : row.keybenefits}
                     </TableCell>
 
                     <TableCell
                       sx={{
                         ...weightCompStyle.tBody,
-                        ...(index === rowsPeriodDelay.length - 1 &&
+                        ...(index === rowsMigraine.length - 1 &&
                           weightCompStyle.lastRow),
                       }}
                     >
                       {row.sideeffect}
-                    </TableCell>
-                    <TableCell
-                      sx={{
-                        ...weightCompStyle.tBody,
-                        ...(index === rowsPeriodDelay.length - 1 &&
-                          weightCompStyle.lastRow),
-                      }}
-                    >
-                      {row.prescription}
                     </TableCell>
 
                     <TableCell
                       sx={{
                         ...weightCompStyle.tBody,
                         ...weightCompStyle.lastColumn,
-                        ...(index === rowsPeriodDelay.length - 1 &&
+                        ...(index === rowsMigraine.length - 1 &&
                           weightCompStyle.lastRow),
                       }}
                     >
@@ -843,7 +820,7 @@ function MigraineTreatment() {
             <Grid2 container spacing={0}>
               {/* Left Column */}
               <Grid2
-                size={{ xs: 12, sm: 6, md: 4 }}
+                size={{ xs: 12, sm: 6, md: 6 }}
                 spacing={2}
                 sx={{
                   position: "relative",
@@ -853,7 +830,7 @@ function MigraineTreatment() {
                   <Grid2 item xs={12} sm={5} md={4}>
                     <Box
                       component="img"
-                      src={ImageOne}
+                      src={ImageThree}
                       sx={{
                         maxWidth: "100%",
                         borderRadius: "20px",
@@ -867,7 +844,7 @@ function MigraineTreatment() {
 
               {/* Right Column */}
               <Grid2
-                size={{ xs: 12, sm: 7, md: 8 }}
+                size={{ xs: 12, sm: 6, md: 6 }}
                 spacing={2}
                 sx={{
                   padding: {
@@ -881,14 +858,14 @@ function MigraineTreatment() {
                   variant="h4"
                   gutterBottom
                   sx={{
-                    fontSize: { xs: "22px", sm: "30px", md: "32px" },
+                    fontSize: { xs: "22px", sm: "26px", md: "32px" },
                     fontWeight: "700",
                     color: "#333",
                     lineHeight: "1.3",
                     marginBottom: "20px",
                   }}
                 >
-                  How to Choose the Right Period Delay Treatment
+                  How to Choose the Right Migraine Treatment
                 </Typography>
                 <Typography
                   variant="h5"
@@ -913,15 +890,11 @@ function MigraineTreatment() {
                   }}
                 >
                   <ul className="infoList">
-                    <li>Duration of delay needed (up to 14-17 days).</li>
-                    <li>
-                      Dosage preference (e.g., multiple tablets per day vs.
-                      single tablet).
-                    </li>
+                    <li>Severity and frequency of migraines. </li>
+                    <li>Speed of relief needed.</li>
+                    <li>Preferred method of administration (tablets, nasal spray, etc.).</li>
                     <li>Side effect profile.</li>
-                    <li>
-                      Medical history (e.g., liver conditions, blood clots).
-                    </li>
+                    <li>Medical history (e.g., cardiovascular conditions).</li>
                   </ul>
                 </Typography>
                 <Button

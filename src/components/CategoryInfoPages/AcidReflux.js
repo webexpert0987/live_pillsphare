@@ -17,10 +17,12 @@ import {
   AccordionDetails,
   Accordion,
 } from "@mui/material";
+import heroImage from "../../pages/images/Info-Images/Acid-Reflux/Acid-Reflux.jpg"
+////////////////////////
 import TrustBar from "../../pages/Trustbar";
 import howItWorksBg from "../../pages/images/Info-Images/how-it-works-bg.svg";
-import ImageOne from "../../pages/images/Info-Images/Hay-Fever01.jpg";
-import ImageTwo from "../../pages/images/Info-Images/Hay-Fever02.jpg";
+import ImageOne from "../../pages/images/Info-Images/Acid-Reflux/Acid-Reflux01.jpg";
+import ImageTwo from "../../pages/images/Info-Images/Acid-Reflux/Acid-Reflux02.jpg";
 
 import ImageThree from "../../pages/images/Info-Images/Hay-Fever03.png";
 import ImageFour from "../../pages/images/Info-Images/Hay-Fever04.png";
@@ -94,9 +96,6 @@ function AcidRefluxPage() {
       prescription: "No",
       bestFor: "Individuals with mild or occasional acid reflux.",
     },
-  ];
-
-  const rowsPPIs = [
     {
       medicineName:
         "Proton Pump Inhibitors (PPIs) (e.g., Omeprazole, Lansoprazole)",
@@ -114,6 +113,7 @@ function AcidRefluxPage() {
       bestFor: "Individuals with frequent or chronic acid reflux.",
     },
   ];
+
 
   ////////////////////////// FAQ ////////////////////////////////
 
@@ -249,7 +249,7 @@ function AcidRefluxPage() {
       {/************** Hero Section **************/}
       <Box
         sx={{
-          backgroundImage: `url("https://admin.pillsphere.com/wp-content/uploads/2025/01/categoryHeroImage.jpg")`,
+          backgroundImage: `url(${heroImage})`,
           backgroundSize: "cover",
           backgroundRepeat: "no-repeat",
           backgroundPosition: "center",
@@ -262,7 +262,7 @@ function AcidRefluxPage() {
         <Container>
           <Box
             sx={{
-              width: "700px",
+              width: { xs: "100%", sm: "600px", md: "700px" },
               maxWidth: "100%",
               paddingTop: { xs: "30px", sm: "35px", md: "50px" },
               paddingBottom: { xs: "30px", sm: "35px", md: "50px" },
@@ -383,8 +383,8 @@ function AcidRefluxPage() {
             margin: "auto",
             padding: {
               xs: "30px 0 30px 0",
-              sm: "50px 0 50px 0",
-              md: "70px 0 70px 0",
+              sm: "50px 0 70px 0",
+              md: "70px 0 90px 0",
             },
           }}
         >
@@ -426,7 +426,7 @@ function AcidRefluxPage() {
                       maxWidth: "100%",
                       position: "absolute",
                       right: "0",
-                      bottom: "0",
+                      bottom: "-30px",
                       borderRadius: "20px",
                       zIndex: "2",
                       display: { xs: "none", sm: "block", md: "block" },
@@ -696,7 +696,7 @@ function AcidRefluxPage() {
               {/* Table Head */}
               <TableHead>
                 <TableRow sx={{ backgroundColor: "#104239" }}>
-                  <TableCell sx={{ ...weightCompStyle.tHead }}></TableCell>
+                  <TableCell sx={{ ...weightCompStyle.tHead }}>Products</TableCell>
                   <TableCell sx={{ ...weightCompStyle.tHead }}>
                     Active Ingredients
                   </TableCell>
@@ -820,143 +820,6 @@ function AcidRefluxPage() {
             </Table>
           </TableContainer>
 
-          {/* Proton Pump Inhibitors (PPIs)  */}
-          <TableContainer
-            component={Paper}
-            sx={{
-              borderRadius: "15px",
-              boxShadow: "none",
-              border: "none",
-              marginTop: { xs: "30px", sm: "25px", md: "40px" },
-            }}
-          >
-            <Table sx={{ border: "none" }}>
-              {/* Table Head */}
-              <TableHead>
-                <TableRow sx={{ backgroundColor: "#104239" }}>
-                  <TableCell sx={{ ...weightCompStyle.tHead }}></TableCell>
-                  <TableCell sx={{ ...weightCompStyle.tHead }}>
-                    Active Ingredients
-                  </TableCell>
-                  <TableCell sx={{ ...weightCompStyle.tHead }}>Form</TableCell>
-                  <TableCell sx={{ ...weightCompStyle.tHead }}>Usage</TableCell>
-                  <TableCell sx={{ ...weightCompStyle.tHead }}>
-                    Key Benefits:
-                  </TableCell>
-                  <TableCell sx={{ ...weightCompStyle.tHead }}>
-                    Common Side Effects
-                  </TableCell>
-                  <TableCell sx={{ ...weightCompStyle.tHead }}>
-                    Prescription Required
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      ...weightCompStyle.tHead,
-                      ...weightCompStyle.lastColumn,
-                    }}
-                  >
-                    Best For
-                  </TableCell>
-                </TableRow>
-              </TableHead>
-
-              {/* Table Body */}
-              <TableBody sx={{ backgroundColor: "#F6EFDF" }}>
-                {rowsPPIs.map((row, index) => (
-                  <TableRow key={index}>
-                    <TableCell
-                      sx={{
-                        ...weightCompStyle.tBody,
-                        ...(index === rowsPPIs.length - 1 &&
-                          weightCompStyle.lastRow),
-                        fontWeight: "700",
-                      }}
-                    >
-                      {row.medicineName}
-                    </TableCell>
-
-                    <TableCell
-                      sx={{
-                        ...weightCompStyle.tBody,
-                        ...(index === rowsPPIs.length - 1 &&
-                          weightCompStyle.lastRow),
-                      }}
-                    >
-                      {row.ingredients}
-                    </TableCell>
-
-                    <TableCell
-                      sx={{
-                        ...weightCompStyle.tBody,
-                        ...(index === rowsPPIs.length - 1 &&
-                          weightCompStyle.lastRow),
-                      }}
-                    >
-                      {row.form}
-                    </TableCell>
-
-                    <TableCell
-                      sx={{
-                        ...weightCompStyle.tBody,
-                        ...(index === rowsPPIs.length - 1 &&
-                          weightCompStyle.lastRow),
-                      }}
-                    >
-                      {row.usage}
-                    </TableCell>
-
-                    <TableCell
-                      sx={{
-                        ...weightCompStyle.tBody,
-                        ...(index === rowsPPIs.length - 1 &&
-                          weightCompStyle.lastRow),
-                      }}
-                    >
-                      {/* Check if Rightdescription is an array */}
-                      {Array.isArray(row.keybenefits)
-                        ? row.keybenefits.map((item, i) => (
-                            <React.Fragment key={i}>
-                              {item}
-                              <br />
-                            </React.Fragment>
-                          ))
-                        : row.keybenefits}
-                    </TableCell>
-
-                    <TableCell
-                      sx={{
-                        ...weightCompStyle.tBody,
-                        ...(index === rowsPPIs.length - 1 &&
-                          weightCompStyle.lastRow),
-                      }}
-                    >
-                      {row.sideeffect}
-                    </TableCell>
-                    <TableCell
-                      sx={{
-                        ...weightCompStyle.tBody,
-                        ...(index === rowsPPIs.length - 1 &&
-                          weightCompStyle.lastRow),
-                      }}
-                    >
-                      {row.prescription}
-                    </TableCell>
-
-                    <TableCell
-                      sx={{
-                        ...weightCompStyle.tBody,
-                        ...weightCompStyle.lastColumn,
-                        ...(index === rowsPPIs.length - 1 &&
-                          weightCompStyle.lastRow),
-                      }}
-                    >
-                      {row.bestFor}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
         </Container>
       </Box>
 
