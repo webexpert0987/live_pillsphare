@@ -356,6 +356,9 @@ function StopSmoking() {
                   boxShadow: "none",
                   marginBottom: { xs: "15px", sm: "0", md: "0" },
                 }}
+                onClick={() =>
+                  (window.location.href = `/questionnaire?category=stop-smoking`)
+                }
               >
                 Start Your Consultation Today
               </Button>
@@ -516,6 +519,9 @@ function StopSmoking() {
                   padding: "12px 25px",
                   boxShadow: "none",
                 }}
+                onClick={() =>
+                  (window.location.href = `/questionnaire?category=stop-smoking`)
+                }
               >
                 Start Your Consultation
                 <svg
@@ -931,6 +937,9 @@ function StopSmoking() {
                     padding: "12px 25px",
                     boxShadow: "none",
                   }}
+                  onClick={() =>
+                    (window.location.href = `/questionnaire?category=stop-smoking`)
+                  }
                 >
                   Start Your Consultation
                   <svg

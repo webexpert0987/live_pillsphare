@@ -16,7 +16,7 @@ function WeightLoss() {
       <Box>
         <HeroSection weightLossHero={weight_title} />
         <TrustBar />
-        <HowItWorks />
+        <HowItWorks route="weight-loss" />
         {/**<ProductGridSlider />**/}
         <Treatments />
         <ExplainHowItWorks />

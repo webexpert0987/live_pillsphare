@@ -381,6 +381,9 @@ function CystitisTreatment() {
                   boxShadow: "none",
                   marginBottom: { xs: "15px", sm: "0", md: "0" },
                 }}
+                onClick={() =>
+                  (window.location.href = `/questionnaire?category=cystitis`)
+                }
               >
                 Start Your Consultation Today
               </Button>
@@ -541,6 +544,9 @@ function CystitisTreatment() {
                   padding: "12px 25px",
                   boxShadow: "none",
                 }}
+                onClick={() =>
+                  (window.location.href = `/questionnaire?category=cystitis`)
+                }
               >
                 Start Your Consultation
                 <svg
@@ -636,6 +642,9 @@ function CystitisTreatment() {
                     boxShadow: "none",
                     marginTop: { xs: "15px", sm: "20px", md: "25px" },
                   }}
+                  onClick={() =>
+                    (window.location.href = `/questionnaire?category=cystitis`)
+                  }
                 >
                   Start Your Consultation
                   <svg
@@ -917,6 +926,9 @@ function CystitisTreatment() {
                     boxShadow: "none",
                     marginTop: { xs: "15px", sm: "20px", md: "25px" },
                   }}
+                  onClick={() =>
+                    (window.location.href = `/questionnaire?category=cystitis`)
+                  }
                 >
                   Start Your Consultation
                   <svg

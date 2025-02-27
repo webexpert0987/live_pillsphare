@@ -83,7 +83,8 @@ function PeriodPain() {
       medicineName: "Naproxen",
       ingredients: "Naproxen",
       form: "Tablets",
-      usage: "Take 1 tablet (250-500 mg) every 6-8 hours as needed, with a maximum of 3 tablets in 24 hours.",
+      usage:
+        "Take 1 tablet (250-500 mg) every 6-8 hours as needed, with a maximum of 3 tablets in 24 hours.",
       keybenefits: [
         "- Effective for moderate to severe period pain.",
         "- Long-lasting relief (up to 8 hours per dose).",
@@ -97,15 +98,15 @@ function PeriodPain() {
       medicineName: "Mefenamic Acid",
       ingredients: "Mefenamic Acid",
       form: "Tablets or capsules",
-      usage: "Take 1 tablet (500 mg) every 6-8 hours as needed, with a maximum of 3 tablets in 24 hours.",
+      usage:
+        "Take 1 tablet (500 mg) every 6-8 hours as needed, with a maximum of 3 tablets in 24 hours.",
       keybenefits: [
         "- Effective for reducing pain and inflammation.",
         "- Works quickly to relieve cramps.",
       ],
       sideeffect: "Stomach upset, diarrhea, dizziness.",
       prescription: "Yes.",
-      bestFor:
-        "Individuals with moderate period pain needing fast relief.",
+      bestFor: "Individuals with moderate period pain needing fast relief.",
     },
   ];
 
@@ -114,27 +115,33 @@ function PeriodPain() {
   const faqs = [
     {
       title: "When should I take Naproxen or Mefenamic Acid?",
-      description: "Start taking the medication at the first sign of period pain for the best results. Continue as needed, but do not exceed the recommended dosage.",
+      description:
+        "Start taking the medication at the first sign of period pain for the best results. Continue as needed, but do not exceed the recommended dosage.",
     },
     {
       title: "Can I take these medications with food?",
-      description: "Yes, taking Naproxen or Mefenamic Acid with food can help reduce stomach upset.",
+      description:
+        "Yes, taking Naproxen or Mefenamic Acid with food can help reduce stomach upset.",
     },
     {
       title: "Are there any side effects of these medications?",
-      description: "Common side effects include stomach upset, heartburn, and dizziness. Serious side effects are rare but consult a healthcare professional if you have concerns.",
+      description:
+        "Common side effects include stomach upset, heartburn, and dizziness. Serious side effects are rare but consult a healthcare professional if you have concerns.",
     },
     {
       title: "Can I use these medications if I have stomach problems?",
-      description: "NSAIDs like Naproxen and Mefenamic Acid are not recommended for individuals with stomach ulcers or gastrointestinal issues. Consult a healthcare professional for alternatives.",
+      description:
+        "NSAIDs like Naproxen and Mefenamic Acid are not recommended for individuals with stomach ulcers or gastrointestinal issues. Consult a healthcare professional for alternatives.",
     },
     {
       title: "Can I take these medications with other painkillers?",
-      description: "Do not take Naproxen or Mefenamic Acid with other NSAIDs (e.g., ibuprofen). Paracetamol can be used alongside if needed.",
+      description:
+        "Do not take Naproxen or Mefenamic Acid with other NSAIDs (e.g., ibuprofen). Paracetamol can be used alongside if needed.",
     },
     {
       title: "Can I use these medications long-term?",
-      description: "These medications are designed for short-term use to manage period pain. For long-term pain management, consult a healthcare professional.",
+      description:
+        "These medications are designed for short-term use to manage period pain. For long-term pain management, consult a healthcare professional.",
     },
   ];
 
@@ -339,6 +346,9 @@ function PeriodPain() {
                   boxShadow: "none",
                   marginBottom: { xs: "15px", sm: "0", md: "0" },
                 }}
+                onClick={() =>
+                  (window.location.href = `/questionnaire?category=period-pain`)
+                }
               >
                 Start Your Consultation Today
               </Button>
@@ -499,6 +509,9 @@ function PeriodPain() {
                   padding: "12px 25px",
                   boxShadow: "none",
                 }}
+                onClick={() =>
+                  (window.location.href = `/questionnaire?category=period-pain`)
+                }
               >
                 Start Your Consultation
                 <svg
@@ -666,8 +679,8 @@ function PeriodPain() {
               }}
             >
               Below is a detailed overview of the period pain treatments
-              available at <strong>Pill Sphere</strong>. All information is based on clinical
-              guidelines and medical references.
+              available at <strong>Pill Sphere</strong>. All information is
+              based on clinical guidelines and medical references.
             </Typography>
           </Box>
 
@@ -909,7 +922,9 @@ function PeriodPain() {
                     <li>Severity of pain (mild, moderate, or severe).</li>
                     <li>Duration of relief needed.</li>
                     <li>Side effect profile.</li>
-                    <li>Medical history (e.g., stomach ulcers, kidney problems).</li>
+                    <li>
+                      Medical history (e.g., stomach ulcers, kidney problems).
+                    </li>
                   </ul>
                 </Typography>
                 <Button
@@ -927,6 +942,9 @@ function PeriodPain() {
                     padding: "12px 25px",
                     boxShadow: "none",
                   }}
+                  onClick={() =>
+                    (window.location.href = `/questionnaire?category=period-pain`)
+                  }
                 >
                   Start Your Consultation
                   <svg

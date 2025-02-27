@@ -337,6 +337,9 @@ function PrematurePage() {
                   boxShadow: "none",
                   marginBottom: { xs: "15px", sm: "0", md: "0" },
                 }}
+                onClick={() =>
+                  (window.location.href = `/questionnaire?category=premature-ejaculation`)
+                }
               >
                 Start Your Consultation Today
               </Button>
@@ -494,6 +497,9 @@ function PrematurePage() {
                   padding: "12px 25px",
                   boxShadow: "none",
                 }}
+                onClick={() =>
+                  (window.location.href = `/questionnaire?category=premature-ejaculation`)
+                }
               >
                 Start Your Consultation
                 <svg
@@ -631,6 +637,9 @@ function PrematurePage() {
                     boxShadow: "none",
                     marginTop: { xs: "15px", sm: "20px", md: "25px" },
                   }}
+                  onClick={() =>
+                    (window.location.href = `/questionnaire?category=premature-ejaculation`)
+                  }
                 >
                   Start Your Consultation
                   <svg

@@ -312,13 +312,13 @@ function MigraineTreatment() {
                 lineHeight: "1.4",
               }}
             >
-              Migraines are more than just headaches — they can cause severe pain,
-              nausea, and sensitivity to light and sound, significantly
+              Migraines are more than just headaches — they can cause severe
+              pain, nausea, and sensitivity to light and sound, significantly
               impacting your daily life. At Pill Sphere, we offer a range of
-              trusted migraine treatments, including Sumatriptan, Rizatriptan, Zolmitriptan, and Naratriptan,
-              to help you manage symptoms and regain control. Our team of
-              healthcare professionals is here to guide you to the right
-              treatment for your needs.
+              trusted migraine treatments, including Sumatriptan, Rizatriptan,
+              Zolmitriptan, and Naratriptan, to help you manage symptoms and
+              regain control. Our team of healthcare professionals is here to
+              guide you to the right treatment for your needs.
             </Typography>
 
             {/* Two Buttons */}
@@ -348,6 +348,9 @@ function MigraineTreatment() {
                   boxShadow: "none",
                   marginBottom: { xs: "15px", sm: "0", md: "0" },
                 }}
+                onClick={() =>
+                  (window.location.href = `/questionnaire?category=migraine`)
+                }
               >
                 Start Your Consultation Today
               </Button>
@@ -509,6 +512,9 @@ function MigraineTreatment() {
                   padding: "12px 25px",
                   boxShadow: "none",
                 }}
+                onClick={() =>
+                  (window.location.href = `/questionnaire?category=migraine`)
+                }
               >
                 Start Your Consultation
                 <svg
@@ -933,6 +939,9 @@ function MigraineTreatment() {
                     padding: "12px 25px",
                     boxShadow: "none",
                   }}
+                  onClick={() =>
+                    (window.location.href = `/questionnaire?category=migraine`)
+                  }
                 >
                   Start Your Consultation
                   <svg

@@ -442,6 +442,9 @@ function HayFever() {
                   boxShadow: "none",
                   marginBottom: { xs: "15px", sm: "0", md: "0" },
                 }}
+                onClick={() =>
+                  (window.location.href = `/questionnaire?category=hayfever`)
+                }
               >
                 Start Your Consultation Today
               </Button>
@@ -601,6 +604,9 @@ function HayFever() {
                   padding: "12px 25px",
                   boxShadow: "none",
                 }}
+                onClick={() =>
+                  (window.location.href = `/questionnaire?category=hayfever`)
+                }
               >
                 Start Your Consultation
                 <svg
@@ -729,6 +735,9 @@ function HayFever() {
                     boxShadow: "none",
                     marginTop: { xs: "15px", sm: "20px", md: "25px" },
                   }}
+                  onClick={() =>
+                    (window.location.href = `/questionnaire?category=hayfever`)
+                  }
                 >
                   Start Your Consultation
                   <svg

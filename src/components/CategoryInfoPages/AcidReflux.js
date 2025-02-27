@@ -342,6 +342,9 @@ function AcidRefluxPage() {
                   boxShadow: "none",
                   marginBottom: { xs: "15px", sm: "0", md: "0" },
                 }}
+                onClick={() =>
+                  (window.location.href = `/questionnaire?category=acid-reflux`)
+                }
               >
                 Start Your Consultation Today
               </Button>
@@ -503,6 +506,9 @@ function AcidRefluxPage() {
                   padding: "12px 25px",
                   boxShadow: "none",
                 }}
+                onClick={() =>
+                  (window.location.href = `/questionnaire?category=acid-reflux`)
+                }
               >
                 Start Your Consultation
                 <svg

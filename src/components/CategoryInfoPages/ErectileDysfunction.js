@@ -102,7 +102,8 @@ function ErectileDysfunction() {
       form: "Cream",
       OnsetAction: "5-30 minutes",
       Duration: "1-2 hours",
-      keybenefits: "Non-oral, effective for men who cannot take oral medications",
+      keybenefits:
+        "Non-oral, effective for men who cannot take oral medications",
       sideeffect: "Penile pain, redness at application site",
     },
     {
@@ -111,7 +112,8 @@ function ErectileDysfunction() {
       form: "Oral tablet",
       OnsetAction: "15-30 minutes",
       Duration: "4-6 hours",
-      keybenefits: "Fast-acting, fewer side effects compared to older PDE5 inhibitors",
+      keybenefits:
+        "Fast-acting, fewer side effects compared to older PDE5 inhibitors",
       sideeffect: "Headache, flushing, nasal congestion",
     },
     {
@@ -382,6 +384,9 @@ function ErectileDysfunction() {
                   boxShadow: "none",
                   marginBottom: { xs: "15px", sm: "0", md: "0" },
                 }}
+                onClick={() =>
+                  (window.location.href = `/questionnaire?category=erectile-dysfunction`)
+                }
               >
                 Start Your Consultation Today
               </Button>
@@ -537,6 +542,9 @@ function ErectileDysfunction() {
                   padding: "12px 25px",
                   boxShadow: "none",
                 }}
+                onClick={() =>
+                  (window.location.href = `/questionnaire?category=erectile-dysfunction`)
+                }
               >
                 Start Your Consultation
                 <svg
@@ -720,17 +728,21 @@ function ErectileDysfunction() {
               {/* Table Head */}
               <TableHead>
                 <TableRow sx={{ backgroundColor: "#104239" }}>
-                  <TableCell sx={{ ...weightCompStyle.tHead }}>Product</TableCell>
                   <TableCell sx={{ ...weightCompStyle.tHead }}>
-                  Active Ingredient
+                    Product
+                  </TableCell>
+                  <TableCell sx={{ ...weightCompStyle.tHead }}>
+                    Active Ingredient
                   </TableCell>
                   <TableCell sx={{ ...weightCompStyle.tHead }}>Form</TableCell>
-                  <TableCell sx={{ ...weightCompStyle.tHead }}>Onset of Action</TableCell>
                   <TableCell sx={{ ...weightCompStyle.tHead }}>
-                  Duration
+                    Onset of Action
                   </TableCell>
                   <TableCell sx={{ ...weightCompStyle.tHead }}>
-                  Key Benefits
+                    Duration
+                  </TableCell>
+                  <TableCell sx={{ ...weightCompStyle.tHead }}>
+                    Key Benefits
                   </TableCell>
                   <TableCell
                     sx={{
@@ -797,7 +809,7 @@ function ErectileDysfunction() {
                     >
                       {row.Duration}
                     </TableCell>
-                    
+
                     <TableCell
                       sx={{
                         ...weightCompStyle.tBody,

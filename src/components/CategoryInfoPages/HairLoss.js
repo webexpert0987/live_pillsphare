@@ -83,7 +83,8 @@ function HairLossPage() {
       ingredients: "Finasteride",
       form: "Oral tablet",
       usage: "Once daily",
-      keybenefits: "Effective for male pattern baldness, slows hair loss, and promotes regrowth.",
+      keybenefits:
+        "Effective for male pattern baldness, slows hair loss, and promotes regrowth.",
       sideeffect: "Decreased libido, erectile dysfunction.",
       prescription: "Yes",
       bestFor: "Men with early to moderate male pattern baldness.",
@@ -93,7 +94,8 @@ function HairLossPage() {
       ingredients: "Dutasteride",
       form: "Oral tablet",
       usage: "Once daily",
-      keybenefits: "More potent than Finasteride, suitable for men with advanced hair loss.",
+      keybenefits:
+        "More potent than Finasteride, suitable for men with advanced hair loss.",
       sideeffect: "Decreased libido, erectile dysfunction.",
       prescription: "-",
       bestFor: "Men with advanced male pattern baldness.",
@@ -103,7 +105,8 @@ function HairLossPage() {
       ingredients: "Minoxidil",
       form: "Topical foam or solution",
       usage: "Twice daily",
-      keybenefits: "Suitable for men and women, stimulates hair growth, and easy to apply.",
+      keybenefits:
+        "Suitable for men and women, stimulates hair growth, and easy to apply.",
       sideeffect: "Scalp irritation, unwanted facial hair.",
       prescription: "-",
       bestFor: "Men and women with mild to moderate hair loss.",
@@ -336,6 +339,9 @@ function HairLossPage() {
                   boxShadow: "none",
                   marginBottom: { xs: "15px", sm: "0", md: "0" },
                 }}
+                onClick={() =>
+                  (window.location.href = `/questionnaire?category=hair-loss`)
+                }
               >
                 Start Your Consultation Today
               </Button>
@@ -493,6 +499,9 @@ function HairLossPage() {
                   padding: "12px 25px",
                   boxShadow: "none",
                 }}
+                onClick={() =>
+                  (window.location.href = `/questionnaire?category=hair-loss`)
+                }
               >
                 Start Your Consultation
                 <svg

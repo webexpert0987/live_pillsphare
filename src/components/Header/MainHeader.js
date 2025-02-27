@@ -152,7 +152,7 @@ const onlineClinicItems = [
     name: "Premature Ejaculation Assessment",
     link: "/online-clinic/premature-ejaculation",
   },
-  { id: 12, name: "Stop Smoking", link: "/online-clinic/smoking" },
+  { id: 12, name: "Stop Smoking", link: "/online-clinic/stop-smoking" },
 ];
 
 const MainHeader = () => {
