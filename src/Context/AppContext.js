@@ -121,12 +121,14 @@ export const AppProvider = ({ children }) => {
     if (cart.length > 0) {
       return cart
         .reduce(
-          (total, item) => total + parseFloat(item.selectedVariantPrice),
+          (total, item) =>
+            total +
+            parseFloat(item.selectedVariantPrice) * (item.quantity || 1),
           0
         )
         .toFixed(2);
     } else {
-      return 0;
+      return "0.00";
     }
   };
 

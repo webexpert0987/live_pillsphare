@@ -21,7 +21,7 @@ import "../../../../src/globalStyle.css";
 import BmiCalculate from "../Consultation"; // Import the BMI calculation component
 import { useApp } from "../../../Context/AppContext";
 import { useMessage } from "../../../Context/MessageContext";
-const steps = ["1", "2", "3"];
+const steps = ["1", "2"];
 
 function PeriodPainQuestion() {
   const [activeStep, setActiveStep] = useState(0);
@@ -44,6 +44,7 @@ function PeriodPainQuestion() {
     understandTO: "",
     currPregnant: "",
     consentToPro: "",
+    knownAllergyIssue: "",
   });
   const boxRef = useRef(null);
   const { setSelectedTab } = useApp();
@@ -72,11 +73,6 @@ function PeriodPainQuestion() {
 
     // Validation logic
     if (activeStep === 0) {
-      if (!bmiData?.bmi) {
-        showMessage("Please calculate your BMI first", "error");
-        return;
-      }
-    } else if (activeStep === 1) {
       const requiredFields = [
         "agedBetween",
         "periodPain",
@@ -92,6 +88,7 @@ function PeriodPainQuestion() {
         "currPregnant",
         "understandTO",
         "consentToPro",
+        "knownAllergyIssue",
       ];
 
       for (const field of requiredFields) {
@@ -131,7 +128,7 @@ function PeriodPainQuestion() {
           return;
         }
       }
-    } else if (activeStep === 2) {
+    } else if (activeStep === 1) {
       const requiredAgreements = ["agreeToTerms"];
 
       for (const field of requiredAgreements) {
@@ -171,10 +168,10 @@ function PeriodPainQuestion() {
     localStorage.setItem(
       "questionnaire_info",
       JSON.stringify({
-        // ...parsedData,
         user,
         bmiData,
         answers: answers,
+        ...parsedData,
       })
     );
     setSelectedTab(2);
@@ -183,14 +180,8 @@ function PeriodPainQuestion() {
   const renderStepContent = (stepIndex) => {
     switch (stepIndex) {
       //============= Step 01 =============//
+
       case 0:
-        return (
-          <>
-            <BmiCalculate />
-          </>
-        );
-      //============= Step 02 =============//
-      case 1:
         return (
           <>
             {/****** 1.	Are you female and aged between 18-65?*****/}
@@ -428,30 +419,12 @@ function PeriodPainQuestion() {
               <>
                 {" "}
                 <ul>
-                  <FormControlLabel
-                    control={<Checkbox />}
-                    label="Birth control (oral contraceptives, IUD, etc.)"
-                  />
-                  <br></br>
-                  <FormControlLabel
-                    control={<Checkbox />}
-                    label="Hormonal therapy"
-                  />
-                  <br></br>
-                  <FormControlLabel
-                    control={<Checkbox />}
-                    label="Pain relief medication (e.g., ibuprofen, paracetamol)"
-                  />
-                  <br></br>
-                  <FormControlLabel
-                    control={<Checkbox />}
-                    label="Antidepressants or antianxiety medication"
-                  />
-                  <br></br>
-                  <FormControlLabel
-                    control={<Checkbox />}
-                    label="Any other relevant medications (please specify):"
-                  />
+                  <li>Birth control (oral contraceptives, IUD, etc.)</li>
+                  <li>Hormonal therapy</li>
+                  <li>Pain relief medication (e.g., ibuprofen, paracetamol)</li>
+                  <li>Antidepressants or antianxiety medication</li>
+                  <li>Any other relevant medications (please specify):</li>
+
                   <RadioGroup
                     row
                     name="otherMedication"
@@ -594,30 +567,20 @@ function PeriodPainQuestion() {
 
             <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-                14. Do you have any of the following conditions that could
-                impact your health or treatment options?
+                Do you have any of the following conditions that could impact
+                your health or treatment options?
               </Typography>
               <ul>
-                <FormControlLabel control={<Checkbox />} label="Asthma" />
+                <li>Asthma</li>
                 <br></br>
-                <FormControlLabel control={<Checkbox />} label="Diabetes" />
+                <li>Diabetes</li>
                 <br></br>
-                <FormControlLabel control={<Checkbox />} label="Hypertension" />
+                <li>Hypertension</li>
                 <br></br>
-                <FormControlLabel
-                  control={<Checkbox />}
-                  label="Cardiovascular disease"
-                />
+                <li>Cardiovascular disease</li>
                 <br></br>
-                <FormControlLabel
-                  control={<Checkbox />}
-                  label="Blood clotting disorders"
-                />
+                <li>Blood clotting disorders</li>
                 <br></br>
-                <FormControlLabel
-                  control={<Checkbox />}
-                  label="Other chronic conditions (please specify):"
-                />
                 <RadioGroup
                   row
                   name="followingCondition"
@@ -689,6 +652,9 @@ function PeriodPainQuestion() {
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
+              {answers.understandTO === "No" && (
+                <div>Please consult your GP for suitable alternatives.</div>
+              )}
             </FormControl>
             {/******17.	Do you consent to proceeding with treatment for period pain after reviewing the information provided? *****/}
 
@@ -708,13 +674,16 @@ function PeriodPainQuestion() {
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
+              {answers.consentToPro === "No" && (
+                <div>Please consult your GP for suitable alternatives.</div>
+              )}
             </FormControl>
 
             {/****** End *****/}
           </>
         );
       //============= Step 03 =============//
-      case 2:
+      case 1:
         return (
           <>
             {/****** Do you agree to the following? *****/}

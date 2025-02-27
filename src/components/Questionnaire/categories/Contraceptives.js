@@ -18,7 +18,7 @@ import "../../../../src/globalStyle.css";
 import BmiCalculate from "../Consultation"; // Import the BMI calculation component
 import { useApp } from "../../../Context/AppContext";
 import { useMessage } from "../../../Context/MessageContext";
-const steps = ["1", "2", "3",];
+const steps = ["1", "2"];
 
 function ContraceptivesQuestion() {
   const [activeStep, setActiveStep] = useState(0);
@@ -67,13 +67,7 @@ function ContraceptivesQuestion() {
     );
     const { bmiData } = qaData;
 
-    // Validation logic
     if (activeStep === 0) {
-      if (!bmiData?.bmi) {
-        showMessage("Please calculate your BMI first", "error");
-        return;
-      }
-    } else if (activeStep === 1) {
       const requiredFields = [
         "pregnancyStatus",
         "contraceptionUsage",
@@ -110,9 +104,7 @@ function ContraceptivesQuestion() {
         { field: "allergicSubstances", condition: "Yes" },
         { field: "agreeToTerms", condition: "Yes" },
         { field: "cervicalCancerScreening", condition: "No" },
-
       ];
-
 
       for (const { field, condition } of preventProceedConditions) {
         if (answers[field] === condition) {
@@ -131,8 +123,7 @@ function ContraceptivesQuestion() {
         );
         return;
       }
-
-    } else if (activeStep === 2) {
+    } else if (activeStep === 1) {
       const requiredAgreements = ["agreeToTerms"];
 
       for (const field of requiredAgreements) {
@@ -160,7 +151,7 @@ function ContraceptivesQuestion() {
         "Please fill all details before proceeding to the next step.",
         "error"
       );
-      return
+      return;
     }
     console.log("Form submitted with answers: ", answers);
     const data = localStorage.getItem("questionnaire_info");
@@ -174,10 +165,10 @@ function ContraceptivesQuestion() {
     localStorage.setItem(
       "questionnaire_info",
       JSON.stringify({
-        // ...parsedData,
         user,
         bmiData,
         answers: answers,
+        ...parsedData,
       })
     );
     setSelectedTab(2);
@@ -200,13 +191,6 @@ function ContraceptivesQuestion() {
     switch (stepIndex) {
       //============= Step 01 =============//
       case 0:
-        return (
-          <>
-            <BmiCalculate />
-          </>
-        );
-      //============= Step 02 =============//
-      case 1:
         return (
           <>
             {/****** 1st	Are you pregnant, breastfeeding, trying to conceive, or have you given birth in the last six weeks? *****/}
@@ -248,17 +232,20 @@ function ContraceptivesQuestion() {
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
-              {
-                answers.contraceptionUsage === "Yes" && (
-                  <TextField name="contraceptionUsageInfo"
-                    label="Write here"
-                    type="text"
-                    value={answers.contraceptionUsageInfo}
-                    onChange={(e) =>
-                      setAnswers({ ...answers, contraceptionUsageInfo: e.target.value })
-                    } />
-                )
-              }
+              {answers.contraceptionUsage === "Yes" && (
+                <TextField
+                  name="contraceptionUsageInfo"
+                  label="Write here"
+                  type="text"
+                  value={answers.contraceptionUsageInfo}
+                  onChange={(e) =>
+                    setAnswers({
+                      ...answers,
+                      contraceptionUsageInfo: e.target.value,
+                    })
+                  }
+                />
+              )}
             </FormControl>
 
             {/******3rd	Have you previously used a contraceptive pill?*****/}
@@ -281,17 +268,20 @@ function ContraceptivesQuestion() {
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
-              {
-                answers.previousContraceptivePill === "Yes" && (
-                  <TextField name="previousContraceptivePillInfo"
-                    label="Write here"
-                    type="text"
-                    value={answers.previousContraceptivePillInfo}
-                    onChange={(e) =>
-                      setAnswers({ ...answers, previousContraceptivePillInfo: e.target.value })
-                    } />
-                )
-              }
+              {answers.previousContraceptivePill === "Yes" && (
+                <TextField
+                  name="previousContraceptivePillInfo"
+                  label="Write here"
+                  type="text"
+                  value={answers.previousContraceptivePillInfo}
+                  onChange={(e) =>
+                    setAnswers({
+                      ...answers,
+                      previousContraceptivePillInfo: e.target.value,
+                    })
+                  }
+                />
+              )}
             </FormControl>
 
             {/******	What is your blood pressure? *****/}
@@ -334,15 +324,14 @@ function ContraceptivesQuestion() {
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
-              {
-                answers.cervicalCancerScreening === "No" && (
-                  <Typography variant="body">
-                    Cervical cancer screening is recommended for women
-                    aged 25-64. If you're not up-to-date with this screening, please see your doctor or
-                    contraception nurse. We cannot provide the pill without this test.
-                  </Typography>
-                )
-              }
+              {answers.cervicalCancerScreening === "No" && (
+                <Typography variant="body">
+                  Cervical cancer screening is recommended for women aged 25-64.
+                  If you're not up-to-date with this screening, please see your
+                  doctor or contraception nurse. We cannot provide the pill
+                  without this test.
+                </Typography>
+              )}
             </FormControl>
 
             {/******	Have you or any immediate family member been diagnosed with any of the following health conditions? *****/}
@@ -391,7 +380,6 @@ function ContraceptivesQuestion() {
               </RadioGroup>
 
               {consultMessage(answers.diagnosedConditions, "Yes")}
-
             </FormControl>
 
             {/****** Are you currently taking any of the following medications? *****/}
@@ -419,17 +407,20 @@ function ContraceptivesQuestion() {
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
-              {
-                answers.currentMedications === "Yes" && (
-                  <TextField name="currentMedicationsInfo"
-                    label="Write here"
-                    type="text"
-                    value={answers.currentMedicationsInfo}
-                    onChange={(e) =>
-                      setAnswers({ ...answers, currentMedicationsInfo: e.target.value })
-                    } />
-                )
-              }
+              {answers.currentMedications === "Yes" && (
+                <TextField
+                  name="currentMedicationsInfo"
+                  label="Write here"
+                  type="text"
+                  value={answers.currentMedicationsInfo}
+                  onChange={(e) =>
+                    setAnswers({
+                      ...answers,
+                      currentMedicationsInfo: e.target.value,
+                    })
+                  }
+                />
+              )}
             </FormControl>
 
             {/******	Have you undergone any surgery in the past 12 months, or are you currently immobile? *****/}
@@ -492,11 +483,11 @@ function ContraceptivesQuestion() {
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
-              {
-                answers.feelingVulnerable === "Yes" && (
-                  <Typography variant="body">You are not alone. We are here to help. Contact us</Typography>
-                )
-              }
+              {answers.feelingVulnerable === "Yes" && (
+                <Typography variant="body">
+                  You are not alone. We are here to help. Contact us
+                </Typography>
+              )}
             </FormControl>
 
             {/******	Are you currently taking or have you recently stopped any prescription, over-the-counter, herbal medications, or recreational drugs?*****/}
@@ -518,22 +509,26 @@ function ContraceptivesQuestion() {
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
-              {
-                answers.currentMedications === "Yes" && (
-                  <TextField name="prescriptionUsageInfo"
-                    label="Write here"
-                    type="text"
-                    value={answers.prescriptionUsageInfo}
-                    onChange={(e) =>
-                      setAnswers({ ...answers, prescriptionUsageInfo: e.target.value })
-                    } />
-                )
-              }
+              {answers.currentMedications === "Yes" && (
+                <TextField
+                  name="prescriptionUsageInfo"
+                  label="Write here"
+                  type="text"
+                  value={answers.prescriptionUsageInfo}
+                  onChange={(e) =>
+                    setAnswers({
+                      ...answers,
+                      prescriptionUsageInfo: e.target.value,
+                    })
+                  }
+                />
+              )}
             </FormControl>
 
             <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-                Are you allergic to any medications or substances (e.g., peanuts, soy)?
+                Are you allergic to any medications or substances (e.g.,
+                peanuts, soy)?
               </Typography>
               <RadioGroup
                 row
@@ -555,15 +550,46 @@ function ContraceptivesQuestion() {
               </Typography>
               <Typography variant="body" className="labelOne">
                 <ul>
-                  <li>You understand that vomiting or diarrhea may affect the effectiveness of the pill.</li>
-                  <li>You acknowledge the risks and possible side effects of contraception and agree to report any pain in the leg, breathing difficulties, or new migraines to your doctor.</li>
-                  <li>You have read and understood the information on the treatments and medications, including side effects, effectiveness, and available alternatives.</li>
-                  <li>You have answered all questions truthfully, and the treatment is for your personal use only.</li>
-                  <li>You will read and understand the patient information leaflet provided with the medication.</li>
-                  <li>You understand that, while not compulsory, it is important to inform your GP about this treatment so they can provide safe healthcare.</li>
-                  <li>You understand that prescribing decisions are based on your responses, and inaccurate information may lead to the rejection of your order or harm to your health.</li>
-                  <li>You are aware that a soft identity check will be conducted via LexisNexis, which does not affect your credit rating.</li>
-                  <li>You have read and agree to our Terms and Conditions, Terms of Use, and Privacy Policy.</li>
+                  <li>
+                    You understand that vomiting or diarrhea may affect the
+                    effectiveness of the pill.
+                  </li>
+                  <li>
+                    You acknowledge the risks and possible side effects of
+                    contraception and agree to report any pain in the leg,
+                    breathing difficulties, or new migraines to your doctor.
+                  </li>
+                  <li>
+                    You have read and understood the information on the
+                    treatments and medications, including side effects,
+                    effectiveness, and available alternatives.
+                  </li>
+                  <li>
+                    You have answered all questions truthfully, and the
+                    treatment is for your personal use only.
+                  </li>
+                  <li>
+                    You will read and understand the patient information leaflet
+                    provided with the medication.
+                  </li>
+                  <li>
+                    You understand that, while not compulsory, it is important
+                    to inform your GP about this treatment so they can provide
+                    safe healthcare.
+                  </li>
+                  <li>
+                    You understand that prescribing decisions are based on your
+                    responses, and inaccurate information may lead to the
+                    rejection of your order or harm to your health.
+                  </li>
+                  <li>
+                    You are aware that a soft identity check will be conducted
+                    via LexisNexis, which does not affect your credit rating.
+                  </li>
+                  <li>
+                    You have read and agree to our Terms and Conditions, Terms
+                    of Use, and Privacy Policy.
+                  </li>
                 </ul>
               </Typography>
 
@@ -585,7 +611,7 @@ function ContraceptivesQuestion() {
           </>
         );
       //============= Step 03 =============//
-      case 2:
+      case 1:
         return (
           <>
             {/****** Do you agree to the following? *****/}
@@ -622,7 +648,7 @@ function ContraceptivesQuestion() {
           </>
         );
       //============= Step 04 =============//
-      case 3:
+      case 2:
         return (
           <>
             <Typography variant="h3" className="stepHeading">

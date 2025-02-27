@@ -15,8 +15,8 @@ const HomePage = () => {
             <TreatmentSection/>
             <FeaturedProducts/>
             <DiscreetPackagingSection/>
-            <WeeklyOffersSection/>
             <HowItWorksSection/>
+            <WeeklyOffersSection/>
         </Box>
     )
 }

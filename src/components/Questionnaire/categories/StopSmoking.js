@@ -17,7 +17,7 @@ import "../../../../src/globalStyle.css";
 import BmiCalculate from "../Consultation"; // Import the BMI calculation component
 import { useApp } from "../../../Context/AppContext";
 import { useMessage } from "../../../Context/MessageContext";
-const steps = ["1", "2", "3", "4"];
+const steps = ["1", "2"];
 
 function StopSmokingQuestion() {
   const [activeStep, setActiveStep] = useState(0);
@@ -51,13 +51,7 @@ function StopSmokingQuestion() {
     );
     const { bmiData } = qaData;
 
-    // Validation logic
     if (activeStep === 0) {
-      if (!bmiData?.bmi) {
-        showMessage("Please calculate your BMI first", "error");
-        return;
-      }
-    } else if (activeStep === 1) {
       const requiredFields = ["agedBetween"];
 
       for (const field of requiredFields) {
@@ -73,7 +67,7 @@ function StopSmokingQuestion() {
           return;
         }
       }
-    } else if (activeStep === 2) {
+    } else if (activeStep === 1) {
       const requiredAgreements = ["agreeToTerms"];
 
       for (const field of requiredAgreements) {
@@ -96,7 +90,10 @@ function StopSmokingQuestion() {
   };
 
   const handleSubmit = () => {
-    console.log("Form submitted with answers: ", answers);
+    if (!answers.agreeToTerms) {
+      showMessage("Please agree to the terms and conditions", "error");
+      return;
+    }
     const data = localStorage.getItem("questionnaire_info");
     let parsedData = {};
     if (data) {
@@ -107,10 +104,10 @@ function StopSmokingQuestion() {
     localStorage.setItem(
       "questionnaire_info",
       JSON.stringify({
-        // ...parsedData,
         user,
         bmiData,
         answers: answers,
+        ...parsedData,
       })
     );
     setSelectedTab(2);
@@ -120,13 +117,6 @@ function StopSmokingQuestion() {
     switch (stepIndex) {
       //============= Step 01 =============//
       case 0:
-        return (
-          <>
-            <BmiCalculate />
-          </>
-        );
-      //============= Step 02 =============//
-      case 1:
         return (
           <>
             {/****** Are you aged between 17-74 years *****/}
@@ -152,7 +142,7 @@ function StopSmokingQuestion() {
           </>
         );
       //============= Step 03 =============//
-      case 2:
+      case 1:
         return (
           <>
             {/****** Do you agree to the following? *****/}

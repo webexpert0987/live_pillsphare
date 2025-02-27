@@ -14,26 +14,50 @@ import { Link } from "react-router-dom";
 import ProDefaultImg from "../../pages/images/how-it-works.jpg"; // The same image for all products
 
 const categories = [
-  { name: "Health and Wellbeing", image: ProDefaultImg, link: "/category1" },
-  { name: "Medicine and Treatment", image: ProDefaultImg, link: "/category2" },
-  { name: "Migraine", image: ProDefaultImg, link: "/category3" },
-  { name: "Sexual Wellbeing", image: ProDefaultImg, link: "/category4" },
-  { name: "Vitamins and Supplemens", image: ProDefaultImg, link: "/category5" },
-  { name: "Weight Loss", image: ProDefaultImg, link: "/category6" },
-  { name: "Health and Wellbeing", image: ProDefaultImg, link: "/category7" },
-  { name: "Medicine and Treatment", image: ProDefaultImg, link: "/category8" },
-  { name: "Migraine", image: ProDefaultImg, link: "/category9" },
-  { name: "Sexual Wellbeing", image: ProDefaultImg, link: "/category10" },
   {
-    name: "Vitamins and Supplemens",
+    name: "Weight Loss",
     image: ProDefaultImg,
-    link: "/category11",
+    link: "/online-clinic/weight-loss",
   },
-  { name: "Weight Loss", image: ProDefaultImg, link: "/category12" },
-  { name: "Category 13", image: ProDefaultImg, link: "/category13" },
-  { name: "Category 14", image: ProDefaultImg, link: "/category14" },
-  { name: "Category 15", image: ProDefaultImg, link: "/category15" },
-  { name: "Category 16", image: ProDefaultImg, link: "/category16" },
+  {
+    name: "Acid Reflux",
+    image: ProDefaultImg,
+    link: "/online-clinic/acid-reflux",
+  },
+  {
+    name: "Contraceptives",
+    image: ProDefaultImg,
+    link: "/online-clinic/contraceptives",
+  },
+  { name: "Cystitis", image: ProDefaultImg, link: "/online-clinic/cystitis" },
+  {
+    name: "Erectile Dysfunction",
+    image: ProDefaultImg,
+    link: "/online-clinic/erectile-dysfunction",
+  },
+  { name: "Hair Loss", image: ProDefaultImg, link: "/online-clinic/hair-loss" },
+  { name: "Hay Fever", image: ProDefaultImg, link: "/online-clinic/hayfever" },
+  { name: "Migraine", image: ProDefaultImg, link: "/online-clinic/migraine" },
+  {
+    name: "Period Delay",
+    image: ProDefaultImg,
+    link: "/online-clinic/period-delay",
+  },
+  {
+    name: "Period Pain",
+    image: ProDefaultImg,
+    link: "/online-clinic/period-pain",
+  },
+  {
+    name: "Premature Ejaculation",
+    image: ProDefaultImg,
+    link: "/online-clinic/premature-ejaculation",
+  },
+  {
+    name: "Stop Smoking",
+    image: ProDefaultImg,
+    link: "/online-clinic/stop-smoking",
+  },
 ];
 
 const ConditionsWeTreat = () => {

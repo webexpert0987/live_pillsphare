@@ -480,7 +480,14 @@ const OffersPage = () => {
                     to={`/product/${product.slug}`}
                     style={{ textDecoration: "none" }}
                   >
-                    <Card style={shop3Grid.shopinBox}>
+                    <Card
+                      style={{
+                        ...shop3Grid.shopinBox,
+                        display: "flex",
+                        flexDirection: "column",
+                        height: "100%", // Ensure all cards have the same height
+                      }}
+                    >
                       <Box position="relative">
                         <CardMedia
                           style={shop3Grid.productThumb}
@@ -491,6 +498,10 @@ const OffersPage = () => {
                             "https://admin.pillsphere.com/wp-content/uploads/2025/01/unnamed.png"
                           } // Use product.image if available
                           alt={product.name}
+                          sx={{
+                            height: { xs: "150px", sm: "200px", md: "235px" },
+                            objectFit: "contain",
+                          }}
                         />
                         <Typography style={shop3Grid.offerTag}>
                           Save 24%
@@ -516,7 +527,10 @@ const OffersPage = () => {
                           </Box>
                         )}
                       </Box>
-                      <CardContent style={shop3Grid.titlePriceBox}>
+                      <CardContent
+                        style={shop3Grid.titlePriceBox}
+                        sx={{ flexGrow: 1 }}
+                      >
                         <Typography style={shop3Grid.prodTitle} variant="h6">
                           {product.name}
                         </Typography>
@@ -548,7 +562,7 @@ const OffersPage = () => {
                               style={shop3Grid.proPrice}
                               variant="body1"
                             >
-                              ${product.sale_price || product.price}
+                              £ {product.sale_price || product.price || 0}
                             </Typography>
                             {product.sale_price && (
                               <Typography

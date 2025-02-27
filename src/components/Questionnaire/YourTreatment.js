@@ -10,17 +10,41 @@ import {
   Button,
   Box,
   IconButton,
+  TextField,
 } from "@mui/material";
 import { useApp } from "../../Context/AppContext";
 import { getProductByCategory } from "../../apis/apisList/productApi";
 import { useSearchParams } from "react-router-dom";
-import RemoveIcon from '@mui/icons-material/Remove';
-import AddIcon from '@mui/icons-material/Add';
-const ProductCard = ({ product, handleSubmit, handleVariantSelect }) => {
+import RemoveIcon from "@mui/icons-material/Remove";
+import AddIcon from "@mui/icons-material/Add";
+const ProductCard = ({
+  product,
+  handleSubmit,
+  handleVariantSelect,
+  setProducts,
+  products,
+}) => {
   const [quantity, setQuantity] = useState(1); // Default quantity
 
-  const handleIncrease = () => setQuantity((prev) => prev + 1);
-  const handleDecrease = () => setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
+  const handleQuantity = (e) => {
+    let value = Number(e.target.value);
+    if (value < 1 || isNaN(value)) {
+      value = 1; // Minimum value
+    } else if (value > 10) {
+      value = 10; // Maximum value
+    }
+
+    setQuantity(value);
+    const filterProduct = products.filter((p) => p.id === product.id)?.[0];
+    if (filterProduct) {
+      filterProduct.quantity = value;
+      setProducts((prevProducts) =>
+        prevProducts.map((p) => (p.id === product.id ? filterProduct : p))
+      );
+    }
+
+    // setProducts(updatedProducts);
+  };
   return (
     <Card
       sx={{
@@ -81,35 +105,29 @@ const ProductCard = ({ product, handleSubmit, handleVariantSelect }) => {
           </Typography>
         </Box>
 
-        {/* Quantity Selector */}
-        <Box display="flex"
-          justifyContent="space-between"
-          alignItems="center"
-          sx={{ flexWrap: "nowrap" }}>
-          <Typography>Quantity</Typography>
-          <Box
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-            sx={{
-              mt: 2,
-              border: "1px solid #EEEEEE",
-              borderRadius: "50px",
-              padding: "5px 10px",
-              maxWidth: "150px",
-              mx: "auto",
-            }}
-          >
-            <IconButton onClick={handleDecrease} size="small" sx={{ color: "#104239" }}>
-              <RemoveIcon />
-            </IconButton>
-            <Typography sx={{ mx: 2, fontSize: "16px", fontWeight: "600" }}>{quantity}</Typography>
-            <IconButton onClick={handleIncrease} size="small" sx={{ color: "#104239" }}>
-              <AddIcon />
-            </IconButton>
-          </Box>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "flex-start",
+            marginTop: "10px",
+            marginBottom: "20px",
+            flexWrap: "nowrap",
+            gap: "20px",
+          }}
+        >
+          <Typography variant="h4" sx={{ fontWeight: 600 }}>
+            Quantity
+          </Typography>
+          <TextField
+            value={quantity}
+            onChange={handleQuantity}
+            type="number"
+            variant="outlined"
+            sx={{ maxWidth: "65px" }}
+            inputProps={{ min: 1, max: 10 }}
+          />
         </Box>
-
 
         {/* <Select
         fullWidth
@@ -206,9 +224,7 @@ const ProductCard = ({ product, handleSubmit, handleVariantSelect }) => {
                   ? product.selectedVariant.id
                   : product?.variations?.[0].id
               }
-              onChange={(e) =>
-                handleVariantSelect(product, e.target.value)
-              }
+              onChange={(e) => handleVariantSelect(product, e.target.value)}
               fullWidth
               variant="outlined"
               sx={{
@@ -246,14 +262,25 @@ const ProductCard = ({ product, handleSubmit, handleVariantSelect }) => {
           onClick={() => handleSubmit(product)}
         >
           Select Treatment{" "}
-          <svg style={{ marginLeft: "10px" }} width="18" height="14" viewBox="0 0 18 14">
-            <path d="M17 7L11 1M17 7L11 13M17 7L6.5 7M1 7L3.5 7" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+          <svg
+            style={{ marginLeft: "10px" }}
+            width="18"
+            height="14"
+            viewBox="0 0 18 14"
+          >
+            <path
+              d="M17 7L11 1M17 7L11 13M17 7L6.5 7M1 7L3.5 7"
+              stroke="white"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
           </svg>
         </Button>
       </CardContent>
     </Card>
-  )
-}
+  );
+};
 
 const TreatmentRecommendation = () => {
   const [visibleProducts, setVisibleProducts] = useState(4); // Start by showing 4 products
@@ -264,7 +291,6 @@ const TreatmentRecommendation = () => {
   const { setSelectedTab, userDetails, setQaCart } = useApp();
   const [searchParams] = useSearchParams();
   const category = searchParams.get("category"); // Get the "category" query param
-
   const loadMore = () => {
     setVisibleProducts((prev) => prev + 4); // Load 4 more products each time
   };
@@ -308,6 +334,7 @@ const TreatmentRecommendation = () => {
           const result = response.map((product) => ({
             ...product,
             selectedVariant: product.variations[0],
+            quantity: 1,
           }));
           setProducts(result);
         } catch (error) {
@@ -351,7 +378,13 @@ const TreatmentRecommendation = () => {
       <Grid2 container spacing={{ xs: 1, sm: 3, md: 4 }} mt={4}>
         {products.slice(0, visibleProducts).map((product, index) => (
           <Grid2 size={{ xs: 6, sm: 6, md: 6 }} key={index}>
-            <ProductCard product={product} handleSubmit={handleSubmit} handleVariantSelect={handleVariantSelect} />
+            <ProductCard
+              product={product}
+              handleSubmit={handleSubmit}
+              handleVariantSelect={handleVariantSelect}
+              products={products}
+              setProducts={setProducts}
+            />
           </Grid2>
         ))}
       </Grid2>

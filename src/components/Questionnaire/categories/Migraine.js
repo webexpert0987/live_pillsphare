@@ -17,7 +17,7 @@ import "../../../../src/globalStyle.css";
 import BmiCalculate from "../Consultation"; // Import the BMI calculation component
 import { useApp } from "../../../Context/AppContext";
 import { useMessage } from "../../../Context/MessageContext";
-const steps = ["1", "2", "3"];
+const steps = ["1", "2"];
 
 function MigraineQuestion() {
   const [activeStep, setActiveStep] = useState(0);
@@ -64,11 +64,6 @@ function MigraineQuestion() {
 
     // Validation logic
     if (activeStep === 0) {
-      if (!bmiData?.bmi) {
-        showMessage("Please calculate your BMI first", "error");
-        return;
-      }
-    } else if (activeStep === 1) {
       const requiredFields = [
         "agedBetween",
         "migrain",
@@ -114,7 +109,7 @@ function MigraineQuestion() {
           return;
         }
       }
-    } else if (activeStep === 2) {
+    } else if (activeStep === 1) {
       const requiredAgreements = ["agreeToTerms"];
 
       for (const field of requiredAgreements) {
@@ -154,10 +149,10 @@ function MigraineQuestion() {
     localStorage.setItem(
       "questionnaire_info",
       JSON.stringify({
-        // ...parsedData,
         user,
         bmiData,
         answers: answers,
+        ...parsedData,
       })
     );
     setSelectedTab(2);
@@ -166,14 +161,8 @@ function MigraineQuestion() {
   const renderStepContent = (stepIndex) => {
     switch (stepIndex) {
       //============= Step 01 =============//
+
       case 0:
-        return (
-          <>
-            <BmiCalculate />
-          </>
-        );
-      //============= Step 02 =============//
-      case 1:
         return (
           <>
             {/****** Are you between 18 and 65 years old?**  ****/}
@@ -480,7 +469,7 @@ function MigraineQuestion() {
           </>
         );
       //============= Step 03 =============//
-      case 2:
+      case 1:
         return (
           <>
             {/****** Do you agree to the following? *****/}

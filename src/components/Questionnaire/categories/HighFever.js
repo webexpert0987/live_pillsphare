@@ -19,7 +19,7 @@ import "../../../../src/globalStyle.css";
 import BmiCalculate from "../Consultation"; // Import the BMI calculation component
 import { useApp } from "../../../Context/AppContext";
 import { useMessage } from "../../../Context/MessageContext";
-const steps = ["1", "2", "3"];
+const steps = ["1", "2"];
 
 function HighFeverQuestion() {
   const [activeStep, setActiveStep] = useState(0);
@@ -76,11 +76,6 @@ function HighFeverQuestion() {
 
     // Validation logic
     if (activeStep === 0) {
-      if (!bmiData?.bmi) {
-        showMessage("Please calculate your BMI first", "error");
-        return;
-      }
-    } else if (activeStep === 1) {
       const requiredFields = [
         "fullName",
         "medicationDetails",
@@ -127,7 +122,14 @@ function HighFeverQuestion() {
         );
         return;
       }
-    } else if (activeStep === 2) {
+      if (answers.confirmTC === "No" || answers.agreedTC === "No") {
+        showMessage(
+          " we are unable to provide you with treatment at this time.",
+          "error"
+        );
+        return;
+      }
+    } else if (activeStep === 1) {
       const requiredAgreements = ["agreeToTerms"];
 
       for (const field of requiredAgreements) {
@@ -167,10 +169,10 @@ function HighFeverQuestion() {
     localStorage.setItem(
       "questionnaire_info",
       JSON.stringify({
-        // ...parsedData,
         user,
         bmiData,
         answers: answers,
+        ...parsedData,
       })
     );
     setSelectedTab(2);
@@ -179,14 +181,8 @@ function HighFeverQuestion() {
   const renderStepContent = (stepIndex) => {
     switch (stepIndex) {
       //============= Step 01 =============//
+
       case 0:
-        return (
-          <>
-            <BmiCalculate />
-          </>
-        );
-      //============= Step 02 =============//
-      case 1:
         return (
           <>
             {/****** Are you aged between 17-74 years *****/}
@@ -781,6 +777,12 @@ function HighFeverQuestion() {
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
+              {answers.agreedTC === "No" && (
+                <div>
+                  we are unable to provide you with treatment at this time.
+                  Please consult your GP.
+                </div>
+              )}
             </FormControl>
 
             {/* ................ */}
@@ -801,13 +803,19 @@ function HighFeverQuestion() {
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
+              {answers.confirmTC === "No" && (
+                <div>
+                  we are unable to provide you with treatment at this time.
+                  Please consult your GP.
+                </div>
+              )}
             </FormControl>
 
             {/****** End *****/}
           </>
         );
       //============= Step 03 =============//
-      case 2:
+      case 1:
         return (
           <>
             {/****** Do you agree to the following? *****/}

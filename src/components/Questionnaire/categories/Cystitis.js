@@ -21,7 +21,7 @@ import "../../../../src/globalStyle.css";
 import BmiCalculate from "../Consultation"; // Import the BMI calculation component
 import { useApp } from "../../../Context/AppContext";
 import { useMessage } from "../../../Context/MessageContext";
-const steps = ["1", "2", "3"];
+const steps = ["1", "2"];
 
 function CystitisQuestionnaire() {
   const [currentStep, setCurrentStep] = useState(0);
@@ -90,14 +90,9 @@ function CystitisQuestionnaire() {
 
     // Validation logic
     if (currentStep === 0) {
-      if (!bmiData?.bmi) {
-        showMessage("Please calculate your BMI first", "error");
-        return;
-      }
-    } else if (currentStep === 1) {
       const requiredFields = [
         "gender",
-        "requiresAssistance",
+        // "requiresAssistance",
         "canMakeHealthcareDecisions",
         "hasDiagnosedMedicalConditions",
         "isTakingMedications",
@@ -136,9 +131,9 @@ function CystitisQuestionnaire() {
       const preventProceedConditions = [
         { field: "canMakeHealthcareDecisions", condition: "No" },
         { field: "isOver65", condition: "Yes" },
-
+        { field: "agreesToSeekAdviceForSymptoms", condition: "No" },
+        { field: "agreesNotToTakeUTIMedicationIfPregnant", condition: "No" },
       ];
-
 
       for (const { field, condition } of preventProceedConditions) {
         if (questionnaireResponses[field] === condition) {
@@ -149,7 +144,7 @@ function CystitisQuestionnaire() {
           return;
         }
       }
-    } else if (currentStep === 2) {
+    } else if (currentStep === 1) {
       const requiredAgreements = ["hasAgreedToTerms"];
 
       for (const field of requiredAgreements) {
@@ -177,7 +172,7 @@ function CystitisQuestionnaire() {
         "Please fill all details before proceeding to the next step.",
         "error"
       );
-      return
+      return;
     }
     const data = localStorage.getItem("questionnaire_info");
     let parsedData = {};
@@ -190,10 +185,10 @@ function CystitisQuestionnaire() {
     localStorage.setItem(
       "questionnaire_info",
       JSON.stringify({
-        // ...parsedData,
         user,
         bmiData,
         answers: questionnaireResponses,
+        ...parsedData,
       })
     );
     setSelectedTab(2);
@@ -203,13 +198,6 @@ function CystitisQuestionnaire() {
     switch (stepIndex) {
       //============= Step 01 =============//
       case 0:
-        return (
-          <>
-            <BmiCalculate />
-          </>
-        );
-      //============= Step 02 =============//
-      case 1:
         return (
           <>
             {/****** 1st What is your gender? *****/}
@@ -240,7 +228,7 @@ function CystitisQuestionnaire() {
 
             {/****** Do you need assistance with this questionnaire? *****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            {/* <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
                 Do you need assistance with this questionnaire?
               </Typography>
@@ -266,7 +254,7 @@ function CystitisQuestionnaire() {
                   </Typography>
                 </div>
               )}
-            </FormControl>
+            </FormControl> */}
 
             {/****** Are you able to make decisions about your healthcare? *****/}
 
@@ -320,20 +308,20 @@ function CystitisQuestionnaire() {
               </RadioGroup>
               {questionnaireResponses.hasDiagnosedMedicalConditions ===
                 "Yes" && (
-                  <TextField
-                    multiline
-                    line={3}
-                    value={questionnaireResponses.diagnosisDetails}
-                    onChange={(e) =>
-                      setQuestionnaireResponses({
-                        ...questionnaireResponses,
-                        diagnosisDetails: e.target.value,
-                      })
-                    }
-                    fullWidth
-                    placeholder="Please write here"
-                  />
-                )}
+                <TextField
+                  multiline
+                  line={3}
+                  value={questionnaireResponses.diagnosisDetails}
+                  onChange={(e) =>
+                    setQuestionnaireResponses({
+                      ...questionnaireResponses,
+                      diagnosisDetails: e.target.value,
+                    })
+                  }
+                  fullWidth
+                  placeholder="Please write here"
+                />
+              )}
             </FormControl>
 
             {/******.** Are you currently taking any medications, including prescription, over-the-counter, or homeopathic options? *****/}
@@ -884,6 +872,13 @@ function CystitisQuestionnaire() {
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
+              {questionnaireResponses.agreesToSeekAdviceForSymptoms ===
+                "No" && (
+                <div>
+                  we are unable to provide you with treatment at this time.
+                  Please consult your GP.
+                </div>
+              )}
             </FormControl>
             {/* Do you agree not to take UTI medication if pregnant or breastfeeding? */}
             <FormControl component="fieldset" className="QuestionBox">
@@ -907,6 +902,13 @@ function CystitisQuestionnaire() {
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
+              {questionnaireResponses.agreesNotToTakeUTIMedicationIfPregnant ===
+                "No" && (
+                <div>
+                  we are unable to provide you with treatment at this time.
+                  Please consult your GP.
+                </div>
+              )}
             </FormControl>
             {/* How many UTIs have you had in the last 6 months? */}
             <FormControl component="fieldset" className="QuestionBox">
@@ -943,7 +945,7 @@ function CystitisQuestionnaire() {
           </>
         );
       //============= Step 03 =============//
-      case 2:
+      case 1:
         return (
           <>
             {/****** Do you agree to the following? *****/}

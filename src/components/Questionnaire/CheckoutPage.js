@@ -133,7 +133,6 @@ function CheckoutForm() {
   const [canPay, setCanPay] = useState(false);
   const [makePayment, setMakePayment] = useState(false);
   let cardElement;
-
   useEffect(() => {
     if (stripe && elements) {
       cardElement = elements.getElement(CardElement);
@@ -191,16 +190,8 @@ function CheckoutForm() {
   };
 
   const calculateTotal = () => {
-    if (cart.length > 0) {
-      return cart
-        .reduce((total, item) => {
-          const price = item.price.replace("$", "");
-          return total + parseFloat(price);
-        }, 0)
-        .toFixed(2);
-    } else {
-      return 0;
-    }
+    const price = parseFloat(cart[0].price) * cart[0].quantity || 0;
+    return price.toFixed(2);
   };
 
   useEffect(() => {
@@ -243,7 +234,6 @@ function CheckoutForm() {
               setPaymentStatus("Payment successful!");
               showMessage("Payment successful!", "success");
               const qaData = localStorage.getItem("questionnaire_info");
-              console.log(">>>qaData>>", qaData);
               const ordInfo = {
                 user_id: userDetails.user_id,
                 token: userDetails.token,
@@ -429,12 +419,20 @@ function CheckoutForm() {
                             >
                               <Box width={"100%"}>
                                 <Text> {item.name}</Text>
+
                                 <Typography>
                                   {
                                     item?.selectedVariant?.attributes
                                       ?.attribute_tablets
                                   }
                                 </Typography>
+                              </Box>
+                              <Box
+                                width={"100%"}
+                                sx={{ display: "flex", gap: 1 }}
+                              >
+                                <Text>Quantity:</Text>
+                                <Typography>{item?.quantity || 1}</Typography>
                               </Box>
                               {/* <Box>
                                 <Typography variant="h4" fontWeight={600}>

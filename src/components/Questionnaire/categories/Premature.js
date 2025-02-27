@@ -20,7 +20,7 @@ import { useApp } from "../../../Context/AppContext";
 import { useMessage } from "../../../Context/MessageContext";
 import { RadioButtonChecked, RadioButtonUnchecked } from "@mui/icons-material";
 import "../../../../src/globalStyle.css";
-const steps = ["1", "2", "3"];
+const steps = ["1", "2"];
 
 function PrematureQuestion() {
   const [activeStep, setActiveStep] = useState(0);
@@ -31,6 +31,7 @@ function PrematureQuestion() {
     premature: "",
     ejaculation: "",
     allergy: "",
+    conditions: [],
     allergyIssue: "",
     persistentPre: "",
     otherMedication: "",
@@ -42,8 +43,9 @@ function PrematureQuestion() {
     agreeInstruc: "",
     understandTreat1: "",
     confirmAll: "",
-    medicusExpress: "",
+    agree_pillsphere: "",
     lastConfirm: "",
+    healthCondition: "",
   });
   const boxRef = useRef(null);
   const { setSelectedTab } = useApp();
@@ -63,21 +65,33 @@ function PrematureQuestion() {
       }
     }, 100);
   };
-
   const handleNext = () => {
     const qaData = JSON.parse(
       localStorage.getItem("questionnaire_info") || "{}"
     );
     const { bmiData } = qaData;
 
-    // Validation logic
     if (activeStep === 0) {
-      if (!bmiData?.bmi) {
-        showMessage("Please calculate your BMI first", "error");
-        return;
-      }
-    } else if (activeStep === 1) {
-      const requiredFields = ["agedBetween", "gender", "premature"];
+      const requiredFields = [
+        "agedBetween",
+        "gender",
+        "premature",
+        "allergy",
+        "ejaculation",
+        "ejaculateTime",
+        "persistentPre",
+        "anyMedication",
+        "smoke",
+        "alcohal",
+        "healthyDiet",
+        "understandTM",
+        "agreeInstruc",
+        "understandTreat1",
+        "confirmAll",
+        "agree_pillsphere",
+        "lastConfirm",
+        "healthCondition",
+      ];
 
       for (const field of requiredFields) {
         if (
@@ -98,6 +112,12 @@ function PrematureQuestion() {
         { field: "agedBetween", condition: "No" },
         { field: "premature", condition: "No" },
         { field: "ejaculation", condition: "No" },
+        { field: "persistentPre", condition: "No" },
+        { field: "anyMedication", condition: "Yes" },
+        { field: "understandTM", condition: "No" },
+        { field: "agreeInstruc", condition: "No" },
+        { field: "understandTreat1", condition: "No" },
+        { field: "healthCondition", condition: "Yes" },
       ];
 
       for (const { field, condition } of preventProceedConditions) {
@@ -109,7 +129,15 @@ function PrematureQuestion() {
           return;
         }
       }
-    } else if (activeStep === 2) {
+
+      if (answers?.conditions?.length > 0) {
+        showMessage(
+          "Based on your answers, we are unable to provide you with treatment at this time. Please consult your GP.",
+          "error"
+        );
+        return;
+      }
+    } else if (activeStep === 1) {
       const requiredAgreements = ["agreeToTerms"];
 
       for (const field of requiredAgreements) {
@@ -132,6 +160,13 @@ function PrematureQuestion() {
   };
 
   const handleSubmit = () => {
+    if (!answers.agreeToTerms) {
+      showMessage(
+        "Please fill all details before proceeding to the next step.",
+        "error"
+      );
+      return;
+    }
     console.log("Form submitted with answers: ", answers);
     const data = localStorage.getItem("questionnaire_info");
     let parsedData = {};
@@ -143,10 +178,10 @@ function PrematureQuestion() {
     localStorage.setItem(
       "questionnaire_info",
       JSON.stringify({
-        // ...parsedData,
         user,
         bmiData,
         answers: answers,
+        ...parsedData,
       })
     );
     setSelectedTab(2);
@@ -154,15 +189,7 @@ function PrematureQuestion() {
 
   const renderStepContent = (stepIndex) => {
     switch (stepIndex) {
-      //============= Step 01 =============//
       case 0:
-        return (
-          <>
-            <BmiCalculate />
-          </>
-        );
-      //============= Step 02 =============//
-      case 1:
         return (
           <>
             {/****** •	Are you male? *****/}
@@ -254,9 +281,9 @@ function PrematureQuestion() {
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
-              {answers.ejaculation === "Yes" && (
+              {/* {answers.ejaculation === "Yes" && (
                 <div>If yes, proceed with further assessment. </div>
-              )}
+              )} */}
             </FormControl>
             {/****** •	Do you have any allergies? *****/}
 
@@ -301,19 +328,23 @@ function PrematureQuestion() {
                 aria-labelledby="demo-radio-buttons-group-label"
                 defaultValue="Rarely"
                 name="radio-buttons-group"
+                value={answers.ejaculateTime}
+                onChange={(e) =>
+                  setAnswers({ ...answers, ejaculateTime: e.target.value })
+                }
               >
                 <FormControlLabel
-                  value="Daily"
+                  value="Less than 1 minute"
                   control={<Radio />}
                   label="Less than 1 minute"
                 />
                 <FormControlLabel
-                  value="Weekly"
+                  value="1-2 minute"
                   control={<Radio />}
                   label="1-2 minute"
                 />
                 <FormControlLabel
-                  value="Occasionaly"
+                  value="more than 3 minute"
                   control={<Radio />}
                   label="more than 3 minute"
                 />
@@ -349,47 +380,37 @@ function PrematureQuestion() {
 
             <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-                Do you have any of the following health conditions? Please check
-                all that apply
+                Do you have any of the following health conditions?
               </Typography>
-              {[
-                "Diabetes",
-                "High blood pressure",
-                "Heart disease",
-                "Kidney Disease",
-                "Liver Disease",
-                "Epilepsy",
-                "Depression",
-                "Anxiety",
-                "Mental health disorders",
-                "Any other medical conditions",
-              ].map((condition, index) => (
-                <FormControlLabel
-                  className="checkbox2Col"
-                  key={index}
-                  control={
-                    <Checkbox
-                      checked={answers.conditions.includes(condition)}
-                      onChange={(e) => {
-                        const { value, checked } = e.target;
-                        let newConditions = [...answers.conditions];
+              <ui>
+                <li>Diabetes</li>
+                <li>High blood pressure</li>
+                <li>Heart disease</li>
+                <li>Kidney Disease</li>
+                <li>Liver Disease</li>
+                <li>Epilepsy</li>
+                <li>Depression</li>
+                <li>Anxiety</li>
+                <li>Mental health disorders</li>
+              </ui>
 
-                        if (checked) {
-                          newConditions.push(value);
-                        } else {
-                          newConditions = newConditions.filter(
-                            (item) => item !== value
-                          );
-                        }
-
-                        setAnswers({ ...answers, conditions: newConditions });
-                      }}
-                      value={condition}
-                    />
-                  }
-                  label={condition}
-                />
-              ))}
+              <RadioGroup
+                row
+                name="healthCondition"
+                value={answers.healthCondition}
+                onChange={(e) =>
+                  setAnswers({ ...answers, healthCondition: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+              {answers?.healthCondition === "Yes" && (
+                <div>
+                  We may not be able to provide treatment if you have any of the
+                  conditions listed. Please consult your GP.
+                </div>
+              )}
             </FormControl>
             {/*****•	Are you currently taking any medication for any of the following? ******/}
 
@@ -399,25 +420,10 @@ function PrematureQuestion() {
                 following? Please select all that apply
               </Typography>
               <ul>
-                <FormControlLabel
-                  control={<Checkbox />}
-                  label="High blood pressure"
-                />
-                <br></br>
-                <FormControlLabel
-                  control={<Checkbox />}
-                  label="Depression or anxiety"
-                />
-                <br></br>
-                <FormControlLabel
-                  control={<Checkbox />}
-                  label="Erectile dysfunction"
-                />
-                <br></br>
-                <FormControlLabel
-                  control={<Checkbox />}
-                  label="Hormonal treatments"
-                />
+                <li>High blood pressure</li>
+                <li>Depression or anxiety</li>
+                <li>Erectile dysfunction</li>
+                <li>Hormonal treatments</li>
                 {/* <FormControlLabel
                   control={<Checkbox />}
                   label="Other"
@@ -655,6 +661,12 @@ function PrematureQuestion() {
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
+              {answers.understandTreat1 === "No" && (
+                <div>
+                  "We cannot provide treatment without your agreement to follow
+                  the prescribed guidelines."
+                </div>
+              )}
             </FormControl>
             {/*****••	I confirm that the information provided is accurate and complete to the best of my knowledge.******/}
 
@@ -674,20 +686,26 @@ function PrematureQuestion() {
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
+              {answers.confirmAll === "No" && (
+                <div>
+                  "We cannot provide treatment without your agreement to follow
+                  the prescribed guidelines."
+                </div>
+              )}
             </FormControl>
-            {/*****•	I understand that Medicus Express will treat my information in accordance with its Privacy Policy and Terms and Conditions.******/}
+            {/*****•	I understand that pill sphere will treat my information in accordance with its Privacy Policy and Terms and Conditions.******/}
 
             <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-                I understand that Medicus Express will treat my information in
+                I understand that pill sphere will treat my information in
                 accordance with its Privacy Policy and Terms and Conditions.
               </Typography>
               <RadioGroup
                 row
-                name="medicusExpress"
-                value={answers.medicusExpress}
+                name="agree_pillsphere"
+                value={answers.agree_pillsphere}
                 onChange={(e) =>
-                  setAnswers({ ...answers, medicusExpress: e.target.value })
+                  setAnswers({ ...answers, agree_pillsphere: e.target.value })
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
@@ -716,7 +734,7 @@ function PrematureQuestion() {
           </>
         );
       //============= Step 03 =============//
-      case 2:
+      case 1:
         return (
           <>
             {/****** Do you agree to the following? *****/}

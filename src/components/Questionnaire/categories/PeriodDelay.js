@@ -18,7 +18,7 @@ import "../../../../src/globalStyle.css";
 import BmiCalculate from "../Consultation"; // Import the BMI calculation component
 import { useApp } from "../../../Context/AppContext";
 import { useMessage } from "../../../Context/MessageContext";
-const steps = ["1", "2", "3"];
+const steps = ["1", "2"];
 
 function PeriodDelayQuestion() {
   const [activeStep, setActiveStep] = useState(0);
@@ -43,6 +43,8 @@ function PeriodDelayQuestion() {
     confirmAll: "",
     agreeMedicus: "",
     confirmAge: "",
+    conditions: [], // Stores selected health conditions
+    medications: [],
   });
   const boxRef = useRef(null);
   const { setSelectedTab } = useApp();
@@ -63,19 +65,20 @@ function PeriodDelayQuestion() {
     }, 100);
   };
 
+  const isValidSelection =
+    (answers.conditions.includes("None") && answers.conditions.length > 1) ||
+    (!answers.conditions.includes("None") && answers.conditions.length > 0);
+
+  const isValidSelection1 =
+    (answers.medications.includes("None") && answers.medications.length > 1) ||
+    (!answers.medications.includes("None") && answers.medications.length > 0);
   const handleNext = () => {
     const qaData = JSON.parse(
       localStorage.getItem("questionnaire_info") || "{}"
     );
     const { bmiData } = qaData;
 
-    // Validation logic
     if (activeStep === 0) {
-      if (!bmiData?.bmi) {
-        showMessage("Please calculate your BMI first", "error");
-        return;
-      }
-    } else if (activeStep === 1) {
       const requiredFields = [
         "gender",
         "agedBetween",
@@ -107,6 +110,14 @@ function PeriodDelayQuestion() {
         }
       }
 
+      if (answers.conditions.length === 0 || answers.medications.length === 0) {
+        showMessage(
+          "Please fill all details before proceeding to the next step.",
+          "error"
+        );
+        return;
+      }
+
       const preventProceedConditions = [
         { field: "gender", condition: "No" },
         { field: "agedBetween", condition: "No" },
@@ -130,7 +141,15 @@ function PeriodDelayQuestion() {
           return;
         }
       }
-    } else if (activeStep === 2) {
+
+      if (isValidSelection || isValidSelection1) {
+        showMessage(
+          "Based on your answers, we are unable to provide you with treatment at this time. Please consult your GP.",
+          "error"
+        );
+        return;
+      }
+    } else if (activeStep === 1) {
       const requiredAgreements = ["agreeToTerms"];
 
       for (const field of requiredAgreements) {
@@ -170,10 +189,10 @@ function PeriodDelayQuestion() {
     localStorage.setItem(
       "questionnaire_info",
       JSON.stringify({
-        // ...parsedData,
         user,
         bmiData,
         answers: answers,
+        ...parsedData,
       })
     );
     setSelectedTab(2);
@@ -183,13 +202,6 @@ function PeriodDelayQuestion() {
     switch (stepIndex) {
       //============= Step 01 =============//
       case 0:
-        return (
-          <>
-            <BmiCalculate />
-          </>
-        );
-      //============= Step 02 =============//
-      case 1:
         return (
           <>
             {/****** •	Are you female? *****/}
@@ -246,48 +258,61 @@ function PeriodDelayQuestion() {
               <Typography variant="h4" className="labelOne">
                 Do you have any of the following health conditions?
               </Typography>
+
               <ul>
-                <FormControlLabel control={<Checkbox />} label="Pregnancy" />
-                <br></br>
-                <FormControlLabel
-                  control={<Checkbox />}
-                  label="Breastfeeding"
-                />
-                <br></br>
-                <FormControlLabel
-                  control={<Checkbox />}
-                  label="Severe liver disease"
-                />
-                <br></br>
-                <FormControlLabel
-                  control={<Checkbox />}
-                  label="Severe kidney disease"
-                />
-                <br></br>
-                <FormControlLabel
-                  control={<Checkbox />}
-                  label="History of blood clots or stroke"
-                />
-                <br></br>
-                <FormControlLabel
-                  control={<Checkbox />}
-                  label="Hormonal disorders"
-                />
-                <br></br>
-                <FormControlLabel
-                  control={<Checkbox />}
-                  label="History of any types of cancer (e.g., breast or ovarian cancer)"
-                />
-                <br></br>
-                <FormControlLabel
-                  control={<Checkbox />}
-                  label="Severe high blood pressure"
-                />
-                <FormControlLabel
-                  control={<Checkbox />}
-                  label="Any serious health condition that requires immediate hospital treatment"
-                />
+                {[
+                  "Pregnancy",
+                  "Breastfeeding",
+                  "Severe liver disease",
+                  "Severe kidney disease",
+                  "History of blood clots or stroke",
+                  "Hormonal disorders",
+                  "History of any types of cancer (e.g., breast or ovarian cancer)",
+                  "Severe high blood pressure",
+                  "Any serious health condition that requires immediate hospital treatment",
+                  "None",
+                ].map((condition) => (
+                  <li
+                    key={condition}
+                    style={{
+                      listStyleType: "none",
+                    }}
+                  >
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={answers.conditions?.includes(condition)}
+                          onChange={(e) => {
+                            const { value, checked } = e.target;
+                            let newConditions = [...(answers.conditions || [])];
+
+                            if (checked) {
+                              newConditions.push(value);
+                            } else {
+                              newConditions = newConditions.filter(
+                                (item) => item !== value
+                              );
+                            }
+
+                            setAnswers({
+                              ...answers,
+                              conditions: newConditions,
+                            });
+                          }}
+                          value={condition}
+                        />
+                      }
+                      label={condition}
+                    />
+                  </li>
+                ))}
               </ul>
+              {isValidSelection && (
+                <div>
+                  This treatment is not suitable for you. Please consult your GP
+                  for alternative options.
+                </div>
+              )}
             </FormControl>
             {/******•	Are you currently taking any of the following medications? *****/}
 
@@ -296,28 +321,57 @@ function PeriodDelayQuestion() {
                 Are you currently taking any of the following medications?
               </Typography>
               <ul>
-                <FormControlLabel
-                  control={<Checkbox />}
-                  label="Hormonal medication (e.g., contraceptive pills, HRT)"
-                />
-                <br></br>
-                <FormControlLabel
-                  control={<Checkbox />}
-                  label="Blood thinners (e.g., Warfarin)"
-                />
-                <br></br>
-                <FormControlLabel control={<Checkbox />} label="Steroids" />
-                <br></br>
-                <FormControlLabel
-                  control={<Checkbox />}
-                  label="Anti-seizure medication"
-                />
-                <br></br>
-                <FormControlLabel
-                  control={<Checkbox />}
-                  label="Any other prescription or over-the-counter medications"
-                />
+                {[
+                  "Hormonal medication (e.g., contraceptive pills, HRT)",
+                  "Blood thinners (e.g., Warfarin)",
+                  "Steroids",
+                  "Anti-seizure medication",
+                  "Any other prescription or over-the-counter medications",
+                  "None",
+                ].map((medication) => (
+                  <li
+                    key={medication}
+                    style={{
+                      listStyleType: "none",
+                    }}
+                  >
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={answers?.medications?.includes(medication)}
+                          onChange={(e) => {
+                            const { value, checked } = e.target;
+                            let newConditions = [
+                              ...(answers.medications || []),
+                            ];
+
+                            if (checked) {
+                              newConditions.push(value);
+                            } else {
+                              newConditions = newConditions.filter(
+                                (item) => item !== value
+                              );
+                            }
+
+                            setAnswers({
+                              ...answers,
+                              medications: newConditions,
+                            });
+                          }}
+                          value={medication}
+                        />
+                      }
+                      label={medication}
+                    />
+                  </li>
+                ))}
               </ul>
+              {isValidSelection1 && (
+                <div>
+                  This treatment is not suitable for you. Please consult your GP
+                  for alternative options.
+                </div>
+              )}
             </FormControl>
             {/****** •	Do you have any allergies to any medications or substances (e.g., peanuts, latex)? *****/}
 
@@ -734,7 +788,7 @@ function PeriodDelayQuestion() {
           </>
         );
       //============= Step 03 =============//
-      case 2:
+      case 1:
         return (
           <>
             {/****** Do you agree to the following? *****/}

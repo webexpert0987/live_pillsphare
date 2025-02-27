@@ -140,7 +140,6 @@ const ProductListingPage = () => {
                 <MenuItem value="priceHighLow">Price: High to Low</MenuItem>
               </Select>
             </Box>
-
             <Grid2 container spacing={{ xs: 2, sm: 3, md: 4 }}>
               {filteredProducts.map((product) => (
                 <Grid2
@@ -153,23 +152,21 @@ const ProductListingPage = () => {
                     to={`/product/${product.slug}`}
                     style={{ textDecoration: "none" }}
                   >
-                    <Card style={shop3Grid.shopinBox}>
-                      <Box
-                        position="relative"
-                        sx={{
-                          backgroundColor: "#FFF",
-                        }}
-                      >
+                    <Card
+                      style={{
+                        ...shop3Grid.shopinBox,
+                        display: "flex",
+                        flexDirection: "column",
+                        height: "100%", // Ensure all cards have the same height
+                      }}
+                    >
+                      <Box position="relative" sx={{ backgroundColor: "#FFF" }}>
                         <CardMedia
                           style={shop3Grid.productThumb}
                           component="img"
                           sx={{
                             height: { xs: "150px", sm: "200px", md: "235px" },
-                            objectFit: {
-                              xs: "contain",
-                              sm: "contain",
-                              md: "contain",
-                            },
+                            objectFit: "contain",
                           }}
                           image={
                             product.image ||
@@ -198,7 +195,12 @@ const ProductListingPage = () => {
                           </Box>
                         )}
                       </Box>
-                      <CardContent style={shop3Grid.titlePriceBox}>
+
+                      {/* Ensure CardContent expands to push the button down */}
+                      <CardContent
+                        style={shop3Grid.titlePriceBox}
+                        sx={{ flexGrow: 1 }}
+                      >
                         <Typography
                           variant="h6"
                           sx={{
@@ -238,7 +240,7 @@ const ProductListingPage = () => {
                                     },
                                   }}
                                 >
-                                  {category.name} {/* Display category name */}
+                                  {category.name}
                                 </Typography>
                               ))}
                             </Box>
@@ -271,7 +273,7 @@ const ProductListingPage = () => {
                                 },
                               }}
                             >
-                              ${product.sale_price || product.price}
+                              £ {product.sale_price || product.price || 0 }
                             </Typography>
                             {product.sale_price && (
                               <Typography
@@ -298,11 +300,7 @@ const ProductListingPage = () => {
                             alignItems="center"
                             gap={1}
                             sx={{
-                              marginTop: {
-                                xs: "15px",
-                                sm: "10px",
-                                md: "10px",
-                              },
+                              marginTop: { xs: "15px", sm: "10px", md: "10px" },
                             }}
                           >
                             <Rating
@@ -322,6 +320,8 @@ const ProductListingPage = () => {
                           </Box>
                         </Box>
                       </CardContent>
+
+                      {/* Ensure CardActions stays at the bottom */}
                       <CardActions style={shop3Grid.divCart}>
                         <Button
                           style={shop3Grid.proCartBtn}

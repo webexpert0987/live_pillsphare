@@ -17,7 +17,7 @@ import "../../../../src/globalStyle.css";
 import BmiCalculate from "../Consultation"; // Import the BMI calculation component
 import { useApp } from "../../../Context/AppContext";
 import { useMessage } from "../../../Context/MessageContext";
-const steps = ["1", "2", "3"];
+const steps = ["1", "2"];
 
 function AcidRefluxQuestion() {
   const [activeStep, setActiveStep] = useState(0);
@@ -66,11 +66,6 @@ function AcidRefluxQuestion() {
 
     // Validation logic
     if (activeStep === 0) {
-      if (!bmiData?.bmi) {
-        showMessage("Please calculate your BMI first", "error");
-        return;
-      }
-    } else if (activeStep === 1) {
       const requiredFields = [
         "over50WithNewSymptoms",
         "acidRefluxSymptoms",
@@ -102,25 +97,27 @@ function AcidRefluxQuestion() {
       }
 
       if (
-        (answers.over50WithNewSymptoms === "Yes" ||
-          answers.acidRefluxSymptoms === "No" ||
-          answers.difficultySwallowing === "Yes" ||
-          answers.allergyToPPIs === "Yes" ||
-          answers.pregnantOrBreastfeeding === "Yes" ||
-          answers.otherConditions === "Yes" ||
-          answers.rashAfterPPIs === "Yes" ||
-          answers.takingMedications === "Yes" ||
-          answers.onSteroids === "Yes" ||
-          answers.healthyLifestyle === "No" ||
-          answers.shortTermUse === "No" ||
-          answers.contactGP === "No" ||
-          answers.agree === "No"
-        )
+        answers.over50WithNewSymptoms === "Yes" ||
+        answers.acidRefluxSymptoms === "No" ||
+        answers.difficultySwallowing === "Yes" ||
+        answers.allergyToPPIs === "Yes" ||
+        answers.pregnantOrBreastfeeding === "Yes" ||
+        answers.otherConditions === "Yes" ||
+        answers.rashAfterPPIs === "Yes" ||
+        answers.takingMedications === "Yes" ||
+        answers.onSteroids === "Yes" ||
+        answers.healthyLifestyle === "No" ||
+        answers.shortTermUse === "No" ||
+        answers.contactGP === "No" ||
+        answers.agree === "No"
       ) {
-        showMessage("We are unable to provide you with treatment at this time. Please consult your GP.", "error");
+        showMessage(
+          "We are unable to provide you with treatment at this time. Please consult your GP.",
+          "error"
+        );
         return;
       }
-    } else if (activeStep === 2) {
+    } else if (activeStep === 1) {
       const requiredAgreements = ["agreeToTerms"];
 
       for (const field of requiredAgreements) {
@@ -148,7 +145,7 @@ function AcidRefluxQuestion() {
         "Please fill all details before proceeding to the next step.",
         "error"
       );
-      return
+      return;
     }
     console.log("Form submitted with answers: ", answers);
     const data = localStorage.getItem("questionnaire_info");
@@ -166,6 +163,7 @@ function AcidRefluxQuestion() {
         user,
         bmiData,
         answers: answers,
+        ...parsedData,
       })
     );
     setSelectedTab(2);
@@ -186,15 +184,7 @@ function AcidRefluxQuestion() {
 
   const renderStepContent = (stepIndex) => {
     switch (stepIndex) {
-      //============= Step 01 =============//
       case 0:
-        return (
-          <>
-            <BmiCalculate />
-          </>
-        );
-      //============= Step 02 =============//
-      case 1:
         return (
           <>
             {/* 1st Are you over 50 with any new or recently changed symptoms?  */}
@@ -411,13 +401,20 @@ function AcidRefluxQuestion() {
                   <li>NSAIDs (e.g., ibuprofen)</li>
                   <li>Antifungals (e.g., ketoconazole)</li>
                   <li>Digoxin, Diazepam, or Ulipristal</li>
-                  <li>Phenytoin, Fosphenytoin, warfarin, or vitamin K blockers</li>
-                  <li>Rifampicin, HIV medications, Ledipasvir, Ciclosporin, Tacrolimus</li>
+                  <li>
+                    Phenytoin, Fosphenytoin, warfarin, or vitamin K blockers
+                  </li>
+                  <li>
+                    Rifampicin, HIV medications, Ledipasvir, Ciclosporin,
+                    Tacrolimus
+                  </li>
                   <li>St John's Wort, Cilostazol, Clopidogrel, Vitamin B12</li>
-                  <li>Certain cancer treatments, antibiotics, Methotrexate, Escitalopram, Clozapine</li>
+                  <li>
+                    Certain cancer treatments, antibiotics, Methotrexate,
+                    Escitalopram, Clozapine
+                  </li>
                 </ul>
               </Typography>
-
 
               <RadioGroup
                 row
@@ -473,6 +470,7 @@ function AcidRefluxQuestion() {
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
+              {consultMessage(answers.healthyLifestyle, "No")}
             </FormControl>
 
             {/* 11th Do you understand that maintaining a healthy diet, reducing alcohol intake, 
@@ -499,6 +497,7 @@ function AcidRefluxQuestion() {
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
+              {consultMessage(answers.shortTermUse, "No")}
             </FormControl>
 
             {/* 12th Do you agree to use this medication for the short-term treatment of GORD 
@@ -524,6 +523,7 @@ function AcidRefluxQuestion() {
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
+              {consultMessage(answers.contactGP, "No")}
             </FormControl>
 
             {/* 13th Do you agree to contact your GP if you have no symptom 
@@ -549,12 +549,14 @@ function AcidRefluxQuestion() {
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
+
+              {consultMessage(answers.agree, "No")}
             </FormControl>
             {/****** End *****/}
           </>
         );
       //============= Step 03 =============//
-      case 2:
+      case 1:
         return (
           <>
             {/****** Do you agree to the following? *****/}
@@ -591,7 +593,7 @@ function AcidRefluxQuestion() {
           </>
         );
       //============= Step 04 =============//
-      case 3:
+      case 2:
         return (
           <>
             <Typography variant="h3" className="stepHeading">

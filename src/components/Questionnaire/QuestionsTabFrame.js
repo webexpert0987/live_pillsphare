@@ -116,7 +116,7 @@ const QuestionForm = {
   cystitis: <CystitisQuestion />,
   "erectile-dysfunction": <ErectileDysfunctionQuestion />,
   "hair-loss": <HairLossQuestion />,
-  "hayfever": <HighFeverQuestion />,
+  hayfever: <HighFeverQuestion />,
   migraine: <MigraineQuestion />,
   "period-delay": <PeriodDelayQuestion />,
   "period-pain": <PeriodPainQuestion />,
@@ -175,6 +175,16 @@ function VerticalTabs() {
       setSelectedTab(tab);
     }
   }
+
+  useEffect(() => {
+    const getQaData = JSON.parse(
+      localStorage.getItem("questionnaire_info") || "{}"
+    );
+    const { category: qaCategory } = getQaData;
+    if (qaCategory !== category) {
+      localStorage.setItem("questionnaire_info", JSON.stringify({ category }));
+    }
+  }, [category]);
 
   return (
     <Container>

@@ -14,7 +14,10 @@ import {
 import VerticalImageSlider from "../components/productSlider/ProductSlider";
 import { useApp } from "../Context/AppContext";
 import { useParams } from "react-router-dom";
-import { getProductBySlug , getRelatedProduct} from "../apis/apisList/productApi";
+import {
+  getProductBySlug,
+  getRelatedProduct,
+} from "../apis/apisList/productApi";
 import { useMessage } from "../Context/MessageContext";
 import theme from "../Theme/theme";
 import { Icon } from "@iconify/react";
@@ -62,7 +65,7 @@ const Product = () => {
       try {
         const response = await getProductBySlug(slug);
         setProduct(response.product);
-        
+
         if (response.product?.id) {
           fetchRelatedProducts(response.product.id);
         }
@@ -77,7 +80,7 @@ const Product = () => {
     const fetchRelatedProducts = async (productId) => {
       try {
         const relatedResponse = await getRelatedProduct(productId);
-          setRelatedProducts(relatedResponse.related_products);
+        setRelatedProducts(relatedResponse.related_products);
       } catch (error) {
         showMessage(
           error.response?.data?.message || "Failed to fetch related products",
@@ -88,9 +91,6 @@ const Product = () => {
 
     fetchProduct();
   }, [slug]);
-
- 
-  
 
   const handleVariantSelect = (product, variantId) => {
     const variantDetail = product.variations.find((item) => {
@@ -128,6 +128,7 @@ const Product = () => {
       setCurrentProduct({ product, selectedVariant });
       setIsQuestionModalOpen(true);
     } else {
+      product.quantity = quantity;
       addToCart(product, selectedVariant);
     }
   };
@@ -156,7 +157,7 @@ const Product = () => {
         `product-questions-${currentProduct.product.id}`,
         JSON.stringify(questionAnswers)
       );
-
+      currentProduct.product.quantity = quantity;
       // Add product to cart after saving answers
       addToCart(currentProduct.product, currentProduct.selectedVariant);
     }
@@ -173,6 +174,16 @@ const Product = () => {
     setFieldErrors({}); // Clear errors after successful submission
   };
 
+  const handleQuantity = (e) => {
+    let value = Number(e.target.value);
+    if (value < 1 || isNaN(value)) {
+      value = 1; // Minimum value
+    } else if (value > 10) {
+      value = 10; // Maximum value
+    }
+
+    setQuantity(value);
+  };
   return (
     <>
       <BreadcrumbBar />
@@ -236,7 +247,7 @@ const Product = () => {
                 £
                 {product.selectedVariantPrice
                   ? product?.selectedVariantPrice
-                  : product?.price}
+                  : product?.price || 0}
               </Typography>
               {/* <Typography
                                 variant="body1"
@@ -277,17 +288,52 @@ const Product = () => {
                         },
                       }}
                     >
-                      {product?.variations?.map((variant) => (
-                        <MenuItem
-                          key={variant.variation_id}
-                          value={variant.variation_id}
-                        >
-                          {`${variant.attributes.tablets} `}
-                        </MenuItem>
-                      ))}
+                      {product?.variations?.map((variant) => {
+                        const attributes = variant.attributes;
+                        const attributeKey = Object.keys(attributes)[0]; // Get the first available key
+                        const attributeValue = attributes[attributeKey]; // Get the corresponding value
+
+                        return (
+                          <MenuItem
+                            key={variant.variation_id}
+                            value={variant.variation_id}
+                          >
+                            {attributeKey === "tablets"
+                              ? `${attributeValue}`
+                              : `${attributeKey}: ${attributeValue}`}{" "}
+                            {/* Show key: value if not 'tablets' */}
+                          </MenuItem>
+                        );
+                      })}
                     </Select>
                   )}
               </Box>
+              {/* Quantity */}
+
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "flex-start",
+                  marginTop: "10px",
+                  marginBottom: "20px",
+                  flexWrap: "nowrap",
+                  gap: "20px",
+                }}
+              >
+                <Typography variant="h4" sx={{ fontWeight: 600 }}>
+                  Quantity
+                </Typography>
+                <TextField
+                  value={quantity}
+                  onChange={handleQuantity}
+                  type="number"
+                  variant="outlined"
+                  sx={{ maxWidth: "100px" }}
+                  inputProps={{ min: 1, max: 10 }}
+                />
+              </Box>
+
               <Box>
                 {/* Add to Cart Button */}
                 <Button
@@ -447,7 +493,7 @@ const Product = () => {
                       lineHeight: "1.5",
                     }}
                   >
-                   {product?.description}
+                    {product?.description}
                   </Typography>
                 </Box>
               </Stack>
@@ -457,13 +503,12 @@ const Product = () => {
         </Box>
         {/********* Product Overview **********/}
         <Box>
-          <ProductOverview product={product}/>
+          <ProductOverview product={product} />
         </Box>
         {/********* Product Overview End **********/}
       </Container>
       <Box backgroundColor={theme.palette.primary.main}>
-      <RelatedProduct relatedProducts={relatedProducts} />
-
+        <RelatedProduct relatedProducts={relatedProducts} />
       </Box>
       {isQuestionModalOpen && (
         <Dialog

@@ -142,14 +142,14 @@ const onlineClinicItems = [
   { id: 7, name: "Hay Fever", link: "/online-clinic/hayfever" },
   {
     id: 8,
-    name: "Migraine Treatment Eligibility Questionnaire",
+    name: "Migraine",
     link: "/online-clinic/migraine",
   },
   { id: 9, name: "Period Delay", link: "/online-clinic/period-delay" },
   { id: 10, name: "Period Pain", link: "/online-clinic/period-pain" },
   {
     id: 11,
-    name: "Premature Ejaculation Assessment",
+    name: "Premature Ejaculation",
     link: "/online-clinic/premature-ejaculation",
   },
   { id: 12, name: "Stop Smoking", link: "/online-clinic/stop-smoking" },
