@@ -67,7 +67,8 @@ const Login = () => {
     setError("");
     const userData = { email: values.email, password: values.password };
     try {
-      const response = await loginUser(userData);
+      const res = await loginUser(userData);
+      const response = await res.json();
 
       if (response.status == 200) {
         let userInfo = {

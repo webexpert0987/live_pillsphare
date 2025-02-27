@@ -79,7 +79,8 @@ const VerificationPage = () => {
 
     try {
       await verifyOtp({ email: user.email, otp: otp.join("") });
-      const response = await loginUser(user);
+      const res = await loginUser(user);
+      const response = await res.json();
       if (response.status == 200) {
         let userInfo = { first_name: response.first_name, last_name: response.last_name, user_id: response.user_id, token: response.token }
         login(userInfo);

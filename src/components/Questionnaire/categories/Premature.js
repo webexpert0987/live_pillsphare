@@ -20,7 +20,7 @@ import { useApp } from "../../../Context/AppContext";
 import { useMessage } from "../../../Context/MessageContext";
 import { RadioButtonChecked, RadioButtonUnchecked } from "@mui/icons-material";
 import "../../../../src/globalStyle.css";
-const steps = ["1", "2", "3", "4"];
+const steps = ["1", "2", "3"];
 
 function PrematureQuestion() {
   const [activeStep, setActiveStep] = useState(0);
@@ -44,7 +44,6 @@ function PrematureQuestion() {
     confirmAll: "",
     medicusExpress: "",
     lastConfirm: "",
-
   });
   const boxRef = useRef(null);
   const { setSelectedTab } = useApp();
@@ -78,7 +77,7 @@ function PrematureQuestion() {
         return;
       }
     } else if (activeStep === 1) {
-      const requiredFields = ["agedBetween"];
+      const requiredFields = ["agedBetween", "gender", "premature"];
 
       for (const field of requiredFields) {
         if (
@@ -88,6 +87,23 @@ function PrematureQuestion() {
         ) {
           showMessage(
             "Please fill all details before proceeding to the next step.",
+            "error"
+          );
+          return;
+        }
+      }
+
+      const preventProceedConditions = [
+        { field: "gender", condition: "Yes" },
+        { field: "agedBetween", condition: "No" },
+        { field: "premature", condition: "No" },
+        { field: "ejaculation", condition: "No" },
+      ];
+
+      for (const { field, condition } of preventProceedConditions) {
+        if (answers[field] === condition) {
+          showMessage(
+            "Based on your answers, we are unable to provide you with treatment at this time. Please consult your GP.",
             "error"
           );
           return;
@@ -166,8 +182,11 @@ function PrematureQuestion() {
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
-              {answers.gender === "No" && (
-                <div>"This treatment is not suitable for females. Please consult your doctor for further advice." </div>
+              {answers.gender === "Yes" && (
+                <div>
+                  "This treatment is not suitable for females. Please consult
+                  your doctor for further advice."{" "}
+                </div>
               )}
             </FormControl>
             {/******•	Are you aged between 18 and 65 years? *****/}
@@ -187,7 +206,10 @@ function PrematureQuestion() {
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
               {answers.agedBetween === "No" && (
-                <div>"This treatment is only suitable for males aged between 18 and 65." [Do not proceed] </div>
+                <div>
+                  "This treatment is only suitable for males aged between 18 and
+                  65." [Do not proceed]{" "}
+                </div>
               )}
             </FormControl>
             {/******•	Do you often experience premature ejaculation? *****/}
@@ -208,14 +230,18 @@ function PrematureQuestion() {
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
               {answers.premature === "No" && (
-                <div>"This treatment is intended for individuals with premature ejaculation. Please consult your GP for further information." </div>
+                <div>
+                  "This treatment is intended for individuals with premature
+                  ejaculation. Please consult your GP for further information."{" "}
+                </div>
               )}
             </FormControl>
             {/*****•	Do you find it difficult to control ejaculation during sexual intercourse?******/}
 
             <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-                Do you find it difficult to control ejaculation during sexual intercourse?
+                Do you find it difficult to control ejaculation during sexual
+                intercourse?
               </Typography>
               <RadioGroup
                 row
@@ -258,23 +284,39 @@ function PrematureQuestion() {
                     value={answers.allergyIssue}
                     onChange={(e) =>
                       setAnswers({ ...answers, allergyIssue: e.target.value })
-                    } fullWidth placeholder="Tell us more ?"
+                    }
+                    fullWidth
+                    placeholder="Tell us more ?"
                   />
-                </>)}
+                </>
+              )}
             </FormControl>
             {/* •	On average, how long does it take you to ejaculate during sexual intercourse? */}
             <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-                On average, how long does it take you to ejaculate during sexual intercourse?
+                On average, how long does it take you to ejaculate during sexual
+                intercourse?
               </Typography>
               <RadioGroup
                 aria-labelledby="demo-radio-buttons-group-label"
                 defaultValue="Rarely"
                 name="radio-buttons-group"
               >
-                <FormControlLabel value="Daily" control={<Radio />} label="Less than 1 minute" />
-                <FormControlLabel value="Weekly" control={<Radio />} label="1-2 minute" />
-                <FormControlLabel value="Occasionaly" control={<Radio />} label="more than 3 minute" />
+                <FormControlLabel
+                  value="Daily"
+                  control={<Radio />}
+                  label="Less than 1 minute"
+                />
+                <FormControlLabel
+                  value="Weekly"
+                  control={<Radio />}
+                  label="1-2 minute"
+                />
+                <FormControlLabel
+                  value="Occasionaly"
+                  control={<Radio />}
+                  label="more than 3 minute"
+                />
                 {/* <FormControlLabel value="Rarely" control={<Radio />} label="Rarely" /> */}
               </RadioGroup>
             </FormControl>
@@ -282,7 +324,8 @@ function PrematureQuestion() {
 
             <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-                Have you experienced persistent premature ejaculation for more than 6 months?
+                Have you experienced persistent premature ejaculation for more
+                than 6 months?
               </Typography>
               <RadioGroup
                 row
@@ -296,14 +339,18 @@ function PrematureQuestion() {
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
               {answers.persistentPre === "No" && (
-                <div>"Treatment may not be suitable for individuals with recent symptoms. Please consult your GP."</div>
+                <div>
+                  "Treatment may not be suitable for individuals with recent
+                  symptoms. Please consult your GP."
+                </div>
               )}
             </FormControl>
             {/*****•	Do you have any of the following health conditions? ******/}
 
             <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-                Do you have any of the following health conditions? Please check all that apply
+                Do you have any of the following health conditions? Please check
+                all that apply
               </Typography>
               {[
                 "Diabetes",
@@ -343,27 +390,30 @@ function PrematureQuestion() {
                   label={condition}
                 />
               ))}
-
             </FormControl>
             {/*****•	Are you currently taking any medication for any of the following? ******/}
 
             <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-                Are you currently taking any medication for any of the following? Please select all that apply
+                Are you currently taking any medication for any of the
+                following? Please select all that apply
               </Typography>
               <ul>
                 <FormControlLabel
                   control={<Checkbox />}
                   label="High blood pressure"
-                /><br></br>
+                />
+                <br></br>
                 <FormControlLabel
                   control={<Checkbox />}
                   label="Depression or anxiety"
-                /><br></br>
+                />
+                <br></br>
                 <FormControlLabel
                   control={<Checkbox />}
                   label="Erectile dysfunction"
-                /><br></br>
+                />
+                <br></br>
                 <FormControlLabel
                   control={<Checkbox />}
                   label="Hormonal treatments"
@@ -380,11 +430,18 @@ function PrematureQuestion() {
                     setAnswers({ ...answers, anyMedication: e.target.value })
                   }
                 >
-                  <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                  <FormControlLabel
+                    value="Yes"
+                    control={<Radio />}
+                    label="Yes"
+                  />
                   <FormControlLabel value="No" control={<Radio />} label="No" />
                 </RadioGroup>
                 {answers.anyMedication === "Yes" && (
-                  <div>"Please inform your GP of any current medications before starting treatment for premature ejaculation." </div>
+                  <div>
+                    "Please inform your GP of any current medications before
+                    starting treatment for premature ejaculation."{" "}
+                  </div>
                 )}
               </ul>
             </FormControl>
@@ -405,7 +462,6 @@ function PrematureQuestion() {
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
-
             </FormControl>
             {/****** •	Do you drink alcohol?*****/}
             {/* 
@@ -451,9 +507,14 @@ function PrematureQuestion() {
               )}
             </FormControl> */}
 
-
             <FormControl component="fieldset" className="QuestionBox">
-              <Typography variant="h4" className="labelOne" id="demo-radio-buttons-group-label">Do you drink alcohal</Typography>
+              <Typography
+                variant="h4"
+                className="labelOne"
+                id="demo-radio-buttons-group-label"
+              >
+                Do you drink alcohal
+              </Typography>
               <RadioGroup
                 row
                 name="alcohal"
@@ -467,19 +528,33 @@ function PrematureQuestion() {
               </RadioGroup>
               {answers.alcohal === "Yes" && (
                 <>
-                  <Typography>
-                    Please specify how often -:
-                  </Typography>
+                  <Typography>Please specify how often -:</Typography>
 
                   <RadioGroup
                     aria-labelledby="demo-radio-buttons-group-label"
                     defaultValue="Rarely"
                     name="radio-buttons-group"
                   >
-                    <FormControlLabel value="Daily" control={<Radio />} label="Daily" />
-                    <FormControlLabel value="Weekly" control={<Radio />} label="Weekly" />
-                    <FormControlLabel value="Occasionaly" control={<Radio />} label="Occasionaly" />
-                    <FormControlLabel value="Rarely" control={<Radio />} label="Rarely" />
+                    <FormControlLabel
+                      value="Daily"
+                      control={<Radio />}
+                      label="Daily"
+                    />
+                    <FormControlLabel
+                      value="Weekly"
+                      control={<Radio />}
+                      label="Weekly"
+                    />
+                    <FormControlLabel
+                      value="Occasionaly"
+                      control={<Radio />}
+                      label="Occasionaly"
+                    />
+                    <FormControlLabel
+                      value="Rarely"
+                      control={<Radio />}
+                      label="Rarely"
+                    />
                   </RadioGroup>
                 </>
               )}
@@ -503,14 +578,20 @@ function PrematureQuestion() {
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
               {answers.healthyDiet === "No" && (
-                <div>Consider discussing healthy lifestyle changes with your GP to improve your overall well-being and treatment outcomes </div>
+                <div>
+                  Consider discussing healthy lifestyle changes with your GP to
+                  improve your overall well-being and treatment outcomes{" "}
+                </div>
               )}
             </FormControl>
             {/*****••	Do you understand that this treatment is not intended for individuals who have certain medical conditions or are taking specific medications, and that you should consult your GP if you have any concerns?******/}
 
             <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-                Do you understand that this treatment is not intended for individuals who have certain medical conditions or are taking specific medications, and that you should consult your GP if you have any concerns?
+                Do you understand that this treatment is not intended for
+                individuals who have certain medical conditions or are taking
+                specific medications, and that you should consult your GP if you
+                have any concerns?
               </Typography>
               <RadioGroup
                 row
@@ -524,14 +605,19 @@ function PrematureQuestion() {
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
               {answers.understandTM === "No" && (
-                <div>"We cannot proceed with treatment without your understanding of the possible risks and contraindications." </div>
+                <div>
+                  "We cannot proceed with treatment without your understanding
+                  of the possible risks and contraindications."{" "}
+                </div>
               )}
             </FormControl>
             {/*****•	Do you agree to follow the instructions for use of the prescribed medication and understand the potential side effects associated with treatment?******/}
 
             <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-                Do you agree to follow the instructions for use of the prescribed medication and understand the potential side effects associated with treatment?
+                Do you agree to follow the instructions for use of the
+                prescribed medication and understand the potential side effects
+                associated with treatment?
               </Typography>
               <RadioGroup
                 row
@@ -545,14 +631,18 @@ function PrematureQuestion() {
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
               {answers.agreeInstruc === "No" && (
-                <div>"We cannot provide treatment without your agreement to follow the prescribed guidelines."</div>
+                <div>
+                  "We cannot provide treatment without your agreement to follow
+                  the prescribed guidelines."
+                </div>
               )}
             </FormControl>
             {/*****•	I understand that this treatment is for my personal use only and that I will not share any prescribed medication with others******/}
 
             <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-                I understand that this treatment is for my personal use only and that I will not share any prescribed medication with others
+                I understand that this treatment is for my personal use only and
+                that I will not share any prescribed medication with others
               </Typography>
               <RadioGroup
                 row
@@ -570,7 +660,8 @@ function PrematureQuestion() {
 
             <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-                I confirm that the information provided is accurate and complete to the best of my knowledge.
+                I confirm that the information provided is accurate and complete
+                to the best of my knowledge.
               </Typography>
               <RadioGroup
                 row
@@ -588,7 +679,8 @@ function PrematureQuestion() {
 
             <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-                I understand that Medicus Express will treat my information in accordance with its Privacy Policy and Terms and Conditions.
+                I understand that Medicus Express will treat my information in
+                accordance with its Privacy Policy and Terms and Conditions.
               </Typography>
               <RadioGroup
                 row
@@ -606,7 +698,8 @@ function PrematureQuestion() {
 
             <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
-                I confirm that I am over 18 years old and agree to the Terms and Conditions of Medicus Express.
+                I confirm that I am over 18 years old and agree to the Terms and
+                Conditions of Medicus Express.
               </Typography>
               <RadioGroup
                 row

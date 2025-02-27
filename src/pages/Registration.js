@@ -77,7 +77,8 @@ export default function SignUp() {
             password: values.password
         };
         try {
-            const registarRes = await registerUser(userData);
+            const res = await registerUser(userData);
+            const registarRes = await res.json();
 
             if (registarRes.status == 200) {
                 const userData = { email: values.email, password: values.password };
