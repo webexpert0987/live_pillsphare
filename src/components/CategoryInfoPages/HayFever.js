@@ -465,6 +465,9 @@ function HayFever() {
                   },
                   boxShadow: "none",
                 }}
+                onClick={() =>
+                  (window.location.href = `#Treatment`)
+                }
               >
                 View Treatment
               </Button>
@@ -762,7 +765,7 @@ function HayFever() {
         </Container>
       </Box>
       {/************** Detailed Overview of Hay fever Treatments **************/}
-      <Box
+      <Box id="Treatment"
         sx={{
           padding: { xs: "30px 0", sm: "50px 0", md: "70px 0" },
           backgroundColor: "#F7F7F7",
