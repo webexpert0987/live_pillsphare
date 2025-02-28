@@ -21,6 +21,7 @@ import {
 } from "@stripe/react-stripe-js";
 import { createPaymentIntent } from "../../apis/apisList/paymentApi";
 import { createOrder } from "../../apis/apisList/orderApi";
+import useIpAddress from "../../hooks/ipAddressHook";
 
 // Load Stripe with your publishable key
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_API_KEY);
@@ -110,7 +111,7 @@ function CheckoutForm() {
       state: "",
       postcode: "",
       country: "",
-      email: "",
+      email: userDetails.email,
       phone: "",
     },
     shipping_address: {
@@ -132,6 +133,7 @@ function CheckoutForm() {
   const [isDetailComplete, setIsDetailComplete] = useState(true);
   const [canPay, setCanPay] = useState(false);
   const [makePayment, setMakePayment] = useState(false);
+  const IP_ADDRESS = useIpAddress();
   let cardElement;
   useEffect(() => {
     if (stripe && elements) {
@@ -190,7 +192,8 @@ function CheckoutForm() {
   };
 
   const calculateTotal = () => {
-    const price = parseFloat(cart[0].price) * cart[0].quantity || 0;
+    const cartPrice = cart[0]?.selectedVariant?.price || cart[0].price;
+    const price = parseFloat(cartPrice) * cart[0].quantity || 0;
     return price.toFixed(2);
   };
 
@@ -234,11 +237,20 @@ function CheckoutForm() {
               setPaymentStatus("Payment successful!");
               showMessage("Payment successful!", "success");
               const qaData = localStorage.getItem("questionnaire_info");
+              let questionAnswers_data = {};
+              if (qaData) {
+                const data = JSON.parse(qaData);
+                questionAnswers_data = {
+                  answers: data.answers || null,
+                  category: data.category || "",
+                  bmiData: data.bmiData || null,
+                };
+              }
               const ordInfo = {
                 user_id: userDetails.user_id,
                 token: userDetails.token,
                 variation_ids: [cart?.[0]?.selectedVariant?.id],
-                questionAnswers_data: qaData,
+                questionAnswers_data: JSON.stringify(questionAnswers_data),
                 payment_intent_id: paymentIntent.id,
                 billing_address: {
                   first_name: billingDetails.billing_address.first_name,
@@ -266,6 +278,7 @@ function CheckoutForm() {
                   email: billingDetails.billing_address.email,
                   phone: billingDetails.billing_address.phone,
                 },
+                ip: IP_ADDRESS,
               };
 
               const orderResponse = await createOrder(ordInfo);
@@ -286,6 +299,7 @@ function CheckoutForm() {
             showMessage("Error creating payment intent.", "error");
           }
         } catch (error) {
+          console.log(">>Error>>>", error);
           showMessage("There was a problem with the payment process.", "error");
           // setPaymentStatus('There was a problem with the payment process.');
         }
@@ -413,20 +427,40 @@ function CheckoutForm() {
                             </Box>
                             <Box
                               width={"100%"}
-                              display={"flex"}
+                              display="flex"
+                              flexDirection="column"
                               justifyContent={"space-between"}
                               gap={"10px"}
                             >
-                              <Box width={"100%"}>
-                                <Text> {item.name}</Text>
+                              <Box
+                                width={"100%"}
+                                display={"flex"}
+                                justifyContent={"space-between"}
+                                gap={"10px"}
+                              >
+                                <Box width={"100%"}>
+                                  <Text> {item.name}</Text>
 
-                                <Typography>
-                                  {
-                                    item?.selectedVariant?.attributes
-                                      ?.attribute_tablets
-                                  }
+                                  <Typography>
+                                    {
+                                      item?.selectedVariant?.attributes
+                                        ?.attribute_tablets
+                                    }
+                                  </Typography>
+                                </Box>
+
+                                <Typography
+                                  variant="h4"
+                                  fontWeight={500}
+                                  marginTop="2px"
+                                >
+                                  £
+                                  {item?.selectedVariant?.price ||
+                                    item.price ||
+                                    0}
                                 </Typography>
                               </Box>
+
                               <Box
                                 width={"100%"}
                                 sx={{ display: "flex", gap: 1 }}
@@ -434,11 +468,6 @@ function CheckoutForm() {
                                 <Text>Quantity:</Text>
                                 <Typography>{item?.quantity || 1}</Typography>
                               </Box>
-                              {/* <Box>
-                                <Typography variant="h4" fontWeight={600}>
-                                  {item.price}
-                                </Typography>
-                              </Box> */}
                             </Box>
                           </Box>
                           {/* <Divider /> */}
@@ -496,8 +525,8 @@ function CheckoutForm() {
               {
                 <Formik
                   initialValues={{
-                    first_name: "",
-                    last_name: "",
+                    first_name: userDetails.first_name || "",
+                    last_name: userDetails.last_name || "",
                     company: "",
                     address_1: "",
                     address_2: "",
@@ -505,7 +534,7 @@ function CheckoutForm() {
                     state: "",
                     postcode: "",
                     country: "",
-                    email: "",
+                    email: userDetails.email || "",
                     phone: "",
                   }}
                   validationSchema={validationSchema}
@@ -537,6 +566,8 @@ function CheckoutForm() {
                               id="firstName"
                               label="First Name"
                               autoFocus
+                              value={values.first_name}
+                              disabled
                               onChange={(e) => {
                                 handleChange(e);
                                 handleFieldOnChange(e);
@@ -558,6 +589,8 @@ function CheckoutForm() {
                               id="lastName"
                               label="Last Name"
                               name="last_name"
+                              value={values.last_name}
+                              disabled
                               onChange={(e) => {
                                 handleChange(e);
                                 handleFieldOnChange(e);
@@ -584,6 +617,8 @@ function CheckoutForm() {
                               onBlur={handleBlur}
                               error={touched.email && Boolean(errors.email)}
                               helperText={touched.email && errors.email}
+                              value={values.email}
+                              disabled
                             />
                           </Grid>
                           <Grid size={{ xs: 12, sm: 12, md: 6, lg: 6 }}>

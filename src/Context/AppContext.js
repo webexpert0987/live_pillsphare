@@ -56,6 +56,7 @@ export const AppProvider = ({ children }) => {
   const logout = () => {
     setUserDetails(null);
     localStorage.removeItem("user");
+    localStorage.removeItem("questionnaire_info");
     setCart([]);
   };
 

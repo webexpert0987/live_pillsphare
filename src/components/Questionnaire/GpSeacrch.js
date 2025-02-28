@@ -13,6 +13,7 @@ import {
 import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
 import { debounce } from "lodash";
+import axios from "axios";
 
 const staticResponse = {
   value: [
@@ -34,14 +35,31 @@ const GpSearch = ({ handleSubmit }) => {
   const [loading, setLoading] = useState(false);
   const [selectedValue, setSelectedValue] = useState("");
 
+  const getGpData = async (search) => {
+    try {
+      setLoading(true);
+      const response = await axios.get("https://api.nhs.uk/service-search", {
+        headers: {
+          "subscription-key": "745d49ac30854f8c91e51d4f07c171db",
+        },
+        params: {
+          search,
+          "api-version": 1,
+        },
+      });
+      setResults(response.data.value);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching GP data:", error);
+      setLoading(false);
+      setResults([]);
+    }
+  };
+
   // Debounced function to handle API call
   const debouncedSearch = debounce((searchTerm) => {
     if (searchTerm) {
-      setLoading(true);
-      setTimeout(() => {
-        setResults(staticResponse.value);
-        setLoading(false);
-      }, 500);
+      getGpData(searchTerm);
     } else {
       setResults([]);
     }

@@ -9,12 +9,16 @@ import {
   Select,
   FormControl,
   FormHelperText,
+  InputLabel,
 } from "@mui/material";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 // import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import { Link } from "react-router-dom";
 import { useApp } from "../../Context/AppContext";
+import VerificationDialog from "./VerificationDialog";
+import { registerUser, loginUser } from "../../apis/apisList/userApi";
+import { useMessage } from "../../Context/MessageContext";
 
 function YourDetailForm() {
   const [formData, setFormData] = useState({
@@ -32,6 +36,7 @@ function YourDetailForm() {
     postalCode: "",
     city: "",
     country: "",
+    gender: "",
   });
 
   const [errors, setErrors] = useState({
@@ -48,8 +53,11 @@ function YourDetailForm() {
     postalCode: "",
     city: "",
     country: "",
+    gender: "",
   });
   const { setSelectedTab, userDetails } = useApp();
+  const { showMessage } = useMessage();
+  const [isVerify, setIsVerify] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -95,11 +103,11 @@ function YourDetailForm() {
       newErrors.year = "Year is required.";
       isValid = false;
     }
-    if (!formData.password) {
+    if (!formData.password && !userDetails) {
       newErrors.password = "Password is required.";
       isValid = false;
     }
-    if (formData.password !== formData.confirmPassword) {
+    if (formData.password !== formData.confirmPassword && !userDetails) {
       newErrors.confirmPassword = "Passwords do not match.";
       isValid = false;
     }
@@ -119,37 +127,88 @@ function YourDetailForm() {
       newErrors.country = "Country is required.";
       isValid = false;
     }
+    if (!formData.gender) {
+      newErrors.gender = "Gender is required.";
+      isValid = false;
+    }
 
     setErrors(newErrors);
     return isValid;
   };
+  function calculateAge() {
+    const { day, month, year } = formData;
 
-  const handleSubmit = (e) => {
+    // Create birthdate object (JS months are 0-based, so subtract 1)
+    const birthDate = new Date(year, month - 1, day);
+    const today = new Date();
+
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+    const dayDiff = today.getDate() - birthDate.getDate();
+
+    // Adjust age if the birthday hasn't occurred yet this year
+    if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
+      age--;
+    }
+
+    return age;
+  }
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
-      // Proceed with form submission logic
-      console.log("Form submitted successfully:", formData);
-      const data = localStorage.getItem("questionnaire_info");
-      let parsedData = {};
-      if (data) {
-        parsedData = JSON.parse(data);
-      }
-      localStorage.setItem(
-        "questionnaire_info",
-        JSON.stringify({
-          ...parsedData,
-          user: formData,
-        })
-      );
+      if (!userDetails) {
+        const userData = {
+          first_name: formData.firstName,
+          last_name: formData.lastName,
+          email: formData.email,
+          gender: formData.gender,
+          age: calculateAge(),
+          password: formData.password,
+        };
 
-      setSelectedTab(1);
-      setTimeout(() => {
-        window.scrollTo({
-          top: 600,
-          left: 0,
-          behavior: "smooth",
-        });
-      }, 100);
+        console.log(">>>>>", userData);
+
+        try {
+          const registerRes = await registerUser(userData);
+          if (registerRes.status == 200) {
+            showMessage("Otp sent to your email", "success");
+            setIsVerify(true);
+            return;
+          }
+        } catch (error) {
+          showMessage(
+            error?.response?.data?.message || "Error registering user",
+            "error"
+          );
+          console.error("Error:", error);
+          return;
+        }
+      } else {
+        // Proceed with form submission logic
+        console.log("Form submitted successfully:", formData);
+        const data = localStorage.getItem("questionnaire_info");
+        let parsedData = {};
+        if (data) {
+          parsedData = JSON.parse(data);
+        }
+        localStorage.setItem(
+          "questionnaire_info",
+          JSON.stringify({
+            ...parsedData,
+            user: formData,
+          })
+        );
+
+        setSelectedTab(1);
+        setTimeout(() => {
+          window.scrollTo({
+            top: 600,
+            left: 0,
+            behavior: "smooth",
+          });
+        }, 100);
+      }
     }
   };
 
@@ -215,6 +274,7 @@ function YourDetailForm() {
           ...formData,
           firstName: first_name,
           lastName: last_name,
+          email: userDetails.email,
         };
         setFormData(data);
       }
@@ -277,38 +337,67 @@ function YourDetailForm() {
           }}
         >
           {/* First Name and Last Name */}
-          <Grid2
-            size={{ xs: 12, sm: 6, md: 6 }}
-            spacing={{ xs: 1, sm: 2, md: 2 }}
-            sx={{
-              borderRadius: "50px",
-              border: "none",
-            }}
-          >
-            <TextField
-              fullWidth
-              placeholder="First Name"
-              name="firstName"
-              value={formData.firstName}
-              onChange={handleChange}
-              error={!!errors.firstName}
-              helperText={errors.firstName}
-              sx={detailStyle.fieldInput}
-              disabled={!!userDetails}
-            />
-          </Grid2>
-          <Grid2 size={{ xs: 12, sm: 6, md: 6 }} spacing={2}>
-            <TextField
-              fullWidth
-              placeholder="Last Name"
-              name="lastName"
-              value={formData.lastName}
-              onChange={handleChange}
-              error={!!errors.lastName}
-              helperText={errors.lastName}
-              sx={detailStyle.fieldInput}
-              disabled={!!userDetails}
-            />
+          <Grid2 size={{ xs: 12, sm: 12, md: 12 }} container spacing={2}>
+            <Grid2
+              size={{ xs: 12, sm: 4, md: 4 }}
+              spacing={2}
+              sx={{
+                borderRadius: "50px",
+                border: "none",
+              }}
+            >
+              <TextField
+                fullWidth
+                placeholder="First Name"
+                name="firstName"
+                value={formData.firstName}
+                onChange={handleChange}
+                error={!!errors.firstName}
+                helperText={errors.firstName}
+                sx={detailStyle.fieldInput}
+                disabled={!!userDetails}
+              />
+            </Grid2>
+            <Grid2 size={{ xs: 12, sm: 4, md: 4 }} spacing={2}>
+              <TextField
+                fullWidth
+                placeholder="Last Name"
+                name="lastName"
+                value={formData.lastName}
+                onChange={handleChange}
+                error={!!errors.lastName}
+                helperText={errors.lastName}
+                sx={detailStyle.fieldInput}
+                disabled={!!userDetails}
+              />
+            </Grid2>
+            <Grid2 size={{ xs: 12, sm: 4, md: 4 }} spacing={2}>
+              <FormControl fullWidth error={!!errors.gender}>
+                <Select
+                  name="gender"
+                  displayEmpty
+                  onChange={handleChange}
+                  value={formData.gender}
+                  sx={detailStyle.fieldInput}
+                >
+                  <MenuItem value="" disabled>
+                    Select Gender
+                  </MenuItem>
+                  <MenuItem value={"male"}>Male</MenuItem>
+                  <MenuItem value={"female"}>Female</MenuItem>
+                </Select>
+                {errors.gender && (
+                  <FormHelperText
+                    sx={{
+                      fontWeight: "500 !important", // Make text bold
+                      color: "red !important",
+                    }}
+                  >
+                    {errors.gender}
+                  </FormHelperText>
+                )}
+              </FormControl>
+            </Grid2>
           </Grid2>
 
           {/* Email and Contact Number */}
@@ -323,7 +412,7 @@ function YourDetailForm() {
               error={!!errors.email}
               helperText={errors.email}
               sx={detailStyle.fieldInput}
-              // disabled={!!userDetails}
+              disabled={!!userDetails}
             />
           </Grid2>
           <Grid2 size={{ xs: 12, sm: 6, md: 6 }} spacing={2}>
@@ -643,6 +732,14 @@ function YourDetailForm() {
             </svg>
           </Button>
         </Box>
+
+        {!userDetails && isVerify && (
+          <VerificationDialog
+            open={isVerify}
+            setOpen={setIsVerify}
+            formData={formData}
+          />
+        )}
       </Box>
     </LocalizationProvider>
   );
