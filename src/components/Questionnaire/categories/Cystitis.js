@@ -21,7 +21,8 @@ import "../../../../src/globalStyle.css";
 import BmiCalculate from "../Consultation"; // Import the BMI calculation component
 import { useApp } from "../../../Context/AppContext";
 import { useMessage } from "../../../Context/MessageContext";
-const steps = ["1", "2"];
+import GpSearch from "../GpSeacrch";
+const steps = ["1", "2", "3"];
 
 function CystitisQuestionnaire() {
   const [currentStep, setCurrentStep] = useState(0);
@@ -62,10 +63,12 @@ function CystitisQuestionnaire() {
     numberOfUTIsInLast6Months: "",
     hasAgreedToTerms: "",
     photoIDFile: "",
+    gpResult: null,
   });
   const boxRef = useRef(null);
   const { setSelectedTab } = useApp();
   const { showMessage } = useMessage();
+  const [gpResult, setGpResult] = useState(null);
   const handleScroll = () => {
     setTimeout(() => {
       if (boxRef.current) {
@@ -156,6 +159,14 @@ function CystitisQuestionnaire() {
           return;
         }
       }
+    } else if (currentStep === 2) {
+      if (!questionnaireResponses.hasAgreedToTerms) {
+        showMessage(
+          "Please fill all details before proceeding to the next step.",
+          "error"
+        );
+        return;
+      }
     }
 
     setCurrentStep((prevStep) => prevStep + 1);
@@ -167,7 +178,7 @@ function CystitisQuestionnaire() {
   };
 
   const submitQuestionnaire = () => {
-    if (!questionnaireResponses.hasAgreedToTerms) {
+    if (!questionnaireResponses.gpResult) {
       showMessage(
         "Please fill all details before proceeding to the next step.",
         "error"
@@ -985,36 +996,34 @@ function CystitisQuestionnaire() {
           </>
         );
       //============= Step 04 =============//
-      case 3:
+      case 2:
         return (
-          <>
-            <Typography variant="h3" className="stepHeading">
-              Please Upload relevant documents required
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              width: "100%",
+            }}
+          >
+            <Typography
+              variant="h3"
+              className="stepHeading"
+              sx={{
+                margin: "30px",
+              }}
+            >
+              Search and select your general practitioner (GP)
             </Typography>
 
-            {/****** Please upload a photo ID which is within date and not expired. *****/}
-
-            <FormControl component="fieldset" className="QuestionBox">
-              <Box sx={{ marginTop: "10px" }}>
-                <Typography variant="body1">
-                  Please upload a photo ID which is within date and not expired.
-                  (Max. file size: 80 MB.)
-                </Typography>
-                <input
-                  type="file"
-                  name="photoIDFile"
-                  accept=".jpg,.jpeg,.png,.pdf"
-                  onChange={(e) =>
-                    setQuestionnaireResponses({
-                      ...questionnaireResponses,
-                      photoIDFile: e.target.files[0],
-                    })
-                  }
-                  style={{ marginTop: "10px" }}
-                />
-              </Box>
-            </FormControl>
-          </>
+            <GpSearch
+              handleSubmit={(data) => {
+                setQuestionnaireResponses({
+                  ...questionnaireResponses,
+                  gpResult: data,
+                });
+              }}
+            />
+          </Box>
         );
       default:
         return null;

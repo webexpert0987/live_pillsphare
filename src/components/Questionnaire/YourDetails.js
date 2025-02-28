@@ -294,6 +294,7 @@ function YourDetailForm() {
               error={!!errors.firstName}
               helperText={errors.firstName}
               sx={detailStyle.fieldInput}
+              disabled={!!userDetails}
             />
           </Grid2>
           <Grid2 size={{ xs: 12, sm: 6, md: 6 }} spacing={2}>
@@ -306,6 +307,7 @@ function YourDetailForm() {
               error={!!errors.lastName}
               helperText={errors.lastName}
               sx={detailStyle.fieldInput}
+              disabled={!!userDetails}
             />
           </Grid2>
 
@@ -321,6 +323,7 @@ function YourDetailForm() {
               error={!!errors.email}
               helperText={errors.email}
               sx={detailStyle.fieldInput}
+              // disabled={!!userDetails}
             />
           </Grid2>
           <Grid2 size={{ xs: 12, sm: 6, md: 6 }} spacing={2}>
@@ -461,50 +464,51 @@ function YourDetailForm() {
           </Grid2>
 
           {/* Password and Confirm Password */}
-
-          <Grid2 size={{ xs: 12, sm: 12, md: 12 }} spacing={2}>
-            <Typography
-              variant="h5"
-              sx={{
-                fontSize: { xs: "16px", sm: "17px", md: "18px" },
-                color: "#333333",
-                lineHeight: "1.3",
-                fontWeight: "700",
-                marginBottom: "10px",
-                paddingLeft: { xs: "20px", sm: "10px", md: "0px" },
-              }}
-            >
-              Password
-            </Typography>
-            <Grid2 size={{ xs: 12, sm: 12, md: 12 }} container spacing={2}>
-              <Grid2 size={{ xs: 12, sm: 6, md: 6 }} spacing={2}>
-                <TextField
-                  fullWidth
-                  placeholder="Set Password"
-                  type="password"
-                  name="password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  error={!!errors.password}
-                  helperText={errors.password}
-                  sx={detailStyle.fieldInput}
-                />
-              </Grid2>
-              <Grid2 size={{ xs: 12, sm: 6, md: 6 }} spacing={2}>
-                <TextField
-                  fullWidth
-                  placeholder="Confirm Password"
-                  type="password"
-                  name="confirmPassword"
-                  value={formData.confirmPassword}
-                  onChange={handleChange}
-                  error={!!errors.confirmPassword}
-                  helperText={errors.confirmPassword}
-                  sx={detailStyle.fieldInput}
-                />
+          {!userDetails && (
+            <Grid2 size={{ xs: 12, sm: 12, md: 12 }} spacing={2}>
+              <Typography
+                variant="h5"
+                sx={{
+                  fontSize: { xs: "16px", sm: "17px", md: "18px" },
+                  color: "#333333",
+                  lineHeight: "1.3",
+                  fontWeight: "700",
+                  marginBottom: "10px",
+                  paddingLeft: { xs: "20px", sm: "10px", md: "0px" },
+                }}
+              >
+                Password
+              </Typography>
+              <Grid2 size={{ xs: 12, sm: 12, md: 12 }} container spacing={2}>
+                <Grid2 size={{ xs: 12, sm: 6, md: 6 }} spacing={2}>
+                  <TextField
+                    fullWidth
+                    placeholder="Set Password"
+                    type="password"
+                    name="password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    error={!!errors.password}
+                    helperText={errors.password}
+                    sx={detailStyle.fieldInput}
+                  />
+                </Grid2>
+                <Grid2 size={{ xs: 12, sm: 6, md: 6 }} spacing={2}>
+                  <TextField
+                    fullWidth
+                    placeholder="Confirm Password"
+                    type="password"
+                    name="confirmPassword"
+                    value={formData.confirmPassword}
+                    onChange={handleChange}
+                    error={!!errors.confirmPassword}
+                    helperText={errors.confirmPassword}
+                    sx={detailStyle.fieldInput}
+                  />
+                </Grid2>
               </Grid2>
             </Grid2>
-          </Grid2>
+          )}
 
           {/* Note Box */}
           <Box

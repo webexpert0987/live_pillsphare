@@ -106,6 +106,7 @@ const WeightLossComparison = () => {
         padding: { xs: "30px 0", sm: "50px 0", md: "70px 0" },
         backgroundColor: "#F7F7F7",
       }}
+      id="WLTreatment"
     >
       <Container>
         <Box style={weightCompStyle.sectionInfo}>

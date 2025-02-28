@@ -17,167 +17,169 @@ const Treatments = ({
 
   return (
     <>
-    <Box sx={{ backgroundColor: "#F6EFDF" }}>
-    <Container>
-      <Box
-        sx={{
-          maxWidth: "100%",
-          margin: "auto",
-          padding: {
-            xs: "30px 0 50px 0",
-            sm: "50px 0 60px 0",
-            md: "70px 0 90px 0",
-          },
-        }}
-      >
-        <Grid2
-          container
-          spacing={0}
-          sx={{
-            alignItems: "center",
-          }}
-        >
-          {/* Left Column */}
-          <Grid2
-            size={{ xs: 12, sm: 6, md: 8 }}
-            spacing={2}
+      <Box sx={{ backgroundColor: "#F6EFDF" }}>
+        <Container>
+          <Box
             sx={{
+              maxWidth: "100%",
+              margin: "auto",
               padding: {
-                xs: "0 0 0 0",
-                sm: "0 10% 0 0",
-                md: "0 10% 0 0",
+                xs: "30px 0 50px 0",
+                sm: "50px 0 60px 0",
+                md: "70px 0 90px 0",
               },
             }}
           >
-            <Typography
-              variant="subtitle1"
-              color="textSecondary"
-              gutterBottom
+            <Grid2
+              container
+              spacing={0}
               sx={{
-                fontSize: { xs: "15px", sm: "16px", md: "18px" },
-                fontWeight: "700",
-                color: "#FD6400",
-                textTransform: "uppercase",
+                alignItems: "center",
               }}
             >
-              {subtitle}
-            </Typography>
-            <Typography
-              variant="h4"
-              gutterBottom
-              sx={{
-                fontSize: { xs: "22px", sm: "30px", md: "32px" },
-                fontWeight: "700",
-                color: "#333",
-                lineHeight: "1.3",
-                marginBottom: "20px",
-              }}
-            >
-              {title}
-            </Typography>
-            {paragraphs.slice(0, 2).map((text, index) => (
-              <Typography
-                key={index}
+              {/* Left Column */}
+              <Grid2
+                size={{ xs: 12, sm: 6, md: 8 }}
+                spacing={2}
                 sx={{
-                  fontSize: { xs: "15px", sm: "16px", md: "16px" },
-                  fontWeight: "500",
-                  color: "#4A4A4A",
-                  lineHeight: "1.6",
-                  marginBottom: "25px",
+                  padding: {
+                    xs: "0 0 0 0",
+                    sm: "0 10% 0 0",
+                    md: "0 10% 0 0",
+                  },
                 }}
               >
-                {text}
-              </Typography>
-            ))}
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={() => (window.location.href = "/questionnaire")}
-              sx={{
-                fontSize: { xs: "14px", sm: "17px", md: "18px" },
-                fontWeight: "600",
-                lineHeight: "1.4",
-                backgroundColor: "#FD6400",
-                color: "#FFF",
-                borderRadius: "50px",
-                border: "none",
-                textTransform: "inherit",
-                padding: "12px 25px",
-                boxShadow: "none",
-              }}
-            >
-              {buttonText}
-              <svg
-                style={{ marginLeft: "10px" }}
-                width="18"
-                height="14"
-                viewBox="0 0 18 14"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M17 7L11 1M17 7L11 13M17 7L6.5 7M1 7L3.5 7"
-                  stroke="white"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
-            </Button>
-          </Grid2>
+                <Typography
+                  variant="subtitle1"
+                  color="textSecondary"
+                  gutterBottom
+                  sx={{
+                    fontSize: { xs: "15px", sm: "16px", md: "18px" },
+                    fontWeight: "700",
+                    color: "#FD6400",
+                    textTransform: "uppercase",
+                  }}
+                >
+                  {subtitle}
+                </Typography>
+                <Typography
+                  variant="h4"
+                  gutterBottom
+                  sx={{
+                    fontSize: { xs: "22px", sm: "30px", md: "32px" },
+                    fontWeight: "700",
+                    color: "#333",
+                    lineHeight: "1.3",
+                    marginBottom: "20px",
+                  }}
+                >
+                  {title}
+                </Typography>
+                {paragraphs.slice(0, 2).map((text, index) => (
+                  <Typography
+                    key={index}
+                    sx={{
+                      fontSize: { xs: "15px", sm: "16px", md: "16px" },
+                      fontWeight: "500",
+                      color: "#4A4A4A",
+                      lineHeight: "1.6",
+                      marginBottom: "25px",
+                    }}
+                  >
+                    {text}
+                  </Typography>
+                ))}
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={() =>
+                    (window.location.href = `/questionnaire?category=weight-loss`)
+                  }
+                  sx={{
+                    fontSize: { xs: "14px", sm: "17px", md: "18px" },
+                    fontWeight: "600",
+                    lineHeight: "1.4",
+                    backgroundColor: "#FD6400",
+                    color: "#FFF",
+                    borderRadius: "50px",
+                    border: "none",
+                    textTransform: "inherit",
+                    padding: "12px 25px",
+                    boxShadow: "none",
+                  }}
+                >
+                  {buttonText}
+                  <svg
+                    style={{ marginLeft: "10px" }}
+                    width="18"
+                    height="14"
+                    viewBox="0 0 18 14"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M17 7L11 1M17 7L11 13M17 7L6.5 7M1 7L3.5 7"
+                      stroke="white"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </Button>
+              </Grid2>
 
-          {/* Right Column */}
-          <Grid2
-            size={{ xs: 12, sm: 6, md: 4 }}
-            spacing={2}
-            sx={{
-              position: "relative",
-              display: "flex",
-              justifyContent: "right",
-            }}
-          >
-            <Grid2 container spacing={0}>
-              <Grid2 item xs={12} sm={6} md={5}>
-                <Box
-                  component="img"
-                  src={imageThree}
-                  sx={{
-                    position: "absolute",
-                    left: { xs: "0", sm: "20px", md: "20px" },
-                    top: "40px",
-                  }}
-                />
-                <Box
-                  component="img"
-                  src={imageOne}
-                  sx={{
-                    maxWidth: { xs: "80%", sm: "100%", md: "100%" },
-                    borderRadius: "20px",
-                    zIndex: "1",
-                    position: "relative",
-                    right: { xs: "-20%", sm: "0", md: "0" },
-                    top: { xs: "20px", sm: "0", md: "0" },
-                  }}
-                />
-                <Box
-                  component="img"
-                  src={imageTwo}
-                  sx={{
-                    maxWidth: "40%",
-                    position: "absolute",
-                    left: "0",
-                    bottom: "-30px",
-                    borderRadius: "20px",
-                    zIndex: "2",
-                  }}
-                />
+              {/* Right Column */}
+              <Grid2
+                size={{ xs: 12, sm: 6, md: 4 }}
+                spacing={2}
+                sx={{
+                  position: "relative",
+                  display: "flex",
+                  justifyContent: "right",
+                }}
+              >
+                <Grid2 container spacing={0}>
+                  <Grid2 item xs={12} sm={6} md={5}>
+                    <Box
+                      component="img"
+                      src={imageThree}
+                      sx={{
+                        position: "absolute",
+                        left: { xs: "0", sm: "20px", md: "20px" },
+                        top: "40px",
+                      }}
+                    />
+                    <Box
+                      component="img"
+                      src={imageOne}
+                      sx={{
+                        maxWidth: { xs: "80%", sm: "100%", md: "100%" },
+                        borderRadius: "20px",
+                        zIndex: "1",
+                        position: "relative",
+                        right: { xs: "-20%", sm: "0", md: "0" },
+                        top: { xs: "20px", sm: "0", md: "0" },
+                      }}
+                    />
+                    <Box
+                      component="img"
+                      src={imageTwo}
+                      sx={{
+                        maxWidth: "40%",
+                        position: "absolute",
+                        left: "0",
+                        bottom: "-30px",
+                        borderRadius: "20px",
+                        zIndex: "2",
+                      }}
+                    />
+                  </Grid2>
+                </Grid2>
               </Grid2>
             </Grid2>
-          </Grid2>
-        </Grid2>
+          </Box>
+        </Container>
       </Box>
-    </Container>
-    </Box>
     </>
   );
 };

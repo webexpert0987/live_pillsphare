@@ -148,11 +148,12 @@ const HeroSection = ({
               style={heroShop.secondryBtn}
               variant="outlined"
               onClick={() => {
-                document.getElementById("ViewTreatments")?.scrollIntoView({
+                window.location.href = `#WLTreatment`;
+                document.getElementById("WLTreatment")?.scrollIntoView({
                   behavior: "smooth",
                   block: "start",
                 });
-              }} 
+              }}
             >
               {button2Text}{" "}
               <svg

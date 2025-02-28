@@ -137,6 +137,13 @@ const HeroSection = ({
                 boxShadow: "none",
                 marginBottom: { xs: "15px", sm: "0", md: "0" },
               }}
+              onClick={() => {
+                if (!isShopPage) {
+                  window.location.href = `/questionnaire?category=weight-loss`;
+                } else {
+                  window.location.href = `/online-clinic`;
+                }
+              }}
             >
               {button1Text}
             </Button>
@@ -153,6 +160,16 @@ const HeroSection = ({
                 textTransform: "inherit",
                 padding: { xs: "12px 25px", sm: "12px 20px", md: "12px 25px" },
                 boxShadow: "none",
+              }}
+              onClick={() => {
+                if (!isShopPage) {
+                  document.getElementById("WLTreatment")?.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start",
+                  });
+                } else {
+                  window.location.href = `/online-clinic`;
+                }
               }}
             >
               {button2Text}

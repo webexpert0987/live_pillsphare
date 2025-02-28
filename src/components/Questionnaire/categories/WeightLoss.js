@@ -17,7 +17,8 @@ import "../../../../src/globalStyle.css";
 import BmiCalculate from "../Consultation"; // Import the BMI calculation component
 import { useApp } from "../../../Context/AppContext";
 import { useMessage } from "../../../Context/MessageContext";
-const steps = ["1", "2", "3", "4"];
+import GpSearch from "../GpSeacrch";
+const steps = ["1", "2", "3", "4", "5"];
 
 function WeightLossQuestion() {
   const [activeStep, setActiveStep] = useState(0);
@@ -33,7 +34,6 @@ function WeightLossQuestion() {
     isTakingSteroidsOrThyroidMeds: "",
     usedInjectableWeightLossMedLast4Weeks: "",
     previousMedicationProof: "",
-
     agreedToTerms: "",
     understandsGLP1Effects: "",
     understandsMoodEffects: "",
@@ -41,9 +41,9 @@ function WeightLossQuestion() {
     understandsNoMixingWeightLossMeds: "",
     understandsPancreatitisRisk: "",
     understandsConceptionRisk: "",
-
     photoIDUpload: "",
-    weightVerificationPhotoUpload: "",
+    bodyPhoto: "",
+    gpResult: null,
   });
   const boxRef = useRef(null);
   const { setSelectedTab } = useApp();
@@ -122,6 +122,11 @@ function WeightLossQuestion() {
           return;
         }
       }
+    } else if (activeStep === 3) {
+      if (!answers.photoID || !answers.bodyPhoto) {
+        showMessage("Please upload required documents", "error");
+        return;
+      }
     }
 
     setActiveStep((prevStep) => prevStep + 1);
@@ -133,14 +138,19 @@ function WeightLossQuestion() {
   };
 
   const handleSubmit = () => {
-    console.log("Form submitted with answers: ", answers);
+    if (!answers.gpResult) {
+      showMessage(
+        "Please fill all details before proceeding to the next step.",
+        "error"
+      );
+      return;
+    }
     const data = localStorage.getItem("questionnaire_info");
     let parsedData = {};
     if (data) {
       parsedData = JSON.parse(data);
     }
     const { user, bmiData } = parsedData;
-
     localStorage.setItem(
       "questionnaire_info",
       JSON.stringify({
@@ -630,7 +640,7 @@ function WeightLossQuestion() {
                   onChange={(e) =>
                     setAnswers({
                       ...answers,
-                      weightVerificationPhoto: e.target.files[0],
+                      bodyPhoto: e.target.files[0],
                     })
                   }
                   style={{ marginTop: "10px" }}
@@ -638,6 +648,35 @@ function WeightLossQuestion() {
               </Box>
             </FormControl>
           </>
+        );
+      case 4:
+        return (
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              width: "100%",
+            }}
+          >
+            <Typography
+              variant="h3"
+              className="stepHeading"
+              sx={{
+                margin: "30px",
+              }}
+            >
+              Search and select your general practitioner (GP)
+            </Typography>
+
+            <GpSearch
+              handleSubmit={(data) => {
+                setAnswers({
+                  ...answers,
+                  gpResult: data,
+                });
+              }}
+            />
+          </Box>
         );
       default:
         return null;

@@ -79,10 +79,10 @@ const VerificationPage = () => {
 
     try {
       await verifyOtp({ email: user.email, otp: otp.join("") });
-      const res = await loginUser(user);
-      const response = await res.json();
+      const response = await loginUser(user);
+      // const response = await res.json();
       if (response.status == 200) {
-        let userInfo = { first_name: response.first_name, last_name: response.last_name, user_id: response.user_id, token: response.token }
+        let userInfo = { first_name: response.first_name, last_name: response.last_name, user_id: response.user_id, token: response.token,email: response.email}
         login(userInfo);
         showMessage("Login successful", 'success')
         localStorage.removeItem('verify_user')

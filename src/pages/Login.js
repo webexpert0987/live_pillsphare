@@ -67,13 +67,14 @@ const Login = () => {
     setError("");
     const userData = { email: values.email, password: values.password };
     try {
-      const res = await loginUser(userData);
-      const response = await res.json();
+      const response = await loginUser(userData);
+      // const response = await res.json();
 
       if (response.status == 200) {
         let userInfo = {
           first_name: response.first_name,
           last_name: response.last_name,
+          email: response.email,
           user_id: response.user_id,
           token: response.token,
         };
