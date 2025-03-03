@@ -108,43 +108,52 @@ const AddToCartModal = ({ open, onClose }) => {
                   </Box>
 
                   <Box>
-                    <Typography variant="subtitle1" mb={1}>
+                    <Typography
+                      variant="subtitle1"
+                      mb={1}
+                      style={{ whiteSpace: "nowrap" }}
+                    >
                       Choose Variant:
                     </Typography>
-                    <Select
-                      value={item.selectedVariant}
-                      onChange={(e) =>
-                        handleVariantSelect(item, e.target.value)
-                      }
-                      fullWidth
-                      sx={{
-                        ".MuiSelect-select": {
-                          padding: "7.5px 14px",
-                        },
-                      }}
-                    >
-                      {item?.variations?.map((variant) => {
-                        const attributes = variant.attributes;
-                        const attributeKey = Object.keys(attributes)[0]; // Get the first available key
-                        const attributeValue = attributes[attributeKey]; // Get the corresponding value
+                    {item.selectedVariant ? (
+                      <Select
+                        value={item.selectedVariant}
+                        onChange={(e) =>
+                          handleVariantSelect(item, e.target.value)
+                        }
+                        fullWidth
+                        sx={{
+                          ".MuiSelect-select": {
+                            padding: "7.5px 14px",
+                          },
+                        }}
+                      >
+                        {item?.variations?.map((variant) => {
+                          const attributes = variant.attributes;
+                          const attributeKey = Object.keys(attributes)[0]; // Get the first available key
+                          const attributeValue = attributes[attributeKey]; // Get the corresponding value
 
-                        return (
-                          <MenuItem
-                            key={variant.variation_id}
-                            value={variant.variation_id}
-                          >
-                            {attributeKey === "tablets"
-                              ? `${attributeValue}`
-                              : `${attributeKey}: ${attributeValue}`}{" "}
-                            {/* Show key: value if not 'tablets' */}
-                          </MenuItem>
-                        );
-                      })}
-                    </Select>
+                          return (
+                            <MenuItem
+                              key={variant.variation_id}
+                              value={variant.variation_id}
+                            >
+                              {attributeKey === "tablets"
+                                ? `${attributeValue}`
+                                : `${attributeKey}: ${attributeValue}`}{" "}
+                              {/* Show key: value if not 'tablets' */}
+                            </MenuItem>
+                          );
+                        })}
+                      </Select>
+                    ) : (
+                      <span>N/A</span>
+                    )}
                   </Box>
+
                   <Box>
                     <Typography variant="h5" mt={2} mb={2}>
-                      £{item.selectedVariantPrice}
+                      £{item?.selectedVariantPrice || item?.price || 0}
                     </Typography>
                   </Box>
                 </Box>

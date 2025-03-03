@@ -89,7 +89,13 @@ function CheckoutForm() {
   const navigate = useNavigate();
   const [error, setError] = useState("");
   const { showMessage } = useMessage();
-  const { userDetails, qaCart: cart, setQaCart: setCart, cartEmpty } = useApp();
+  const { qaCart: cart, setQaCart: setCart, cartEmpty } = useApp();
+
+  const [userDetails, setUserDetails] = useState(() => {
+    const storedUser = localStorage.getItem("user");
+    return storedUser ? JSON.parse(storedUser) : {};
+  });
+
   const stripe = useStripe();
   const elements = useElements();
   const [paymentStatus, setPaymentStatus] = useState("");
@@ -246,10 +252,28 @@ function CheckoutForm() {
                   bmiData: data.bmiData || null,
                 };
               }
+
+              const variants = [];
+              const products = [];
+
+              for (let item of cart) {
+                if (item.selectedVariant) {
+                  variants.push({
+                    variantId: item?.selectedVariant?.id,
+                    qty: item.quantity,
+                  });
+                } else {
+                  products.push({
+                    productId: item.id,
+                    qty: item.quantity,
+                  });
+                }
+              }
               const ordInfo = {
                 user_id: userDetails.user_id,
                 token: userDetails.token,
-                variation_ids: [cart?.[0]?.selectedVariant?.id],
+                variation_ids: variants,
+                product_ids: products,
                 questionnaire_info: JSON.stringify(questionAnswers_data),
                 payment_intent_id: paymentIntent.id,
                 billing_address: {

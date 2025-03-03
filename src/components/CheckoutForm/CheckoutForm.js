@@ -95,7 +95,6 @@ export default function Checkout() {
   const [error, setError] = useState("");
   const { showMessage } = useMessage();
   const {
-    userDetails,
     cart,
     calculateTotal,
     variantIds,
@@ -109,6 +108,11 @@ export default function Checkout() {
   const [isProcessing, setIsProcessing] = useState(false);
   const [isCheckout, setIsCheckout] = useState(false);
   const [questionAnswersdata, setquestionAnswersdata] = useState();
+  const [userDetails, setUserDetails] = useState(() => {
+    const storedUser = localStorage.getItem("user");
+    return storedUser ? JSON.parse(storedUser) : {};
+  });
+
   const [billingDetails, setBillingDetails] = useState({
     user_id: userDetails.user_id,
     token: userDetails.token,
@@ -266,10 +270,29 @@ export default function Checkout() {
             } else if (paymentIntent.status === "succeeded") {
               setPaymentStatus("Payment successful!");
               showMessage("Payment successful!", "success");
+
+              const variants = [];
+              const products = [];
+
+              for (let item of cart) {
+                if (item.selectedVariant) {
+                  variants.push({
+                    variantId: item.selectedVariant,
+                    qty: item.quantity,
+                  });
+                } else {
+                  products.push({
+                    productId: item.id,
+                    qty: item.quantity,
+                  });
+                }
+              }
+
               const ordInfo = {
                 user_id: userDetails.user_id,
                 token: userDetails.token,
-                variation_ids: variantIds,
+                variation_ids: variants,
+                product_ids: products,
                 questionAnswers_data: JSON.stringify(questionAnswersdata),
                 payment_intent_id: paymentIntent.id,
                 billing_address: {
@@ -317,6 +340,7 @@ export default function Checkout() {
             showMessage("Error creating payment intent.", "error");
           }
         } catch (error) {
+          console.log(">>>>>", error);
           showMessage("There was a problem with the payment process.", "error");
           // setPaymentStatus('There was a problem with the payment process.');
         }
@@ -862,7 +886,10 @@ export default function Checkout() {
                                 </Box>
                                 <Box>
                                   <Typography variant="h4" fontWeight={600}>
-                                    £{item.selectedVariantPrice}
+                                    £
+                                    {item.selectedVariantPrice ||
+                                      item?.price ||
+                                      0}
                                   </Typography>
                                 </Box>
                               </Box>

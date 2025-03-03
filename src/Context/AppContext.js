@@ -124,7 +124,8 @@ export const AppProvider = ({ children }) => {
         .reduce(
           (total, item) =>
             total +
-            parseFloat(item.selectedVariantPrice) * (item.quantity || 1),
+            parseFloat(item?.selectedVariantPrice || item?.price || 0) *
+              (item.quantity || 1),
           0
         )
         .toFixed(2);
