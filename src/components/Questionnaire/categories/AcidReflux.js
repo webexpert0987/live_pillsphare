@@ -42,6 +42,8 @@ function AcidRefluxQuestion() {
   const { setSelectedTab, setQuestionData } = useApp();
   const { showMessage } = useMessage();
   const [stopNext, setStopNext] = useState(false);
+  const [disabled, setDisabled] = useState(false);
+  const [currentQue, setCurrentQue] = useState("");
   const handleScroll = () => {
     setTimeout(() => {
       if (boxRef.current) {
@@ -182,6 +184,21 @@ function AcidRefluxQuestion() {
     );
   };
 
+  const handleChange = (e, condition) => {
+    const { name, value } = e.target;
+    setCurrentQue(name);
+    setAnswers({ ...answers, [name]: value });
+    if (condition === value) {
+      setDisabled(true);
+    } else {
+      setDisabled(false);
+    }
+  };
+
+  const checkDisabled = (name) => {
+    return disabled && currentQue !== name;
+  };
+
   const renderStepContent = (stepIndex) => {
     switch (stepIndex) {
       case 0:
@@ -189,7 +206,11 @@ function AcidRefluxQuestion() {
           <>
             {/* 1st Are you over 50 with any new or recently changed symptoms?  */}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("over50WithNewSymptoms")}
+            >
               <Typography variant="h4" className="labelOne">
                 Are you over 50 with any new or recently changed symptoms?
               </Typography>
@@ -197,12 +218,7 @@ function AcidRefluxQuestion() {
                 row
                 name="over50WithNewSymptoms"
                 value={answers.over50WithNewSymptoms}
-                onChange={(e) =>
-                  setAnswers({
-                    ...answers,
-                    over50WithNewSymptoms: e.target.value,
-                  })
-                }
+                onChange={(e) => handleChange(e, "Yes")}
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
@@ -212,7 +228,11 @@ function AcidRefluxQuestion() {
 
             {/* 2nd Do you experience acid reflux symptoms at least twice a week, including:  */}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("acidRefluxSymptoms")}
+            >
               <Typography variant="h4" className="labelOne">
                 Do you experience acid reflux symptoms at least twice a week,
                 including : <br></br>
@@ -229,9 +249,7 @@ function AcidRefluxQuestion() {
                 row
                 name="acidRefluxSymptoms"
                 value={answers.acidRefluxSymptoms}
-                onChange={(e) =>
-                  setAnswers({ ...answers, acidRefluxSymptoms: e.target.value })
-                }
+                onChange={(e) => handleChange(e, "No")}
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
@@ -246,7 +264,11 @@ function AcidRefluxQuestion() {
              *  vomiting blood, blood in stools or black stools,
              *  iron deficiency anemia, severe liver problems, or abdominal swelling?   *****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("difficultySwallowing")}
+            >
               <Typography variant="h4" className="labelOne">
                 Do you have any of these symptoms :
                 <ul>
@@ -262,12 +284,7 @@ function AcidRefluxQuestion() {
                 row
                 name="difficultySwallowing"
                 value={answers.difficultySwallowing}
-                onChange={(e) =>
-                  setAnswers({
-                    ...answers,
-                    difficultySwallowing: e.target.value,
-                  })
-                }
+                onChange={(e) => handleChange(e, "Yes")}
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
@@ -277,7 +294,11 @@ function AcidRefluxQuestion() {
 
             {/****** 4th Do you have a known allergy to proton pump inhibitors (e.g., omeprazole, pantoprazole)? *****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("allergyToPPIs")}
+            >
               <Typography variant="h4" className="labelOne">
                 Do you have a known allergy to proton pump inhibitors (e.g.,
                 omeprazole, pantoprazole)
@@ -286,9 +307,7 @@ function AcidRefluxQuestion() {
                 row
                 name="allergyToPPIs"
                 value={answers.allergyToPPIs}
-                onChange={(e) =>
-                  setAnswers({ ...answers, allergyToPPIs: e.target.value })
-                }
+                onChange={(e) => handleChange(e, "Yes")}
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
@@ -298,7 +317,11 @@ function AcidRefluxQuestion() {
 
             {/****** 5th.** Are you pregnant, possibly pregnant, or breastfeeding?  *****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("pregnantOrBreastfeeding")}
+            >
               <Typography variant="h4" className="labelOne">
                 Are you pregnant, possibly pregnant, or breastfeeding?
               </Typography>
@@ -306,12 +329,7 @@ function AcidRefluxQuestion() {
                 row
                 name="pregnantOrBreastfeeding"
                 value={answers.pregnantOrBreastfeeding}
-                onChange={(e) =>
-                  setAnswers({
-                    ...answers,
-                    pregnantOrBreastfeeding: e.target.value,
-                  })
-                }
+                onChange={(e) => handleChange(e, "Yes")}
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
@@ -321,7 +339,11 @@ function AcidRefluxQuestion() {
 
             {/****** 6th Do you have any of the following conditions:   *****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("otherConditions")}
+            >
               <Typography variant="h4" className="labelOne">
                 Do you have any of the following conditions:
                 <ul>
@@ -335,9 +357,7 @@ function AcidRefluxQuestion() {
                 row
                 name="otherConditions"
                 value={answers.otherConditions}
-                onChange={(e) =>
-                  setAnswers({ ...answers, otherConditions: e.target.value })
-                }
+                onChange={(e) => handleChange(e, "Yes")}
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
@@ -348,7 +368,11 @@ function AcidRefluxQuestion() {
             {/****** 7th  Have you experienced a ring-shaped or plaque-shaped rash after
              * sun exposure while taking a proton pump inhibitor?  *****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("rashAfterPPIs")}
+            >
               <Typography variant="h4" className="labelOne">
                 Have you experienced a ring-shaped or plaque-shaped rash after
                 sun exposure while taking a proton pump inhibitor?
@@ -357,12 +381,7 @@ function AcidRefluxQuestion() {
                 row
                 name="rashAfterPPIs"
                 value={answers.rashAfterPPIs}
-                onChange={(e) =>
-                  setAnswers({
-                    ...answers,
-                    rashAfterPPIs: e.target.value,
-                  })
-                }
+                onChange={(e) => handleChange(e, "Yes")}
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
@@ -372,7 +391,11 @@ function AcidRefluxQuestion() {
 
             {/****** 8th  Are you taking any medication, including over-the-counter, prescription, or recreational drugs?  *****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("takingMedications")}
+            >
               <Typography variant="h4" className="labelOne">
                 Are you taking any medication, including over-the-counter,
                 prescription, or recreational drugs?
@@ -382,9 +405,7 @@ function AcidRefluxQuestion() {
                 row
                 name="takingMedications" //
                 value={answers.takingMedications || ""}
-                onChange={(e) =>
-                  setAnswers({ ...answers, takingMedications: e.target.value })
-                }
+                onChange={(e) => handleChange(e, "Yes")}
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
@@ -394,7 +415,11 @@ function AcidRefluxQuestion() {
 
             {/****** 9th Are you on any of the following medications? *****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("onSteroids")}
+            >
               <Typography variant="h4" className="labelOne">
                 Are you on any of the following medications?
                 <ul>
@@ -420,12 +445,7 @@ function AcidRefluxQuestion() {
                 row
                 name="onSteroids"
                 value={answers.onSteroids || ""} // Prevents undefined errors
-                onChange={(e) =>
-                  setAnswers({
-                    ...answers,
-                    onSteroids: e.target.value,
-                  })
-                }
+                onChange={(e) => handleChange(e, "Yes")}
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
@@ -439,7 +459,11 @@ function AcidRefluxQuestion() {
                      - Use the treatment for personal use only
                      - Provide accurate and truthful answers for safe prescribing  *****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("healthyLifestyle")}
+            >
               <Typography variant="h4" className="labelOne">
                 Do you agree to :
                 <ul>
@@ -460,12 +484,7 @@ function AcidRefluxQuestion() {
                 row
                 name="healthyLifestyle"
                 value={answers.healthyLifestyle || ""} // Prevents undefined errors
-                onChange={(e) =>
-                  setAnswers({
-                    ...answers,
-                    healthyLifestyle: e.target.value,
-                  })
-                }
+                onChange={(e) => handleChange(e, "No")}
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
@@ -476,7 +495,11 @@ function AcidRefluxQuestion() {
             {/* 11th Do you understand that maintaining a healthy diet, reducing alcohol intake, 
           achieving a healthy weight, and stopping smoking can improve symptoms?   */}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("shortTermUse")}
+            >
               <Typography variant="h4" className="labelOne">
                 Do you understand that maintaining a healthy diet, reducing
                 alcohol intake, achieving a healthy weight, and stopping smoking
@@ -487,12 +510,7 @@ function AcidRefluxQuestion() {
                 row
                 name="shortTermUse"
                 value={answers.shortTermUse || ""} // Prevents undefined errors
-                onChange={(e) =>
-                  setAnswers({
-                    ...answers,
-                    shortTermUse: e.target.value,
-                  })
-                }
+                onChange={(e) => handleChange(e, "No")}
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
@@ -503,7 +521,11 @@ function AcidRefluxQuestion() {
             {/* 12th Do you agree to use this medication for the short-term treatment of GORD 
             (heartburn/acid indigestion) for up to 28 days only?   */}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("contactGP")}
+            >
               <Typography variant="h4" className="labelOne">
                 Do you agree to use this medication for the short-term treatment
                 of GORD (heartburn/acid indigestion) for up to 28 days only?
@@ -513,12 +535,7 @@ function AcidRefluxQuestion() {
                 row
                 name="contactGP"
                 value={answers.contactGP || ""} // Prevents undefined errors
-                onChange={(e) =>
-                  setAnswers({
-                    ...answers,
-                    contactGP: e.target.value,
-                  })
-                }
+                onChange={(e) => handleChange(e, "No")}
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
@@ -529,7 +546,11 @@ function AcidRefluxQuestion() {
             {/* 13th Do you agree to contact your GP if you have no symptom 
               relief after 14 days or if symptoms persist beyond 28 days?   */}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("agree")}
+            >
               <Typography variant="h4" className="labelOne">
                 Do you agree to contact your GP if you have no symptom relief
                 after 14 days or if symptoms persist beyond 28 days?
@@ -539,12 +560,7 @@ function AcidRefluxQuestion() {
                 row
                 name="agree"
                 value={answers.agree || ""} // Prevents undefined errors
-                onChange={(e) =>
-                  setAnswers({
-                    ...answers,
-                    agree: e.target.value,
-                  })
-                }
+                onChange={(e) => handleChange(e, "No")}
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
@@ -692,6 +708,7 @@ function AcidRefluxQuestion() {
                 sx={{
                   fontSize: { xs: "13px", sm: "15px", md: "16px" },
                 }}
+                disabled={disabled}
               >
                 Next
               </Button>
