@@ -52,6 +52,9 @@ function HighFeverQuestion() {
   const boxRef = useRef(null);
   const { setSelectedTab } = useApp();
   const { showMessage } = useMessage();
+  const [disabled, setDisabled] = useState(false);
+  const [currentQue, setCurrentQue] = useState("");
+
   const handleScroll = () => {
     setTimeout(() => {
       if (boxRef.current) {
@@ -151,6 +154,21 @@ function HighFeverQuestion() {
     handleScroll();
   };
 
+  const handleChange = (e, condition) => {
+    const { name, value } = e.target;
+    setCurrentQue(name);
+    setAnswers({ ...answers, [name]: value });
+    if (condition === value) {
+      setDisabled(true);
+    } else {
+      setDisabled(false);
+    }
+  };
+
+  const checkDisabled = (name) => {
+    return disabled && currentQue !== name;
+  };
+
   const handleSubmit = () => {
     if (!answers.agreeToTerms) {
       showMessage(
@@ -187,13 +205,15 @@ function HighFeverQuestion() {
           <>
             {/****** Are you aged between 17-74 years *****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox"  disabled={checkDisabled("fullName")}>
               <Typography variant="h4" className="labelOne">
                 Whats is your full name?
               </Typography>
               <TextField
                 label="Full Name"
+                disabled={checkDisabled("fullName")}
                 variant="outlined"
+                name="fullName"
                 value={answers.fullName}
                 onChange={(e) =>
                   setAnswers({ ...answers, fullName: e.target.value })
@@ -202,13 +222,15 @@ function HighFeverQuestion() {
               />
             </FormControl>
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox"  disabled={checkDisabled("medicationDetails")}>
               <Typography variant="h4" className="labelOne">
                 Are you purchasing this medication for personal use?
               </Typography>
               <TextField
                 label="Your answer"
                 variant="outlined"
+                disabled={checkDisabled("medicationDetails")}
+                name="medicationDetails"
                 value={answers.medicationDetails}
                 onChange={(e) =>
                   setAnswers({ ...answers, medicationDetails: e.target.value })
@@ -216,7 +238,7 @@ function HighFeverQuestion() {
                 fullWidth
               />
             </FormControl>
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox"  disabled={checkDisabled("agedBetween")}>
               <Typography variant="h4" className="labelOne">
                 Are you 18 years of age or older?
               </Typography>
@@ -233,7 +255,7 @@ function HighFeverQuestion() {
               </RadioGroup>
             </FormControl>
             {/* .......... */}
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox" disabled={checkDisabled("pregnancyDetails")}>
               <Typography variant="h4" className="labelOne">
                 Are you currently pregnant, breastfeeding, or planning a
                 pregnancy? (If yes, please provide more details.)
@@ -252,6 +274,7 @@ function HighFeverQuestion() {
               {answers.pregnancyDetails === "Yes" && (
                 <TextField
                   multiline
+                  disabled={checkDisabled("additionalDetails")}
                   line={3}
                   value={answers.additionalDetails}
                   onChange={(e) =>
@@ -266,7 +289,7 @@ function HighFeverQuestion() {
               )}
             </FormControl>
             {/* ....... */}
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox" disabled={checkDisabled("smokeDetails")}>
               <Typography variant="h4" className="labelOne">
                 Do you smoke?
               </Typography>
@@ -310,7 +333,7 @@ function HighFeverQuestion() {
               )}
             </FormControl>
             {/* ............... */}
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox" disabled={checkDisabled("alcohalDetails")}>
               <Typography variant="h4" className="labelOne">
                 Do you consume alcohal ?
               </Typography>
@@ -356,7 +379,7 @@ function HighFeverQuestion() {
               )}
             </FormControl>
             {/* ................. */}
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox" disabled={checkDisabled("weightDetails")}>
               <Typography variant="h4" className="labelOne">
                 Are you overweight?
               </Typography>
@@ -403,7 +426,7 @@ function HighFeverQuestion() {
             </FormControl>
             {/* ......... */}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox" disabled={checkDisabled("allergicDetails")}>
               <Typography variant="h4" className="labelOne">
                 Are you experiencing allergic rhinitis or hayfever?
               </Typography>
@@ -422,7 +445,7 @@ function HighFeverQuestion() {
 
             {/* ......... */}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox"  disabled={checkDisabled("allergicDetails")}>
               <Typography variant="h4" className="labelOne">
                 Which of the following symptoms do you have? (List options like
                 sneezing, runny nose, etc.) Here’s a shuffled version of the
@@ -466,13 +489,14 @@ function HighFeverQuestion() {
             </FormControl>
             {/* ......... */}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox"  disabled={checkDisabled("currentSymptoms")}>
               <Typography variant="h4" className="labelOne">
                 Are your current symptoms different from previous
                 hayfever/allergic rhinitis episodes?
               </Typography>
               <RadioGroup
                 row
+
                 name="currentSymptoms"
                 value={answers.currentSymptoms}
                 onChange={(e) =>
@@ -487,6 +511,7 @@ function HighFeverQuestion() {
                   <Typography>Please Provide More details</Typography>
                   <TextField
                     multiline
+                    disabled={checkDisabled("currentSymptomsDetails")}
                     line={3}
                     value={answers.currentSymptomsDetails}
                     onChange={(e) =>
@@ -502,7 +527,7 @@ function HighFeverQuestion() {
               )}
             </FormControl>
             {/* ................ */}
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox"  disabled={checkDisabled("otherTreatment")}>
               <Typography variant="h4" className="labelOne">
                 Have you previously tried other treatments for hayfever or
                 allergic rhinitis?
@@ -522,6 +547,7 @@ function HighFeverQuestion() {
                 <>
                   <Typography>Please Provide More details</Typography>
                   <TextField
+                  disabled={checkDisabled("otherTreatmentDetails")}
                     multiline
                     line={3}
                     value={answers.otherTreatmentDetails}
@@ -539,7 +565,7 @@ function HighFeverQuestion() {
             </FormControl>
             {/* ......... */}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox" disabled={checkDisabled("otherTreatment")}>
               <Typography variant="h4" className="labelOne">
                 Do you have any of the following additional symptoms? (List
                 specific symptoms like nasal pain, eye discomfort, etc.)
@@ -586,7 +612,7 @@ function HighFeverQuestion() {
             </FormControl>
 
             {/* ................ */}
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox" disabled={checkDisabled("liverIssue")}>
               <Typography variant="h4" className="labelOne">
                 Do you have any liver or kidney conditions?
               </Typography>
@@ -604,7 +630,7 @@ function HighFeverQuestion() {
             </FormControl>
 
             {/* ................ */}
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox" disabled={checkDisabled("otherConditions")}>
               <Typography variant="h4" className="labelOne">
                 Do you have other medical conditions or past surgeries?
               </Typography>
@@ -623,6 +649,7 @@ function HighFeverQuestion() {
                 <>
                   <Typography>Please Provide More details</Typography>
                   <TextField
+                  disabled={checkDisabled("otherConditionsDetails")}
                     multiline
                     line={3}
                     value={answers.otherConditionsDetails}
@@ -640,7 +667,7 @@ function HighFeverQuestion() {
             </FormControl>
 
             {/* ................ */}
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox" disabled={checkDisabled("currentMedication")}>
               <Typography variant="h4" className="labelOne">
                 Are you currently or recently taking any medications, including
                 prescription, over-the-counter, herbal, or recreational drugs?
@@ -661,6 +688,7 @@ function HighFeverQuestion() {
                   <Typography>Please Provide More details</Typography>
                   <TextField
                     multiline
+                    disabled={checkDisabled("currentMedicationDetails")}
                     line={3}
                     value={answers.currentMedicationDetails}
                     onChange={(e) =>
@@ -677,7 +705,7 @@ function HighFeverQuestion() {
             </FormControl>
 
             {/* ................ */}
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox"  disabled={checkDisabled("otherAllergy")}>
               <Typography variant="h4" className="labelOne">
                 Do you have any allergies to medications or other substances
                 (e.g., peanuts, soy)?
@@ -697,6 +725,7 @@ function HighFeverQuestion() {
                 <>
                   <Typography>Please Provide More details</Typography>
                   <TextField
+                  disabled={checkDisabled("otherAllergyDetails")}
                     multiline
                     line={3}
                     value={answers.otherAllergyDetails}
@@ -714,7 +743,7 @@ function HighFeverQuestion() {
             </FormControl>
 
             {/* ................ */}
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox" disabled={checkDisabled("gpDetails")}>
               <Typography variant="h4" className="labelOne">
                 Would you like us to inform your GP about your treatment?
               </Typography>
@@ -732,7 +761,7 @@ function HighFeverQuestion() {
             </FormControl>
 
             {/* ................ */}
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox" disabled={checkDisabled("agreedTC")}>
               <Typography variant="h4" className="labelOne">
                 Do you agree to follow the patient information, use the
                 treatment solely for personal use, and understand that incorrect
@@ -786,7 +815,7 @@ function HighFeverQuestion() {
             </FormControl>
 
             {/* ................ */}
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox" disabled={checkDisabled("confirmTC")}>
               <Typography variant="h4" className="labelOne">
                 I confirm I have read all the information in this questionnaire
                 and will follow the advice in the patient information leaflet
@@ -797,7 +826,7 @@ function HighFeverQuestion() {
                 name="confirmTC"
                 value={answers.confirmTC}
                 onChange={(e) =>
-                  setAnswers({ ...answers, confirmTC: e.target.value })
+                 handleChange(e,"No")
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />

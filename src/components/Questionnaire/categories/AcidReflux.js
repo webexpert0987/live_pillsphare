@@ -44,6 +44,7 @@ function AcidRefluxQuestion() {
   const [stopNext, setStopNext] = useState(false);
   const [disabled, setDisabled] = useState(false);
   const [currentQue, setCurrentQue] = useState("");
+
   const handleScroll = () => {
     setTimeout(() => {
       if (boxRef.current) {

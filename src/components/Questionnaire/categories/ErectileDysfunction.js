@@ -39,6 +39,7 @@ function ErectileDysfunctionQuestionnaire() {
     hasPreviousHealthConditions: "",
     takesNitratesOrNitricOxideDonors: "",
     takesOtherMedications: "",
+    takesOtherMedicationsCheckbox: "",
     understandsUnderlyingConditions: "",
     agreesToSeekHelpForProlongedErection: "",
     agreesToConditions: "",
@@ -47,6 +48,9 @@ function ErectileDysfunctionQuestionnaire() {
   const boxRef = useRef(null);
   const { setSelectedTab } = useApp();
   const { showMessage } = useMessage();
+  const [disabled, setDisabled] = useState(false);
+  const [currentQue, setCurrentQue] = useState("");
+
   const handleScroll = () => {
     setTimeout(() => {
       if (boxRef.current) {
@@ -85,6 +89,7 @@ function ErectileDysfunctionQuestionnaire() {
         "hasPreviousHealthConditions",
         "takesNitratesOrNitricOxideDonors",
         "takesOtherMedications",
+        // "takesOtherMedicationsCheckbox",
         "understandsUnderlyingConditions",
         "agreesToSeekHelpForProlongedErection",
         "agreesToConditions",
@@ -152,6 +157,21 @@ function ErectileDysfunctionQuestionnaire() {
     handleScroll();
   };
 
+  const handleChange = (e, condition) => {
+    const { name, value } = e.target;
+    setCurrentQue(name);
+    setQuestionnaireResponses({ ...questionnaireResponses, [name]: value });
+    if (condition === value) {
+      setDisabled(true);
+    } else {
+      setDisabled(false);
+    }
+  };
+
+  const checkDisabled = (name) => {
+    return disabled && currentQue !== name;
+  };
+
   const handleSubmit = () => {
     if (!questionnaireResponses.agreesToTerms) {
       showMessage(
@@ -188,7 +208,7 @@ function ErectileDysfunctionQuestionnaire() {
           <>
             {/****** Are you aged between 18-75 years *****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox" disabled={checkDisabled("isAgedBetween18And75")}>
               <Typography variant="h4" className="labelOne">
                 Are you aged between 18-75 years ?
               </Typography>
@@ -197,10 +217,7 @@ function ErectileDysfunctionQuestionnaire() {
                 name="isAgedBetween18And75"
                 value={questionnaireResponses.isAgedBetween18And75}
                 onChange={(e) =>
-                  setQuestionnaireResponses({
-                    ...questionnaireResponses,
-                    isAgedBetween18And75: e.target.value,
-                  })
+                 handleChange(e,"No")
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
@@ -218,7 +235,7 @@ function ErectileDysfunctionQuestionnaire() {
 
             {/****** 2.	Do you smoke? *****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox"  disabled={checkDisabled("isSmoker")}>
               <Typography variant="h4" className="labelOne">
                 Do you smoke?
               </Typography>
@@ -240,7 +257,7 @@ function ErectileDysfunctionQuestionnaire() {
 
             {/****** 3.	Do you consume alcohol?*****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox" disabled={checkDisabled("consumesAlcohol")}>
               <Typography variant="h4" className="labelOne">
                 Do you consume alcohol?
               </Typography>
@@ -272,7 +289,7 @@ function ErectileDysfunctionQuestionnaire() {
 
             {/****** 4.	Have you taken any of the following medications for erectile dysfunction (at least 4 times previously) without experiencing any adverse effects? *****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox" disabled={checkDisabled("hasTakenEDMedicationsBefore")}>
               <Typography variant="h4" className="labelOne">
                 Have you taken any of the following medications for erectile
                 dysfunction (at least 4 times previously) without experiencing
@@ -303,7 +320,7 @@ function ErectileDysfunctionQuestionnaire() {
 
             {/****** 5.	Do you have difficulty achieving or maintaining an erection?*****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox"  disabled={checkDisabled("hasErectionDifficulties")}>
               <Typography variant="h4" className="labelOne">
                 Do you have difficulty achieving or maintaining an erection?
               </Typography>
@@ -312,10 +329,7 @@ function ErectileDysfunctionQuestionnaire() {
                 name="hasErectionDifficulties"
                 value={questionnaireResponses.hasErectionDifficulties}
                 onChange={(e) =>
-                  setQuestionnaireResponses({
-                    ...questionnaireResponses,
-                    hasErectionDifficulties: e.target.value,
-                  })
+                 handleChange(e,"No")
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
@@ -336,7 +350,7 @@ function ErectileDysfunctionQuestionnaire() {
 
             {/****** 6.	Do you have high blood pressure (above 160/90) or are you currently receiving treatment for high blood pressure? *****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox"  disabled={checkDisabled("hasHighBloodPressure")}>
               <Typography variant="h4" className="labelOne">
                 Do you have high blood pressure (above 160/90) or are you
                 currently receiving treatment for high blood pressure?
@@ -348,10 +362,7 @@ function ErectileDysfunctionQuestionnaire() {
                 name="hasHighBloodPressure"
                 value={questionnaireResponses.hasHighBloodPressure}
                 onChange={(e) =>
-                  setQuestionnaireResponses({
-                    ...questionnaireResponses,
-                    hasHighBloodPressure: e.target.value,
-                  })
+               handleChange(e,"Yes")
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
@@ -372,7 +383,7 @@ function ErectileDysfunctionQuestionnaire() {
 
             {/******7.	Do you have low blood pressure (below 90/50)? *****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox" disabled={checkDisabled("hasLowBloodPressure")}>
               <Typography variant="h4" className="labelOne">
                 Do you have low blood pressure (below 90/50)?
                 <br></br>(If unsure, you can have your blood pressure measured
@@ -383,10 +394,7 @@ function ErectileDysfunctionQuestionnaire() {
                 name="hasLowBloodPressure"
                 value={questionnaireResponses.hasLowBloodPressure}
                 onChange={(e) =>
-                  setQuestionnaireResponses({
-                    ...questionnaireResponses,
-                    hasLowBloodPressure: e.target.value,
-                  })
+                handleChange(e,"Yes")
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
@@ -407,7 +415,7 @@ function ErectileDysfunctionQuestionnaire() {
 
             {/****** 8.	Do you have difficulty walking briskly for 5 minutes? *****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox"  disabled={checkDisabled("hasDifficultyWalking")}>
               <Typography variant="h4" className="labelOne">
                 Do you have difficulty walking briskly for 5 minutes?
               </Typography>
@@ -416,10 +424,7 @@ function ErectileDysfunctionQuestionnaire() {
                 name="hasDifficultyWalking"
                 value={questionnaireResponses.hasDifficultyWalking}
                 onChange={(e) =>
-                  setQuestionnaireResponses({
-                    ...questionnaireResponses,
-                    hasDifficultyWalking: e.target.value,
-                  })
+               handleChange(e,"Yes")
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
@@ -437,7 +442,7 @@ function ErectileDysfunctionQuestionnaire() {
 
             {/****** 9.	Have you been advised by a doctor to avoid strenuous exercise? *****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox"  disabled={checkDisabled("advisedAgainstStrenuousExercise")}>
               <Typography variant="h4" className="labelOne">
                 Have you been advised by a doctor to avoid strenuous exercise?
               </Typography>
@@ -446,10 +451,7 @@ function ErectileDysfunctionQuestionnaire() {
                 name="advisedAgainstStrenuousExercise"
                 value={questionnaireResponses.advisedAgainstStrenuousExercise}
                 onChange={(e) =>
-                  setQuestionnaireResponses({
-                    ...questionnaireResponses,
-                    advisedAgainstStrenuousExercise: e.target.value,
-                  })
+               handleChange(e,"Yes")
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
@@ -468,7 +470,7 @@ function ErectileDysfunctionQuestionnaire() {
 
             {/******10.	Do you suffer from depression but have not yet consulted a GP? *****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox"  disabled={checkDisabled("hasUntreatedDepression")}>
               <Typography variant="h4" className="labelOne">
                 Do you suffer from depression but have not yet consulted a GP?
               </Typography>
@@ -477,10 +479,7 @@ function ErectileDysfunctionQuestionnaire() {
                 name="hasUntreatedDepression"
                 value={questionnaireResponses.hasUntreatedDepression}
                 onChange={(e) =>
-                  setQuestionnaireResponses({
-                    ...questionnaireResponses,
-                    hasUntreatedDepression: e.target.value,
-                  })
+              handleChange(e,"Yes")
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
@@ -498,7 +497,7 @@ function ErectileDysfunctionQuestionnaire() {
 
             {/*****11.	Do you have any allergies to Viagra (sildenafil), Levitra (vardenafil), Spedra (avanafil), Cialis (tadalafil), or any other erectile dysfunction medication? Or have you experienced any adverse reactions to these medications in the past?******/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox"  disabled={checkDisabled("hasAllergiesOrAdverseReactions")}>
               <Typography variant="h4" className="labelOne">
                 Do you have any allergies to Viagra (sildenafil), Levitra
                 (vardenafil), Spedra (avanafil), Cialis (tadalafil), or any
@@ -510,10 +509,7 @@ function ErectileDysfunctionQuestionnaire() {
                 name="hasAllergiesOrAdverseReactions"
                 value={questionnaireResponses.hasAllergiesOrAdverseReactions}
                 onChange={(e) =>
-                  setQuestionnaireResponses({
-                    ...questionnaireResponses,
-                    hasAllergiesOrAdverseReactions: e.target.value,
-                  })
+           handleChange(e,"Yes")
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
@@ -532,7 +528,7 @@ function ErectileDysfunctionQuestionnaire() {
 
             {/*****12.	Have you ever had any of the following health conditions?******/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox"  disabled={checkDisabled("hasPreviousHealthConditions")}>
               <Typography variant="h4" className="labelOne">
                 Have you ever had any of the following health conditions?
                 <ul>
@@ -573,10 +569,7 @@ function ErectileDysfunctionQuestionnaire() {
                 name="hasPreviousHealthConditions"
                 value={questionnaireResponses.hasPreviousHealthConditions}
                 onChange={(e) =>
-                  setQuestionnaireResponses({
-                    ...questionnaireResponses,
-                    hasPreviousHealthConditions: e.target.value,
-                  })
+                  handleChange(e,"Yes")
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
@@ -594,7 +587,7 @@ function ErectileDysfunctionQuestionnaire() {
 
             {/*****13.	Are you currently taking any of the following medications?******/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox"  disabled={checkDisabled("takesNitratesOrNitricOxideDonors")}>
               <Typography variant="h4" className="labelOne">
                 Are you currently taking any of the following medications?
                 <ul>
@@ -610,10 +603,7 @@ function ErectileDysfunctionQuestionnaire() {
                 name="takesNitratesOrNitricOxideDonors"
                 value={questionnaireResponses.takesNitratesOrNitricOxideDonors}
                 onChange={(e) =>
-                  setQuestionnaireResponses({
-                    ...questionnaireResponses,
-                    takesNitratesOrNitricOxideDonors: e.target.value,
-                  })
+         handleChange(e,"Yes")
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
@@ -634,7 +624,7 @@ function ErectileDysfunctionQuestionnaire() {
             </FormControl>
             {/*****14.Are you currently taking any other medication (including prescription, over-the-counter, or recreational drugs)?******/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox"  disabled={checkDisabled("takesOtherMedications")}>
               <Typography variant="h4" className="labelOne">
                 Are you currently taking any other medication (including
                 prescription, over-the-counter, or recreational drugs)?
@@ -654,7 +644,7 @@ function ErectileDysfunctionQuestionnaire() {
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
               {questionnaireResponses.takesOtherMedications === "Yes" && (
-                <FormControl component="fieldset" className="QuestionBox">
+                <FormControl component="fieldset" className="QuestionBox"  disabled={checkDisabled("takesOtherMedicationsCheckbox")}>
                   {[
                     "Diabetes",
                     "High blood pressure",
@@ -670,6 +660,7 @@ function ErectileDysfunctionQuestionnaire() {
                     <FormControlLabel
                       className="checkbox2Col"
                       key={index}
+                      name="takesOtherMedicationsCheckbox"
                       control={
                         <Checkbox
                           checked={questionnaireResponses.conditions?.includes(
@@ -705,7 +696,7 @@ function ErectileDysfunctionQuestionnaire() {
             </FormControl>
             {/*****15.	Do you understand that erectile dysfunction may be related to underlying health conditions (e.g., hypertension, diabetes, high cholesterol, cardiovascular disease)? You should consult your doctor within 6 months of starting treatment for a clinical review.******/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox"  disabled={checkDisabled("understandsUnderlyingConditions")}>
               <Typography variant="h4" className="labelOne">
                 Do you understand that erectile dysfunction may be related to
                 underlying health conditions (e.g., hypertension, diabetes, high
@@ -718,10 +709,7 @@ function ErectileDysfunctionQuestionnaire() {
                 name="understandsUnderlyingConditions"
                 value={questionnaireResponses.understandsUnderlyingConditions}
                 onChange={(e) =>
-                  setQuestionnaireResponses({
-                    ...questionnaireResponses,
-                    understandsUnderlyingConditions: e.target.value,
-                  })
+                handleChange(e,"No")
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
@@ -738,7 +726,7 @@ function ErectileDysfunctionQuestionnaire() {
 
             {/*****16.	In the rare event of obtaining a prolonged erection lasting more than 4 hours, or experiencing sudden visual impairment, I agree to seek immediate medical assistance?******/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox" disabled={checkDisabled("agreesToSeekHelpForProlongedErection")}>
               <Typography variant="h4" className="labelOne">
                 In the rare event of obtaining a prolonged erection lasting more
                 than 4 hours, or experiencing sudden visual impairment, I agree
@@ -751,10 +739,7 @@ function ErectileDysfunctionQuestionnaire() {
                   questionnaireResponses.agreesToSeekHelpForProlongedErection
                 }
                 onChange={(e) =>
-                  setQuestionnaireResponses({
-                    ...questionnaireResponses,
-                    agreesToSeekHelpForProlongedErection: e.target.value,
-                  })
+                  handleChange(e,"No")
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
@@ -771,7 +756,7 @@ function ErectileDysfunctionQuestionnaire() {
 
             {/*****17.	Do you agree to the following conditions?******/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox" disabled={checkDisabled("agreesToConditions")}>
               <Typography variant="h4" className="labelOne">
                 Do you agree to the following conditions?
                 <ul>
@@ -798,10 +783,7 @@ function ErectileDysfunctionQuestionnaire() {
                 name="agreesToConditions"
                 value={questionnaireResponses.agreesToConditions}
                 onChange={(e) =>
-                  setQuestionnaireResponses({
-                    ...questionnaireResponses,
-                    agreesToConditions: e.target.value,
-                  })
+                  handleChange(e,"No")
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
@@ -817,7 +799,7 @@ function ErectileDysfunctionQuestionnaire() {
 
             {/*****18.	I confirm that I am over 18 years old and I agree to the terms and conditions.******/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox" disabled={checkDisabled("confirmsAgeAndAgreesToTerms")}>
               <Typography variant="h4" className="labelOne">
                 I confirm that I am over 18 years old and I agree to the terms
                 and conditions.

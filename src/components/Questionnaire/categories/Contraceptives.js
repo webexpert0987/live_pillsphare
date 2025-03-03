@@ -45,6 +45,9 @@ function ContraceptivesQuestion() {
   const boxRef = useRef(null);
   const { setSelectedTab } = useApp();
   const { showMessage } = useMessage();
+  const [disabled, setDisabled] = useState(false);
+  const [currentQue, setCurrentQue] = useState("");
+
   const handleScroll = () => {
     setTimeout(() => {
       if (boxRef.current) {
@@ -187,6 +190,21 @@ function ContraceptivesQuestion() {
     );
   };
 
+  const handleChange = (e, condition) => {
+    const { name, value } = e.target;
+    setCurrentQue(name);
+    setAnswers({ ...answers, [name]: value });
+    if (condition === value) {
+      setDisabled(true);
+    } else {
+      setDisabled(false);
+    }
+  };
+
+  const checkDisabled = (name) => {
+    return disabled && currentQue !== name;
+  };
+
   const renderStepContent = (stepIndex) => {
     switch (stepIndex) {
       //============= Step 01 =============//
@@ -195,7 +213,11 @@ function ContraceptivesQuestion() {
           <>
             {/****** 1st	Are you pregnant, breastfeeding, trying to conceive, or have you given birth in the last six weeks? *****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("pregnancyStatus")}
+            >
               <Typography variant="h4" className="labelOne">
                 Are you pregnant, breastfeeding, trying to conceive, or have you
                 given birth in the last six weeks?
@@ -204,9 +226,7 @@ function ContraceptivesQuestion() {
                 row
                 name="pregnancyStatus"
                 value={answers.pregnancyStatus}
-                onChange={(e) =>
-                  setAnswers({ ...answers, pregnancyStatus: e.target.value })
-                }
+                onChange={(e) => handleChange(e, "Yes")}
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
@@ -216,7 +236,11 @@ function ContraceptivesQuestion() {
 
             {/****** 2nd Are you currently using any form of contraception, such as the pill?*****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("contraceptionUsage")}
+            >
               <Typography variant="h4" className="labelOne">
                 Are you currently using any form of contraception, such as the
                 pill?
@@ -225,9 +249,7 @@ function ContraceptivesQuestion() {
                 row
                 name="contraceptionUsage"
                 value={answers.contraceptionUsage}
-                onChange={(e) =>
-                  setAnswers({ ...answers, contraceptionUsage: e.target.value })
-                }
+                onChange={(e) => handleChange(e, "")}
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
@@ -238,6 +260,7 @@ function ContraceptivesQuestion() {
                   label="Write here"
                   type="text"
                   value={answers.contraceptionUsageInfo}
+                  required
                   onChange={(e) =>
                     setAnswers({
                       ...answers,
@@ -250,7 +273,11 @@ function ContraceptivesQuestion() {
 
             {/******3rd	Have you previously used a contraceptive pill?*****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("previousContraceptivePill")}
+            >
               <Typography variant="h4" className="labelOne">
                 Have you previously used a contraceptive pill?
               </Typography>
@@ -258,12 +285,10 @@ function ContraceptivesQuestion() {
                 row
                 name="previousContraceptivePill"
                 value={answers.previousContraceptivePill}
-                onChange={(e) =>
-                  setAnswers({
-                    ...answers,
-                    previousContraceptivePill: e.target.value,
-                  })
-                }
+                onChange={(e) => setAnswers({
+                  ...answers,
+                  previousContraceptivePill: e.target.value,
+                })}
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
@@ -273,6 +298,7 @@ function ContraceptivesQuestion() {
                   name="previousContraceptivePillInfo"
                   label="Write here"
                   type="text"
+                  disabled={checkDisabled("previousContraceptivePillInfo")}
                   value={answers.previousContraceptivePillInfo}
                   onChange={(e) =>
                     setAnswers({
@@ -286,7 +312,11 @@ function ContraceptivesQuestion() {
 
             {/******	What is your blood pressure? *****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("bloodPressure")}
+            >
               <Typography variant="h4" className="labelOne">
                 What is your blood pressure?
               </Typography>
@@ -294,9 +324,10 @@ function ContraceptivesQuestion() {
                 name="bloodPressure"
                 label="Blood-Pressure"
                 type="number"
+                disabled={checkDisabled("bloodPressure")}
                 value={answers.bloodPressure}
                 onChange={(e) =>
-                  setAnswers({ ...answers, bloodPressure: e.target.value })
+                  handleChange(e, answers.bloodPressure > 140 ? "Yes" : "No")
                 }
               />
 
@@ -305,8 +336,12 @@ function ContraceptivesQuestion() {
 
             {/****** Have you had a cervical cancer screening test in the past 3-5 years? Yes/no  *****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
-              <Typography variant="h4" className="labelOne">
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("cervicalCancerScreening")}
+            >
+              <Typography variant="h4" className="labelOne" >
                 Have you had a cervical cancer screening test in the past 3-5
                 years?
               </Typography>
@@ -314,12 +349,7 @@ function ContraceptivesQuestion() {
                 row
                 name="cervicalCancerScreening"
                 value={answers.cervicalCancerScreening}
-                onChange={(e) =>
-                  setAnswers({
-                    ...answers,
-                    cervicalCancerScreening: e.target.value,
-                  })
-                }
+                onChange={(e) => handleChange(e, "No")}
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
@@ -336,7 +366,11 @@ function ContraceptivesQuestion() {
 
             {/******	Have you or any immediate family member been diagnosed with any of the following health conditions? *****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("diagnosedConditions")}
+            >
               <Typography variant="h4" className="labelOne">
                 Have you or any immediate family member been diagnosed with any
                 of the following health conditions?
@@ -368,12 +402,7 @@ function ContraceptivesQuestion() {
                 row
                 name="diagnosedConditions"
                 value={answers.diagnosedConditions}
-                onChange={(e) =>
-                  setAnswers({
-                    ...answers,
-                    diagnosedConditions: e.target.value,
-                  })
-                }
+                onChange={(e) => handleChange(e, "Yes")}
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
@@ -384,7 +413,11 @@ function ContraceptivesQuestion() {
 
             {/****** Are you currently taking any of the following medications? *****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("currentMedications")}
+            >
               <Typography variant="h4" className="labelOne">
                 Are you currently taking any of the following medications?
                 <ul>
@@ -400,9 +433,7 @@ function ContraceptivesQuestion() {
                 row
                 name="currentMedications"
                 value={answers.currentMedications}
-                onChange={(e) =>
-                  setAnswers({ ...answers, currentMedications: e.target.value })
-                }
+                onChange={(e) => handleChange(e, "")}
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
@@ -425,7 +456,11 @@ function ContraceptivesQuestion() {
 
             {/******	Have you undergone any surgery in the past 12 months, or are you currently immobile? *****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("recentSurgery")}
+            >
               <Typography variant="h4" className="labelOne">
                 Have you undergone any surgery in the past 12 months, or are you
                 currently immobile?
@@ -434,9 +469,7 @@ function ContraceptivesQuestion() {
                 row
                 name="recentSurgery"
                 value={answers.recentSurgery}
-                onChange={(e) =>
-                  setAnswers({ ...answers, recentSurgery: e.target.value })
-                }
+                onChange={(e) => handleChange(e, "Yes")}
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
@@ -446,7 +479,11 @@ function ContraceptivesQuestion() {
 
             {/******	Do you experience any unexpected or unusual vaginal bleeding (e.g., bleeding between periods, after sex, very heavy or painful periods)?*****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("unusualBleeding")}
+            >
               <Typography variant="h4" className="labelOne">
                 Do you experience any unexpected or unusual vaginal bleeding
                 (e.g., bleeding between periods, after sex, very heavy or
@@ -456,9 +493,7 @@ function ContraceptivesQuestion() {
                 row
                 name="unusualBleeding"
                 value={answers.unusualBleeding}
-                onChange={(e) =>
-                  setAnswers({ ...answers, unusualBleeding: e.target.value })
-                }
+                onChange={(e) => handleChange(e, "Yes")}
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
@@ -468,7 +503,11 @@ function ContraceptivesQuestion() {
 
             {/******	Do you feel vulnerable or under pressure to obtain treatment? *****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("feelingVulnerable")}
+            >
               <Typography variant="h4" className="labelOne">
                 Do you feel vulnerable or under pressure to obtain treatment?
               </Typography>
@@ -492,7 +531,11 @@ function ContraceptivesQuestion() {
 
             {/******	Are you currently taking or have you recently stopped any prescription, over-the-counter, herbal medications, or recreational drugs?*****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("prescriptionUsage")}
+            >
               <Typography variant="h4" className="labelOne">
                 Are you currently taking or have you recently stopped any
                 prescription, over-the-counter, herbal medications, or
@@ -509,7 +552,7 @@ function ContraceptivesQuestion() {
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
-              {answers.currentMedications === "Yes" && (
+              {answers.prescriptionUsage === "Yes" && (
                 <TextField
                   name="prescriptionUsageInfo"
                   label="Write here"
@@ -525,7 +568,11 @@ function ContraceptivesQuestion() {
               )}
             </FormControl>
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("allergicSubstances")}
+            >
               <Typography variant="h4" className="labelOne">
                 Are you allergic to any medications or substances (e.g.,
                 peanuts, soy)?
@@ -534,9 +581,7 @@ function ContraceptivesQuestion() {
                 row
                 name="allergicSubstances"
                 value={answers.allergicSubstances}
-                onChange={(e) =>
-                  setAnswers({ ...answers, allergicSubstances: e.target.value })
-                }
+                onChange={(e) => handleChange(e, "Yes")}
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
@@ -544,7 +589,11 @@ function ContraceptivesQuestion() {
               {consultMessage(answers.allergicSubstances, "Yes")}
             </FormControl>
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("agreeToTerms")}
+            >
               <Typography variant="h4" className="labelOne">
                 Do you agree with the following statements?
               </Typography>
@@ -597,9 +646,7 @@ function ContraceptivesQuestion() {
                 control={
                   <Checkbox
                     checked={answers.agreeToTerms || false}
-                    onChange={(e) =>
-                      setAnswers({ ...answers, agreeToTerms: e.target.checked })
-                    }
+                    onChange={(e) => handleChange(e, "")}
                     name="agreeToTerms"
                   />
                 }

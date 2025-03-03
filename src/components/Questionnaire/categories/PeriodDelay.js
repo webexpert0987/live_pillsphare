@@ -49,6 +49,9 @@ function PeriodDelayQuestion() {
   const boxRef = useRef(null);
   const { setSelectedTab } = useApp();
   const { showMessage } = useMessage();
+  const [disabled, setDisabled] = useState(false);
+  const [currentQue, setCurrentQue] = useState("");
+
   const handleScroll = () => {
     setTimeout(() => {
       if (boxRef.current) {
@@ -171,6 +174,21 @@ function PeriodDelayQuestion() {
     handleScroll();
   };
 
+  const handleChange = (e, condition) => {
+    const { name, value } = e.target;
+    setCurrentQue(name);
+    setAnswers({ ...answers, [name]: value });
+    if (condition === value) {
+      setDisabled(true);
+    } else {
+      setDisabled(false);
+    }
+  };
+
+  const checkDisabled = (name) => {
+    return disabled && currentQue !== name;
+  };
+
   const handleSubmit = () => {
     if (!answers.agreeToTerms) {
       showMessage(
@@ -206,7 +224,7 @@ function PeriodDelayQuestion() {
           <>
             {/****** •	Are you female? *****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox" disabled={checkDisabled("gender")}>
               <Typography variant="h4" className="labelOne">
                 Are you female?
               </Typography>
@@ -215,7 +233,7 @@ function PeriodDelayQuestion() {
                 name="gender"
                 value={answers.gender}
                 onChange={(e) =>
-                  setAnswers({ ...answers, gender: e.target.value })
+                  handleChange(e,"No")
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
@@ -230,7 +248,7 @@ function PeriodDelayQuestion() {
             </FormControl>
             {/****** •	Are you aged 18 or over?*****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox" disabled={checkDisabled("agedBetween")}>
               <Typography variant="h4" className="labelOne">
                 Are you aged 18 or over?
               </Typography>
@@ -239,7 +257,7 @@ function PeriodDelayQuestion() {
                 name="agedBetween"
                 value={answers.agedBetween}
                 onChange={(e) =>
-                  setAnswers({ ...answers, agedBetween: e.target.value })
+                 handleChange(e,"No")
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
@@ -254,8 +272,8 @@ function PeriodDelayQuestion() {
             </FormControl>
             {/****** •	Do you have any of the following health conditions? *****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
-              <Typography variant="h4" className="labelOne">
+            <FormControl component="fieldset" className="QuestionBox" disabled={checkDisabled("followingHealCond")}>
+              <Typography variant="h4" className="labelOne" name="followingHealCond">
                 Do you have any of the following health conditions?
               </Typography>
 
@@ -316,8 +334,8 @@ function PeriodDelayQuestion() {
             </FormControl>
             {/******•	Are you currently taking any of the following medications? *****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
-              <Typography variant="h4" className="labelOne">
+            <FormControl component="fieldset" className="QuestionBox"  disabled={checkDisabled("currentlyMedications")}>
+              <Typography variant="h4" className="labelOne" name="currentlyMedications">
                 Are you currently taking any of the following medications?
               </Typography>
               <ul>
@@ -375,7 +393,7 @@ function PeriodDelayQuestion() {
             </FormControl>
             {/****** •	Do you have any allergies to any medications or substances (e.g., peanuts, latex)? *****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox" disabled={checkDisabled("allergy")}>
               <Typography variant="h4" className="labelOne">
                 Do you have any allergies to any medications or substances
                 (e.g., peanuts, latex)?
@@ -406,7 +424,7 @@ function PeriodDelayQuestion() {
             </FormControl>
             {/******•	Are you currently having a period or expecting your period soon?  *****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox" disabled={checkDisabled("period")}>
               <Typography variant="h4" className="labelOne">
                 Are you currently having a period or expecting your period soon?
               </Typography>
@@ -415,7 +433,7 @@ function PeriodDelayQuestion() {
                 name="period"
                 value={answers.period}
                 onChange={(e) =>
-                  setAnswers({ ...answers, period: e.target.value })
+                  handleChange(e,"No")
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
@@ -431,7 +449,7 @@ function PeriodDelayQuestion() {
             </FormControl>
             {/****** •	Are you female? *****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox" disabled={checkDisabled("delayPeriod")}>
               <Typography variant="h4" className="labelOne">
                 How long would you like to delay your period?
               </Typography>
@@ -462,6 +480,7 @@ function PeriodDelayQuestion() {
               {answers.delayPeriod === "Other" && (
                 <TextField
                   multiline
+                  disabled={checkDisabled("periodDetails")}
                   line={3}
                   value={answers.periodDetails}
                   onChange={(e) =>
@@ -474,7 +493,7 @@ function PeriodDelayQuestion() {
             </FormControl>
             {/****** •	Have you ever used period delay medication before?*****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox"  disabled={checkDisabled("periodDelay1")}>
               <Typography variant="h4" className="labelOne">
                 Have you ever used period delay medication before?
               </Typography>
@@ -498,8 +517,8 @@ function PeriodDelayQuestion() {
             </FormControl>
             {/******•	Do you have a history of any of the following conditions that could affect your menstrual cycle? *****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
-              <Typography variant="h4" className="labelOne">
+            <FormControl component="fieldset" className="QuestionBox"  disabled={checkDisabled("menstrualCyc")}> 
+              <Typography variant="h4" className="labelOne" name="menstrualCyc">
                 Do you have a history of any of the following conditions that
                 could affect your menstrual cycle?
               </Typography>
@@ -541,8 +560,8 @@ function PeriodDelayQuestion() {
             </FormControl>
             {/******•	When was the first day of your last period? *****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
-              <Typography variant="h4" className="labelOne">
+            <FormControl component="fieldset" className="QuestionBox"   disabled={checkDisabled("periodDelay2")}>
+              <Typography variant="h4" className="labelOne" name="periodDelay2">
                 When was the first day of your last period?
               </Typography>
               <input
@@ -555,7 +574,7 @@ function PeriodDelayQuestion() {
             </FormControl>
             {/******•	How long does your typical period last? *****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox" disabled={checkDisabled("periodTime")}>
               <Typography variant="h4" className="labelOne">
                 How long does your typical period last?
               </Typography>
@@ -586,7 +605,7 @@ function PeriodDelayQuestion() {
             </FormControl>
             {/******•	Are your periods regular? *****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox" disabled={checkDisabled("regularPeriod")}>
               <Typography variant="h4" className="labelOne">
                 Are your periods regular?
               </Typography>
@@ -595,7 +614,7 @@ function PeriodDelayQuestion() {
                 name="regularPeriod"
                 value={answers.regularPeriod}
                 onChange={(e) =>
-                  setAnswers({ ...answers, regularPeriod: e.target.value })
+                  handleChange(e,"No")
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
@@ -610,7 +629,7 @@ function PeriodDelayQuestion() {
             </FormControl>
             {/*****•	Are you currently pregnant or trying to conceive?******/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox"  disabled={checkDisabled("pregnant")}>
               <Typography variant="h4" className="labelOne">
                 Are you currently pregnant or trying to conceive?
               </Typography>
@@ -619,7 +638,7 @@ function PeriodDelayQuestion() {
                 name="pregnant"
                 value={answers.pregnant}
                 onChange={(e) =>
-                  setAnswers({ ...answers, pregnant: e.target.value })
+                  handleChange(e,"Yes")
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
@@ -634,7 +653,7 @@ function PeriodDelayQuestion() {
             </FormControl>
             {/******•	Are you currently breastfeeding? *****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox" disabled={checkDisabled("breastfeeding")}>
               <Typography variant="h4" className="labelOne">
                 Are you currently breastfeeding?
               </Typography>
@@ -643,7 +662,7 @@ function PeriodDelayQuestion() {
                 name="breastfeeding"
                 value={answers.breastfeeding}
                 onChange={(e) =>
-                  setAnswers({ ...answers, breastfeeding: e.target.value })
+                handleChange(e,"Yes")
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
@@ -658,7 +677,7 @@ function PeriodDelayQuestion() {
             </FormControl>
             {/******•	Do you understand that delaying your period may have potential side effects, and that you should consult your GP if you experience any issues? *****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox"  disabled={checkDisabled("delayingperiod")}>
               <Typography variant="h4" className="labelOne">
                 Do you understand that delaying your period may have potential
                 side effects, and that you should consult your GP if you
@@ -669,7 +688,7 @@ function PeriodDelayQuestion() {
                 name="delayingperiod"
                 value={answers.delayingperiod}
                 onChange={(e) =>
-                  setAnswers({ ...answers, delayingperiod: e.target.value })
+                handleChange(e,"No")
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
@@ -684,7 +703,7 @@ function PeriodDelayQuestion() {
             </FormControl>
             {/******•	Do you understand that it is essential to follow the provided instructions for the medication to be effective and safe? *****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox"  disabled={checkDisabled("safeUse")}>
               <Typography variant="h4" className="labelOne">
                 Do you understand that it is essential to follow the provided
                 instructions for the medication to be effective and safe?
@@ -709,7 +728,7 @@ function PeriodDelayQuestion() {
             </FormControl>
             {/******•	Do you confirm that all the information you have provided is accurate and complete to the best of your knowledge?	 *****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox"  disabled={checkDisabled("confirmAll")}>
               <Typography variant="h4" className="labelOne">
                 Do you confirm that all the information you have provided is
                 accurate and complete to the best of your knowledge?
@@ -735,7 +754,7 @@ function PeriodDelayQuestion() {
             </FormControl>
             {/******•	Do you agree to Medicus Express's terms and conditions and privacy policy for this consultation and treatment? *****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox" disabled={checkDisabled("agreeMedicus")}>
               <Typography variant="h4" className="labelOne">
                 Do you agree to Medicus Express's terms and conditions and
                 privacy policy for this consultation and treatment?
@@ -760,7 +779,7 @@ function PeriodDelayQuestion() {
             </FormControl>
             {/******•	Do you confirm that you are over 18 years of age and fully understand the nature of the treatment prescribed?	 *****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox"  disabled={checkDisabled("confirmAge")}>
               <Typography variant="h4" className="labelOne">
                 Do you confirm that you are over 18 years of age and fully
                 understand the nature of the treatment prescribed?

@@ -41,6 +41,9 @@ function HairLossQuestionnaire() {
   const boxRef = useRef(null);
   const { setSelectedTab } = useApp();
   const { showMessage } = useMessage();
+  const [disabled, setDisabled] = useState(false);
+  const [currentQue, setCurrentQue] = useState("");
+
   const handleScroll = () => {
     setTimeout(() => {
       if (boxRef.current) {
@@ -138,6 +141,21 @@ function HairLossQuestionnaire() {
     handleScroll();
   };
 
+  const handleChange = (e, condition) => {
+    const { name, value } = e.target;
+    setCurrentQue(name);
+    setQuestionnaireResponses({ ...questionnaireResponses, [name]: value });
+    if (condition === value) {
+      setDisabled(true);
+    } else {
+      setDisabled(false);
+    }
+  };
+
+  const checkDisabled = (name) => {
+    return disabled && currentQue !== name;
+  };
+
   const handleSubmit = () => {
     if (!questionnaireResponses.agreesToTermsAndConditions) {
       showMessage(
@@ -175,7 +193,11 @@ function HairLossQuestionnaire() {
           <>
             {/****** Are you aged between 17-74 years *****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("isAgedBetween17And74")}
+            >
               <Typography variant="h4" className="labelOne">
                 Are you aged between 17-74 years
               </Typography>
@@ -183,12 +205,7 @@ function HairLossQuestionnaire() {
                 row
                 name="isAgedBetween17And74"
                 value={questionnaireResponses.isAgedBetween17And74}
-                onChange={(e) =>
-                  setQuestionnaireResponses({
-                    ...questionnaireResponses,
-                    isAgedBetween17And74: e.target.value,
-                  })
-                }
+                onChange={(e) => handleChange(e, "No")}
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
@@ -202,7 +219,11 @@ function HairLossQuestionnaire() {
             </FormControl>
             {/*****•	•	Do you have hair loss in patches, or is your scalp itchy or sore?*****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("hasHairLossInPatchesOrScalpIssues")}
+            >
               <Typography variant="h4" className="labelOne">
                 Do you have hair loss in patches, or is your scalp itchy or
                 sore?
@@ -211,12 +232,7 @@ function HairLossQuestionnaire() {
                 row
                 name="hasHairLossInPatchesOrScalpIssues"
                 value={questionnaireResponses.hasHairLossInPatchesOrScalpIssues}
-                onChange={(e) =>
-                  setQuestionnaireResponses({
-                    ...questionnaireResponses,
-                    hasHairLossInPatchesOrScalpIssues: e.target.value,
-                  })
-                }
+                onChange={(e) => handleChange(e, "Yes")}
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
@@ -231,7 +247,11 @@ function HairLossQuestionnaire() {
             </FormControl>
             {/****•	Is your hair loss localized to the temple area?******/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("isHairLossLocalizedToTempleArea")}
+            >
               <Typography variant="h4" className="labelOne">
                 Is your hair loss localized to the temple area?
               </Typography>
@@ -259,7 +279,11 @@ function HairLossQuestionnaire() {
             </FormControl>
             {/****** •	Do you have a healthy scalp? *****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("hasHealthyScalp")}
+            >
               <Typography variant="h4" className="labelOne">
                 Do you have a healthy scalp?
                 <br></br>
@@ -275,12 +299,7 @@ function HairLossQuestionnaire() {
                 row
                 name="hasHealthyScalp"
                 value={questionnaireResponses.hasHealthyScalp}
-                onChange={(e) =>
-                  setQuestionnaireResponses({
-                    ...questionnaireResponses,
-                    hasHealthyScalp: e.target.value,
-                  })
-                }
+                onChange={(e) => handleChange(e, "No")}
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
@@ -294,7 +313,11 @@ function HairLossQuestionnaire() {
             </FormControl>
             {/****** Are you experiencing sudden or complete hair loss? *****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("hasSuddenOrCompleteHairLoss")}
+            >
               <Typography variant="h4" className="labelOne">
                 Are you experiencing sudden or complete hair loss?
               </Typography>
@@ -302,12 +325,7 @@ function HairLossQuestionnaire() {
                 row
                 name="hasSuddenOrCompleteHairLoss"
                 value={questionnaireResponses.hasSuddenOrCompleteHairLoss}
-                onChange={(e) =>
-                  setQuestionnaireResponses({
-                    ...questionnaireResponses,
-                    hasSuddenOrCompleteHairLoss: e.target.value,
-                  })
-                }
+                onChange={(e) => handleChange(e, "Yes")}
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
@@ -322,7 +340,11 @@ function HairLossQuestionnaire() {
             </FormControl>
             {/****** •	Could your hair loss be related to medication, dietary factors, or an illness? *****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("isHairLossRelatedToMedicationOrIllness")}
+            >
               <Typography variant="h4" className="labelOne">
                 Could your hair loss be related to medication, dietary factors,
                 or an illness?
@@ -333,12 +355,7 @@ function HairLossQuestionnaire() {
                 value={
                   questionnaireResponses.isHairLossRelatedToMedicationOrIllness
                 }
-                onChange={(e) =>
-                  setQuestionnaireResponses({
-                    ...questionnaireResponses,
-                    isHairLossRelatedToMedicationOrIllness: e.target.value,
-                  })
-                }
+                onChange={(e) => handleChange(e, "Yes")}
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
@@ -353,7 +370,11 @@ function HairLossQuestionnaire() {
             </FormControl>
             {/******•	Have you ever been diagnosed with any of the following conditions?  *****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("hasDiagnosedMedicalConditions")}
+            >
               <Typography variant="h4" className="labelOne">
                 Have you ever been diagnosed with any of the following
                 conditions?
@@ -379,12 +400,7 @@ function HairLossQuestionnaire() {
                 row
                 name="hasDiagnosedMedicalConditions"
                 value={questionnaireResponses.hasDiagnosedMedicalConditions}
-                onChange={(e) =>
-                  setQuestionnaireResponses({
-                    ...questionnaireResponses,
-                    hasDiagnosedMedicalConditions: e.target.value,
-                  })
-                }
+                onChange={(e) => handleChange(e, "Yes")}
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
@@ -398,7 +414,11 @@ function HairLossQuestionnaire() {
             </FormControl>
             {/******•	Do you have a history of depression or any other mental health conditions?  *****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("hasHistoryOfDepressionOrMentalHealth")}
+            >
               <Typography variant="h4" className="labelOne">
                 Do you have a history of depression or any other mental health
                 conditions?
@@ -429,7 +449,11 @@ function HairLossQuestionnaire() {
             </FormControl>
             {/****** •	Are you currently taking any medication (including prescription, over-the-counter, or recreational drugs)? *****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("isTakingAnyMedication")}
+            >
               <Typography variant="h4" className="labelOne">
                 Are you currently taking any medication (including prescription,
                 over-the-counter, or recreational drugs)?
@@ -503,7 +527,11 @@ function HairLossQuestionnaire() {
             </FormControl>
             {/****** •	Do you understand that if prescribed finasteride, and your partner is (or may be) pregnant, they should avoid handling crushed or broken tablets, and that you should always wear a condom during sex?*****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("understandsFinasterideRisks")}
+            >
               <Typography variant="h4" className="labelOne">
                 Do you understand that if prescribed finasteride, and your
                 partner is (or may be) pregnant, they should avoid handling
@@ -514,12 +542,7 @@ function HairLossQuestionnaire() {
                 row
                 name="understandsFinasterideRisks"
                 value={questionnaireResponses.understandsFinasterideRisks}
-                onChange={(e) =>
-                  setQuestionnaireResponses({
-                    ...questionnaireResponses,
-                    understandsFinasterideRisks: e.target.value,
-                  })
-                }
+                onChange={(e) => handleChange(e, "No")}
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
@@ -533,7 +556,11 @@ function HairLossQuestionnaire() {
             </FormControl>
             {/******	Do you understand that if prescribed finasteride, you should inform your GP before undergoing a PSA blood test for your prostate?  *****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("understandsPSATestImplications")}
+            >
               <Typography variant="h4" className="labelOne">
                 Do you understand that if prescribed finasteride, you should
                 inform your GP before undergoing a PSA blood test for your
@@ -543,12 +570,7 @@ function HairLossQuestionnaire() {
                 row
                 name="understandsPSATestImplications"
                 value={questionnaireResponses.understandsPSATestImplications}
-                onChange={(e) =>
-                  setQuestionnaireResponses({
-                    ...questionnaireResponses,
-                    understandsPSATestImplications: e.target.value,
-                  })
-                }
+                onChange={(e) => handleChange(e, "No")}
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
@@ -563,7 +585,11 @@ function HairLossQuestionnaire() {
             </FormControl>
             {/****** •	I agree to the terms and conditions, and I confirm that I am over 18 years of age. *****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("agreesToTermsAndConfirmsAge")}
+            >
               <Typography variant="h4" className="labelOne">
                 I agree to the terms and conditions, and I confirm that I am
                 over 18 years of age.
@@ -572,12 +598,7 @@ function HairLossQuestionnaire() {
                 row
                 name="agreesToTermsAndConfirmsAge"
                 value={questionnaireResponses.agreesToTermsAndConfirmsAge}
-                onChange={(e) =>
-                  setQuestionnaireResponses({
-                    ...questionnaireResponses,
-                    agreesToTermsAndConfirmsAge: e.target.value,
-                  })
-                }
+                onChange={(e) => handleChange(e, "No")}
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />

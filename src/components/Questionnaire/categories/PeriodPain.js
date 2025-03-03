@@ -49,6 +49,8 @@ function PeriodPainQuestion() {
   const boxRef = useRef(null);
   const { setSelectedTab } = useApp();
   const { showMessage } = useMessage();
+  const [disabled, setDisabled] = useState(false);
+  const [currentQue, setCurrentQue] = useState("");
   const handleScroll = () => {
     setTimeout(() => {
       if (boxRef.current) {
@@ -150,6 +152,21 @@ function PeriodPainQuestion() {
     handleScroll();
   };
 
+  const handleChange = (e, condition) => {
+    const { name, value } = e.target;
+    setCurrentQue(name);
+    setAnswers({ ...answers, [name]: value });
+    if (condition === value) {
+      setDisabled(true);
+    } else {
+      setDisabled(false);
+    }
+  };
+
+  const checkDisabled = (name) => {
+    return disabled && currentQue !== name;
+  };
+
   const handleSubmit = () => {
     if (!answers.agreeToTerms) {
       showMessage(
@@ -186,7 +203,11 @@ function PeriodPainQuestion() {
           <>
             {/****** 1.	Are you female and aged between 18-65?*****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("agedBetween")}
+            >
               <Typography variant="h4" className="labelOne">
                 Are you female and aged between 18-65?
               </Typography>
@@ -194,9 +215,7 @@ function PeriodPainQuestion() {
                 row
                 name="agedBetween"
                 value={answers.agedBetween}
-                onChange={(e) =>
-                  setAnswers({ ...answers, agedBetween: e.target.value })
-                }
+                onChange={(e) => handleChange(e, "No")}
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
@@ -211,7 +230,11 @@ function PeriodPainQuestion() {
             </FormControl>
             {/******2.	Do you currently experience period pain (dysmenorrhea)? *****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("periodPain")}
+            >
               <Typography variant="h4" className="labelOne">
                 Do you currently experience period pain (dysmenorrhea)?
               </Typography>
@@ -219,9 +242,7 @@ function PeriodPainQuestion() {
                 row
                 name="periodPain"
                 value={answers.periodPain}
-                onChange={(e) =>
-                  setAnswers({ ...answers, periodPain: e.target.value })
-                }
+                onChange={(e) => handleChange(e, "No")}
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
@@ -236,7 +257,11 @@ function PeriodPainQuestion() {
             </FormControl>
             {/****** 3.	Do you experience moderate to severe pain during menstruation?****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("experience")}
+            >
               <Typography variant="h4" className="labelOne">
                 Do you experience moderate to severe pain during menstruation?
               </Typography>
@@ -261,8 +286,16 @@ function PeriodPainQuestion() {
             </FormControl>
             {/******4.	Do you also experience any of the following symptoms with your period pain? *****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
-              <Typography variant="h4" className="labelOne">
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("symptomsPeriodPain")}
+            >
+              <Typography
+                variant="h4"
+                className="labelOne"
+                name="symptomsPeriodPain"
+              >
                 Do you also experience any of the following symptoms with your
                 period pain?
               </Typography>
@@ -283,7 +316,11 @@ function PeriodPainQuestion() {
             </FormControl>
             {/******5.	Have you experienced significant changes in the intensity or duration of your period pain in the past 6 months? *****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("experienceChange")}
+            >
               <Typography variant="h4" className="labelOne">
                 Have you experienced significant changes in the intensity or
                 duration of your period pain in the past 6 months?
@@ -309,7 +346,11 @@ function PeriodPainQuestion() {
             </FormControl>
             {/******6.	Is your period pain accompanied by any other medical symptoms, such as pelvic pain, heavy bleeding, or irregular periods? *****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("periodPain1")}
+            >
               <Typography variant="h4" className="labelOne">
                 Is your period pain accompanied by any other medical symptoms,
                 such as pelvic pain, heavy bleeding, or irregular periods?
@@ -318,9 +359,7 @@ function PeriodPainQuestion() {
                 row
                 name="periodPain1"
                 value={answers.periodPain1}
-                onChange={(e) =>
-                  setAnswers({ ...answers, periodPain1: e.target.value })
-                }
+                onChange={(e) => handleChange(e, "Yes")}
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
@@ -335,8 +374,16 @@ function PeriodPainQuestion() {
             </FormControl>
             {/******7.	Have you ever been diagnosed with any of the following conditions? *****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
-              <Typography variant="h4" className="labelOne">
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("diagnosedFollowCond")}
+            >
+              <Typography
+                variant="h4"
+                className="labelOne"
+                name="diagnosedFollowCond"
+              >
                 Have you ever been diagnosed with any of the following
                 conditions?
               </Typography>
@@ -371,7 +418,11 @@ function PeriodPainQuestion() {
             </FormControl>
             {/******8.	Do you have any known allergies to medications, especially pain relief medications like NSAIDs (e.g., ibuprofen, aspirin)? *****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("knownAllergy")}
+            >
               <Typography variant="h4" className="labelOne">
                 Do you have any known allergies to medications, especially pain
                 relief medications like NSAIDs (e.g., ibuprofen, aspirin)?
@@ -396,6 +447,7 @@ function PeriodPainQuestion() {
                   </Typography>
                   <TextField
                     multiline
+                    disabled={checkDisabled("knownAllergyIssue")}
                     line={3}
                     value={answers.knownAllergyIssue}
                     onChange={(e) =>
@@ -412,7 +464,11 @@ function PeriodPainQuestion() {
             </FormControl>
             {/******9.	Are you currently on any of the following medications? *****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("otherMedication")}
+            >
               <Typography variant="h4" className="labelOne">
                 Are you currently on any of the following medications?
               </Typography>
@@ -429,12 +485,7 @@ function PeriodPainQuestion() {
                     row
                     name="otherMedication"
                     value={answers.otherMedication}
-                    onChange={(e) =>
-                      setAnswers({
-                        ...answers,
-                        otherMedication: e.target.value,
-                      })
-                    }
+                    onChange={(e) => handleChange(e, "Yes")}
                   >
                     <FormControlLabel
                       value="Yes"
@@ -459,8 +510,16 @@ function PeriodPainQuestion() {
             </FormControl>
             {/******10.	Have you used any treatments in the past for period pain, such as: *****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
-              <Typography variant="h4" className="labelOne">
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("pastTreatments")}
+            >
+              <Typography
+                variant="h4"
+                className="labelOne"
+                name="pastTreatments"
+              >
                 Have you used any treatments in the past for period pain, such
                 as:
               </Typography>
@@ -488,7 +547,11 @@ function PeriodPainQuestion() {
             </FormControl>
             {/******11.	Did any of the above treatments work for you? *****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("anyTreatment")}
+            >
               <Typography variant="h4" className="labelOne">
                 Did any of the above treatments work for you?
               </Typography>
@@ -496,9 +559,7 @@ function PeriodPainQuestion() {
                 row
                 name="anyTreatment"
                 value={answers.anyTreatment}
-                onChange={(e) =>
-                  setAnswers({ ...answers, anyTreatment: e.target.value })
-                }
+                onChange={(e) => handleChange(e, "No")}
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
@@ -512,7 +573,7 @@ function PeriodPainQuestion() {
             </FormControl>
             {/******12.	On a scale of 1-10, how severe is your period pain? (1 being mild and 10 being unbearable) *****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox" disabled={checkDisabled("painseverity")}>
               <Typography variant="h4" className="labelOne">
                 On a scale of 1-10, how severe is your period pain? (1 being
                 mild and 10 being unbearable)
@@ -520,6 +581,7 @@ function PeriodPainQuestion() {
               <FormControl fullWidth>
                 <InputLabel id="pain-severity-label">Pain Severity</InputLabel>
                 <Select
+                 disabled={checkDisabled("painseverity")}
                   labelId="pain-severity-label"
                   value={answers.painseverity}
                   onChange={(e) =>
@@ -537,7 +599,7 @@ function PeriodPainQuestion() {
             </FormControl>
             {/******13.	Do you experience any pain during activities such as exercising, working, or socializing due to your period pain? *****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox" disabled={checkDisabled("painActivity")}>
               <Typography variant="h4" className="labelOne">
                 Do you experience any pain during activities such as exercising,
                 working, or socializing due to your period pain?
@@ -547,7 +609,7 @@ function PeriodPainQuestion() {
                 name="painActivity"
                 value={answers.painActivity}
                 onChange={(e) =>
-                  setAnswers({ ...answers, painActivity: e.target.value })
+                  handleChange(e,"Yes")
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
@@ -565,7 +627,7 @@ function PeriodPainQuestion() {
 
             {/******14.	Do you have any of the following conditions that could impact your health or treatment options? *****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox" disabled={checkDisabled("followingCondition")}>
               <Typography variant="h4" className="labelOne">
                 Do you have any of the following conditions that could impact
                 your health or treatment options?
@@ -586,10 +648,7 @@ function PeriodPainQuestion() {
                   name="followingCondition"
                   value={answers.followingCondition}
                   onChange={(e) =>
-                    setAnswers({
-                      ...answers,
-                      followingCondition: e.target.value,
-                    })
+                   handleChange(e,"Yes")
                   }
                 >
                   <FormControlLabel
@@ -610,7 +669,7 @@ function PeriodPainQuestion() {
             </FormControl>
             {/******15.	Are you currently pregnant or breastfeeding? *****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox" disabled={checkDisabled("currPregnant")}>
               <Typography variant="h4" className="labelOne">
                 Are you currently pregnant or breastfeeding?
               </Typography>
@@ -619,7 +678,7 @@ function PeriodPainQuestion() {
                 name="currPregnant"
                 value={answers.currPregnant}
                 onChange={(e) =>
-                  setAnswers({ ...answers, currPregnant: e.target.value })
+                  handleChange(e,"Yes")
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
@@ -635,7 +694,7 @@ function PeriodPainQuestion() {
             </FormControl>
             {/******16.	Do you understand that the treatment options available for period pain may have potential side effects, and you should consult your GP if you experience any adverse reactions? *****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox" disabled={checkDisabled("understandTO")}>
               <Typography variant="h4" className="labelOne">
                 Do you understand that the treatment options available for
                 period pain may have potential side effects, and you should
@@ -646,7 +705,7 @@ function PeriodPainQuestion() {
                 name="understandTO"
                 value={answers.understandTO}
                 onChange={(e) =>
-                  setAnswers({ ...answers, understandTO: e.target.value })
+                  handleChange(e,"No")
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
@@ -658,7 +717,7 @@ function PeriodPainQuestion() {
             </FormControl>
             {/******17.	Do you consent to proceeding with treatment for period pain after reviewing the information provided? *****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox" disabled={checkDisabled("consentToPro")}>
               <Typography variant="h4" className="labelOne">
                 Do you consent to proceeding with treatment for period pain
                 after reviewing the information provided?
@@ -668,7 +727,7 @@ function PeriodPainQuestion() {
                 name="consentToPro"
                 value={answers.consentToPro}
                 onChange={(e) =>
-                  setAnswers({ ...answers, consentToPro: e.target.value })
+                 handleChange(e,"No")
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />

@@ -50,6 +50,8 @@ function PrematureQuestion() {
   const boxRef = useRef(null);
   const { setSelectedTab } = useApp();
   const { showMessage } = useMessage();
+  const [disabled, setDisabled] = useState(false);
+  const [currentQue, setCurrentQue] = useState("");
   const handleScroll = () => {
     setTimeout(() => {
       if (boxRef.current) {
@@ -159,6 +161,20 @@ function PrematureQuestion() {
     handleScroll();
   };
 
+  const handleChange = (e, condition) => {
+    const { name, value } = e.target;
+    setCurrentQue(name);
+    setAnswers({ ...answers, [name]: value });
+    if (condition === value) {
+      setDisabled(true);
+    } else {
+      setDisabled(false);
+    }
+  };
+
+  const checkDisabled = (name) => {
+    return disabled && currentQue !== name;
+  };
   const handleSubmit = () => {
     if (!answers.agreeToTerms) {
       showMessage(
@@ -194,7 +210,7 @@ function PrematureQuestion() {
           <>
             {/****** •	Are you male? *****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox"  disabled={checkDisabled("gender")}>
               <Typography variant="h4" className="labelOne">
                 Are you male?
               </Typography>
@@ -203,13 +219,13 @@ function PrematureQuestion() {
                 name="gender"
                 value={answers.gender}
                 onChange={(e) =>
-                  setAnswers({ ...answers, gender: e.target.value })
+                 handleChange(e,"No")
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
-              {answers.gender === "Yes" && (
+              {answers.gender === "No" && (
                 <div>
                   "This treatment is not suitable for females. Please consult
                   your doctor for further advice."{" "}
@@ -217,7 +233,7 @@ function PrematureQuestion() {
               )}
             </FormControl>
             {/******•	Are you aged between 18 and 65 years? *****/}
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox"  disabled={checkDisabled("agedBetween")}>
               <Typography variant="h4" className="labelOne">
                 Are you aged between 18 and 65 years?
               </Typography>
@@ -226,7 +242,7 @@ function PrematureQuestion() {
                 name="agedBetween"
                 value={answers.agedBetween}
                 onChange={(e) =>
-                  setAnswers({ ...answers, agedBetween: e.target.value })
+                  handleChange(e,"No")
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
@@ -241,7 +257,7 @@ function PrematureQuestion() {
             </FormControl>
             {/******•	Do you often experience premature ejaculation? *****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox"  disabled={checkDisabled("premature")}>
               <Typography variant="h4" className="labelOne">
                 Do you often experience premature ejaculation?
               </Typography>
@@ -250,7 +266,7 @@ function PrematureQuestion() {
                 name="premature"
                 value={answers.premature}
                 onChange={(e) =>
-                  setAnswers({ ...answers, premature: e.target.value })
+                  handleChange(e,"No")
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
@@ -265,7 +281,7 @@ function PrematureQuestion() {
             </FormControl>
             {/*****•	Do you find it difficult to control ejaculation during sexual intercourse?******/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox" disabled={checkDisabled("ejaculation")}>
               <Typography variant="h4" className="labelOne">
                 Do you find it difficult to control ejaculation during sexual
                 intercourse?
@@ -287,7 +303,7 @@ function PrematureQuestion() {
             </FormControl>
             {/****** •	Do you have any allergies? *****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox"  disabled={checkDisabled("allergy")}>
               <Typography variant="h4" className="labelOne">
                 Do you have any allergies?
               </Typography>
@@ -307,6 +323,7 @@ function PrematureQuestion() {
                   <Typography>"Provide more details."</Typography>
                   <TextField
                     multiline
+                    disabled={checkDisabled("allergyIssue")}
                     line={3}
                     value={answers.allergyIssue}
                     onChange={(e) =>
@@ -319,7 +336,7 @@ function PrematureQuestion() {
               )}
             </FormControl>
             {/* •	On average, how long does it take you to ejaculate during sexual intercourse? */}
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox" disabled={checkDisabled("allergyIssue")}>
               <Typography variant="h4" className="labelOne">
                 On average, how long does it take you to ejaculate during sexual
                 intercourse?

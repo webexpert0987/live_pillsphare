@@ -40,6 +40,9 @@ function MigraineQuestion() {
   const boxRef = useRef(null);
   const { setSelectedTab } = useApp();
   const { showMessage } = useMessage();
+  const [disabled, setDisabled] = useState(false);
+  const [currentQue, setCurrentQue] = useState("");
+
   const handleScroll = () => {
     setTimeout(() => {
       if (boxRef.current) {
@@ -130,6 +133,20 @@ function MigraineQuestion() {
     setActiveStep((prevStep) => prevStep - 1);
     handleScroll();
   };
+  const handleChange = (e, condition) => {
+    const { name, value } = e.target;
+    setCurrentQue(name);
+    setAnswers({ ...answers, [name]: value });
+    if (condition === value) {
+      setDisabled(true);
+    } else {
+      setDisabled(false);
+    }
+  };
+
+  const checkDisabled = (name) => {
+    return disabled && currentQue !== name;
+  };
 
   const handleSubmit = () => {
     if (!answers.agreeToTerms) {
@@ -167,7 +184,7 @@ function MigraineQuestion() {
           <>
             {/****** Are you between 18 and 65 years old?**  ****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox" disabled={checkDisabled("agedBetween")}>
               <Typography variant="h4" className="labelOne">
                 Are you between 18 and 65 years old?
               </Typography>
@@ -176,7 +193,7 @@ function MigraineQuestion() {
                 name="agedBetween"
                 value={answers.agedBetween}
                 onChange={(e) =>
-                  setAnswers({ ...answers, agedBetween: e.target.value })
+                 handleChange(e,"No")
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
@@ -188,7 +205,7 @@ function MigraineQuestion() {
             </FormControl>
             {/****** ****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox" disabled={checkDisabled("migrain")}>
               <Typography variant="h4" className="labelOne">
                 Do your migraines follow a consistent pattern?
               </Typography>
@@ -197,7 +214,7 @@ function MigraineQuestion() {
                 name="migrain"
                 value={answers.migrain}
                 onChange={(e) =>
-                  setAnswers({ ...answers, migrain: e.target.value })
+                  handleChange(e,"No")
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
@@ -209,7 +226,7 @@ function MigraineQuestion() {
             </FormControl>
             {/****** Are you between 18 and 65 years old?**  ****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox" disabled={checkDisabled("migrainTime")}>
               <Typography variant="h4" className="labelOne">
                 Do your migraines last less than 4 hours or longer than 24
                 hours?
@@ -219,7 +236,7 @@ function MigraineQuestion() {
                 name="migrainTime"
                 value={answers.migrainTime}
                 onChange={(e) =>
-                  setAnswers({ ...answers, migrainTime: e.target.value })
+                  handleChange(e,"Yes")
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
@@ -231,7 +248,7 @@ function MigraineQuestion() {
             </FormControl>
             {/****** Are you between 18 and 65 years old?**  ****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox" disabled={checkDisabled("experienceMigrain")}>
               <Typography variant="h4" className="labelOne">
                 Do you experience migraines more than 10 days per month?
               </Typography>
@@ -240,7 +257,7 @@ function MigraineQuestion() {
                 name="experienceMigrain"
                 value={answers.experienceMigrain}
                 onChange={(e) =>
-                  setAnswers({ ...answers, experienceMigrain: e.target.value })
+                 handleChange(e,"Yes")
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
@@ -252,7 +269,7 @@ function MigraineQuestion() {
             </FormControl>
             {/****** Are you between 18 and 65 years old?**  ****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox"  disabled={checkDisabled("anySymptoms")}>
               <Typography variant="h4" className="labelOne">
                 Do you have any of the following symptoms
                 <ul>
@@ -274,7 +291,7 @@ function MigraineQuestion() {
                 name="anySymptoms"
                 value={answers.anySymptoms}
                 onChange={(e) =>
-                  setAnswers({ ...answers, anySymptoms: e.target.value })
+                handleChange(e,"Yes")
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
@@ -284,7 +301,7 @@ function MigraineQuestion() {
             </FormControl>
             {/****** Are you between 18 and 65 years old?**  ****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox"  disabled={checkDisabled("diagnosed")}>
               <Typography variant="h4" className="labelOne">
                 Have you been diagnosed with migraines, and do triptans relieve
                 them?
@@ -294,7 +311,7 @@ function MigraineQuestion() {
                 name="diagnosed"
                 value={answers.diagnosed}
                 onChange={(e) =>
-                  setAnswers({ ...answers, diagnosed: e.target.value })
+                handleChange(e,"No")
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
@@ -304,7 +321,7 @@ function MigraineQuestion() {
             </FormControl>
             {/****** Are you between 18 and 65 years old?**  ****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox"  disabled={checkDisabled("otherAllergy")}>
               <Typography variant="h4" className="labelOne">
                 Do you have an allergy to any of the following medications?
                 <ul>
@@ -318,7 +335,7 @@ function MigraineQuestion() {
                 name="otherAllergy"
                 value={answers.otherAllergy}
                 onChange={(e) =>
-                  setAnswers({ ...answers, otherAllergy: e.target.value })
+              handleChange(e,"Yes")
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
@@ -328,7 +345,7 @@ function MigraineQuestion() {
             </FormControl>
             {/****** Are you between 18 and 65 years old?**  ****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox" disabled={checkDisabled("triptans")}>
               <Typography variant="h4" className="labelOne">
                 Have you experienced any of the following after taking triptans?
                 <ul>
@@ -343,7 +360,7 @@ function MigraineQuestion() {
                 name="triptans"
                 value={answers.triptans}
                 onChange={(e) =>
-                  setAnswers({ ...answers, triptans: e.target.value })
+                  handleChange(e,"Yes")
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
@@ -353,7 +370,7 @@ function MigraineQuestion() {
             </FormControl>
             {/****** Are you between 18 and 65 years old?**  ****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox"  disabled={checkDisabled("diagnoseAny")}>
               <Typography variant="h4" className="labelOne">
                 Have you been diagnosed with any of the following conditions?
                 <ul>
@@ -369,7 +386,7 @@ function MigraineQuestion() {
                 name="diagnoseAny"
                 value={answers.diagnoseAny}
                 onChange={(e) =>
-                  setAnswers({ ...answers, diagnoseAny: e.target.value })
+                 handleChange(e,"Yes")
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
@@ -379,7 +396,7 @@ function MigraineQuestion() {
             </FormControl>
             {/****** Are you between 18 and 65 years old?**  ****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox" >
               <Typography variant="h4" className="labelOne">
                 Are you currently taking any medications?
               </Typography>
@@ -391,8 +408,8 @@ function MigraineQuestion() {
                   setAnswers({ ...answers, medicationAny1: e.target.value })
                 }
               >
-                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
-                <FormControlLabel value="No" control={<Radio />} label="No" />
+                <FormControlLabel value="Yes" control={<Radio  disabled={checkDisabled("medicationAny1")} />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio  disabled={checkDisabled("medicationAny1")}/>} label="No" />
               </RadioGroup>
               {answers.medicationAny1 === "Yes" && (
                 <div>
@@ -413,17 +430,17 @@ function MigraineQuestion() {
                     name="medicationAny2"
                     value={answers.medicationAny2}
                     onChange={(e) =>
-                      setAnswers({ ...answers, medicationAny2: e.target.value })
+                     handleChange(e,"Yes")
                     }
                   >
                     <FormControlLabel
                       value="Yes"
-                      control={<Radio />}
+                      control={<Radio  disabled={checkDisabled("medicationAny2")} />}
                       label="Yes"
                     />
                     <FormControlLabel
                       value="No"
-                      control={<Radio />}
+                      control={<Radio  disabled={checkDisabled("medicationAny2")} />}
                       label="No"
                     />
                   </RadioGroup>
@@ -436,7 +453,7 @@ function MigraineQuestion() {
 
             {/****** Do you agree to the following terms?**    ****/}
 
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl component="fieldset" className="QuestionBox" disabled={checkDisabled("agreedTC1")}>
               <Typography variant="h4" className="labelOne">
                 Do you agree to the following terms?**
                 <ul>
@@ -454,7 +471,7 @@ function MigraineQuestion() {
                 name="agreedTC1"
                 value={answers.agreedTC1}
                 onChange={(e) =>
-                  setAnswers({ ...answers, agreedTC1: e.target.value })
+                  handleChange(e,"No")
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
