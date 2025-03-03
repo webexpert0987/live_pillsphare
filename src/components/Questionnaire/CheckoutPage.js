@@ -20,7 +20,7 @@ import {
   useElements,
 } from "@stripe/react-stripe-js";
 import { createPaymentIntent } from "../../apis/apisList/paymentApi";
-import { createOrder } from "../../apis/apisList/orderApi";
+import { createOrder, orderEligibility } from "../../apis/apisList/orderApi";
 import useIpAddress from "../../hooks/ipAddressHook";
 
 // Load Stripe with your publishable key
@@ -203,6 +203,31 @@ function CheckoutForm() {
     return price.toFixed(2);
   };
 
+  const checkOrderEligibility = async (productId) => {
+    try {
+      const { shipping_address, billing_address } = billingDetails;
+      const response = await orderEligibility({
+        product_id: productId,
+        billing_address: shipping_address.address_1,
+        shipping_address: billing_address.address_1,
+        ip_address: IP_ADDRESS,
+      });
+
+      const { status, message } = response;
+
+      return {
+        status,
+        message,
+      };
+    } catch (error) {
+      console.log("Error checking order eligibility:", error);
+      return {
+        status: false,
+        message: "An error occurred while checking order eligibility.",
+      };
+    }
+  };
+
   useEffect(() => {
     if (canPay) {
       setIsDetailComplete(true);
@@ -216,6 +241,19 @@ function CheckoutForm() {
         setPaymentStatus("");
 
         try {
+          for (let item of cart) {
+            const { status, message } = await checkOrderEligibility(item.id);
+            if (status === false) {
+              showMessage(
+                `${message} Please remove the product ${item?.name} from your cart and try again`,
+                "error"
+              );
+              setIsProcessing(false);
+              setMakePayment(false);
+              setIsDetailComplete(false);
+              return;
+            }
+          }
           const response = await createPaymentIntent({
             amount: calculateTotal(),
           });

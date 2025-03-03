@@ -209,6 +209,31 @@ export default function Checkout() {
     });
   };
 
+  const checkOrderEligibility = async (productId) => {
+    try {
+      const { shipping_address, billing_address } = billingDetails;
+      const response = await orderEligibility({
+        product_id: productId,
+        billing_address: shipping_address.address_1,
+        shipping_address: billing_address.address_1,
+        ip_address: ipAddress,
+      });
+
+      const { status, message } = response;
+
+      return {
+        status,
+        message,
+      };
+    } catch (error) {
+      console.log("Error checking order eligibility:", error);
+      return {
+        status: false,
+        message: "An error occurred while checking order eligibility.",
+      };
+    }
+  };
+
   useEffect(() => {
     if (canPay) {
       setIsDetailComplete(true);
@@ -244,6 +269,20 @@ export default function Checkout() {
         setPaymentStatus("");
 
         try {
+          for (let item of cart) {
+            const { status, message } = await checkOrderEligibility(item.id);
+            if (status === false) {
+              showMessage(
+                `${message} Please remove the product ${item?.name} from your cart and try again`,
+                "error"
+              );
+              setIsProcessing(false);
+              setMakePayment(false);
+              setIsDetailComplete(false);
+              return;
+            }
+          }
+
           const response = await createPaymentIntent({
             amount: calculateTotal(),
           });
@@ -393,27 +432,6 @@ export default function Checkout() {
       }
     } catch (err) {
       showMessage("Please complete all required fields to continue.", "error");
-    }
-  };
-
-  // Debounced function to handle API call
-  const checkOrderEligibility = async (productId) => {
-    try {
-      const { shipping_address, billing_address } = billingDetails;
-      const response = await orderEligibility({
-        product_id: productId,
-        billing_address: shipping_address.address_1,
-        shipping_address: billing_address.address_1,
-        ip_address: ipAddress,
-      });
-
-      return response.data;
-    } catch (error) {
-      showMessage(
-        "An error occurred while checking order eligibility.",
-        "error"
-      );
-      console.log("Error checking order eligibility:", error);
     }
   };
 
