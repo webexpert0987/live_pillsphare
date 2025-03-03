@@ -250,7 +250,7 @@ function CheckoutForm() {
                 user_id: userDetails.user_id,
                 token: userDetails.token,
                 variation_ids: [cart?.[0]?.selectedVariant?.id],
-                questionAnswers_data: JSON.stringify(questionAnswers_data),
+                questionnaire_info: JSON.stringify(questionAnswers_data),
                 payment_intent_id: paymentIntent.id,
                 billing_address: {
                   first_name: billingDetails.billing_address.first_name,
@@ -370,6 +370,10 @@ function CheckoutForm() {
       },
     }));
   };
+
+  if (!userDetails) {
+    return <>Loading...</>;
+  }
   return (
     <>
       <Box

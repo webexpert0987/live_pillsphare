@@ -357,9 +357,11 @@ const Product = () => {
                   onClick={() =>
                     handleAddProduct(
                       product,
-                      product.selectedVariantInfo
-                        ? product.selectedVariantInfo
-                        : product.variations[0]
+                      product?.selectedVariantInfo
+                        ? product?.selectedVariantInfo
+                        : product?.variations.length
+                        ? product?.variations[0]
+                        : []
                     )
                   }
                 >

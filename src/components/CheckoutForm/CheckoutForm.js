@@ -28,7 +28,8 @@ import {
   useElements,
 } from "@stripe/react-stripe-js";
 import { createPaymentIntent } from "../../apis/apisList/paymentApi";
-import { createOrder } from "../../apis/apisList/orderApi";
+import { createOrder, orderEligibility } from "../../apis/apisList/orderApi";
+import useIpAddress from "../../hooks/ipAddressHook";
 
 const Text = styled(Typography)(({ theme }) => ({
   color: "#333333",
@@ -123,7 +124,7 @@ export default function Checkout() {
       state: "",
       postcode: "",
       country: "",
-      email: "",
+      email: userDetails.email,
       phone: "",
     },
     shipping_address: {
@@ -136,7 +137,7 @@ export default function Checkout() {
       state: "",
       postcode: "",
       country: "",
-      email: "",
+      email: userDetails.email,
       phone: "",
     },
   });
@@ -145,6 +146,7 @@ export default function Checkout() {
   const [isDetailComplete, setIsDetailComplete] = useState(true);
   const [canPay, setCanPay] = useState(false);
   const [makePayment, setMakePayment] = useState(false);
+  const ipAddress = useIpAddress();
   let cardElement;
 
   useEffect(() => {
@@ -296,6 +298,7 @@ export default function Checkout() {
                   email: billingDetails.billing_address.email,
                   phone: billingDetails.billing_address.phone,
                 },
+                ip: ipAddress,
               };
 
               const orderResponse = await createOrder(ordInfo);
@@ -369,6 +372,27 @@ export default function Checkout() {
     }
   };
 
+  // Debounced function to handle API call
+  const checkOrderEligibility = async (productId) => {
+    try {
+      const { shipping_address, billing_address } = billingDetails;
+      const response = await orderEligibility({
+        product_id: productId,
+        billing_address: shipping_address.address_1,
+        shipping_address: billing_address.address_1,
+        ip_address: ipAddress,
+      });
+
+      return response.data;
+    } catch (error) {
+      showMessage(
+        "An error occurred while checking order eligibility.",
+        "error"
+      );
+      console.log("Error checking order eligibility:", error);
+    }
+  };
+
   const handleFieldOnChange = (e) => {
     const { name, value } = e.target;
 
@@ -385,6 +409,9 @@ export default function Checkout() {
     }));
   };
 
+  if (!userDetails) {
+    return <>Loading...</>;
+  }
   return (
     <>
       <Box sx={{ margin: "20px" }}>
@@ -426,8 +453,8 @@ export default function Checkout() {
                 {
                   <Formik
                     initialValues={{
-                      first_name: "",
-                      last_name: "",
+                      first_name: userDetails.first_name || "",
+                      last_name: userDetails.last_name || "",
                       company: "",
                       address_1: "",
                       address_2: "",
@@ -435,7 +462,7 @@ export default function Checkout() {
                       state: "",
                       postcode: "",
                       country: "",
-                      email: "",
+                      email: userDetails.email || "",
                       phone: "",
                     }}
                     validationSchema={validationSchema}
@@ -479,6 +506,8 @@ export default function Checkout() {
                                 helperText={
                                   touched.first_name && errors.first_name
                                 }
+                                value={values.first_name}
+                                disabled
                               />
                             </Grid>
                             <Grid size={{ xs: 12, sm: 12, md: 6, lg: 6 }}>
@@ -500,6 +529,8 @@ export default function Checkout() {
                                 helperText={
                                   touched.last_name && errors.last_name
                                 }
+                                value={values.last_name}
+                                disabled
                               />
                             </Grid>
                             <Grid size={{ xs: 12, sm: 12, md: 6, lg: 6 }}>
@@ -517,6 +548,8 @@ export default function Checkout() {
                                 onBlur={handleBlur}
                                 error={touched.email && Boolean(errors.email)}
                                 helperText={touched.email && errors.email}
+                                value={values.email}
+                                disabled
                               />
                             </Grid>
                             <Grid size={{ xs: 12, sm: 12, md: 6, lg: 6 }}>
