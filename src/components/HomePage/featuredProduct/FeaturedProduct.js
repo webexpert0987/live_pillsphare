@@ -23,7 +23,6 @@ import { useApp } from "../../../Context/AppContext";
 import LoginRequiredPopup from "../../loginRequiredPopup/LoginRequiredPopup";
 import { useMessage } from "../../../Context/MessageContext";
 
-
 // const products = [
 //   {
 //     image: "/images/Mask-group.png",
@@ -133,7 +132,7 @@ function FeaturedProducts() {
     useApp();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const {showMessage} = useMessage();
+  const { showMessage } = useMessage();
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -144,9 +143,9 @@ function FeaturedProducts() {
         // if (cachedProducts) {
         //   setProducts(JSON.parse(cachedProducts)); // Use cached products
         // } else {
-          const data = await getProducts();
-          setProducts(data.products);
-          localStorage.setItem("products", JSON.stringify(data.products)); // Cache the products in localStorage
+        const data = await getProducts();
+        setProducts(data.products);
+        localStorage.setItem("products", JSON.stringify(data.products)); // Cache the products in localStorage
         // }
       } catch (error) {
         console.error("Failed to fetch products:", error);
@@ -167,7 +166,10 @@ function FeaturedProducts() {
     const test = 0;
     if (test == 0) {
       // Show the error message
-        showMessage('Sorry, this product is currently out of stock. Please check back later.', 'error');
+      showMessage(
+        "Sorry, this product is currently out of stock. Please check back later.",
+        "error"
+      );
       return; // Prevent further actions
     }
     if (!isLoggedIn) {
@@ -275,7 +277,9 @@ function FeaturedProducts() {
               <Typography variant="h5" fontWeight="bold">
                 Featured Product
               </Typography>
-              <Typography variant="h4" sx={{ 
+              <Typography
+                variant="h4"
+                sx={{
                   marginTop: "1rem",
                   fontSize: { xs: "15px", md: "16px" },
                 }}
@@ -355,6 +359,10 @@ function FeaturedProducts() {
                       style={homeFeatured.imageBox}
                       sx={{
                         height: { xs: "180px", sm: "220px", md: "280px" },
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        overflow: "hidden",
                       }}
                     >
                       <img
@@ -371,6 +379,8 @@ function FeaturedProducts() {
                         flexDirection: "column",
                         justifyContent: "space-between",
                         width: "100%",
+                        height: { xs: "180px", sm: "220px", md: "230px" },
+                        display: "flex",
                         maxHeight: "230px",
                         backgroundColor: "#FAFAFA",
                         borderRadius: "0 0 12px 12px",
