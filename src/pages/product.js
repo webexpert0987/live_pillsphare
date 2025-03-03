@@ -37,7 +37,7 @@ const Product = () => {
   const { slug } = useParams();
 
   const { showMessage } = useMessage();
-  const { addToCart } = useApp();
+  const { addToCart, userDetails } = useApp();
   const [product, setProduct] = useState({});
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [quantity, setQuantity] = useState(1);
@@ -111,7 +111,6 @@ const Product = () => {
     });
     // updateVariant(product, variantId);
   };
-
   const handleAddProduct = (product, selectedVariant) => {
     const test = 0;
     if (test == 0) {
@@ -184,6 +183,12 @@ const Product = () => {
 
     setQuantity(value);
   };
+
+  useEffect(() => {
+    if (userDetails) {
+      setIsLoggedIn(true);
+    }
+  }, [userDetails]);
   return (
     <>
       <BreadcrumbBar />
