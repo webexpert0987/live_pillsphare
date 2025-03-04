@@ -29,6 +29,9 @@ function StopSmokingQuestion() {
   const boxRef = useRef(null);
   const { setSelectedTab } = useApp();
   const { showMessage } = useMessage();
+  const [disabled, setDisabled] = useState(false);
+  const [currentQue, setCurrentQue] = useState("");
+
   const handleScroll = () => {
     setTimeout(() => {
       if (boxRef.current) {
@@ -87,6 +90,21 @@ function StopSmokingQuestion() {
   const handleBack = () => {
     setActiveStep((prevStep) => prevStep - 1);
     handleScroll();
+  };
+
+  const handleChange = (e, condition) => {
+    const { name, value } = e.target;
+    setCurrentQue(name);
+    setAnswers({ ...answers, [name]: value });
+    if (condition === value) {
+      setDisabled(true);
+    } else {
+      setDisabled(false);
+    }
+  };
+
+  const checkDisabled = (name) => {
+    return disabled && currentQue !== name;
   };
 
   const handleSubmit = () => {
