@@ -341,6 +341,7 @@ function CheckoutForm() {
                   phone: billingDetails.billing_address.phone,
                 },
                 ip: IP_ADDRESS,
+                consultation: 1,
               };
 
               const orderResponse = await createOrder(ordInfo);

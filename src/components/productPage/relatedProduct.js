@@ -56,7 +56,6 @@ const RelatedProductSlider = ({ relatedProducts }) => {
       { breakpoint: 480, settings: { slidesToShow: 2 } },
     ],
   };
-console.log('test dev', relatedProducts);
   return (
     <Box id="ViewTreatments" sx={{ backgroundColor: "#104239", position: "relative", padding: { xs: "40px 0", sm: "60px 0", md: "80px 0" } }}>
       <Container sx={{ display: "flex", justifyContent: "space-between", alignItems: "end", marginBottom: "20px" }}>

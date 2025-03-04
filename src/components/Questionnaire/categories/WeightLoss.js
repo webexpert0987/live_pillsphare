@@ -18,6 +18,7 @@ import BmiCalculate from "../Consultation"; // Import the BMI calculation compon
 import { useApp } from "../../../Context/AppContext";
 import { useMessage } from "../../../Context/MessageContext";
 import GpSearch from "../GpSeacrch";
+import { uploadFile } from "../../../apis/apisList/userApi";
 const steps = ["1", "2", "3", "4", "5"];
 
 function WeightLossQuestion() {
@@ -66,7 +67,7 @@ function WeightLossQuestion() {
     }, 100);
   };
 
-  const handleNext = () => {
+  const handleNext = async () => {
     const qaData = JSON.parse(
       localStorage.getItem("questionnaire_info") || "{}"
     );
@@ -109,6 +110,11 @@ function WeightLossQuestion() {
           showMessage("Please upload medication proof documents", "error");
           return;
         }
+      }
+      if (answers.previousMedicationProof) {
+        const response = await uploadFile(answers.previousMedicationProof);
+        console.log(">>response>>>", response);
+        return;
       }
     } else if (activeStep === 2) {
       const requiredAgreements = [

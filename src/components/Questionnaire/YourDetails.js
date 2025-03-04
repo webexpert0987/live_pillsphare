@@ -58,6 +58,7 @@ function YourDetailForm() {
   const { setSelectedTab, userDetails } = useApp();
   const { showMessage } = useMessage();
   const [isVerify, setIsVerify] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -167,16 +168,17 @@ function YourDetailForm() {
           password: formData.password,
         };
 
-        console.log(">>>>>", userData);
-
         try {
+          setLoading(true);
           const registerRes = await registerUser(userData);
           if (registerRes.status == 200) {
+            setLoading(false);
             showMessage("Otp sent to your email", "success");
             setIsVerify(true);
             return;
           }
         } catch (error) {
+          setLoading(false);
           showMessage(
             error?.response?.data?.message || "Error registering user",
             "error"
@@ -712,8 +714,10 @@ function YourDetailForm() {
               boxShadow: "none",
               textTransform: "uppercase",
             }}
+            disabled={loading}
           >
-            Start Consultation{" "}
+            {loading ? "Submitting..." : "Start Consultation"}
+
             <svg
               style={{ marginLeft: "10px" }}
               width="18"
