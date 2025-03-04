@@ -77,7 +77,7 @@ function HairLossQuestionnaire() {
         "hasDiagnosedMedicalConditions",
         "hasHistoryOfDepressionOrMentalHealth",
         "isTakingAnyMedication",
-        "isTakingSpecificMedications",
+        // "isTakingSpecificMedications",
         "understandsFinasterideRisks",
         "understandsPSATestImplications",
         "agreesToTermsAndConfirmsAge",
@@ -119,6 +119,14 @@ function HairLossQuestionnaire() {
           return;
         }
       }
+
+      if(questionnaireResponses.isTakingAnyMedication ==='Yes'){
+        if(!questionnaireResponses.isTakingSpecificMedications){
+          showMessage("Please provide contraception usage details to proceed","error")
+          return
+        }
+      }
+
     } else if (currentStep === 1) {
       const requiredAgreements = ["agreesToTermsAndConditions"];
 

@@ -150,6 +150,32 @@ function CystitisQuestionnaire() {
           return;
         }
       }
+  
+      const preventinputCondition = [
+        { field: "hasDiagnosedMedicalConditions", condition: "Yes",subField:"diagnosisDetails" },
+        { field: "isTakingMedications", condition: "Yes" ,subField:"prescripDetails"},
+        { field: "hasAllergies", condition: "Yes",subField:"allergyDetails"},
+        { field: "hasAdditionalInformation", condition: "Yes",subField:"additionalDetails"},
+        { field: "hasLowerBackPain", condition: "Yes",subField:"painDetails"},
+        { field: "hasHeartKidneyOrLiverIssues", condition: "Yes",subField:"infoIssue"},
+        { field: "hasBloodDisorders", condition: "Yes",subField:"infobloodDis"},
+        { field: "hasFolicAcidDeficiency", condition: "Yes",subField:"folicDefMore"},
+        { field: "hasPorphyria", condition: "Yes",subField:"porphyriaDetails"},
+      ];
+
+      for (const item of preventinputCondition) {
+       const { field, condition,subField } = item
+
+        if (questionnaireResponses[field] === condition && !questionnaireResponses[subField]) {
+
+          showMessage(
+            "Please provide all the details first to proceed to further",
+            "error"
+          );
+          return;
+        }
+      }
+
     } else if (currentStep === 1) {
       const requiredAgreements = ["hasAgreedToTerms"];
 
@@ -232,7 +258,11 @@ function CystitisQuestionnaire() {
           <>
             {/****** 1st What is your gender? *****/}
 
-            <FormControl component="fieldset" className="QuestionBox" disabled={checkDisabled("gender")}>
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("gender")}
+            >
               <Typography variant="h4" className="labelOne">
                 What is your gender? (Male N/A)
               </Typography>
@@ -288,7 +318,11 @@ function CystitisQuestionnaire() {
 
             {/****** Are you able to make decisions about your healthcare? *****/}
 
-            <FormControl component="fieldset" className="QuestionBox" disabled={checkDisabled("canMakeHealthcareDecisions")}>
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("canMakeHealthcareDecisions")}
+            >
               <Typography variant="h4" className="labelOne">
                 Are you able to make decisions about your healthcare?
               </Typography>
@@ -296,9 +330,7 @@ function CystitisQuestionnaire() {
                 row
                 name="canMakeHealthcareDecisions"
                 value={questionnaireResponses.canMakeHealthcareDecisions}
-                onChange={(e) =>
-                handleChange(e,"No")
-                }
+                onChange={(e) => handleChange(e, "No")}
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
@@ -315,7 +347,11 @@ function CystitisQuestionnaire() {
 
             {/****** Do you have any diagnosed medical conditions? *****/}
 
-            <FormControl component="fieldset" className="QuestionBox" disabled={checkDisabled("hasDiagnosedMedicalConditions")}>
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("hasDiagnosedMedicalConditions")}
+            >
               <Typography variant="h4" className="labelOne">
                 Do you have any diagnosed medical conditions?
               </Typography>
@@ -353,7 +389,11 @@ function CystitisQuestionnaire() {
 
             {/******.** Are you currently taking any medications, including prescription, over-the-counter, or homeopathic options? *****/}
 
-            <FormControl component="fieldset" className="QuestionBox" disabled={checkDisabled("isTakingMedications")}>
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("isTakingMedications")}
+            >
               <Typography variant="h4" className="labelOne">
                 Are you currently taking any medications, including
                 prescription, over-the-counter, or homeopathic options?
@@ -391,7 +431,11 @@ function CystitisQuestionnaire() {
 
             {/****** Do you have any known allergies? *****/}
 
-            <FormControl component="fieldset" className="QuestionBox"  disabled={checkDisabled("hasAllergies")}>
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("hasAllergies")}
+            >
               <Typography variant="h4" className="labelOne">
                 Do you have any known allergies?
               </Typography>
@@ -428,7 +472,11 @@ function CystitisQuestionnaire() {
 
             {/****** Is there any additional information that would help us provide appropriate care?*****/}
 
-            <FormControl component="fieldset" className="QuestionBox"  disabled={checkDisabled("hasAdditionalInformation")}>
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("hasAdditionalInformation")}
+            >
               <Typography variant="h4" className="labelOne">
                 Is there any additional information that would help us provide
                 appropriate care?
@@ -466,7 +514,11 @@ function CystitisQuestionnaire() {
 
             {/****** Are you over 65?*****/}
 
-            <FormControl component="fieldset" className="QuestionBox"  disabled={checkDisabled("isOver65")}>
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("isOver65")}
+            >
               <Typography variant="h4" className="labelOne">
                 Are you over 65?
               </Typography>
@@ -474,9 +526,7 @@ function CystitisQuestionnaire() {
                 row
                 name="isOver65"
                 value={questionnaireResponses.isOver65}
-                onChange={(e) =>
-                 handleChange(e,"Yes")
-                }
+                onChange={(e) => handleChange(e, "Yes")}
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
@@ -492,7 +542,11 @@ function CystitisQuestionnaire() {
               )}
             </FormControl>
             {/* ---- Have you previously been diagnosed with cystitis (UTI)?--- */}
-            <FormControl component="fieldset" className="QuestionBox"  disabled={checkDisabled("hasPreviousUTIDiagnosis")}>
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("hasPreviousUTIDiagnosis")}
+            >
               <Typography variant="h4" className="labelOne">
                 Have you previously been diagnosed with cystitis (UTI)?
               </Typography>
@@ -619,7 +673,11 @@ function CystitisQuestionnaire() {
             </FormControl>
 
             {/* ---- Is there any blood in your urine?--- */}
-            <FormControl component="fieldset" className="QuestionBox" disabled={checkDisabled("hasBloodInUrine")}>
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("hasBloodInUrine")}
+            >
               <Typography variant="h4" className="labelOne">
                 Is there any blood in your urine?
               </Typography>
@@ -640,7 +698,11 @@ function CystitisQuestionnaire() {
             </FormControl>
 
             {/* .** Are you currently experiencing lower back pain? */}
-            <FormControl component="fieldset" className="QuestionBox" disabled={checkDisabled("hasLowerBackPain")}>
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("hasLowerBackPain")}
+            >
               <Typography variant="h4" className="labelOne">
                 Are you currently experiencing lower back pain?
               </Typography>
@@ -675,7 +737,11 @@ function CystitisQuestionnaire() {
               )}
             </FormControl>
             {/* Are you feeling nauseous or vomiting? */}
-            <FormControl component="fieldset" className="QuestionBox" disabled={checkDisabled("hasNauseaOrVomiting")}>
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("hasNauseaOrVomiting")}
+            >
               <Typography variant="h4" className="labelOne">
                 Are you feeling nauseous or vomiting?
               </Typography>
@@ -695,7 +761,11 @@ function CystitisQuestionnaire() {
               </RadioGroup>
             </FormControl>
             {/* .** Do you have a fever (above 38°C)? */}
-            <FormControl component="fieldset" className="QuestionBox" disabled={checkDisabled("hasFever")}>
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("hasFever")}
+            >
               <Typography variant="h4" className="labelOne">
                 Do you have a fever (above 38°C)?
               </Typography>
@@ -715,7 +785,11 @@ function CystitisQuestionnaire() {
               </RadioGroup>
             </FormControl>
             {/* .Are you feeling unusually tired or sleepy? */}
-            <FormControl component="fieldset" className="QuestionBox"  disabled={checkDisabled("hasUnusualFatigue")}>
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("hasUnusualFatigue")}
+            >
               <Typography variant="h4" className="labelOne">
                 Are you feeling unusually tired or sleepy?
               </Typography>
@@ -735,7 +809,11 @@ function CystitisQuestionnaire() {
               </RadioGroup>
             </FormControl>
             {/* .** Do you have any heart, kidney, or liver issues? */}
-            <FormControl component="fieldset" className="QuestionBox" disabled={checkDisabled("hasHeartKidneyOrLiverIssues")}>
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("hasHeartKidneyOrLiverIssues")}
+            >
               <Typography variant="h4" className="labelOne">
                 Do you have any heart, kidney, or liver issues?
               </Typography>
@@ -770,7 +848,11 @@ function CystitisQuestionnaire() {
               )}
             </FormControl>
             {/* .** Do you have any blood disorders? */}
-            <FormControl component="fieldset" className="QuestionBox" disabled={checkDisabled("hasBloodDisorders")}>
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("hasBloodDisorders")}
+            >
               <Typography variant="h4" className="labelOne">
                 Do you have any blood disorders?
               </Typography>
@@ -805,7 +887,11 @@ function CystitisQuestionnaire() {
               )}
             </FormControl>
             {/* Are you folic acid deficient? */}
-            <FormControl component="fieldset" className="QuestionBox" disabled={checkDisabled("hasFolicAcidDeficiency")}>
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("hasFolicAcidDeficiency")}
+            >
               <Typography variant="h4" className="labelOne">
                 Are you folic acid deficient?
               </Typography>
@@ -840,7 +926,11 @@ function CystitisQuestionnaire() {
               )}
             </FormControl>
             {/*  Have you been diagnosed with porphyria ( a condition which is couased by photosensitivity of the skin, muscle weakness and pain? */}
-            <FormControl component="fieldset" className="QuestionBox" disabled={checkDisabled("hasPorphyria")}>
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("hasPorphyria")}
+            >
               <Typography variant="h4" className="labelOne">
                 Have you been diagnosed with porphyria ( a condition which is
                 couased by photosensitivity of the skin, muscle weakness and
@@ -877,7 +967,11 @@ function CystitisQuestionnaire() {
               )}
             </FormControl>
             {/* Do you agree to seek urgent medical advice if back pain or flu-like symptoms arise?*/}
-            <FormControl component="fieldset" className="QuestionBox" disabled={checkDisabled("agreesToSeekAdviceForSymptoms")}>
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("agreesToSeekAdviceForSymptoms")}
+            >
               <Typography variant="h4" className="labelOne">
                 Do you agree to seek urgent medical advice if back pain or
                 flu-like symptoms arise?
@@ -886,9 +980,7 @@ function CystitisQuestionnaire() {
                 row
                 name="agreesToSeekAdviceForSymptoms"
                 value={questionnaireResponses.agreesToSeekAdviceForSymptoms}
-                onChange={(e) =>
-                  handleChange(e,"No")
-                }
+                onChange={(e) => handleChange(e, "No")}
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
@@ -902,7 +994,11 @@ function CystitisQuestionnaire() {
               )}
             </FormControl>
             {/* Do you agree not to take UTI medication if pregnant or breastfeeding? */}
-            <FormControl component="fieldset" className="QuestionBox" disabled={checkDisabled("agreesNotToTakeUTIMedicationIfPregnant")}>
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("agreesNotToTakeUTIMedicationIfPregnant")}
+            >
               <Typography variant="h4" className="labelOne">
                 Do you agree not to take UTI medication if pregnant or
                 breastfeeding?
@@ -913,9 +1009,7 @@ function CystitisQuestionnaire() {
                 value={
                   questionnaireResponses.agreesNotToTakeUTIMedicationIfPregnant
                 }
-                onChange={(e) =>
-                  handleChange(e,"No")
-                }
+                onChange={(e) => handleChange(e, "No")}
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
@@ -929,7 +1023,11 @@ function CystitisQuestionnaire() {
               )}
             </FormControl>
             {/* How many UTIs have you had in the last 6 months? */}
-            <FormControl component="fieldset" className="QuestionBox" disabled={checkDisabled("numberOfUTIsInLast6Months")}>
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("numberOfUTIsInLast6Months")}
+            >
               <Typography variant="h4" className="labelOne">
                 How many UTI have you had in last 6 months?
               </Typography>

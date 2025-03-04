@@ -44,6 +44,7 @@ function ErectileDysfunctionQuestionnaire() {
     agreesToSeekHelpForProlongedErection: "",
     agreesToConditions: "",
     confirmsAgeAndAgreesToTerms: "",
+    conditions: [],
   });
   const boxRef = useRef(null);
   const { setSelectedTab } = useApp();
@@ -66,7 +67,10 @@ function ErectileDysfunctionQuestionnaire() {
       }
     }, 100);
   };
-
+  
+  const isValidSelection =
+    ( (questionnaireResponses.conditions.length == 0));
+   
   const handleNext = () => {
     const qaData = JSON.parse(
       localStorage.getItem("questionnaire_info") || "{}"
@@ -135,6 +139,14 @@ function ErectileDysfunctionQuestionnaire() {
           return;
         }
       }
+      if (isValidSelection) {
+        showMessage(
+          "Based on your answers, we are unable to provide you with treatment at this time. Please consult your GP.",
+          "error"
+        );
+        return;
+      }
+
     } else if (currentStep === 1) {
       const requiredAgreements = ["agreesToTerms"];
 
@@ -644,7 +656,7 @@ function ErectileDysfunctionQuestionnaire() {
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
               {questionnaireResponses.takesOtherMedications === "Yes" && (
-                <FormControl component="fieldset" className="QuestionBox"  disabled={checkDisabled("takesOtherMedicationsCheckbox")}>
+                <FormControl component="fieldset" className="QuestionBox"  disabled={checkDisabled("conditions")}>
                   {[
                     "Diabetes",
                     "High blood pressure",
@@ -660,7 +672,6 @@ function ErectileDysfunctionQuestionnaire() {
                     <FormControlLabel
                       className="checkbox2Col"
                       key={index}
-                      name="takesOtherMedicationsCheckbox"
                       control={
                         <Checkbox
                           checked={questionnaireResponses.conditions?.includes(

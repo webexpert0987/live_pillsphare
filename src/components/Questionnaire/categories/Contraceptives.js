@@ -119,6 +119,20 @@ function ContraceptivesQuestion() {
         }
       }
 
+      if(answers.contraceptionUsage ==='Yes'){
+        if(!answers.contraceptionUsageInfo){
+          showMessage("Please provide contraception usage details to proceed","error")
+          return
+        }
+      }
+
+      if(answers.previousContraceptivePill ==='Yes'){
+        if(!answers.previousContraceptivePillInfo){
+          showMessage("Please provide previous Contraceptive Pill details to proceed","error")
+          return
+        }
+      }
+
       if (answers.bloodPressure > 140) {
         showMessage(
           "Based on your answers, we are unable to provide you with treatment at this time. Please consult your GP.",

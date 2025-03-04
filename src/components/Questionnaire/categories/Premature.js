@@ -142,7 +142,7 @@ function PrematureQuestion() {
       }
       if(answers.allergy==='Yes'){
         if(!answers.allergyIssue){
-          showMessage("Please provide allergies details to proced","error")
+          showMessage("Please provide allergies details to proceed","error")
           return
         }
       }
