@@ -79,6 +79,7 @@ function PrematureQuestion() {
         "gender",
         "premature",
         "allergy",
+        // "allergyIssue",
         "ejaculation",
         "ejaculateTime",
         "persistentPre",
@@ -138,6 +139,12 @@ function PrematureQuestion() {
           "error"
         );
         return;
+      }
+      if(answers.allergy==='Yes'){
+        if(!answers.allergyIssue){
+          showMessage("Please provide allergies details to proced","error")
+          return
+        }
       }
     } else if (activeStep === 1) {
       const requiredAgreements = ["agreeToTerms"];
@@ -323,7 +330,8 @@ function PrematureQuestion() {
                   <Typography>"Provide more details."</Typography>
                   <TextField
                     multiline
-                    disabled={checkDisabled("allergyIssue")}
+                    // disabled={checkDisabled("allergyIssue")}
+                    required={answers.allergy === "Yes"}
                     line={3}
                     value={answers.allergyIssue}
                     onChange={(e) =>

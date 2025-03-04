@@ -34,6 +34,7 @@ function HighFeverQuestion() {
     weightDetails: "",
     weightDetailsNext: "",
     allergicDetails: "",
+    followingSymptomsCheckbox: "",
     currentSymptoms: "",
     currentSymptomsDetails: "",
     otherTreatment: "",
@@ -86,6 +87,7 @@ function HighFeverQuestion() {
         "pregnancyDetails",
         "smokeDetails",
         "alcohalDetails",
+        
       ];
 
       for (const field of requiredFields) {
@@ -445,8 +447,8 @@ function HighFeverQuestion() {
 
             {/* ......... */}
 
-            <FormControl component="fieldset" className="QuestionBox"  disabled={checkDisabled("allergicDetails")}>
-              <Typography variant="h4" className="labelOne">
+            <FormControl component="fieldset" className="QuestionBox"  disabled={checkDisabled("followingSymptomsCheckbox")}>
+              <Typography variant="h4" className="labelOne" name="followingSymptomsCheckbox">
                 Which of the following symptoms do you have? (List options like
                 sneezing, runny nose, etc.) Here’s a shuffled version of the
                 symptoms:

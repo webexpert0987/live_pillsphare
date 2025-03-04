@@ -48,6 +48,8 @@ function WeightLossQuestion() {
   const boxRef = useRef(null);
   const { setSelectedTab } = useApp();
   const { showMessage } = useMessage();
+  const [disabled, setDisabled] = useState(false);
+  const [currentQue, setCurrentQue] = useState("");
   const handleScroll = () => {
     setTimeout(() => {
       if (boxRef.current) {
@@ -102,6 +104,12 @@ function WeightLossQuestion() {
           return;
         }
       }
+      if (answers.usedInjectableWeightLossMedLast4Weeks === "Yes") {
+        if (!answers.previousMedicationProof) {
+          showMessage("Please upload medication proof documents", "error");
+          return;
+        }
+      }
     } else if (activeStep === 2) {
       const requiredAgreements = [
         "agreedToTerms",
@@ -135,6 +143,21 @@ function WeightLossQuestion() {
   const handleBack = () => {
     setActiveStep((prevStep) => prevStep - 1);
     handleScroll();
+  };
+
+  const handleChange = (e, condition) => {
+    const { name, value } = e.target;
+    setCurrentQue(name);
+    setAnswers({ ...answers, [name]: value });
+    if (condition === value) {
+      setDisabled(true);
+    } else {
+      setDisabled(false);
+    }
+  };
+
+  const checkDisabled = (name) => {
+    return disabled && currentQue !== name;
   };
 
   const handleSubmit = () => {
@@ -380,6 +403,9 @@ function WeightLossQuestion() {
                   </Typography>
                   <input
                     type="file"
+                    required={
+                      answers.usedInjectableWeightLossMedLast4Weeks === "Yes"
+                    }
                     name="previousMedicationProof"
                     accept=".jpg,.jpeg,.png,.pdf"
                     onChange={(e) =>

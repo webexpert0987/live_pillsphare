@@ -155,6 +155,60 @@ function StopSmokingQuestion() {
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
             </FormControl>
+ {/****** Are you aged between 17-74 years *****/}
+
+ <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Are you aged between 17-74 years
+              </Typography>
+              <RadioGroup
+                row
+                name="agedBetween"
+                value={answers.agedBetween}
+                onChange={(e) =>
+                  setAnswers({ ...answers, agedBetween: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+            </FormControl>
+ {/****** Are you aged between 17-74 years *****/}
+
+ <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Are you aged between 17-74 years
+              </Typography>
+              <RadioGroup
+                row
+                name="agedBetween"
+                value={answers.agedBetween}
+                onChange={(e) =>
+                  setAnswers({ ...answers, agedBetween: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+            </FormControl>
+ {/****** Are you aged between 17-74 years *****/}
+
+ <FormControl component="fieldset" className="QuestionBox">
+              <Typography variant="h4" className="labelOne">
+                Are you aged between 17-74 years
+              </Typography>
+              <RadioGroup
+                row
+                name="agedBetween"
+                value={answers.agedBetween}
+                onChange={(e) =>
+                  setAnswers({ ...answers, agedBetween: e.target.value })
+                }
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+            </FormControl>
 
             {/****** End *****/}
           </>
