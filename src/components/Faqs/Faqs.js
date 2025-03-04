@@ -12,39 +12,59 @@ import ServiceProvidedDark from "../Faqs/ServiceProviderDark";
 
 const faqs = [
   {
-    title: "Do I need a prescription to order medication?",
+    title: "What is Pill Sphere?",
     description:
-      "Some medications require a valid prescription, while others are available over the counter. If a prescription is needed, you can upload it during checkout, or our medical professionals can assess your condition and provide one if necessary. We ensure a smooth and hassle-free process for our customers.",
+      "Pill Sphere is a UK-based online pharmacy and private clinic offering a wide range of prescription medications, over-the-counter products, and private healthcare services. We provide convenient, discreet, and reliable access to treatments and expert advice from qualified healthcare professionals.",
   },
   {
-    title: "How long does it take to receive my order?",
+    title: "Is Pill Sphere a registered pharmacy?",
     description:
-      "Orders are usually processed within 24-48 hours. Delivery times vary based on your location and the shipping option selected at checkout. Standard shipping typically takes 3-5 business days, while express options are available for faster delivery. We provide tracking details so you can monitor your order’s status.",
+      "Yes, Pill Sphere is fully registered with the General Pharmaceutical Council (GPhC), the regulatory body for pharmacies in the UK. This ensures that all our services meet the highest standards of safety and professionalism.",
   },
   {
-    title: "Are the medications you sell genuine and safe?",
+    title: "Are your medications safe and genuine?",
     description:
-      "Yes, all our medications are sourced from licensed manufacturers and authorized suppliers. We follow strict quality control standards to ensure that all products are genuine, safe, and effective. Additionally, our pharmacy operates under government regulations and guidelines to guarantee the highest level of safety.",
+      "Absolutely. All medications dispensed by Pill Sphere are sourced from licensed suppliers and approved by the Medicines and Healthcare products Regulatory Agency (MHRA), the UK’s regulatory authority for medicines. This guarantees that our products are safe, effective, and of the highest quality.",
   },
   {
-    title: "Can I return or exchange my medication?",
+    title: "Do I need a prescription to order medications?",
     description:
-      "Due to health and safety regulations, we cannot accept returns on prescription medications. However, if you receive the wrong medication, a damaged product, or an order error, please contact our customer service team immediately, and we will work to resolve the issue as quickly as possible.",
+      "For prescription-only medications, you will need a valid prescription. At Pill Sphere, we offer private online consultations with qualified healthcare professionals who can issue a prescription if appropriate. Over-the-counter (OTC) products can be purchased directly without a prescription.",
   },
   {
-    title: "How do I book an appointment?",
+    title: "How do private consultations work?",
     description:
-      "Booking an appointment is easy! You can schedule a consultation through our website, call our clinic directly, or visit us in person. We offer both in-person and virtual consultations to provide flexibility for our patients. Same-day appointments may be available depending on doctor availability.",
+      "Our private consultations are quick, easy, and conducted online. Simply complete a health questionnaire, and one of our registered doctors or pharmacists will review your information. If approved, your prescription will be issued, and your medication will be dispensed and delivered to your doorstep.",
   },
   {
-    title: "What services does the private clinic offer?",
-    description:
-      "Our private clinic offers a range of services, including general health check-ups, diagnostic tests, specialist consultations, vaccinations, minor surgical procedures, and wellness treatments. We are committed to providing personalized healthcare solutions tailored to your specific needs.",
+    title: "What conditions can you treat through private consultations?",
+    description: [
+      "Our private clinic can help with a wide range of conditions, including:",
+      "- Allergies (e.g. hay fever)",
+      "- Sexual health (e.g., erectile dysfunction, contraception)",
+      "- Weight management",
+      "- General health concerns (e.g. hair loss)",
+    ],
   },
   {
-    title: "Is my personal information secure?",
+    title: "How do I know my personal information is safe?",
     description:
-      "Yes, we take patient confidentiality very seriously. Our clinic follows strict data protection policies to ensure that all personal and medical information is securely stored and only accessible by authorized personnel. We comply with HIPAA (Health Insurance Portability and Accountability Act) and other data security standards to protect your privacy.",
+      "At Pill Sphere, we take your privacy seriously. All personal and medical information is handled in strict confidence and stored securely in compliance with UK data protection laws (GDPR). Your data will never be shared with third parties without your consent.",
+  },
+  {
+    title: "Can I get advice from a pharmacist?",
+    description:
+      "Yes, our team of UK-registered pharmacists is available to provide expert advice on medications, treatments, and general health concerns. You can contact us via phone, email, or live chat for assistance.",
+  },
+  {
+    title: "How quickly will I receive my order?",
+    description:
+      "We offer fast and discreet delivery across the UK. Most orders are dispatched within 24 hours and delivered within 2–3 working days. You can also choose express delivery options for quicker service.",
+  },
+  {
+    title: "What if I have a problem with my order?",
+    description:
+      "If you have any issues with your order, our customer service team is here to help. Contact us via phone, email, or live chat, and we’ll resolve your query as quickly as possible.",
   },
 ];
 
@@ -128,9 +148,21 @@ const FAQs = () => {
                 <Box sx={faqStyle.faqSummaryContent} />
               </AccordionSummary>
               <AccordionDetails sx={faqStyle.faqDescription}>
-                <Typography sx={faqStyle.faqDescriptionTxt}>
-                  {faq.description}
-                </Typography>
+                {Array.isArray(faq.description) ? (
+                  faq.description.map((line, idx) => (
+                    <Typography
+                      key={idx}
+                      sx={faqStyle.faqDescriptionTxt}
+                      paragraph
+                    >
+                      {line}
+                    </Typography>
+                  ))
+                ) : (
+                  <Typography sx={faqStyle.faqDescriptionTxt}>
+                    {faq.description}
+                  </Typography>
+                )}
               </AccordionDetails>
             </Accordion>
           );

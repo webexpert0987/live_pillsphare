@@ -6,27 +6,32 @@ const whyChooseData = [
   {
     id: 1,
     image: require("../../pages/images/Info-Images/icon01.png"),
-    title: "Trusted UK Pharmacy",
-    description: "Fully regulated and compliant with MHRA and GPhC guidelines.",
+    title: "GPhC-Registered Pharmacy",
+    description: "All services meet strict regulatory standards.",
   },
   {
     id: 2,
     image: require("../../pages/images/Info-Images/icon02.png"),
-    title: "Discreet Service",
-    description: "Confidential consultations and packaging.",
+    title: "MHRA-Approved Medications",
+    description: "Safe, genuine, and effective treatments.",
   },
   {
     id: 3,
     image: require("../../pages/images/Info-Images/icon03.png"),
-    title: "Expert Support",
-    description:
-      "Access to qualified pharmacists and healthcare professionals.",
+    title: "Private Consultations",
+    description: "Convenient online access to healthcare professionals.",
   },
   {
     id: 4,
     image: require("../../pages/images/Info-Images/icon04.png"),
-    title: "Fast Delivery",
-    description: "Reliable and timely delivery across the UK.",
+    title: "Expert Advice",
+    description: "Support from qualified pharmacists and doctors.",
+  },
+  {
+    id: 5,
+    image: require("../../pages/images/Info-Images/icon04.png"),
+    title: "Fast, Discreet Delivery",
+    description: "Your medications delivered to your doorstep.",
   },
 ];
 
@@ -59,9 +64,9 @@ function WhyChoosePills() {
             gridTemplateColumns: {
               xs: "1fr",
               sm: "repeat(2, 1fr)",
-              md: "repeat(4, 1fr)",
+              md: "repeat(5, 1fr)",
             },
-            gap: { xs: "30px", sm: "30px", md: "50px" },
+            gap: { xs: "30px", sm: "25px", md: "35px" },
             textAlign: "center",
           }}
         >
@@ -81,7 +86,7 @@ function WhyChoosePills() {
               <Typography
                 variant="h4"
                 sx={{
-                  fontSize: { xs: "20px", sm: "22px", md: "26px" },
+                  fontSize: { xs: "18px", sm: "20px", md: "22px" },
                   fontWeight: "600",
                   color: "#FFF",
                   marginBottom: "10px",
@@ -92,7 +97,7 @@ function WhyChoosePills() {
               <Typography
                 variant="body1"
                 sx={{
-                  fontSize: "16px",
+                  fontSize: { xs: "15px", sm: "16px", md: "16px" },
                   color: "#FFF",
                   fontWeight: "400",
                   letterSpacing: "0.2px",
