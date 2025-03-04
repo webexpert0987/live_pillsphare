@@ -18,16 +18,16 @@ import OnlineClinicCategory from "../pages/OnlineClinicCategory";
 import SupportPage from "../components/Support/Support";
 //////////////////////
 import HeyFever from "../components/CategoryInfoPages/HayFever";
-import CystitisTreatment  from "../components/CategoryInfoPages/CystitisTreatment";
-import ContraceptiveTreatment  from "../components/CategoryInfoPages/ContraceptiveTreatment";
-import AcidReflux  from "../components/CategoryInfoPages/AcidReflux";
-import PrematureEjaculation  from "../components/CategoryInfoPages/PrematureEjaculation";
-import HairLoss  from "../components/CategoryInfoPages/HairLoss";
-import ErectileDysPage  from "../components/CategoryInfoPages/ErectileDysfunction";
-import StopSmokingPage  from "../components/CategoryInfoPages/StopSmoking";
-import PeriodPainPage  from "../components/CategoryInfoPages/PeriodPain";
-import PeriodDelayPage  from "../components/CategoryInfoPages/PeriodDelay";
-import MigraineTreatmentPage  from "../components/CategoryInfoPages/MigraineTreatment";
+import CystitisTreatment from "../components/CategoryInfoPages/CystitisTreatment";
+import ContraceptiveTreatment from "../components/CategoryInfoPages/ContraceptiveTreatment";
+import AcidReflux from "../components/CategoryInfoPages/AcidReflux";
+import PrematureEjaculation from "../components/CategoryInfoPages/PrematureEjaculation";
+import HairLoss from "../components/CategoryInfoPages/HairLoss";
+import ErectileDysPage from "../components/CategoryInfoPages/ErectileDysfunction";
+import StopSmokingPage from "../components/CategoryInfoPages/StopSmoking";
+import PeriodPainPage from "../components/CategoryInfoPages/PeriodPain";
+import PeriodDelayPage from "../components/CategoryInfoPages/PeriodDelay";
+import MigraineTreatmentPage from "../components/CategoryInfoPages/MigraineTreatment";
 
 import Verification from "../pages/Verification";
 const routes = [
@@ -181,8 +181,11 @@ const routes = [
     component: Verification,
     exact: true,
   },
-  
-
+  {
+    path: "/thankyou",
+    component: ThankYouPage,
+    exact: true,
+  },
 ];
 
 export default routes;
