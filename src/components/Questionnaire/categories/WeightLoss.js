@@ -111,11 +111,11 @@ function WeightLossQuestion() {
           return;
         }
       }
-      if (answers.previousMedicationProof) {
-        const response = await uploadFile(answers.previousMedicationProof);
-        console.log(">>response>>>", response);
-        return;
-      }
+      // if (answers.previousMedicationProof) {
+      //   const response = await uploadFile(answers.previousMedicationProof);
+      //   console.log(">>response>>>", response);
+      //   return;
+      // }
     } else if (activeStep === 2) {
       const requiredAgreements = [
         "agreedToTerms",
