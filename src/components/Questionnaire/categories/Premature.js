@@ -330,7 +330,6 @@ function PrematureQuestion() {
                   <Typography>"Provide more details."</Typography>
                   <TextField
                     multiline
-                    // disabled={checkDisabled("allergyIssue")}
                     required={answers.allergy === "Yes"}
                     line={3}
                     value={answers.allergyIssue}
@@ -347,7 +346,7 @@ function PrematureQuestion() {
             <FormControl component="fieldset" className="QuestionBox" disabled={checkDisabled("ejaculateTime")}>
               <Typography variant="h4" className="labelOne">
                 On average, how long does it take you to ejaculate during sexual
-                intercourse?
+                intercourse ?
               </Typography>
               <RadioGroup
                 aria-labelledby="demo-radio-buttons-group-label"
@@ -373,7 +372,6 @@ function PrematureQuestion() {
                   control={<Radio />}
                   label="more than 3 minute"
                 />
-                {/* <FormControlLabel value="Rarely" control={<Radio />} label="Rarely" /> */}
               </RadioGroup>
             </FormControl>
             {/*****•	Have you experienced persistent premature ejaculation for more than 6 months?******/}
@@ -437,7 +435,7 @@ function PrematureQuestion() {
                 </div>
               )}
             </FormControl>
-            {/*****•	Are you currently taking any medication for any of the following? ******/}
+            {/*****•	Are you currently taking any medication for any of the following? Please select all that apply******/}
 
             <FormControl component="fieldset" className="QuestionBox"  disabled={checkDisabled("anyMedication")}>
               <Typography variant="h4" className="labelOne">

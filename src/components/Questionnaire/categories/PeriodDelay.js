@@ -166,6 +166,7 @@ function PeriodDelayQuestion() {
         );
         return;
       }
+
     } else if (activeStep === 1) {
       const requiredAgreements = ["agreeToTerms"];
 
@@ -564,60 +565,8 @@ function PeriodDelayQuestion() {
                 </div>
               )}
             </FormControl>
-            {/* *****•	Do you have a history of any of the following conditions that could affect your menstrual cycle? ****
-            <FormControl
-              component="fieldset"
-              className="QuestionBox"
-              disabled={checkDisabled("menstrualCyc")}           >
-              <Typography variant="h4" className="labelOne">
-                Do you have a history of any of the following conditions that
-                could affect your menstrual cycle?
-              </Typography>
-              <ul>
-                <FormControlLabel
-                  control={<Checkbox />}
-                  label="Irregular periods"
-                  value={answers.menstrualCyc}
-                />
-                <br></br>
-                <FormControlLabel
-                  control={<Checkbox />}
-                  label="Endometriosis"
-                  value={answers.menstrualCyc}
-                />
-                <br></br>
-                <FormControlLabel
-                  control={<Checkbox />}
-                  label="Fibroids"
-                  value={answers.menstrualCyc}
-                />
-                <br></br>
-                <FormControlLabel
-                  control={<Checkbox />}
-                  label="Polycystic Ovary Syndrome (PCOS)"
-                  value={answers.menstrualCyc}
-                />
-                <br></br>
-                <FormControlLabel
-                  control={<Checkbox />}
-                  label="Menstrual disorders"
-                  value={answers.menstrualCyc}
-                />
-                <br></br>
-                <FormControlLabel
-                  control={<Checkbox />}
-                  label="Other"
-                  value={answers.menstrualCyc}
-                />
-              </ul>
-              {answers.menstrualCyc === "Other" && (
-                <div>
-                  "Please indicate the medication you previously used and
-                  whether you experienced any side effects:"{" "}
-                </div>
-              )}
-            </FormControl> */}
-
+            {/* ........ Do you have a history of any of the following conditions that
+                could affect your menstrual cycle?....... */}
             <FormControl
               component="fieldset"
               className="QuestionBox"
@@ -750,7 +699,7 @@ function PeriodDelayQuestion() {
                 </div>
               )}
             </FormControl>
-            {/*****•	Are you currently pregnant or trying to conceive?******/}
+            {/***** Are you currently pregnant or trying to conceive?******/}
 
             <FormControl
               component="fieldset"
@@ -802,7 +751,7 @@ function PeriodDelayQuestion() {
                 </div>
               )}
             </FormControl>
-            {/******•	Do you understand that delaying your period may have potential side effects, and that you should consult your GP if you experience any issues? *****/}
+            {/******	Do you understand that delaying your period may have potential side effects, and that you should consult your GP if you experience any issues? *****/}
 
             <FormControl
               component="fieldset"

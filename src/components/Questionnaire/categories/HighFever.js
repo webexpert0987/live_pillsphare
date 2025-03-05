@@ -74,12 +74,11 @@ function HighFeverQuestion() {
     }, 100);
   };
 
-  const isValidSelection =
-  (answers.conditions1.length === 0);
+  const isValidSelection = answers.conditions1.length === 0;
 
   const isValidSelection1 =
-  (answers.conditions2.includes("None") && answers.conditions2.length > 1) ||
-  (answers.conditions2.length === 0);
+    (answers.conditions2.includes("None") && answers.conditions2.length > 1) ||
+    answers.conditions2.length === 0;
 
   const handleNext = () => {
     const qaData = JSON.parse(
@@ -157,7 +156,6 @@ function HighFeverQuestion() {
         );
         return;
       }
-
     } else if (activeStep === 1) {
       const requiredAgreements = ["agreeToTerms"];
 
@@ -229,7 +227,7 @@ function HighFeverQuestion() {
       case 0:
         return (
           <>
-            {/****** Are you aged between 17-74 years *****/}
+            {/******   Whats is your full name? *****/}
 
             <FormControl
               component="fieldset"
@@ -251,7 +249,7 @@ function HighFeverQuestion() {
                 fullWidth
               />
             </FormControl>
-
+           {/* ......  Are you purchasing this medication for personal use?........ */}
             <FormControl
               component="fieldset"
               className="QuestionBox"
@@ -272,6 +270,7 @@ function HighFeverQuestion() {
                 fullWidth
               />
             </FormControl>
+            {/* ....... Are you 18 years of age or older?........ */}
             <FormControl
               component="fieldset"
               className="QuestionBox"
@@ -292,7 +291,8 @@ function HighFeverQuestion() {
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
             </FormControl>
-            {/* .......... */}
+            {/* ...... Are you currently pregnant, breastfeeding, or planning a
+                pregnancy? (If yes, please provide more details.).... */}
             <FormControl
               component="fieldset"
               className="QuestionBox"
@@ -330,7 +330,7 @@ function HighFeverQuestion() {
                 />
               )}
             </FormControl>
-            {/* ....... */}
+            {/* ....  Do you smoke?... */}
             <FormControl
               component="fieldset"
               className="QuestionBox"
@@ -378,7 +378,7 @@ function HighFeverQuestion() {
                 </div>
               )}
             </FormControl>
-            {/* ............... */}
+            {/* ........ Do you consume alcohal ?....... */}
             <FormControl
               component="fieldset"
               className="QuestionBox"
@@ -428,7 +428,7 @@ function HighFeverQuestion() {
                 </div>
               )}
             </FormControl>
-            {/* ................. */}
+            {/* ......... Would you like guidance on weight management?........ */}
             <FormControl
               component="fieldset"
               className="QuestionBox"
@@ -478,7 +478,7 @@ function HighFeverQuestion() {
                 </div>
               )}
             </FormControl>
-            {/* ......... */}
+            {/* ..... Are you experiencing allergic rhinitis or hayfever?.... */}
 
             <FormControl
               component="fieldset"
@@ -501,59 +501,8 @@ function HighFeverQuestion() {
               </RadioGroup>
             </FormControl>
 
-            {/* ......... */}
-
-            {/* <FormControl
-              component="fieldset"
-              className="QuestionBox"
-              disabled={checkDisabled("followingSymptomsCheckbox")}
-            >
-              <Typography
-                variant="h4"
-                className="labelOne"
-                name="followingSymptomsCheckbox"
-              >
-                Which of the following symptoms do you have? (List options like
-                sneezing, runny nose, etc.) Here’s a shuffled version of the
-                symptoms:
-              </Typography>
-              <ul>
-                <FormControlLabel control={<Checkbox />} label="Headache" />
-                <br></br>
-                <FormControlLabel
-                  control={<Checkbox />}
-                  label="Sneezing and coughing"
-                />
-                <br></br>
-                <FormControlLabel
-                  control={<Checkbox />}
-                  label="Itchy throat, mouth, nose, and ears"
-                />
-                <br></br>
-                <FormControlLabel
-                  control={<Checkbox />}
-                  label="Loss of smell"
-                />
-                <br></br>
-                <FormControlLabel
-                  control={<Checkbox />}
-                  label="Pain around temples and forehead"
-                />
-                <br></br>
-                <FormControlLabel
-                  control={<Checkbox />}
-                  label="A runny or blocked nose"
-                />
-                <br></br>
-                <FormControlLabel control={<Checkbox />} label="Earache" />
-                <br></br>
-                <FormControlLabel
-                  control={<Checkbox />}
-                  label="Itchy, red, or watery eyes"
-                />
-              </ul>
-            </FormControl> */}
-            {/* ......... */}
+            {/* .....Are your current symptoms different from previous
+                hayfever/allergic rhinitis episodes?.... */}
 
             <FormControl
               component="fieldset"
@@ -648,7 +597,8 @@ function HighFeverQuestion() {
                 </>
               )}
             </FormControl>
-            {/* ................ */}
+            {/* ....... Have you previously tried other treatments for hayfever or
+                allergic rhinitis?......... */}
             <FormControl
               component="fieldset"
               className="QuestionBox"
@@ -689,57 +639,8 @@ function HighFeverQuestion() {
                 </>
               )}
             </FormControl>
-            {/* ......... */}
-
-            {/* <FormControl
-              component="fieldset"
-              className="QuestionBox"
-              disabled={checkDisabled("otherTreatment")}
-            >
-              <Typography variant="h4" className="labelOne">
-                Do you have any of the following additional symptoms? (List
-                specific symptoms like nasal pain, eye discomfort, etc.)
-              </Typography>
-              <ul>
-                <FormControlLabel
-                  control={<Checkbox />}
-                  label="Eye pain or changes in vision"
-                />
-                <br></br>
-                <FormControlLabel
-                  control={<Checkbox />}
-                  label="Frequent episodes of nosebleeds"
-                />
-                <br></br>
-                <FormControlLabel
-                  control={<Checkbox />}
-                  label="Structural changes to the nasal septum"
-                />
-                <br></br>
-                <FormControlLabel
-                  control={<Checkbox />}
-                  label="Discomfort or pain within the nasal area"
-                />
-                <br></br>
-                <FormControlLabel
-                  control={<Checkbox />}
-                  label="Presence of blood in nasal discharge"
-                />
-                <br></br>
-                <FormControlLabel
-                  control={<Checkbox />}
-                  label="Treatment not providing the desired relief"
-                />
-                <br></br>
-                <FormControlLabel
-                  control={<Checkbox />}
-                  label="Persistent symptoms affecting a single eye or nostril"
-                />
-                <br></br>
-                <FormControlLabel control={<Checkbox />} label="None" />
-                <br></br>
-              </ul>
-            </FormControl> */}
+            {/* ..... Do you have any of the following additional symptoms? (List
+                specific symptoms like nasal pain, eye discomfort, etc.).... */}
 
             <FormControl
               component="fieldset"
@@ -751,7 +652,7 @@ function HighFeverQuestion() {
                 className="labelOne"
                 name="otherTreatment"
               >
-              Do you have any of the following additional symptoms? (List
+                Do you have any of the following additional symptoms? (List
                 specific symptoms like nasal pain, eye discomfort, etc.)
               </Typography>
               {[
@@ -795,7 +696,7 @@ function HighFeverQuestion() {
               ))}
             </FormControl>
 
-            {/* ................ */}
+            {/* ......... Do you have any liver or kidney conditions?....... */}
             <FormControl
               component="fieldset"
               className="QuestionBox"
@@ -817,7 +718,7 @@ function HighFeverQuestion() {
               </RadioGroup>
             </FormControl>
 
-            {/* ................ */}
+            {/* ........Do you have other medical conditions or past surgeries?........ */}
             <FormControl
               component="fieldset"
               className="QuestionBox"

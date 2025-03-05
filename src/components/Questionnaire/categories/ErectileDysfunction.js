@@ -141,7 +141,7 @@ function ErectileDysfunctionQuestionnaire() {
       }
       if (isValidSelection) {
         showMessage(
-          "Based on your answers, we are unable to provide you with treatment at this time. Please consult your GP.",
+          "Please provide complete details and fill all the necessary section",
           "error"
         );
         return;

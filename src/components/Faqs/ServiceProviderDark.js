@@ -118,7 +118,7 @@ const ServiceProvidedDark = () => {
                   {" "}
                   Free Delivery{" "}
                 </strong>{" "}
-                (Orders Over 20){" "}
+                (Orders Over 30){" "}
               </Typography>
             </Box>
           </Item>

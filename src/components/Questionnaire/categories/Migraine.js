@@ -203,7 +203,7 @@ function MigraineQuestion() {
                 <div>Please consult your GP for a migraine treatment plan.</div>
               )}
             </FormControl>
-            {/****** ****/}
+            {/****** Do your migraines follow a consistent pattern?****/}
 
             <FormControl component="fieldset" className="QuestionBox" disabled={checkDisabled("migrain")}>
               <Typography variant="h4" className="labelOne">
@@ -224,7 +224,8 @@ function MigraineQuestion() {
                 <div>Please consult your GP for device.</div>
               )}
             </FormControl>
-            {/****** Are you between 18 and 65 years old?**  ****/}
+            {/****** Do your migraines last less than 4 hours or longer than 24
+                hours?  ****/}
 
             <FormControl component="fieldset" className="QuestionBox" disabled={checkDisabled("migrainTime")}>
               <Typography variant="h4" className="labelOne">
@@ -246,7 +247,7 @@ function MigraineQuestion() {
                 <div>Please consult your GP for a management plan.</div>
               )}
             </FormControl>
-            {/****** Are you between 18 and 65 years old?**  ****/}
+            {/****** Do you experience migraines more than 10 days per month?  ****/}
 
             <FormControl component="fieldset" className="QuestionBox" disabled={checkDisabled("experienceMigrain")}>
               <Typography variant="h4" className="labelOne">
@@ -267,7 +268,7 @@ function MigraineQuestion() {
                 <div>Please consult your GP for further guidance.</div>
               )}
             </FormControl>
-            {/****** Are you between 18 and 65 years old?**  ****/}
+            {/****** Do you have any of the following symptoms****/}
 
             <FormControl component="fieldset" className="QuestionBox"  disabled={checkDisabled("anySymptoms")}>
               <Typography variant="h4" className="labelOne">
@@ -299,7 +300,8 @@ function MigraineQuestion() {
               </RadioGroup>
               {answers.anySymptoms === "Yes" && <div>Consult your GP.</div>}
             </FormControl>
-            {/****** Are you between 18 and 65 years old?**  ****/}
+            {/****** Have you been diagnosed with migraines, and do triptans relieve
+                them?  ****/}
 
             <FormControl component="fieldset" className="QuestionBox"  disabled={checkDisabled("diagnosed")}>
               <Typography variant="h4" className="labelOne">
@@ -319,7 +321,7 @@ function MigraineQuestion() {
               </RadioGroup>
               {answers.diagnosed === "No" && <div>Consult your GP.</div>}
             </FormControl>
-            {/****** Are you between 18 and 65 years old?**  ****/}
+            {/***** Do you have an allergy to any of the following medications?  ****/}
 
             <FormControl component="fieldset" className="QuestionBox"  disabled={checkDisabled("otherAllergy")}>
               <Typography variant="h4" className="labelOne">
@@ -343,7 +345,7 @@ function MigraineQuestion() {
               </RadioGroup>
               {answers.otherAllergy === "Yes" && <div>Consult your GP.</div>}
             </FormControl>
-            {/****** Are you between 18 and 65 years old?**  ****/}
+            {/******  Have you experienced any of the following after taking triptans?*  ****/}
 
             <FormControl component="fieldset" className="QuestionBox" disabled={checkDisabled("triptans")}>
               <Typography variant="h4" className="labelOne">
@@ -368,7 +370,7 @@ function MigraineQuestion() {
               </RadioGroup>
               {answers.triptans === "Yes" && <div>Consult your GP.</div>}
             </FormControl>
-            {/****** Are you between 18 and 65 years old?**  ****/}
+            {/****** Have you been diagnosed with any of the following conditions? ****/}
 
             <FormControl component="fieldset" className="QuestionBox"  disabled={checkDisabled("diagnoseAny")}>
               <Typography variant="h4" className="labelOne">
@@ -394,7 +396,7 @@ function MigraineQuestion() {
               </RadioGroup>
               {answers.diagnoseAny === "Yes" && <div>Consult your GP.</div>}
             </FormControl>
-            {/****** Are you between 18 and 65 years old?**  ****/}
+            {/****** Are you currently taking any medications? ****/}
 
             <FormControl component="fieldset" className="QuestionBox" >
               <Typography variant="h4" className="labelOne">

@@ -346,7 +346,7 @@ function HairLossQuestionnaire() {
                 </div>
               )}
             </FormControl>
-            {/****** •	Could your hair loss be related to medication, dietary factors, or an illness? *****/}
+            {/****** 	Could your hair loss be related to medication, dietary factors, or an illness? *****/}
 
             <FormControl
               component="fieldset"

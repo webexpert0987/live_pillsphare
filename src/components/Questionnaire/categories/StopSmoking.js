@@ -73,7 +73,7 @@ function StopSmokingQuestion() {
     const { bmiData } = qaData;
 
     if (activeStep === 0) {
-      console.log(answers)
+      // console.log(answers)
       const requiredFields = [
         "agedBetween",
         "purchaseMedication",

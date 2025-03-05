@@ -150,24 +150,58 @@ function CystitisQuestionnaire() {
           return;
         }
       }
-  
+
       const preventinputCondition = [
-        { field: "hasDiagnosedMedicalConditions", condition: "Yes",subField:"diagnosisDetails" },
-        { field: "isTakingMedications", condition: "Yes" ,subField:"prescripDetails"},
-        { field: "hasAllergies", condition: "Yes",subField:"allergyDetails"},
-        { field: "hasAdditionalInformation", condition: "Yes",subField:"additionalDetails"},
-        { field: "hasLowerBackPain", condition: "Yes",subField:"painDetails"},
-        { field: "hasHeartKidneyOrLiverIssues", condition: "Yes",subField:"infoIssue"},
-        { field: "hasBloodDisorders", condition: "Yes",subField:"infobloodDis"},
-        { field: "hasFolicAcidDeficiency", condition: "Yes",subField:"folicDefMore"},
-        { field: "hasPorphyria", condition: "Yes",subField:"porphyriaDetails"},
+        {
+          field: "hasDiagnosedMedicalConditions",
+          condition: "Yes",
+          subField: "diagnosisDetails",
+        },
+        {
+          field: "isTakingMedications",
+          condition: "Yes",
+          subField: "prescripDetails",
+        },
+        { field: "hasAllergies", condition: "Yes", subField: "allergyDetails" },
+        {
+          field: "hasAdditionalInformation",
+          condition: "Yes",
+          subField: "additionalDetails",
+        },
+        {
+          field: "hasLowerBackPain",
+          condition: "Yes",
+          subField: "painDetails",
+        },
+        {
+          field: "hasHeartKidneyOrLiverIssues",
+          condition: "Yes",
+          subField: "infoIssue",
+        },
+        {
+          field: "hasBloodDisorders",
+          condition: "Yes",
+          subField: "infobloodDis",
+        },
+        {
+          field: "hasFolicAcidDeficiency",
+          condition: "Yes",
+          subField: "folicDefMore",
+        },
+        {
+          field: "hasPorphyria",
+          condition: "Yes",
+          subField: "porphyriaDetails",
+        },
       ];
 
       for (const item of preventinputCondition) {
-       const { field, condition,subField } = item
+        const { field, condition, subField } = item;
 
-        if (questionnaireResponses[field] === condition && !questionnaireResponses[subField]) {
-
+        if (
+          questionnaireResponses[field] === condition &&
+          !questionnaireResponses[subField]
+        ) {
           showMessage(
             "Please provide all the details first to proceed to further",
             "error"
@@ -176,6 +210,19 @@ function CystitisQuestionnaire() {
         }
       }
 
+      if (
+        questionnaireResponses.hasPreviousUTIDiagnosis === "Yes")
+        if(questionnaireResponses.uti1.length === 0 &&
+          questionnaireResponses.uti2.length === 0 &&
+          questionnaireResponses.uti3.length === 0 &&
+          questionnaireResponses.uti4.length === 0)
+       {
+        showMessage(
+          "Please provide complete diagnosis details.",
+          "error"
+        );
+        return;
+      }
     } else if (currentStep === 1) {
       const requiredAgreements = ["hasAgreedToTerms"];
 
@@ -235,9 +282,7 @@ function CystitisQuestionnaire() {
     if (data) {
       parsedData = JSON.parse(data);
     }
-
     const { user, bmiData } = parsedData;
-
     localStorage.setItem(
       "questionnaire_info",
       JSON.stringify({

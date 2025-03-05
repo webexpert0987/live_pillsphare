@@ -206,7 +206,11 @@ function WeightLossQuestion() {
         return (
           <>
             {/****** Are you aged between 17-74 years? *****/}
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("ageRange")}
+            >
               <Typography variant="h4" className="labelOne">
                 Are you aged between 17-74 years?
               </Typography>
@@ -214,12 +218,7 @@ function WeightLossQuestion() {
                 row
                 name="ageRange"
                 value={answers.ageRange}
-                onChange={(e) =>
-                  setAnswers({
-                    ...answers,
-                    ageRange: e.target.value,
-                  })
-                }
+                onChange={(e) => handleChange(e, "No")}
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
@@ -227,7 +226,11 @@ function WeightLossQuestion() {
             </FormControl>
 
             {/****** Are you pregnant or breastfeeding? *****/}
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("isPregnantOrBreastfeeding")}
+            >
               <Typography variant="h4" className="labelOne">
                 Are you pregnant or breastfeeding?
               </Typography>
@@ -248,7 +251,11 @@ function WeightLossQuestion() {
             </FormControl>
 
             {/****** Have you ever suffered from an eating disorder? *****/}
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("hasEatingDisorder")}
+            >
               <Typography variant="h4" className="labelOne">
                 Have you ever suffered from an eating disorder?
               </Typography>
@@ -269,7 +276,11 @@ function WeightLossQuestion() {
             </FormControl>
 
             {/****** Using injections/medications (excluding Metformin) for Type 2 Diabetes? *****/}
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("usesBloodSugarMedications")}
+            >
               <Typography variant="h4" className="labelOne">
                 Are you currently using any injections or medications, aside
                 from Metformin, to manage your blood sugar if you have Type 2
@@ -292,7 +303,11 @@ function WeightLossQuestion() {
             </FormControl>
 
             {/****** Experienced allergic reactions to specific medications? *****/}
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("hadAllergicReaction")}
+            >
               <Typography variant="h4" className="labelOne">
                 Have you experienced an allergic reaction to Wegovy, Mounjaro,
                 Semaglutide, Saxenda, or Liraglutide before?
@@ -314,7 +329,11 @@ function WeightLossQuestion() {
             </FormControl>
 
             {/****** Family history of Thyroid Cancer or MEN2 syndrome? *****/}
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("hasFamilyHistoryThyroidCancer")}
+            >
               <Typography variant="h4" className="labelOne">
                 Have you or any family members ever been diagnosed with
                 Medullary Thyroid Cancer, Thyroid Cancer, or Multiple Endocrine
@@ -337,7 +356,11 @@ function WeightLossQuestion() {
             </FormControl>
 
             {/****** Are you taking any medications? (Prescription, over-the-counter, or recreational) *****/}
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("isTakingMedications")}
+            >
               <Typography variant="h4" className="labelOne">
                 Are you taking any medications? (Prescription, over-the-counter,
                 or recreational drugs)
@@ -359,7 +382,11 @@ function WeightLossQuestion() {
             </FormControl>
 
             {/****** Are you taking steroids or medication to treat your thyroid? *****/}
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("isTakingSteroidsOrThyroidMeds")}
+            >
               <Typography variant="h4" className="labelOne">
                 Are you taking steroids or medication to treat your thyroid?
               </Typography>
@@ -380,7 +407,11 @@ function WeightLossQuestion() {
             </FormControl>
 
             {/****** Have you taken injectable weight loss medication in the last 4 weeks? *****/}
-            <FormControl component="fieldset" className="QuestionBox">
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("usedInjectableWeightLossMedLast4Weeks")}
+            >
               <Typography variant="h4" className="labelOne">
                 Have you taken injectable weight loss medication in the last 4
                 weeks?
