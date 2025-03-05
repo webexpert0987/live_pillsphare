@@ -361,7 +361,7 @@ const MainHeader = () => {
                 </Button>
 
                 <Button sx={{ textTransform: "capitalize" }}>
-                  <Link to={"/about"} style={{ textDecoration: "none" }}>
+                  <Link to={"/support"} style={{ textDecoration: "none" }}>
                     <Text>Support</Text>
                   </Link>
                 </Button>
