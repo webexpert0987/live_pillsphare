@@ -49,6 +49,8 @@ function HighFeverQuestion() {
     gpDetails: "",
     agreedTC: "",
     confirmTC: "",
+    conditions1: [],
+    conditions2: [],
   });
   const boxRef = useRef(null);
   const { setSelectedTab } = useApp();
@@ -71,6 +73,13 @@ function HighFeverQuestion() {
       }
     }, 100);
   };
+
+  const isValidSelection =
+  (answers.conditions1.length === 0);
+
+  const isValidSelection1 =
+  (answers.conditions2.includes("None") && answers.conditions2.length > 1) ||
+  (answers.conditions2.length === 0);
 
   const handleNext = () => {
     const qaData = JSON.parse(
@@ -133,6 +142,22 @@ function HighFeverQuestion() {
         );
         return;
       }
+
+      if (isValidSelection) {
+        showMessage(
+          "Based on your answers, we are unable to provide you with treatment at this time. Please consult your GP.",
+          "error"
+        );
+        return;
+      }
+      if (isValidSelection1) {
+        showMessage(
+          "Based on your answers, we are unable to provide you with treatment at this time. Please consult your GP.",
+          "error"
+        );
+        return;
+      }
+
     } else if (activeStep === 1) {
       const requiredAgreements = ["agreeToTerms"];
 
@@ -478,7 +503,7 @@ function HighFeverQuestion() {
 
             {/* ......... */}
 
-            <FormControl
+            {/* <FormControl
               component="fieldset"
               className="QuestionBox"
               disabled={checkDisabled("followingSymptomsCheckbox")}
@@ -527,8 +552,61 @@ function HighFeverQuestion() {
                   label="Itchy, red, or watery eyes"
                 />
               </ul>
-            </FormControl>
+            </FormControl> */}
             {/* ......... */}
+
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("followingSymptomsCheckbox")}
+            >
+              <Typography
+                variant="h4"
+                className="labelOne"
+                name="followingSymptomsCheckbox"
+              >
+                Which of the following symptoms do you have? (List options like
+                sneezing, runny nose, etc.) Here’s a shuffled version of the
+                symptoms:
+              </Typography>
+              {[
+                "Sneezing and coughing",
+                "Itchy throat, mouth, nose, and ears",
+                "Loss of smell",
+                "Pain around temples and forehead",
+                "A runny or blocked nose",
+                "Itchy, red, or watery eyes",
+              ].map((condition, index) => (
+                <FormControlLabel
+                  className="checkbox2Col"
+                  key={index}
+                  control={
+                    <Checkbox
+                      checked={answers.conditions1?.includes(condition)}
+                      onChange={(e) => {
+                        const { value, checked } = e.target;
+                        let newConditions = [...(answers.conditions1 || [])];
+
+                        if (checked) {
+                          newConditions.push(value);
+                        } else {
+                          newConditions = newConditions.filter(
+                            (item) => item !== value
+                          );
+                        }
+
+                        setAnswers({
+                          ...answers,
+                          conditions1: newConditions,
+                        });
+                      }}
+                      value={condition}
+                    />
+                  }
+                  label={condition}
+                />
+              ))}
+            </FormControl>
 
             <FormControl
               component="fieldset"
@@ -613,7 +691,7 @@ function HighFeverQuestion() {
             </FormControl>
             {/* ......... */}
 
-            <FormControl
+            {/* <FormControl
               component="fieldset"
               className="QuestionBox"
               disabled={checkDisabled("otherTreatment")}
@@ -661,6 +739,60 @@ function HighFeverQuestion() {
                 <FormControlLabel control={<Checkbox />} label="None" />
                 <br></br>
               </ul>
+            </FormControl> */}
+
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("otherTreatment")}
+            >
+              <Typography
+                variant="h4"
+                className="labelOne"
+                name="otherTreatment"
+              >
+              Do you have any of the following additional symptoms? (List
+                specific symptoms like nasal pain, eye discomfort, etc.)
+              </Typography>
+              {[
+                "Eye pain or changes in vision",
+                "Frequent episodes of nosebleeds",
+                "Structural changes to the nasal septum",
+                "Discomfort or pain within the nasal area",
+                "Presence of blood in nasal discharge",
+                "Treatment not providing the desired relief",
+                "Persistent symptoms affecting a single eye or nostril",
+                "None",
+              ].map((condition, index) => (
+                <FormControlLabel
+                  className="checkbox2Col"
+                  key={index}
+                  control={
+                    <Checkbox
+                      checked={answers.conditions2?.includes(condition)}
+                      onChange={(e) => {
+                        const { value, checked } = e.target;
+                        let newConditions = [...(answers.conditions2 || [])];
+
+                        if (checked) {
+                          newConditions.push(value);
+                        } else {
+                          newConditions = newConditions.filter(
+                            (item) => item !== value
+                          );
+                        }
+
+                        setAnswers({
+                          ...answers,
+                          conditions2: newConditions,
+                        });
+                      }}
+                      value={condition}
+                    />
+                  }
+                  label={condition}
+                />
+              ))}
             </FormControl>
 
             {/* ................ */}

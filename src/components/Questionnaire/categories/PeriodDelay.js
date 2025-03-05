@@ -31,6 +31,7 @@ function PeriodDelayQuestion() {
     allergyIssue: "",
     period: "",
     delayPeriod: "",
+    menstrualCyc: "",
     periodDelay1: "",
     periodDelay2: "",
     periodDetails: "",
@@ -45,6 +46,7 @@ function PeriodDelayQuestion() {
     confirmAge: "",
     conditions: [], // Stores selected health conditions
     medications: [],
+    conditions1: [],
   });
   const boxRef = useRef(null);
   const { setSelectedTab } = useApp();
@@ -116,7 +118,7 @@ function PeriodDelayQuestion() {
         }
       }
 
-      if (answers.conditions.length === 0 || answers.medications.length === 0) {
+      if (answers.conditions.length === 0 || answers.medications.length === 0 || answers.conditions1.length === 0 || answers.periodDelay2.length === 0) {
         showMessage(
           "Please fill all details before proceeding to the next step.",
           "error"
@@ -227,7 +229,7 @@ function PeriodDelayQuestion() {
     );
     setSelectedTab(2);
   };
-  console.log(answers.menstrualCyc);
+  // console.log(answers.menstrualCyc);
 
   const renderStepContent = (stepIndex) => {
     switch (stepIndex) {
@@ -562,13 +564,11 @@ function PeriodDelayQuestion() {
                 </div>
               )}
             </FormControl>
-            {/******•	Do you have a history of any of the following conditions that could affect your menstrual cycle? *****/}
-
+            {/* *****•	Do you have a history of any of the following conditions that could affect your menstrual cycle? ****
             <FormControl
               component="fieldset"
               className="QuestionBox"
-              disabled={checkDisabled("menstrualCyc")}
-            >
+              disabled={checkDisabled("menstrualCyc")}           >
               <Typography variant="h4" className="labelOne">
                 Do you have a history of any of the following conditions that
                 could affect your menstrual cycle?
@@ -616,7 +616,61 @@ function PeriodDelayQuestion() {
                   whether you experienced any side effects:"{" "}
                 </div>
               )}
+            </FormControl> */}
+
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("menstrualCyc")}
+            >
+              <Typography variant="h4" className="labelOne"
+                name="menstrualCyc">
+                Do you have a history of any of the following conditions that
+                could affect your menstrual cycle?
+              </Typography>
+              {[
+                "Irregular periods",
+                "Endometriosis",
+                "Fibroids",
+                "Polycystic Ovary Syndrome (PCOS)",
+                "Menstrual disorders",
+                "Other",
+              ].map((condition, index) => (
+                <FormControlLabel
+                  className="checkbox2Col"
+                  key={index}
+                  control={
+                    <Checkbox
+                      checked={answers.conditions1?.includes(
+                        condition
+                      )}
+                      onChange={(e) => {
+                        const { value, checked } = e.target;
+                        let newConditions = [
+                          ...(answers.conditions1 || []),
+                        ];
+
+                        if (checked) {
+                          newConditions.push(value);
+                        } else {
+                          newConditions = newConditions.filter(
+                            (item) => item !== value
+                          );
+                        }
+
+                        setAnswers({
+                          ...answers,
+                          conditions1: newConditions,
+                        });
+                      }}
+                      value={condition}
+                    />
+                  }
+                  label={condition}
+                />
+              ))}
             </FormControl>
+
             {/******•	When was the first day of your last period? *****/}
 
             <FormControl
