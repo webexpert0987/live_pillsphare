@@ -29,6 +29,19 @@ import PeriodPainPage from "../components/CategoryInfoPages/PeriodPain";
 import PeriodDelayPage from "../components/CategoryInfoPages/PeriodDelay";
 import MigraineTreatmentPage from "../components/CategoryInfoPages/MigraineTreatment";
 
+import PrivacyPolicy from "../components/PolicyPages/PrivacyPolicy";
+import RefundsReturns from "../components/PolicyPages/RefundsReturns";
+import ReorderYourPrescription from "../components/PolicyPages/ReorderYourPrescription";
+import TermsAndConditions from "../components/PolicyPages/TermsAndConditions";
+import TermsOfUse from "../components/PolicyPages/TermsOfUse";
+import OurPrescribers from "../components/PolicyPages/OurPrescribers";
+import LowPriceGuarantee from "../components/PolicyPages/LowPriceGuarantee";
+import FeedbackComplaints from "../components/PolicyPages/FeedbackComplaints";
+import DeliveryInformation from "../components/PolicyPages/DeliveryInformation";
+import CookiesPolicy from "../components/PolicyPages/CookiesPolicy";
+
+
+
 import Verification from "../pages/Verification";
 const routes = [
   {
@@ -186,6 +199,62 @@ const routes = [
     component: ThankYouPage,
     exact: true,
   },
+  {
+    path: "/privacy-policy",
+    component: PrivacyPolicy,
+    exact: true,
+  },
+  {
+    path: "/refunds-returns",
+    component: RefundsReturns,
+    exact: true,
+  },
+  {
+    path: "/reorder-prescription",
+    component: ReorderYourPrescription,
+    exact: true,
+  },
+  {
+    path: "/terms-conditions",
+    component: TermsAndConditions,
+    exact: true,
+  },
+  {
+    path: "/terms-of-use",
+    component: TermsOfUse,
+    exact: true,
+  },
+  {
+    path: "/our-prescribers",
+    component: OurPrescribers,
+    exact: true,
+  },
+  {
+    path: "/low-price-guarantee",
+    component: LowPriceGuarantee,
+    exact: true,
+  },
+  {
+    path: "/feedback-complaints",
+    component: FeedbackComplaints,
+    exact: true,
+  },
+  {
+    path: "/delivery-information",
+    component: DeliveryInformation,
+    exact: true,
+  },
+  {
+    path: "/cookies-policy",
+    component: CookiesPolicy,
+    exact: true,
+  },
+
+  
+
+  
+  
+  
 ];
 
 export default routes;
