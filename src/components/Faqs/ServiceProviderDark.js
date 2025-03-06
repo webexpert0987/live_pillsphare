@@ -33,8 +33,8 @@ const ServiceProvidedDark = () => {
       backgroundColor: "#104239",
     },
     title: {
-        color: "#FFF"
-    }
+      color: "#FFF",
+    },
   };
 
   return (
@@ -97,7 +97,7 @@ const ServiceProvidedDark = () => {
             <Box>
               <Typography style={ServerProvStyle.title} variant={"h3"}>
                 {" "}
-                <strong>Disceet </strong> Packaging{" "}
+                <strong>Discreet </strong> Packaging{" "}
               </Typography>
             </Box>
           </Item>

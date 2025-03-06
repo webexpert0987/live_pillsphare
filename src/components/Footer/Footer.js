@@ -45,19 +45,20 @@ const onlineClinicItems = [
 ];
 
 const supportItems = [
-  { id: 1, name: "About Us", link: "/about" },
-  { id: 2, name: "Privacy Policy", link: "/privacy-policy" },
+  { id: 1, name: "Privacy Policy", link: "/privacy-policy" },
   {
-    id: 3,
+    id: 2,
     name: "Terms Of Use",
     link: "/terms-of-use",
   },
-  { id: 4, name: "Terms and Conditions", link: "/terms-conditions" },
-  { id: 5, name: "our Prescriber", link: "/our-prescribers" },
-  { id: 6, name: "Low Price Guarantee", link: "/low-price-guarantee" },
-  { id: 7, name: "Feedback Complaints", link: "/feedback-complaints" },
-  { id: 8, name: "Delivery Information", link: "/delivery-information" },
-  { id: 9, name: "Cookies Policy", link: "/cookies-policy" },
+  { id: 3, name: "Terms And Conditions", link: "/terms-conditions" },
+  { id: 8, name: "Cookies Policy", link: "/cookies-policy" },
+  { id: 6, name: "Feedback Complaints", link: "/feedback-complaints" },
+  { id: 4, name: "Our Prescriber", link: "/our-prescribers" },
+  { id: 5, name: "Low Price Guarantee", link: "/low-price-guarantee" },
+  { id: 7, name: "Delivery Information", link: "/delivery-information" },
+  { id: 9, name: "Refunds Returns", link: "/refunds-returns" },
+  { id: 10, name: "Reorder Prescription", link: "/reorder-prescription" },
 ];
 
 export default function Footer() {
@@ -73,7 +74,6 @@ export default function Footer() {
   const handleNavigate = () => {
     window.scrollTo({
       top: 0,
-      behavior: "smooth",
     });
   };
 
@@ -81,6 +81,7 @@ export default function Footer() {
     if (!email) return;
     try {
       await subscribeNewsLetter({ email });
+      setEmail("");
       showMessage("Subscribed successfully!", "success");
     } catch (error) {
       showMessage(
@@ -230,7 +231,11 @@ export default function Footer() {
                 <Divider />
               </Box>
               <Box>
-                <Grid container direction="row" spacing={{xs: 0, sm: 2, md: 3}}>
+                <Grid
+                  container
+                  direction="row"
+                  spacing={{ xs: 0, sm: 2, md: 3 }}
+                >
                   <Grid size={{ xs: 12, sm: 6, md: 6, lg: 6 }}>
                     {onlineClinicItems.slice(0, 6).map((item) => (
                       <Link
@@ -239,8 +244,15 @@ export default function Footer() {
                         onClick={handleNavigate}
                         key={item.id}
                       >
-                        <Typography variant="h4" marginY={1} sx={{ fontWeight: "500", margin: "12px 0", fontSize: {xs: "15px", sm: "16px", md: "16px"}
-                         }}>
+                        <Typography
+                          variant="h4"
+                          marginY={1}
+                          sx={{
+                            fontWeight: "500",
+                            margin: "12px 0",
+                            fontSize: { xs: "15px", sm: "16px", md: "16px" },
+                          }}
+                        >
                           {item.name}
                         </Typography>
                       </Link>
@@ -254,7 +266,15 @@ export default function Footer() {
                         key={item.id}
                         onClick={handleNavigate}
                       >
-                        <Typography variant="h4" marginY={1} sx={{ fontWeight: "500", margin: "12px 0", fontSize: {xs: "15px", sm: "16px", md: "16px"} }}>
+                        <Typography
+                          variant="h4"
+                          marginY={1}
+                          sx={{
+                            fontWeight: "500",
+                            margin: "12px 0",
+                            fontSize: { xs: "15px", sm: "16px", md: "16px" },
+                          }}
+                        >
                           {item.name}
                         </Typography>
                       </Link>
@@ -285,7 +305,11 @@ export default function Footer() {
                 <Divider />
               </Box>
               <Box>
-                <Grid container direction="row" spacing={{xs: 0, sm: 2, md: 3}}>
+                <Grid
+                  container
+                  direction="row"
+                  spacing={{ xs: 0, sm: 2, md: 3 }}
+                >
                   <Grid size={{ xs: 12, sm: 6, md: 6, lg: 6 }}>
                     {supportItems.slice(0, 5).map((item) => (
                       <Link
@@ -297,7 +321,12 @@ export default function Footer() {
                         <Typography
                           variant="h4"
                           marginY={1}
-                          sx={{ fontWeight: "500", margin: "12px 0", whiteSpace: "nowrap", fontSize: {xs: "15px", sm: "16px", md: "16px"} }}
+                          sx={{
+                            fontWeight: "500",
+                            margin: "12px 0",
+                            whiteSpace: "nowrap",
+                            fontSize: { xs: "15px", sm: "16px", md: "16px" },
+                          }}
                         >
                           {item.name}
                         </Typography>
@@ -315,7 +344,12 @@ export default function Footer() {
                         <Typography
                           variant="h4"
                           marginY={1}
-                          sx={{ fontWeight: "500", margin: "12px 0", whiteSpace: "nowrap", fontSize: {xs: "15px", sm: "16px", md: "16px"} }}
+                          sx={{
+                            fontWeight: "500",
+                            margin: "12px 0",
+                            whiteSpace: "nowrap",
+                            fontSize: { xs: "15px", sm: "16px", md: "16px" },
+                          }}
                         >
                           {item.name}
                         </Typography>

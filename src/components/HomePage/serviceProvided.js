@@ -123,7 +123,7 @@ const ServiceProvided = () => {
               }}
             >
               {" "}
-              <strong>Disceet </strong> Packaging{" "}
+              <strong>Discreet </strong> Packaging{" "}
             </Typography>
           </Box>
         </Item>

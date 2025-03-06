@@ -19,6 +19,7 @@ export const AppProvider = ({ children }) => {
   const [sortOption, setSortOption] = useState("relevance");
   const [qaCart, setQaCart] = useState([]);
   const [questionData, setQuestionData] = useState({});
+  const [searchValue, setSearchValue] = useState("");
 
   const fetchCart = async (user) => {
     try {
@@ -254,6 +255,18 @@ export const AppProvider = ({ children }) => {
     }
   };
 
+  const searchProducts = (products) => {
+    const search = searchValue.trim();
+    if (!search) {
+      setFilteredProducts(products);
+    }
+    console.log(">>>products>>", products);
+    const filteredProducts = products.filter((product) =>
+      product?.name?.toLowerCase().includes(search.toLowerCase())
+    );
+    setFilteredProducts(filteredProducts);
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -282,6 +295,9 @@ export const AppProvider = ({ children }) => {
         setSortOption,
         questionData,
         setQuestionData,
+        searchValue,
+        setSearchValue,
+        searchProducts,
       }}
     >
       {children}

@@ -8,10 +8,7 @@ const HowItWorks = ({
   subtitle = "How it Works?",
   title = "How do weight loss treatments work?",
   paragraphs = [
-    "Although they should not be used as a substitute for a healthy diet and lifestyle, weight loss medications can help you to lose more weight than dieting alone.",
-    "Some weight loss aids, such as Mysimba and Saxenda weight loss injections, work by controlling your appetite, which can help you to consume fewer calories. On the other hand, treatments like Orlistat and Alli work by helping your body to absorb less fat from your food.",
-    "Weight loss aids can be useful for those who have a high BMI and are struggling to lose weight or for those who have a medical condition that can be made worse if you're overweight.",
-    "Answer our quick questionnaire and our prescriber will decide whether a prescription weight loss medication will be beneficial for you.",
+    "Non-surgical weight loss treatments have transformed obesity management, offering a safe and effective alternative to bariatric surgery for individuals with BMIs between 27 and 50. Paired with a tailored support programme, these treatments deliver clinically proven results, helping you achieve lasting weight loss. Explore personalised, non-invasive solutions at our trusted UK online pharmacy and private clinic.",
   ],
   buttonText = "Start Your Consultation",
   route,

@@ -23,7 +23,8 @@ import { useApp } from "../Context/AppContext";
 import PaginationComponent from "../components/PaginationComponent";
 const ProductListingPage = () => {
   const [products, setProducts] = useState([]);
-  const { filteredProducts, setSortOption } = useApp();
+  const { filteredProducts, setSortOption, searchProducts, searchValue } =
+    useApp();
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const handlePageChange = (e, value) => {
@@ -53,6 +54,10 @@ const ProductListingPage = () => {
 
     fetchProducts();
   }, []);
+
+  useEffect(() => {
+    searchProducts(products);
+  }, [searchValue]);
 
   const shop3Grid = {
     shopProductBox: {

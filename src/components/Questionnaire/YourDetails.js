@@ -91,6 +91,9 @@ function YourDetailForm() {
     if (!formData.contactNumber) {
       newErrors.contactNumber = "Contact Number is required.";
       isValid = false;
+    } else if (!/^[+]?[0-9]*$/.test(formData.contactNumber)) {
+      newErrors.contactNumber = "Contact Number should be a number.";
+      isValid = false;
     }
     if (!formData.day) {
       newErrors.day = "Date is required.";

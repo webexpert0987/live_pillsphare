@@ -24,7 +24,26 @@ const HeroSection = ({
 }) => {
   // Check if the current page is the shop page
   const isShopPage = window.location.pathname.includes("/shop");
-
+  if (catName === "medicine and treatment") {
+    description =
+      "At Pill Sphere, we offer a wide range of medications and effective treatments for various health conditions. Whether you’re managing allergies, skin conditions, or sexual health, our UK-registered pharmacists and MHRA-approved medications ensure safe, reliable care. Explore our treatments today and take control of your health!";
+    points = [];
+  }
+  if (catName === "Vitamins and suppliments") {
+    description =
+      "top-quality vitamins and supplements from trusted brands like Vitabiotics, Solgar, and our exclusive Pill Sphere range. Whether you’relooking for immune support, energy boosters, or daily wellness essentials, we’ve got you covered. All our products are MHRA-approved and backed by expert advice from our UK-registered pharmacists. Shop nowand invest in your well-being!";
+    points = [];
+  }
+  if (catName === "sexual wellbeing") {
+    description =
+      "At Pill Sphere, we offer trusted treatments for erectile dysfunction, contraception, and sexual health support. From Viagra and Cialis to discreet delivery and expert advice, we’re here to help you feel confident and in control. Explore our range today and prioritise your sexual health with confidence.";
+    points = [];
+  }
+  if (catName === "Migraine") {
+    description =
+      "Struggling with migraines? At Pill Sphere, we offer trusted treatments to help youmanage and prevent migraine attacks. From sumatriptan to expert advice from our UK-registered pharmacists, we’re here to support you. Explore our migraine treatments today and find the relief you deserve.";
+    points = [];
+  }
   return (
     <Box
       sx={{
@@ -56,6 +75,7 @@ const HeroSection = ({
               letterSpacing: "-0.5px",
               fontWeight: "800",
               lineHeight: "1.3",
+              textTransform: "capitalize",
             }}
           >
             {isShopPage
@@ -78,8 +98,8 @@ const HeroSection = ({
             }}
           >
             {isShopPage
-              ? "Explore our wide range of products available for purchase."
-              : weightLossHero || catName || description}
+              ? "Discover a wide range of prescription medications, over-the-counter products, and healthcare essentials at Pill Sphere. From allergy relief to skincare treatments, we’ve got you covered. Enjoy fast, discreet delivery and expert advice from our UK-registered pharmacists. Shop now and take the first step toward better health!"
+              : description || weightLossHero || catName}
           </Typography>
 
           {/* List of 3 Points as Bullet Points */}
@@ -109,9 +129,7 @@ const HeroSection = ({
                   </li>
                 ))}
               </ul>
-            ) : (
-              <Typography variant="body2">No points available.</Typography>
-            )}
+            ) : null}
           </Box>
 
           {/* Two Buttons */}
@@ -133,7 +151,11 @@ const HeroSection = ({
                 borderRadius: "50px",
                 border: "none",
                 textTransform: "inherit",
-                padding: { xs: "12px 25px", sm: "12px 20px", md: "12px 25px" },
+                padding: {
+                  xs: "12px 25px",
+                  sm: "12px 20px",
+                  md: "12px 25px",
+                },
                 boxShadow: "none",
                 marginBottom: { xs: "15px", sm: "0", md: "0" },
               }}
@@ -158,7 +180,11 @@ const HeroSection = ({
                 borderRadius: "50px",
                 border: "none",
                 textTransform: "inherit",
-                padding: { xs: "12px 25px", sm: "12px 20px", md: "12px 25px" },
+                padding: {
+                  xs: "12px 25px",
+                  sm: "12px 20px",
+                  md: "12px 25px",
+                },
                 boxShadow: "none",
               }}
               onClick={() => {

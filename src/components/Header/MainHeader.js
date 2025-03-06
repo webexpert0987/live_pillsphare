@@ -167,7 +167,7 @@ const MainHeader = () => {
   const [currentSize, setCurrentSize] = useState(null);
   const [openSections, setOpenSections] = useState({});
   const [isLogedIn, setIsLogedIn] = useState(false);
-  const { userDetails, logout, calculateTotal } = useApp();
+  const { userDetails, logout, calculateTotal, setSearchValue } = useApp();
   const [openCartModel, setOpenCartModel] = useState(false);
   const [shopCategories, setShopCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -275,6 +275,7 @@ const MainHeader = () => {
   const openSearch = () => setIsSearchOpen(true);
   const closeSearch = () => setIsSearchOpen(false);
   const handleSearch = () => {
+    setSearchValue(searchQuery);
     console.log("Searching for:", searchQuery); // Replace with actual search logic
     if (isMobile) closeSearch(); // Close only on mobile
   };

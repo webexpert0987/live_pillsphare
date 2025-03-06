@@ -16,6 +16,8 @@ import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import { useMessage } from "../Context/MessageContext";
 import { useApp } from "../Context/AppContext";
+import EyeButton from "../components/Button/eyeButton";
+import { InputAdornment } from "@mui/material";
 
 const Text = styled(Typography)(({ theme }) => ({
   color: "#333333",
@@ -62,6 +64,7 @@ const Login = () => {
   const { showMessage } = useMessage();
   const { login } = useApp();
   const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async (values, { setSubmitting }) => {
     setError("");
@@ -158,7 +161,7 @@ const Login = () => {
                       fullWidth
                       name="password"
                       label="Password"
-                      type="password"
+                      type={showPassword ? "text" : "password"}
                       id="password"
                       autoComplete="current-password"
                       margin="normal"
@@ -166,7 +169,18 @@ const Login = () => {
                       onBlur={handleBlur}
                       error={touched.password && Boolean(errors.password)}
                       helperText={touched.password && errors.password}
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <EyeButton
+                              show={showPassword}
+                              setShow={setShowPassword}
+                            />
+                          </InputAdornment>
+                        ),
+                      }}
                     />
+
                     {/* <FormControlLabel
                                 control={<Checkbox value="remember" color="primary" />}
                                 label="Remember me"

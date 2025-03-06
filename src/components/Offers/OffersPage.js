@@ -26,62 +26,18 @@ import TrustBar from "../../pages/Trustbar";
 import { getProducts } from "../../apis/apisList/productApi";
 import { Link } from "react-router-dom";
 import { getShopCategories } from "../../apis/apisList/productApi";
+import CategoryPage from "../../components/category";
+import { useApp } from "../../Context/AppContext";
 
 const OffersPage = () => {
-  const [categoriesOpen, setCategoriesOpen] = useState(true);
-  const [priceOpen, setPriceOpen] = useState(true);
   const [products, setProducts] = useState([]);
-  const [selectedCategories, setSelectedCategories] = useState({});
-  const [priceRange, setPriceRange] = useState([0, 1000]);
-  const [sortOption, setSortOption] = useState("relevance");
-  const [filteredProducts, setFilteredProducts] = useState([]);
-  const [shopCategories, setShopCategories] = useState([]);
-
-  const clearFilters = () => {
-    setSelectedCategories({});
-    setPriceRange([0, 500]);
-  };
-
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        // Check if categories exist in localStorage
-        const cachedCategories = localStorage.getItem("shopCategories");
-
-        if (cachedCategories) {
-          try {
-            const parsedCategories = JSON.parse(cachedCategories);
-            if (Array.isArray(parsedCategories)) {
-              setShopCategories(parsedCategories);
-              return; // Stop execution, use cached data
-            }
-          } catch (parseError) {
-            console.warn("Failed to parse cached categories, refetching...");
-            localStorage.removeItem("shopCategories"); // Clear invalid cache
-          }
-        }
-
-        // If no valid cache, fetch from API
-        const response = await getShopCategories();
-        if (!response || !Array.isArray(response)) {
-          throw new Error("Invalid API response"); // Ensure response is valid
-        }
-
-        const parentCategories = response;
-        setShopCategories(parentCategories);
-
-        // Save to localStorage
-        localStorage.setItem(
-          "shopCategories",
-          JSON.stringify(parentCategories)
-        );
-      } catch (error) {
-        console.error("Error fetching shop categories:", error);
-      }
-    };
-
-    fetchCategories();
-  }, []);
+  const {
+    filteredProducts,
+    sortOption,
+    setSortOption,
+    searchProducts,
+    searchValue,
+  } = useApp();
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -105,39 +61,8 @@ const OffersPage = () => {
   }, []);
 
   useEffect(() => {
-    let filteredProducts = [...products];
-
-    // Apply category filtering
-    if (Object.keys(selectedCategories).length > 0) {
-      filteredProducts = filteredProducts.filter((product) =>
-        product.categories.some(
-          (category) => selectedCategories[String(category.id)] // Ensure string comparison for category.id
-        )
-      );
-    } else {
-      filteredProducts = [...products]; // ✅ Ensure all products reset when no category is selected
-    }
-
-    // Apply sorting and price range filtering
-    if (sortOption === "priceLowHigh") {
-      filteredProducts.sort(
-        (a, b) => (a.sale_price || a.price) - (b.sale_price || b.price)
-      );
-    } else if (sortOption === "priceHighLow") {
-      filteredProducts.sort(
-        (a, b) => (b.sale_price || b.price) - (a.sale_price || a.price)
-      );
-    }
-
-    // Apply price range filtering
-    filteredProducts = filteredProducts.filter(
-      (product) =>
-        (product.sale_price || product.price) >= priceRange[0] &&
-        (product.sale_price || product.price) <= priceRange[1]
-    );
-
-    setFilteredProducts(filteredProducts);
-  }, [products, sortOption, priceRange, selectedCategories]);
+    searchProducts(products);
+  }, [searchValue]);
 
   const sidebar = {
     leftColParent: {
@@ -286,164 +211,16 @@ const OffersPage = () => {
         <TrustBar />
       </Box>
       <Container>
-        <Box display="flex" style={shopStyle.Wrapper}>
+        <Box
+          display="flex"
+          style={shopStyle.Wrapper}
+          sx={{
+            flexDirection: { xs: "column", sm: "row" },
+            alignItems: { xs: "center", sm: "start" },
+          }}
+        >
           {/* Left Column */}
-          <Box width="27%" p={2} style={sidebar.leftColParent}>
-            <Box
-              display="flex"
-              justifyContent="space-between"
-              alignItems="center"
-              mb={3}
-            >
-              <Typography style={sidebar.filterTitle} variant="h6">
-                Filters
-              </Typography>
-              <Button
-                style={sidebar.clearDataBtn}
-                variant="outlined"
-                size="small"
-                onClick={clearFilters}
-              >
-                Clear All
-              </Button>
-            </Box>
-
-            <Box style={sidebar.borderBoxSide}>
-              {/* Categories Filter */}
-
-              <Box style={sidebar.sideToggleCat} mb={2}>
-                <Box
-                  style={sidebar.sideToggle}
-                  display="flex"
-                  justifyContent="space-between"
-                  alignItems="center"
-                >
-                  <Typography style={sidebar.sideTitle} variant="subtitle1">
-                    Categories
-                  </Typography>
-                  <Button
-                    style={sidebar.toggleBtn}
-                    size="small"
-                    onClick={() => setCategoriesOpen(!categoriesOpen)}
-                  >
-                    {categoriesOpen ? (
-                      <ExpandLessSharpIcon fontSize="medium" />
-                    ) : (
-                      <ExpandMoreSharpIcon fontSize="medium" />
-                    )}
-                  </Button>
-                </Box>
-
-                <Collapse in={categoriesOpen}>
-                  <FormGroup>
-                    {shopCategories.map((category) => (
-                      <FormControlLabel
-                        key={category.id}
-                        control={
-                          <Checkbox
-                            checked={selectedCategories[category.id] || false}
-                            onChange={(e) =>
-                              setSelectedCategories({
-                                ...selectedCategories,
-                                [category.id]: e.target.checked,
-                              })
-                            }
-                          />
-                        }
-                        label={category.name}
-                      />
-                    ))}
-                  </FormGroup>
-                </Collapse>
-              </Box>
-
-              {/* Price Range Filter */}
-              <Box style={sidebar.sideToggleCat} mb={2}>
-                <Box
-                  style={sidebar.sideToggle}
-                  display="flex"
-                  justifyContent="space-between"
-                  alignItems="center"
-                >
-                  <Typography style={sidebar.sideTitle} variant="subtitle1">
-                    Price Range
-                  </Typography>
-                  <Button
-                    style={sidebar.toggleBtn}
-                    size="small"
-                    onClick={() => setPriceOpen(!priceOpen)}
-                  >
-                    {priceOpen ? (
-                      <>
-                        <ExpandLessSharpIcon fontSize="medium" />
-                      </>
-                    ) : (
-                      <>
-                        <ExpandMoreSharpIcon fontSize="medium" />
-                      </>
-                    )}
-                  </Button>
-                </Box>
-                <Collapse in={priceOpen}>
-                  <Slider
-                    value={priceRange}
-                    onChange={(e, newValue) => setPriceRange(newValue)}
-                    valueLabelDisplay="auto"
-                    min={0}
-                    max={1000}
-                    sx={{
-                      "& .MuiSlider-rail": {
-                        backgroundColor: "#EDEEF3",
-                        height: 5, // Adjust the height of the rail
-                      },
-                      "& .MuiSlider-track": {
-                        backgroundColor: "#FD6400",
-                        border: "none",
-                        height: 5, // Adjust the height of the rail
-                      },
-                      "& .MuiSlider-thumb": {
-                        border: "2px solid #104239",
-                        "&::before": {
-                          position: "absolute",
-                          content: '""',
-                          borderRadius: "inherit",
-                          width: "16px",
-                          height: "16px",
-                          background: "#104239",
-                          border: "4px solid #FFF",
-                          boxShadow: `0px 3px 1px -2px rgba(0, 0, 0, 0.2), 
-                        0px 2px 2px 0px rgba(0, 0, 0, 0.14), 
-                        0px 1px 5px 0px rgba(0, 0, 0, 0.12)`,
-                        },
-                      },
-                    }}
-                  />
-                  <Box display="flex" gap={2} mt={1} mb={1}>
-                    <TextField
-                      label="Min"
-                      type="number"
-                      size="small"
-                      value={priceRange[0]}
-                      onChange={(e) =>
-                        setPriceRange([+e.target.value, priceRange[1]])
-                      }
-                      fullWidth
-                    />
-                    <TextField
-                      label="Max"
-                      type="number"
-                      size="small"
-                      value={priceRange[1]}
-                      onChange={(e) =>
-                        setPriceRange([priceRange[0], +e.target.value])
-                      }
-                      fullWidth
-                    />
-                  </Box>
-                </Collapse>
-              </Box>
-            </Box>
-          </Box>
+          <CategoryPage products={products} />
 
           {/* Right Column */}
           <Box width="73%" style={shop3Grid.rightColParent}>

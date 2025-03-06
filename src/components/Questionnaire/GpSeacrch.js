@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import {
   TextField,
   Box,
-  Typography,
   CircularProgress,
   List,
   ListItem,
@@ -14,20 +13,6 @@ import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
 import { debounce } from "lodash";
 import axios from "axios";
-
-const staticResponse = {
-  value: [
-    {
-      OrganisationID: "10888009",
-      OrganisationName: "London Speech Therapy",
-      Address1: "127 Harley Street",
-      Address2: "London",
-      City: "London",
-      County: "London",
-      Postcode: "W1G 6AZ",
-    },
-  ],
-};
 
 const GpSearch = ({ handleSubmit }) => {
   const [query, setQuery] = useState("");
@@ -48,15 +33,14 @@ const GpSearch = ({ handleSubmit }) => {
         },
       });
       setResults(response.data.value);
-      setLoading(false);
     } catch (error) {
       console.error("Error fetching GP data:", error);
-      setLoading(false);
       setResults([]);
+    } finally {
+      setLoading(false);
     }
   };
 
-  // Debounced function to handle API call
   const debouncedSearch = debounce((searchTerm) => {
     if (searchTerm) {
       getGpData(searchTerm);
@@ -67,16 +51,13 @@ const GpSearch = ({ handleSubmit }) => {
 
   useEffect(() => {
     debouncedSearch(query);
-    return () => {
-      debouncedSearch.cancel();
-    };
+    return () => debouncedSearch.cancel();
   }, [query]);
 
   return (
     <Box sx={{ padding: 2, margin: "auto", width: "100%" }}>
       <TextField
         fullWidth
-        // label="Search GP"
         variant="outlined"
         value={query || selectedValue}
         onChange={(e) => setQuery(e.target.value)}
@@ -100,7 +81,7 @@ const GpSearch = ({ handleSubmit }) => {
       {loading ? (
         <CircularProgress sx={{ display: "block", margin: "auto" }} />
       ) : (
-        results.length > 0 && (
+        query && (
           <List
             sx={{
               border: "1px solid #ddd",
@@ -111,39 +92,54 @@ const GpSearch = ({ handleSubmit }) => {
               padding: 2,
             }}
           >
-            {results.map((result) => (
+            {results.length > 0 ? (
+              results.map((result) => (
+                <ListItem
+                  key={result.OrganisationID}
+                  sx={{
+                    borderBottom: "1px solid #eee",
+                    "&:last-child": { borderBottom: "none" },
+                    cursor: "pointer",
+                    "&:hover": { backgroundColor: "#f5f5f5" },
+                  }}
+                  onClick={() => {
+                    handleSubmit(result);
+                    setSelectedValue(result.OrganisationName);
+                    setResults([]);
+                    setQuery("");
+                  }}
+                >
+                  <ListItemText
+                    primary={result.OrganisationName}
+                    secondary={`${result.Address1}, ${result.City}, ${result.Postcode}`}
+                  />
+                </ListItem>
+              ))
+            ) : (
               <ListItem
-                key={result.OrganisationID}
                 sx={{
-                  borderBottom: "1px solid #eee",
-                  "&:last-child": { borderBottom: "none" },
                   cursor: "pointer",
                   "&:hover": { backgroundColor: "#f5f5f5" },
                 }}
                 onClick={() => {
-                  handleSubmit(result);
-                  setSelectedValue(result.OrganisationName);
-                  setResults([]);
+                  const newGp = {
+                    OrganisationID: `custom-${Date.now()}`,
+                    OrganisationName: query,
+                    Address1: "Custom Entry",
+                    City: "Unknown",
+                    Postcode: "N/A",
+                    type: "custom",
+                  };
+                  handleSubmit(newGp);
+                  setSelectedValue(query);
                   setQuery("");
                 }}
               >
-                <ListItemText
-                  primary={result.OrganisationName}
-                  secondary={`${result.Address1}, ${result.City}, ${result.Postcode}`}
-                />
+                <ListItemText primary={`➕ Add "${query}" as a GP`} />
               </ListItem>
-            ))}
+            )}
           </List>
         )
-      )}
-      {results.length === 0 && !loading && query && !selectedValue && (
-        <Typography
-          variant="body2"
-          color="textSecondary"
-          sx={{ textAlign: "center", marginTop: 2 }}
-        >
-          No results found.
-        </Typography>
       )}
     </Box>
   );
