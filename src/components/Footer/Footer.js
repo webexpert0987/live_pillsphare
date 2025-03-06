@@ -209,7 +209,7 @@ export default function Footer() {
             </Grid> */}
 
             {/* Categories Section */}
-            <Grid size={{ xs: 12, sm: 4, md: 4, lg: 4 }}>
+            <Grid size={{ xs: 12, sm: 6, md: 4, lg: 4 }}>
               <Typography
                 variant="h6"
                 sx={{
@@ -230,8 +230,8 @@ export default function Footer() {
                 <Divider />
               </Box>
               <Box>
-                <Grid container direction="row" spacing={3}>
-                  <Grid size={{ xs: 12, sm: 4, md: 4, lg: 4 }}>
+                <Grid container direction="row" spacing={{xs: 0, sm: 2, md: 3}}>
+                  <Grid size={{ xs: 12, sm: 6, md: 6, lg: 6 }}>
                     {onlineClinicItems.slice(0, 6).map((item) => (
                       <Link
                         style={linkStyle}
@@ -239,13 +239,14 @@ export default function Footer() {
                         onClick={handleNavigate}
                         key={item.id}
                       >
-                        <Typography variant="h4" marginY={1}>
+                        <Typography variant="h4" marginY={1} sx={{ fontWeight: "500", margin: "12px 0", fontSize: {xs: "15px", sm: "16px", md: "16px"}
+                         }}>
                           {item.name}
                         </Typography>
                       </Link>
                     ))}
                   </Grid>
-                  <Grid size={{ xs: 12, sm: 4, md: 4, lg: 4 }}>
+                  <Grid size={{ xs: 12, sm: 6, md: 6, lg: 6 }}>
                     {onlineClinicItems.slice(6, 12).map((item) => (
                       <Link
                         style={linkStyle}
@@ -253,7 +254,7 @@ export default function Footer() {
                         key={item.id}
                         onClick={handleNavigate}
                       >
-                        <Typography variant="h4" marginY={1}>
+                        <Typography variant="h4" marginY={1} sx={{ fontWeight: "500", margin: "12px 0", fontSize: {xs: "15px", sm: "16px", md: "16px"} }}>
                           {item.name}
                         </Typography>
                       </Link>
@@ -263,7 +264,7 @@ export default function Footer() {
               </Box>
             </Grid>
             {/* Support pages */}
-            <Grid size={{ xs: 12, sm: 4, md: 4, lg: 4 }}>
+            <Grid size={{ xs: 12, sm: 6, md: 4, lg: 4 }}>
               <Typography
                 variant="h6"
                 sx={{
@@ -284,8 +285,8 @@ export default function Footer() {
                 <Divider />
               </Box>
               <Box>
-                <Grid container direction="row" spacing={3}>
-                  <Grid size={{ xs: 12, sm: 4, md: 4, lg: 4 }}>
+                <Grid container direction="row" spacing={{xs: 0, sm: 2, md: 3}}>
+                  <Grid size={{ xs: 12, sm: 6, md: 6, lg: 6 }}>
                     {supportItems.slice(0, 5).map((item) => (
                       <Link
                         style={linkStyle}
@@ -296,16 +297,14 @@ export default function Footer() {
                         <Typography
                           variant="h4"
                           marginY={1}
-                          sx={{
-                            whiteSpace: "nowrap",
-                          }}
+                          sx={{ fontWeight: "500", margin: "12px 0", whiteSpace: "nowrap", fontSize: {xs: "15px", sm: "16px", md: "16px"} }}
                         >
                           {item.name}
                         </Typography>
                       </Link>
                     ))}
                   </Grid>
-                  <Grid size={{ xs: 12, sm: 4, md: 4, lg: 4 }}>
+                  <Grid size={{ xs: 12, sm: 6, md: 6, lg: 6 }}>
                     {supportItems.slice(5, 10).map((item) => (
                       <Link
                         style={linkStyle}
@@ -316,9 +315,7 @@ export default function Footer() {
                         <Typography
                           variant="h4"
                           marginY={1}
-                          sx={{
-                            whiteSpace: "nowrap",
-                          }}
+                          sx={{ fontWeight: "500", margin: "12px 0", whiteSpace: "nowrap", fontSize: {xs: "15px", sm: "16px", md: "16px"} }}
                         >
                           {item.name}
                         </Typography>
@@ -330,7 +327,7 @@ export default function Footer() {
             </Grid>
 
             {/* Contact Us Section */}
-            <Grid size={{ xs: 12, sm: 12, md: 2.5, lg: 3 }}>
+            <Grid size={{ xs: 12, sm: 12, md: 4, lg: 4 }}>
               <Box>
                 <Typography
                   variant="h6"
