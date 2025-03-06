@@ -11,6 +11,7 @@ import {
   MenuItem,
   Container,
   Grid2,
+  CircularProgress,
 } from "@mui/material";
 import { Rating } from "@mui/material";
 import HeroSection from "./ShopHero";
@@ -19,13 +20,20 @@ import { getProducts } from "../apis/apisList/productApi";
 import { Link } from "react-router-dom";
 import CategoryPage from "../components/category";
 import { useApp } from "../Context/AppContext";
+import PaginationComponent from "../components/PaginationComponent";
 const ProductListingPage = () => {
   const [products, setProducts] = useState([]);
   const { filteredProducts, setSortOption } = useApp();
+  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const handlePageChange = (e, value) => {
+    setPage(value);
+  };
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
+        setLoading(true);
         // Check if products are already in localStorage
         const cachedProducts = localStorage.getItem("products");
 
@@ -35,8 +43,10 @@ const ProductListingPage = () => {
         const data = await getProducts();
         setProducts(data.products);
         localStorage.setItem("products", JSON.stringify(data.products)); // Cache the products in localStorage
+        setLoading(false);
         // }
       } catch (error) {
+        setLoading(false);
         console.error("Failed to fetch products:", error);
       }
     };
@@ -140,6 +150,16 @@ const ProductListingPage = () => {
                 <MenuItem value="priceHighLow">Price: High to Low</MenuItem>
               </Select>
             </Box>
+            {loading && (
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                <CircularProgress />
+              </Box>
+            )}
             <Grid2 container spacing={{ xs: 2, sm: 3, md: 4 }}>
               {filteredProducts.map((product) => (
                 <Grid2
@@ -273,7 +293,7 @@ const ProductListingPage = () => {
                                 },
                               }}
                             >
-                              £ {product.sale_price || product.price || 0 }
+                              £ {product.sale_price || product.price || 0}
                             </Typography>
                             {product.sale_price && (
                               <Typography
@@ -367,6 +387,12 @@ const ProductListingPage = () => {
                 </Grid2>
               ))}
             </Grid2>
+            <PaginationComponent
+              count={20}
+              page={page}
+              setPage={setPage}
+              onChange={handlePageChange}
+            />
           </Box>
         </Box>
       </Container>

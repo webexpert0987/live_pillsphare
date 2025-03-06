@@ -112,7 +112,7 @@ const Product = () => {
     // updateVariant(product, variantId);
   };
   const handleAddProduct = (product, selectedVariant) => {
-    const test = 0;
+    const test = 1;
     if (test == 0) {
       // Show the error message
       showMessage(

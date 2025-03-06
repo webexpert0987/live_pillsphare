@@ -15,10 +15,14 @@ import {
 } from "@mui/material";
 import ExpandLessSharpIcon from "@mui/icons-material/ExpandLessSharp";
 import ExpandMoreSharpIcon from "@mui/icons-material/ExpandMoreSharp";
-import { getShopCategories } from "../../apis/apisList/productApi";
+import {
+  getCategoryBySlug,
+  getShopCategories,
+} from "../../apis/apisList/productApi";
 import { useApp } from "../../Context/AppContext";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import CloseIcon from "@mui/icons-material/Close";
+import { useParams } from "react-router-dom";
 
 const sidebarStyles = {
   borderBoxSide: {
@@ -40,7 +44,12 @@ const sidebarStyles = {
 
 function MobileCategory({ open, toggleDrawer, ...props }) {
   return (
-    <div>
+    <div
+      style={{
+        width: "100%",
+        height: "50px",
+      }}
+    >
       <Button
         onClick={toggleDrawer(true)}
         variant="outlined"
@@ -161,6 +170,9 @@ function Category(props) {
                     />
                   }
                   label={category.name}
+                  sx={{
+                    textTransform: "capitalize",
+                  }}
                 />
               ))}
             </FormGroup>
@@ -188,7 +200,7 @@ function Category(props) {
               value={priceRange}
               onChange={(e, newValue) => setPriceRange(newValue)}
               valueLabelDisplay="auto"
-              min={0}
+              min={1}
               max={1000}
             />
             <Box display="flex" gap={2} mt={1}>
@@ -201,6 +213,7 @@ function Category(props) {
                   setPriceRange([+e.target.value, priceRange[1]])
                 }
                 fullWidth
+                inputProps={{ min: 1 }}
               />
               <TextField
                 label="Max"
@@ -225,15 +238,16 @@ export default function CategoryPage({ products }) {
   const { setFilteredProducts, sortOption } = useApp();
 
   const [selectedCategories, setSelectedCategories] = useState([]);
-  const [priceRange, setPriceRange] = useState([0, 1000]);
+  const [priceRange, setPriceRange] = useState([1, 1000]);
   const [shopCategories, setShopCategories] = useState([]);
   const [open, setOpen] = useState(false);
+  const { slug } = useParams();
 
   const toggleDrawer = (newOpen) => () => setOpen(newOpen);
 
   const clearFilters = () => {
     setSelectedCategories([]);
-    setPriceRange([0, 1000]);
+    setPriceRange([1, 1000]);
   };
 
   useEffect(() => {
@@ -288,6 +302,24 @@ export default function CategoryPage({ products }) {
 
     setFilteredProducts(filteredProducts);
   }, [products, sortOption, priceRange, selectedCategories]);
+
+  useEffect(() => {
+    if (!slug) return;
+    const fetchCategory = async () => {
+      try {
+        const response = await getCategoryBySlug(slug);
+
+        if (response.success) {
+          setSelectedCategories((prev) => [...prev, response.category_id]);
+        } else {
+        }
+      } catch (error) {
+        console.error("Category not found:", error);
+      }
+    };
+
+    fetchCategory();
+  }, [slug]);
 
   return isMobile ? (
     <MobileCategory

@@ -666,7 +666,12 @@ const MainHeader = () => {
               <MenuItem onClick={() => handleCategoryClick(category.id)}>
                 <Link
                   to={`/category/${category.slug}`}
-                  style={{ textDecoration: "none", color: "inherit", flex: 1 }}
+                  style={{
+                    textDecoration: "none",
+                    color: "inherit",
+                    flex: 1,
+                    textTransform: "capitalize",
+                  }}
                 >
                   {category.name}
                 </Link>
@@ -684,7 +689,11 @@ const MainHeader = () => {
                   <MenuItem key={sub.id} style={{ paddingLeft: 20 }}>
                     <Link
                       to={`/category/${sub.slug}`}
-                      style={{ textDecoration: "none", color: "inherit" }}
+                      style={{
+                        textDecoration: "none",
+                        color: "inherit",
+                        textTransform: "capitalize",
+                      }}
                     >
                       {sub.name}
                     </Link>

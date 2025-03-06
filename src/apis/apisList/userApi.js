@@ -27,3 +27,6 @@ export const uploadFile = async (file) => {
     console.error("Upload Error:", error.response?.data || error.message);
   }
 };
+
+export const subscribeNewsLetter = (data) =>
+  apiClient.post("/wp-json/wp/v2/subscribe", data);

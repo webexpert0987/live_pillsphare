@@ -24,24 +24,25 @@ import ExpandMoreSharpIcon from "@mui/icons-material/ExpandMoreSharp";
 import HeroSection from "./ShopHero";
 import TrustBar from "./Trustbar";
 import { getProducts } from "../apis/apisList/productApi";
-
+import FilterPage from "../components/category";
+import { useApp } from "../Context/AppContext";
 
 const CategoryPage = () => {
   const [priceOpen, setPriceOpen] = useState(true);
   const [priceRange, setPriceRange] = useState([0, 1000]);
   const [products, setProducts] = useState([]);
-  const [sortOption, setSortOption] = useState("relevance");
-  const [filteredProducts, setFilteredProducts] = useState([]);
+  // const [sortOption, setSortOption] = useState("relevance");
+  // const [filteredProducts, setFilteredProducts] = useState([]);
   const { slug } = useParams();
   const [category, setCategory] = useState(null);
   const [categoryId, setCategoryId] = useState(null);
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
   const clearFilters = () => {
-       setPriceRange([0, 1000]);
-    
+    setPriceRange([0, 1000]);
   };
- 
+
+  const { filteredProducts, setSortOption } = useApp();
 
   const sidebar = {
     leftColParent: {
@@ -180,8 +181,6 @@ const CategoryPage = () => {
     },
   };
 
-  
-
   useEffect(() => {
     const fetchCategory = async () => {
       try {
@@ -189,8 +188,8 @@ const CategoryPage = () => {
 
         if (response.success) {
           setCategory(response);
-        
-          setCategoryId(response.category_id); 
+
+          setCategoryId(response.category_id);
         } else {
           setNotFound(true); // If not found, show 404
         }
@@ -206,61 +205,35 @@ const CategoryPage = () => {
     fetchCategory();
   }, [slug]);
 
-  
-  
-
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         if (!categoryId) return; // ✅ Ensure categoryId is set before proceeding
-  
-       
-  
+
         // Check if products are already in localStorage
-        const cachedProducts = localStorage.getItem('products');
+        const cachedProducts = localStorage.getItem("products");
         let productsData = cachedProducts ? JSON.parse(cachedProducts) : null;
-  
+
         if (!productsData) {
           const data = await getProducts();
           productsData = data.products;
-          localStorage.setItem('products', JSON.stringify(productsData)); // Cache the products
+          localStorage.setItem("products", JSON.stringify(productsData)); // Cache the products
         }
-  
+
         // ✅ Set products normally, without using a separate filteredProducts variable
-        setProducts(productsData.filter((product) =>
-          product.categories.some((category) => category.id === categoryId) // ✅ Filter by categoryId
-        ));
-        
+        setProducts(
+          productsData.filter(
+            (product) =>
+              product.categories.some((category) => category.id === categoryId) // ✅ Filter by categoryId
+          )
+        );
       } catch (error) {
-        console.error('Failed to fetch products:', error);
+        console.error("Failed to fetch products:", error);
       }
     };
-  
+
     fetchProducts();
   }, [categoryId]); // ✅ Runs when categoryId changes
-  
-  
-
-
-
-  useEffect(() => {
-    let filteredProducts = [...products];
-  
-  // Apply sorting and price range filtering
-    if (sortOption === "priceLowHigh") {
-      filteredProducts.sort((a, b) => (a.sale_price || a.price) - (b.sale_price || b.price));
-    } else if (sortOption === "priceHighLow") {
-      filteredProducts.sort((a, b) => (b.sale_price || b.price) - (a.sale_price || a.price));
-    }
-  
-    filteredProducts = filteredProducts.filter(
-      (product) => (product.sale_price || product.price) >= priceRange[0] &&
-                   (product.sale_price || product.price) <= priceRange[1]
-    );
-  
-    setFilteredProducts(filteredProducts);
-  }, [products, sortOption, priceRange]); 
- 
 
   if (loading) {
     return <div>Loading...</div>;
@@ -279,273 +252,200 @@ const CategoryPage = () => {
       </>
     );
   }
- 
   return (
     <>
-     <Box>
-          <HeroSection catName={category.category_name} />
-          <TrustBar />
-        </Box>
-        <Container>
-          <Box display="flex" style={shopStyle.Wrapper}>
-            {/* Left Column */}
-            <Box width="27%" p={2} style={sidebar.leftColParent}>
-              <Box
-                display="flex"
-                justifyContent="space-between"
-                alignItems="center"
-                mb={3}
+      <Box>
+        <HeroSection catName={category.category_name} />
+        <TrustBar />
+      </Box>
+      <Container>
+        <Box
+          display="flex"
+          style={shopStyle.Wrapper}
+          sx={{
+            flexDirection: { xs: "column", sm: "row" },
+            alignItems: { xs: "center", sm: "start" },
+          }}
+        >
+          {/* Left Column */}
+
+          <FilterPage products={products} />
+
+          {/* Right Column */}
+          <Box width="73%" style={shop3Grid.rightColParent}>
+            <Box
+              display="flex"
+              justifyContent="space-between"
+              alignItems="center"
+              mb={3}
+            >
+              <Typography style={shop3Grid.resultNum} variant="body1">
+                Showing Results from total {filteredProducts.length}
+              </Typography>
+              <Select
+                style={shop3Grid.sortingBox}
+                size="small"
+                defaultValue="relevance"
+                onChange={(e) => setSortOption(e.target.value)}
               >
-                <Typography style={sidebar.filterTitle} variant="h6">
-                  Filters
-                </Typography>
-                <Button
-                  style={sidebar.clearDataBtn}
-                  variant="outlined"
-                  size="small"
-                  onClick={clearFilters}
+                <MenuItem value="relevance">Relevance</MenuItem>
+                <MenuItem value="priceLowHigh">Price: Low to High</MenuItem>
+                <MenuItem value="priceHighLow">Price: High to Low</MenuItem>
+              </Select>
+            </Box>
+
+            <Grid2 container spacing={4}>
+              {filteredProducts.map((product) => (
+                <Grid2
+                  style={shop3Grid.shopProductBox}
+                  size={{ xs: 12, sm: 6, md: 4 }}
+                  spacing={2}
+                  key={product.id} // Use a unique key like `product.id`
                 >
-                  Clear All
-                </Button>
-              </Box>
-
-              <Box style={sidebar.borderBoxSide}>
-               
-
-
-                {/* Price Range Filter */}
-                <Box style={sidebar.sideToggleCat} mb={2}>
-                <Box
-                  style={sidebar.sideToggle}
-                  display="flex"
-                  justifyContent="space-between"
-                  alignItems="center"
-                >
-                  <Typography style={sidebar.sideTitle} variant="subtitle1">
-                    Price Range
-                  </Typography>
-                  <Button
-                    style={sidebar.toggleBtn}
-                    size="small"
-                    onClick={() => setPriceOpen(!priceOpen)}
+                  <Link
+                    to={`/product/${product.slug}`}
+                    style={{ textDecoration: "none" }}
                   >
-                    {priceOpen ? (
-                      <>
-                        <ExpandLessSharpIcon fontSize="medium" />
-                      </>
-                    ) : (
-                      <>
-                        <ExpandMoreSharpIcon fontSize="medium" />
-                      </>
-                    )}
-                  </Button>
-                </Box>
-                <Collapse in={priceOpen}>
-                  <Slider
-                    value={priceRange}
-                    onChange={(e, newValue) => setPriceRange(newValue)}
-                    valueLabelDisplay="auto"
-                    min={0}
-                    max={1000}
-                    sx={{
-                      "& .MuiSlider-rail": {
-                        backgroundColor: "#EDEEF3",
-                        height: 5, // Adjust the height of the rail
-                      },
-                      "& .MuiSlider-track": {
-                        backgroundColor: "#FD6400",
-                        border: "none",
-                        height: 5, // Adjust the height of the rail
-                      },
-                      "& .MuiSlider-thumb": {
-                        border: "2px solid #104239",
-                        "&::before": {
-                          position: "absolute",
-                          content: '""',
-                          borderRadius: "inherit",
-                          width: "16px",
-                          height: "16px",
-                          background: "#104239",
-                          border: "4px solid #FFF",
-                          boxShadow: `0px 3px 1px -2px rgba(0, 0, 0, 0.2), 
-                        0px 2px 2px 0px rgba(0, 0, 0, 0.14), 
-                        0px 1px 5px 0px rgba(0, 0, 0, 0.12)`,
-                        },
-                      },
-                    }}
-                  />
-                  <Box display="flex" gap={2} mt={1} mb={1}>
-                    <TextField
-                      label="Min"
-                      type="number"
-                      size="small"
-                      value={priceRange[0]}
-                      onChange={(e) =>
-                        setPriceRange([+e.target.value, priceRange[1]])
-                      }
-                      fullWidth
-                    />
-                    <TextField
-                      label="Max"
-                      type="number"
-                      size="small"
-                      value={priceRange[1]}
-                      onChange={(e) =>
-                        setPriceRange([priceRange[0], +e.target.value])
-                      }
-                      fullWidth
-                    />
-                  </Box>
-                </Collapse>
-              </Box>
+                    <Card
+                      style={{
+                        ...shop3Grid.shopinBox,
+                        display: "flex",
+                        flexDirection: "column",
+                        height: "100%", // Ensure all cards have the same height
+                      }}
+                    >
+                      <Box position="relative">
+                        <CardMedia
+                          style={shop3Grid.productThumb}
+                          component="img"
+                          height="235"
+                          image={
+                            product.image ||
+                            "https://admin.pillsphere.com/wp-content/uploads/2025/01/unnamed.png"
+                          } // Use product.image if available
+                          alt={product.name}
+                          sx={{
+                            objectFit: "contain",
+                          }}
+                        />
+                        {product.sale_price && (
+                          <Box
+                            style={shop3Grid.offerTag}
+                            position="absolute"
+                            top={0}
+                            left={0}
+                            bgcolor="red"
+                            color="white"
+                            px={1}
+                            py={0.5}
+                            fontSize="0.8rem"
+                          >
+                            {Math.round(
+                              ((product.regular_price - product.sale_price) /
+                                product.regular_price) *
+                                100
+                            )}
+                            % OFF
+                          </Box>
+                        )}
+                      </Box>
+                      <CardContent
+                        style={shop3Grid.titlePriceBox}
+                        sx={{ flexGrow: 1 }}
+                      >
+                        <Typography style={shop3Grid.prodTitle} variant="h6">
+                          {product.name}
+                        </Typography>
 
-               
-              </Box>
-            </Box>
+                        {/* Display product categories */}
+                        {product.categories &&
+                          product.categories.length > 0 && (
+                            <Box>
+                              {product.categories.map((category) => (
+                                <Typography
+                                  key={category.id}
+                                  variant="body2"
+                                  color="textSecondary"
+                                >
+                                  {category.name} {/* Display category name */}
+                                </Typography>
+                              ))}
+                            </Box>
+                          )}
 
-            {/* Right Column */}
-            <Box width="73%" style={shop3Grid.rightColParent}>
-              <Box
-                display="flex"
-                justifyContent="space-between"
-                alignItems="center"
-                mb={3}
-              >
-                <Typography style={shop3Grid.resultNum} variant="body1">
-                  Showing Results from total {filteredProducts.length}
-                </Typography>
-                <Select
-                  style={shop3Grid.sortingBox}
-                  size="small"
-                  defaultValue="relevance"
-                  onChange={(e) => setSortOption(e.target.value)}
-                >
-                  <MenuItem value="relevance">Relevance</MenuItem>
-                  <MenuItem value="priceLowHigh">Price: Low to High</MenuItem>
-                  <MenuItem value="priceHighLow">Price: High to Low</MenuItem>
-                  
-                </Select>
-              </Box>
-
-              <Grid2 container spacing={4}>
-               {filteredProducts.map((product) => (
-                 <Grid2
-                   style={shop3Grid.shopProductBox}
-                   size={{ xs: 12, sm: 6, md: 4 }}
-                   spacing={2}
-                   key={product.id}  // Use a unique key like `product.id`
-                 >
-                   <Link to={`/product/${product.slug}`} style={{ textDecoration: "none" }}>
-                     <Card style={shop3Grid.shopinBox}>
-                       <Box position="relative">
-                         <CardMedia
-                           style={shop3Grid.productThumb}
-                           component="img"
-                           height="235"
-                           image={product.image || "https://admin.pillsphere.com/wp-content/uploads/2025/01/unnamed.png"} // Use product.image if available
-                           alt={product.name}
-                         />
-                         {product.sale_price && (
-                           <Box
-                             style={shop3Grid.offerTag}
-                             position="absolute"
-                             top={0}
-                             left={0}
-                             bgcolor="red"
-                             color="white"
-                             px={1}
-                             py={0.5}
-                             fontSize="0.8rem"
-                           >
-                             {Math.round(((product.regular_price - product.sale_price) / product.regular_price) * 100)}% OFF
-                           </Box>
-                         )}
-                       </Box>
-                       <CardContent style={shop3Grid.titlePriceBox}>
-                         <Typography style={shop3Grid.prodTitle} variant="h6">
-                           {product.name}
-                         </Typography>
-               
-                         {/* Display product categories */}
-                         {product.categories && product.categories.length > 0 && (
-                                     <Box>
-                                       {product.categories.map((category) => (
-                                         <Typography key={category.id} variant="body2" color="textSecondary">
-                                           {category.name} {/* Display category name */}
-                                         </Typography>
-                                       ))}
-                                     </Box>
-                                   )}
-               
-                                   <Box
-                                     style={shop3Grid.proPriceRating}
-                                     display="flex"
-                                     justifyContent="space-between"
-                                     alignItems="center"
-                                   >
-                                     <Box style={shop3Grid.priceBox}>
-                                       <Typography style={shop3Grid.proPrice} variant="body1">
-                                         ${product.sale_price || product.price}
-                                       </Typography>
-                                       {product.sale_price && (
-                                         <Typography
-                                           style={shop3Grid.proPriceCross}
-                                           variant="body1"
-                                         >
-                                           ${product.regular_price}
-                                         </Typography>
-                                       )}
-                                     </Box>
-                                     <Box display="flex" alignItems="center" gap={1}>
-                                       <Rating
-                                         style={shop3Grid.proRating}
-                                         value={4} // Replace with actual rating if available
-                                         readOnly
-                                         size="small"
-                                       />
-                                       <Typography
-                                         style={shop3Grid.ratingCount}
-                                         variant="body2"
-                                         color="textSecondary"
-                                       >
-                                         (123) {/* Replace with actual review count if available */}
-                                       </Typography>
-                                     </Box>
-                                   </Box>
-                                 </CardContent>
-                                 <CardActions style={shop3Grid.divCart}>
-                                   <Button
-                                     style={shop3Grid.proCartBtn}
-                                     variant="outlined"
-                                     fullWidth
-                                   >
-                                     View
-                                     <svg
-                                       style={{ marginLeft: "10px" }}
-                                       width="18"
-                                       height="14"
-                                       viewBox="0 0 18 14"
-                                       fill="none"
-                                       xmlns="http://www.w3.org/2000/svg"
-                                     >
-                                       <path
-                                         d="M17 7L11 1M17 7L11 13M17 7L6.5 7M1 7L3.5 7"
-                                         stroke="white"
-                                         strokeWidth="1.5"
-                                         strokeLinecap="round"
-                                         strokeLinejoin="round"
-                                       />
-                                     </svg>
-                                   </Button>
-                                 </CardActions>
-                               </Card>
-                             </Link>
-                           </Grid2>
-                         ))}
-              </Grid2>
-            </Box>
+                        <Box
+                          style={shop3Grid.proPriceRating}
+                          display="flex"
+                          justifyContent="space-between"
+                          alignItems="center"
+                        >
+                          <Box style={shop3Grid.priceBox}>
+                            <Typography
+                              style={shop3Grid.proPrice}
+                              variant="body1"
+                            >
+                              ${product.sale_price || product.price}
+                            </Typography>
+                            {product.sale_price && (
+                              <Typography
+                                style={shop3Grid.proPriceCross}
+                                variant="body1"
+                              >
+                                ${product.regular_price}
+                              </Typography>
+                            )}
+                          </Box>
+                          <Box display="flex" alignItems="center" gap={1}>
+                            <Rating
+                              style={shop3Grid.proRating}
+                              value={4} // Replace with actual rating if available
+                              readOnly
+                              size="small"
+                            />
+                            <Typography
+                              style={shop3Grid.ratingCount}
+                              variant="body2"
+                              color="textSecondary"
+                            >
+                              (123){" "}
+                              {/* Replace with actual review count if available */}
+                            </Typography>
+                          </Box>
+                        </Box>
+                      </CardContent>
+                      <CardActions style={shop3Grid.divCart}>
+                        <Button
+                          style={shop3Grid.proCartBtn}
+                          variant="outlined"
+                          fullWidth
+                        >
+                          View
+                          <svg
+                            style={{ marginLeft: "10px" }}
+                            width="18"
+                            height="14"
+                            viewBox="0 0 18 14"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M17 7L11 1M17 7L11 13M17 7L6.5 7M1 7L3.5 7"
+                              stroke="white"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                          </svg>
+                        </Button>
+                      </CardActions>
+                    </Card>
+                  </Link>
+                </Grid2>
+              ))}
+            </Grid2>
           </Box>
-        </Container>
+        </Box>
+      </Container>
     </>
   );
 };

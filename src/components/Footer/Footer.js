@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Box,
   Typography,
@@ -10,14 +10,85 @@ import {
 } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import { Link } from "react-router-dom";
+import { useMessage } from "../../Context/MessageContext";
+import { subscribeNewsLetter } from "../../apis/apisList/userApi";
+
+const onlineClinicItems = [
+  { id: 1, name: "Weight Loss", link: "/online-clinic/weight-loss" },
+  { id: 2, name: "Acid Reflux", link: "/online-clinic/acid-reflux" },
+  {
+    id: 3,
+    name: "Contraceptives",
+    link: "/online-clinic/contraceptives",
+  },
+  { id: 4, name: "Cystitis", link: "/online-clinic/cystitis" },
+  {
+    id: 5,
+    name: "Erectile Dysfunction",
+    link: "/online-clinic/erectile-dysfunction",
+  },
+  { id: 6, name: "Hair Loss", link: "/online-clinic/hair-loss" },
+  { id: 7, name: "Hay Fever", link: "/online-clinic/hayfever" },
+  {
+    id: 8,
+    name: "Migraine",
+    link: "/online-clinic/migraine",
+  },
+  { id: 9, name: "Period Delay", link: "/online-clinic/period-delay" },
+  { id: 10, name: "Period Pain", link: "/online-clinic/period-pain" },
+  {
+    id: 11,
+    name: "Premature Ejaculation",
+    link: "/online-clinic/premature-ejaculation",
+  },
+  { id: 12, name: "Stop Smoking", link: "/online-clinic/stop-smoking" },
+];
+
+const supportItems = [
+  { id: 1, name: "About Us", link: "/about" },
+  { id: 2, name: "Privacy Policy", link: "/privacy-policy" },
+  {
+    id: 3,
+    name: "Terms Of Use",
+    link: "/terms-of-use",
+  },
+  { id: 4, name: "Terms and Conditions", link: "/terms-conditions" },
+  { id: 5, name: "our Prescriber", link: "/our-prescribers" },
+  { id: 6, name: "Low Price Guarantee", link: "/low-price-guarantee" },
+  { id: 7, name: "Feedback Complaints", link: "/feedback-complaints" },
+  { id: 8, name: "Delivery Information", link: "/delivery-information" },
+  { id: 9, name: "Cookies Policy", link: "/cookies-policy" },
+];
 
 export default function Footer() {
+  const [email, setEmail] = useState("");
+  const { showMessage } = useMessage();
   const linkStyle = {
     color: "#333",
     textDecoration: "none",
     fontWeight: "500",
     fontSize: "16px",
     lineHeight: "1.5",
+  };
+  const handleNavigate = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
+  const handleSubscribe = async () => {
+    if (!email) return;
+    try {
+      await subscribeNewsLetter({ email });
+      showMessage("Subscribed successfully!", "success");
+    } catch (error) {
+      showMessage(
+        "Failed to subscribe. Please check your internet connection and try again.",
+        "error"
+      );
+      return;
+    }
   };
   return (
     <Box sx={{ backgroundColor: "secondary.main", padding: "40px 0px" }}>
@@ -93,6 +164,7 @@ export default function Footer() {
                   // paddingBottom: 2.5
                 },
               }}
+              onChange={(e) => setEmail(e.target.value)}
             />
             <Button
               variant="contained"
@@ -115,6 +187,7 @@ export default function Footer() {
                 right: { xs: "0%", md: "0%", lg: "0%" },
               }}
               size="small"
+              onClick={handleSubscribe}
             >
               Subscribe Now
             </Button>
@@ -122,25 +195,21 @@ export default function Footer() {
         </Box>
         <Divider />
         {/* Footer Sections */}
-        <Box sx={{ flexGrow: 2, 
-          marginY: { xs: "20px", sm: "30px", md:"40px"},
-          }}
-          >
+        <Box
+          sx={{ flexGrow: 2, marginY: { xs: "20px", sm: "30px", md: "40px" } }}
+        >
           <Grid container spacing={3}>
             {/* Logo Section */}
-            <Grid size={{ xs: 12, sm: 10, md: 3, lg: 2.6 }}>
+            {/* <Grid size={{ xs: 12, sm: 10, md: 3, lg: 2.6 }}>
               <img
                 src="/Pillsphere_logo_footer.png"
                 alt="Pill Sphere Logo"
                 style={{ maxWidth: "258px" }}
               />
-            </Grid>
+            </Grid> */}
 
             {/* Categories Section */}
-            <Grid
-              size={{ xs: 12, sm: 12, md: 4, lg: 6 }}
-              sx={{ marginRight: "20px", width: { md: "50%" } }}
-            >
+            <Grid size={{ xs: 12, sm: 4, md: 4, lg: 4 }}>
               <Typography
                 variant="h6"
                 sx={{
@@ -163,55 +232,98 @@ export default function Footer() {
               <Box>
                 <Grid container direction="row" spacing={3}>
                   <Grid size={{ xs: 12, sm: 4, md: 4, lg: 4 }}>
-                    <Typography variant="h4" marginY={1}>
-                      <Link style={linkStyle}>Men's Health</Link>
-                    </Typography>
-                    <Typography variant="h4" marginY={1}>
-                      <Link style={linkStyle}>Women's Health</Link>
-                    </Typography>
-                    <Typography variant="h4" marginY={1}>
-                      <Link style={linkStyle}>Pediatric Health</Link>
-                    </Typography>
-                    <Typography variant="h4" marginY={1}>
-                      <Link style={linkStyle}>General Wellbeing</Link>
-                    </Typography>
-                    <Typography variant="h4" marginY={1}>
-                      <Link style={linkStyle}>Delivery</Link>
-                    </Typography>
+                    {onlineClinicItems.slice(0, 6).map((item) => (
+                      <Link
+                        style={linkStyle}
+                        to={item.link}
+                        onClick={handleNavigate}
+                        key={item.id}
+                      >
+                        <Typography variant="h4" marginY={1}>
+                          {item.name}
+                        </Typography>
+                      </Link>
+                    ))}
                   </Grid>
                   <Grid size={{ xs: 12, sm: 4, md: 4, lg: 4 }}>
-                    <Typography variant="h4" marginY={1}>
-                      <Link style={linkStyle}>How It Works</Link>
-                    </Typography>
-                    <Typography variant="h4" marginY={1}>
-                      <Link style={linkStyle}>Account</Link>
-                    </Typography>
-                    <Typography variant="h4" marginY={1}>
-                      <Link style={linkStyle}>Cart</Link>
-                    </Typography>
-                    <Typography variant="h4" marginY={1}>
-                      <Link style={linkStyle}>Cookies</Link>
-                    </Typography>
-                    <Typography variant="h4" marginY={1}>
-                      <Link style={linkStyle}>Prescribers</Link>
-                    </Typography>
+                    {onlineClinicItems.slice(6, 12).map((item) => (
+                      <Link
+                        style={linkStyle}
+                        to={item.link}
+                        key={item.id}
+                        onClick={handleNavigate}
+                      >
+                        <Typography variant="h4" marginY={1}>
+                          {item.name}
+                        </Typography>
+                      </Link>
+                    ))}
+                  </Grid>
+                </Grid>
+              </Box>
+            </Grid>
+            {/* Support pages */}
+            <Grid size={{ xs: 12, sm: 4, md: 4, lg: 4 }}>
+              <Typography
+                variant="h6"
+                sx={{
+                  fontWeight: "900",
+                  marginBottom: "0",
+                  fontSize: { xs: "20px", sm: "20px", md: "24px" },
+                }}
+                gutterBottom
+              >
+                Support
+              </Typography>
+              <Box
+                sx={{
+                  margin: "10px 0px 20px 0px",
+                  borderBottom: "2px solid #000",
+                }}
+              >
+                <Divider />
+              </Box>
+              <Box>
+                <Grid container direction="row" spacing={3}>
+                  <Grid size={{ xs: 12, sm: 4, md: 4, lg: 4 }}>
+                    {supportItems.slice(0, 5).map((item) => (
+                      <Link
+                        style={linkStyle}
+                        to={item.link}
+                        onClick={handleNavigate}
+                        key={item.id}
+                      >
+                        <Typography
+                          variant="h4"
+                          marginY={1}
+                          sx={{
+                            whiteSpace: "nowrap",
+                          }}
+                        >
+                          {item.name}
+                        </Typography>
+                      </Link>
+                    ))}
                   </Grid>
                   <Grid size={{ xs: 12, sm: 4, md: 4, lg: 4 }}>
-                    <Typography variant="h4" marginY={1}>
-                      <Link style={linkStyle}>Contact Us</Link>
-                    </Typography>
-                    <Typography variant="h4" marginY={1}>
-                      <Link style={linkStyle}>About Us</Link>
-                    </Typography>
-                    <Typography variant="h4" marginY={1}>
-                      <Link style={linkStyle}>Privacy Policy</Link>
-                    </Typography>
-                    <Typography variant="h4" marginY={1}>
-                      <Link style={linkStyle}>Terms of Use</Link>
-                    </Typography>
-                    <Typography variant="h4" marginY={1}>
-                      <Link style={linkStyle}>Terms and Conditions</Link>
-                    </Typography>
+                    {supportItems.slice(5, 10).map((item) => (
+                      <Link
+                        style={linkStyle}
+                        to={item.link}
+                        key={item.id}
+                        onClick={handleNavigate}
+                      >
+                        <Typography
+                          variant="h4"
+                          marginY={1}
+                          sx={{
+                            whiteSpace: "nowrap",
+                          }}
+                        >
+                          {item.name}
+                        </Typography>
+                      </Link>
+                    ))}
                   </Grid>
                 </Grid>
               </Box>
@@ -313,10 +425,15 @@ export default function Footer() {
         >
           {/* Registration Information */}
           <Grid container spacing={6}>
-          <Grid xs={12} sm={4} textAlign={"left"} sx={{
-              marginBottom: { xs: "-20px", sm: "0", md: "0" },
-              marginTop: { xs: "10px", sm: "0", md: "0" },
-            }}>
+            <Grid
+              xs={12}
+              sm={4}
+              textAlign={"left"}
+              sx={{
+                marginBottom: { xs: "-20px", sm: "0", md: "0" },
+                marginTop: { xs: "10px", sm: "0", md: "0" },
+              }}
+            >
               <Typography
                 variant="h3"
                 sx={{
@@ -343,10 +460,15 @@ export default function Footer() {
               sx={{ display: { xs: "none", sm: "block" } }}
             />
 
-            <Grid xs={12} sm={4} textAlign={"left"} sx={{
-              marginBottom: { xs: "-20px", sm: "0", md: "0" },
-            }}>
-            <Typography
+            <Grid
+              xs={12}
+              sm={4}
+              textAlign={"left"}
+              sx={{
+                marginBottom: { xs: "-20px", sm: "0", md: "0" },
+              }}
+            >
+              <Typography
                 variant="h3"
                 sx={{
                   fontWeight: "700",
@@ -372,10 +494,15 @@ export default function Footer() {
               sx={{ display: { xs: "none", sm: "block" } }}
             />
 
-            <Grid xs={12} sm={4} textAlign={"left"} sx={{
-              marginBottom: { xs: "0px", sm: "0", md: "0" },
-            }}>
-            <Typography
+            <Grid
+              xs={12}
+              sm={4}
+              textAlign={"left"}
+              sx={{
+                marginBottom: { xs: "0px", sm: "0", md: "0" },
+              }}
+            >
+              <Typography
                 variant="h3"
                 sx={{
                   fontWeight: "700",
@@ -419,11 +546,14 @@ export default function Footer() {
           justifyContent="space-between"
           textAlign={"left"}
         >
-          <Typography variant="h4" sx={{ 
-            marginTop: 2,
-            fontWeight: "500",
-            fontSize: {xs: "15px", sm: "15px", md: "16px"}
-            }}>
+          <Typography
+            variant="h4"
+            sx={{
+              marginTop: 2,
+              fontWeight: "500",
+              fontSize: { xs: "15px", sm: "15px", md: "16px" },
+            }}
+          >
             © 2025 Pill Sphere LTD. All rights reserved.
           </Typography>
           <Box
@@ -432,10 +562,18 @@ export default function Footer() {
             gap={1}
             marginTop={{ xs: 2, md: 1 }}
           >
-            <img src="/images/social/fb.png" alt="facebook" />
-            <img src="/images/social/x.png" alt="x" />
-            <img src="/images/social/insta.png" alt="instagram" />
-            <img src="/images/social/linkedin.png" alt="linkedin" />
+            <a href="https://www.facebook.com/pillsphere" target="_blank">
+              <img src="/images/social/fb.png" alt="facebook" />
+            </a>
+            <a href="https://www.x.com/pillsphere" target="_blank">
+              <img src="/images/social/x.png" alt="x" />
+            </a>
+            <a href="https://www.instagram.com/pillsphere" target="_blank">
+              <img src="/images/social/insta.png" alt="instagram" />
+            </a>
+            <a href="https://www.linkdin.com/pillsphere" target="_blank">
+              <img src="/images/social/linkedin.png" alt="linkedin" />
+            </a>
           </Box>
         </Box>
       </Container>
