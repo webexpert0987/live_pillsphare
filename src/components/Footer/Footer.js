@@ -63,6 +63,7 @@ const supportItems = [
 
 export default function Footer() {
   const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
   const { showMessage } = useMessage();
   const linkStyle = {
     color: "#333",
@@ -78,16 +79,24 @@ export default function Footer() {
   };
 
   const handleSubscribe = async () => {
-    if (!email) return;
+    if (!email) {
+      showMessage("Please enter your email address.", "error");
+      return;
+    }
+    if (!/^\S+@\S+\.\S+$/.test(email)) {
+      showMessage("Please enter a valid email address.", "error");
+      return;
+    }
     try {
+      setLoading(true);
       await subscribeNewsLetter({ email });
+      setLoading(false);
       setEmail("");
       showMessage("Subscribed successfully!", "success");
     } catch (error) {
-      showMessage(
-        "Failed to subscribe. Please check your internet connection and try again.",
-        "error"
-      );
+      setLoading(false);
+      const message = error?.response?.data?.message || "Failed to subscribe.";
+      showMessage(message, "error");
       return;
     }
   };
@@ -178,6 +187,11 @@ export default function Footer() {
                 "&:hover": {
                   backgroundColor: "#22432A",
                 },
+                "&:disabled": {
+                  backgroundColor: "primary.main",
+                  color: "#fff",
+                  cursor: "not-allowed",
+                },
                 // padding: '0px 30px',
                 zIndex: 99,
                 fontSize: { xs: "14px", sm: "18px" },
@@ -189,8 +203,9 @@ export default function Footer() {
               }}
               size="small"
               onClick={handleSubscribe}
+              disabled={loading}
             >
-              Subscribe Now
+              {loading ? "Subscribing..." : " Subscribe Now"}
             </Button>
           </Box>
         </Box>
