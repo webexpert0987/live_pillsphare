@@ -18,70 +18,70 @@ const supportBoxes = [
       "If you find a prescription medication at a lower price from a UK-registered and regulated online pharmacy with the same sale conditions, we will price match or refund the difference within 14 days. Take a look for yourself. We guarantee we will not be beaten on price.",
     ],
     buttonText: "Read More",
-    link: "/",
+    link: "/low-price-guarantee",
   },
   {
     title: "Feedback & Complaints",
     description:
       "Here is the updated Feedback & Complaints policy with Medicus Express replaced by Pill Sphere:",
     buttonText: "Read More",
-    link: "/",
+    link: "/feedback-complaints",
   },
   {
     title: "Reorder Your Prescription",
     description:
       "Make sure you're logged into your account and head over to your account section.",
     buttonText: "Read More",
-    link: "/",
+    link: "/reorder-prescription",
   },
   {
     title: "Cookies Policy",
     description:
       "Please read this cookie policy (“cookie policy,” “policy”) carefully before using our website (“website,” “service”) operated by Pill Sphere LTD (“us,” “we,” “our”).",
     buttonText: "Read More",
-    link: "/",
+    link: "/cookies-policy",
   },
   {
     title: "Delivery Information",
     description:
       "Prior to dispatching any orders, they must first receive approval from a prescriber. Typically, this process takes only a few hours, but occasionally it may extend to up to 24 hours from the time of order placement.",
     buttonText: "Read More",
-    link: "/",
+    link: "/delivery-information",
   },
   {
     title: "Our Prescribers",
     description:
       "Shikar brings a wealth of experience and knowledge to Pill Sphere. His dedication to patient care and commitment to continual learning ensure that you receive the best possible service and support.",
     buttonText: "Read More",
-    link: "/",
+    link: "/our-prescribers",
   },
   {
     title: "Privacy Policy",
     description:
       "These terms and conditions apply between you, the User of this Website (including any sub-domains, unless expressly excluded by their own terms and conditions), and Pill Sphere LTD, the owner and operator of this Website.",
     buttonText: "Read More",
-    link: "/",
+    link: "/privacy-policy",
   },
   {
     title: "Refunds & Returns",
     description:
       "We understand that you may, at times, want to return an item you've purchased from us. Not all items can be returned, but for the ones that can, please read the policy below.",
     buttonText: "Read More",
-    link: "/",
+    link: "/refunds-returns",
   },
   {
     title: "Terms and Conditions",
     description:
       "These terms and conditions apply between you, the User of this Website (including any sub-domains, unless expressly excluded by their own terms and conditions), and Pill Sphere LTD, the owner and operator of this Website.",
     buttonText: "Read More",
-    link: "/",
+    link: "/terms-conditions",
   },
   {
     title: "Terms of Use",
     description:
       "These terms and conditions govern your use of this Website, owned and operated by Pill Sphere LTD. By accessing and using this Website, you agree to comply with these terms. If you do not agree, you must cease use immediately.",
     buttonText: "Read More",
-    link: "/",
+    link: "/terms-of-use",
   },
 ];
 
@@ -256,49 +256,57 @@ function Support() {
                       }}
                     >
                       <Box>
-                      <Typography
-                        variant="h6"
-                        sx={{
-                          fontSize: { xs: "20px", sm: "22px", md: "24px" },
-                          fontWeight: "700",
-                          marginBottom: { xs: "15px", sm: "15px", md: "15px" },
-                        }}
-                      >
-                        {supportBoxes[1].title}
-                      </Typography>
-                      <Typography
-                        variant="body2"
-                        sx={{
-                          fontSize: { xs: "15px", sm: "16px", md: "16px" },
-                          fontWeight: "500",
-                          marginBottom: { xs: "15px", sm: "15px", md: "15px" },
-                          lineHeight: "1.6",
-                        }}
-                      >
-                        {supportBoxes[1].description}
-                      </Typography>
+                        <Typography
+                          variant="h6"
+                          sx={{
+                            fontSize: { xs: "20px", sm: "22px", md: "24px" },
+                            fontWeight: "700",
+                            marginBottom: {
+                              xs: "15px",
+                              sm: "15px",
+                              md: "15px",
+                            },
+                          }}
+                        >
+                          {supportBoxes[1].title}
+                        </Typography>
+                        <Typography
+                          variant="body2"
+                          sx={{
+                            fontSize: { xs: "15px", sm: "16px", md: "16px" },
+                            fontWeight: "500",
+                            marginBottom: {
+                              xs: "15px",
+                              sm: "15px",
+                              md: "15px",
+                            },
+                            lineHeight: "1.6",
+                          }}
+                        >
+                          {supportBoxes[1].description}
+                        </Typography>
                       </Box>
                       <Box>
-                      <Button
-                        variant="outlined"
-                        sx={{
-                          fontSize: { xs: "14px", sm: "14px", md: "14px" },
-                          fontWeight: "600",
-                          lineHeight: "1.4",
-                          backgroundColor: "#FD6400",
-                          color: "#FFF",
-                          borderRadius: "50px",
-                          border: "none",
-                          textTransform: "inherit",
-                          padding: {
-                            xs: "12px 15px",
-                            sm: "12px 15px",
-                            md: "12px 20px",
-                          },
-                        }}
-                      >
-                        {supportBoxes[1].buttonText}
-                      </Button>
+                        <Button
+                          variant="outlined"
+                          sx={{
+                            fontSize: { xs: "14px", sm: "14px", md: "14px" },
+                            fontWeight: "600",
+                            lineHeight: "1.4",
+                            backgroundColor: "#FD6400",
+                            color: "#FFF",
+                            borderRadius: "50px",
+                            border: "none",
+                            textTransform: "inherit",
+                            padding: {
+                              xs: "12px 15px",
+                              sm: "12px 15px",
+                              md: "12px 20px",
+                            },
+                          }}
+                        >
+                          {supportBoxes[1].buttonText}
+                        </Button>
                       </Box>
                     </CardContent>
                   </Card>
@@ -328,49 +336,57 @@ function Support() {
                       }}
                     >
                       <Box>
-                      <Typography
-                        variant="h6"
-                        sx={{
-                          fontSize: { xs: "20px", sm: "22px", md: "24px" },
-                          fontWeight: "700",
-                          marginBottom: { xs: "15px", sm: "15px", md: "15px" },
-                        }}
-                      >
-                        {supportBoxes[2].title}
-                      </Typography>
-                      <Typography
-                        variant="body2"
-                        sx={{
-                          fontSize: { xs: "15px", sm: "16px", md: "16px" },
-                          fontWeight: "500",
-                          marginBottom: { xs: "15px", sm: "15px", md: "15px" },
-                          lineHeight: "1.6",
-                        }}
-                      >
-                        {supportBoxes[2].description}
-                      </Typography>
+                        <Typography
+                          variant="h6"
+                          sx={{
+                            fontSize: { xs: "20px", sm: "22px", md: "24px" },
+                            fontWeight: "700",
+                            marginBottom: {
+                              xs: "15px",
+                              sm: "15px",
+                              md: "15px",
+                            },
+                          }}
+                        >
+                          {supportBoxes[2].title}
+                        </Typography>
+                        <Typography
+                          variant="body2"
+                          sx={{
+                            fontSize: { xs: "15px", sm: "16px", md: "16px" },
+                            fontWeight: "500",
+                            marginBottom: {
+                              xs: "15px",
+                              sm: "15px",
+                              md: "15px",
+                            },
+                            lineHeight: "1.6",
+                          }}
+                        >
+                          {supportBoxes[2].description}
+                        </Typography>
                       </Box>
                       <Box>
-                      <Button
-                        variant="outlined"
-                        sx={{
-                          fontSize: { xs: "14px", sm: "14px", md: "14px" },
-                          fontWeight: "600",
-                          lineHeight: "1.4",
-                          backgroundColor: "#FD6400",
-                          color: "#FFF",
-                          borderRadius: "50px",
-                          border: "none",
-                          textTransform: "inherit",
-                          padding: {
-                            xs: "12px 15px",
-                            sm: "12px 15px",
-                            md: "12px 20px",
-                          },
-                        }}
-                      >
-                        {supportBoxes[2].buttonText}
-                      </Button>
+                        <Button
+                          variant="outlined"
+                          sx={{
+                            fontSize: { xs: "14px", sm: "14px", md: "14px" },
+                            fontWeight: "600",
+                            lineHeight: "1.4",
+                            backgroundColor: "#FD6400",
+                            color: "#FFF",
+                            borderRadius: "50px",
+                            border: "none",
+                            textTransform: "inherit",
+                            padding: {
+                              xs: "12px 15px",
+                              sm: "12px 15px",
+                              md: "12px 20px",
+                            },
+                          }}
+                        >
+                          {supportBoxes[2].buttonText}
+                        </Button>
                       </Box>
                     </CardContent>
                   </Card>
@@ -403,49 +419,57 @@ function Support() {
                       }}
                     >
                       <Box>
-                      <Typography
-                        variant="h6"
-                        sx={{
-                          fontSize: { xs: "20px", sm: "22px", md: "24px" },
-                          fontWeight: "700",
-                          marginBottom: { xs: "15px", sm: "15px", md: "15px" },
-                        }}
-                      >
-                        {post.title}
-                      </Typography>
-                      <Typography
-                        variant="body2"
-                        sx={{
-                          fontSize: { xs: "15px", sm: "16px", md: "16px" },
-                          fontWeight: "500",
-                          marginBottom: { xs: "15px", sm: "15px", md: "15px" },
-                          lineHeight: "1.6",
-                        }}
-                      >
-                        {post.description}
-                      </Typography>
+                        <Typography
+                          variant="h6"
+                          sx={{
+                            fontSize: { xs: "20px", sm: "22px", md: "24px" },
+                            fontWeight: "700",
+                            marginBottom: {
+                              xs: "15px",
+                              sm: "15px",
+                              md: "15px",
+                            },
+                          }}
+                        >
+                          {post.title}
+                        </Typography>
+                        <Typography
+                          variant="body2"
+                          sx={{
+                            fontSize: { xs: "15px", sm: "16px", md: "16px" },
+                            fontWeight: "500",
+                            marginBottom: {
+                              xs: "15px",
+                              sm: "15px",
+                              md: "15px",
+                            },
+                            lineHeight: "1.6",
+                          }}
+                        >
+                          {post.description}
+                        </Typography>
                       </Box>
                       <Box>
-                      <Button
-                        variant="outlined"
-                        sx={{
-                          fontSize: { xs: "14px", sm: "14px", md: "14px" },
-                          fontWeight: "600",
-                          lineHeight: "1.4",
-                          backgroundColor: "#FD6400",
-                          color: "#FFF",
-                          borderRadius: "50px",
-                          border: "none",
-                          textTransform: "inherit",
-                          padding: {
-                            xs: "12px 15px",
-                            sm: "12px 15px",
-                            md: "12px 20px",
-                          },
-                        }}
-                      >
-                        {post.buttonText}
-                      </Button>
+                        <Button
+                          variant="outlined"
+                          sx={{
+                            fontSize: { xs: "14px", sm: "14px", md: "14px" },
+                            fontWeight: "600",
+                            lineHeight: "1.4",
+                            backgroundColor: "#FD6400",
+                            color: "#FFF",
+                            borderRadius: "50px",
+                            border: "none",
+                            textTransform: "inherit",
+                            padding: {
+                              xs: "12px 15px",
+                              sm: "12px 15px",
+                              md: "12px 20px",
+                            },
+                          }}
+                        >
+                          {post.buttonText}
+                        </Button>
                       </Box>
                     </CardContent>
                   </Card>
