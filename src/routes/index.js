@@ -44,6 +44,7 @@ import UserAccount from "../pages/UserAccount";
 import HowItWork from "../pages/HowItWork";
 
 import Verification from "../pages/Verification";
+import ForgotPassword from "../pages/ForgotPassword";
 const routes = [
   {
     path: "/",
@@ -258,6 +259,11 @@ const routes = [
   {
     path: "/how-it-work",
     component: HowItWork,
+    exact: true,
+  },
+  {
+    path: "/forgot",
+    component: ForgotPassword,
     exact: true,
   },
 ];

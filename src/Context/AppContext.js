@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { addProductToCart, getUserCart } from "../apis/apisList/cartApi";
 import { useMessage } from "./MessageContext";
-
+import { profile } from "../apis/apisList/userApi";
 // Create the app context
 const AppContext = createContext();
 
@@ -48,10 +48,18 @@ export const AppProvider = ({ children }) => {
     }
   }, []);
 
-  const login = (userInfo) => {
-    setUserDetails(userInfo);
+  const login = async (userInfo) => {
+    let user = userInfo;
+    try {
+      user = await profile(userInfo.user_id);
+    } catch (error) {
+      console.log("Error fetch userProfile", error);
+    }
+
+    setUserDetails(user);
     fetchCart(userInfo);
-    localStorage.setItem("user", JSON.stringify(userInfo));
+
+    localStorage.setItem("user", JSON.stringify(user));
   };
 
   const logout = () => {

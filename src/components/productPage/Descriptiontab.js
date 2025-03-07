@@ -13,7 +13,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import axios from "axios";
 import theme from "../../Theme/theme"; // Make sure to import your theme if needed
 
-const VerticalTabs = ({product}) => {
+const VerticalTabs = ({ product }) => {
   const [value, setValue] = useState(0);
   const [tabContent, setTabContent] = useState([
     {
@@ -22,13 +22,11 @@ const VerticalTabs = ({product}) => {
     },
     {
       title: "Side Effects",
-      description:
-                product?.side_effects || "No Side Effects available.",
+      description: product?.side_effects || "No Side Effects available.",
     },
     {
       title: "Warnings",
-      description:
-                product?.warnings || "No Side Warnings available.",
+      description: product?.warnings || "No Side Warnings available.",
     },
   ]);
 
@@ -91,6 +89,7 @@ const VerticalTabs = ({product}) => {
               "& .MuiTabs-indicator": {
                 width: "0",
               },
+              overflow: "visible !important",
             }}
           >
             {tabContent.map((tab, index) => (

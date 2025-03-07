@@ -34,3 +34,7 @@ export const subscribeNewsLetter = (data) =>
 export const profile = (id) => apiClient.get(`/wp-json/wp/v2/user/${id}`);
 export const profileUpdate = (id, data) =>
   apiClient.post(`/wp-json/wp/v2/user/${id}`, data);
+export const sendOtp = (data) =>
+  apiClient.post(`/wp-json/wp/v2/send-otp`, data);
+export const resetPassword = (data) =>
+  apiClient.post(`/wp-json/wp/v2/reset-password`, data);

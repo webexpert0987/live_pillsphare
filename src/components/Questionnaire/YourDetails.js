@@ -274,12 +274,29 @@ function YourDetailForm() {
       setFormData(user);
     } else {
       if (userDetails) {
-        const { first_name, last_name } = userDetails;
+        const {
+          first_name,
+          last_name,
+          gender,
+          phone_number,
+          dob,
+          billing_address,
+        } = userDetails;
         const data = {
           ...formData,
           firstName: first_name,
           lastName: last_name,
           email: userDetails.email,
+          gender,
+          contactNumber: phone_number,
+          day: new Date(dob).getDate(),
+          month: new Date(dob).getMonth() + 1,
+          year: new Date(dob).getFullYear(),
+          addressLine1: billing_address.address_1,
+          addressLine2: billing_address.address_2,
+          postalCode: billing_address.postcode,
+          city: billing_address.city,
+          country: billing_address.country,
         };
         setFormData(data);
       }

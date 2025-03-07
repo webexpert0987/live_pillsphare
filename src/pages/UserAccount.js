@@ -1,5 +1,3 @@
-"use client";
-
 import { useEffect, useState } from "react";
 import {
   Box,
@@ -41,11 +39,12 @@ import {
   LocationCity as CityIcon,
   Public as CountryIcon,
   MarkunreadMailbox as PostalCodeIcon,
+  Password,
 } from "@mui/icons-material";
 import { useApp } from "../Context/AppContext";
 import { useMessage } from "../Context/MessageContext";
 import { profile, profileUpdate } from "../apis/apisList/userApi";
-
+import EyeButton from "../components/Button/eyeButton";
 // Tab Panel component
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -109,14 +108,10 @@ const AddressSchema = Yup.object().shape({
 
 // Password validation schema
 const PasswordSchema = Yup.object().shape({
-  currentPassword: Yup.string().required("Current password is required"),
   newPassword: Yup.string()
     .required("New password is required")
-    .min(8, "Password must be at least 8 characters")
-    .matches(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/,
-      "Password must be at least 8 characters and include uppercase, lowercase, number, and special character"
-    ),
+    .min(8, "Password must be at least 8 characters"),
+
   confirmPassword: Yup.string()
     .required("Confirm password is required")
     .oneOf([Yup.ref("newPassword")], "Passwords must match"),
@@ -150,6 +145,8 @@ export default function UserAccount() {
   });
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfPassword, setShowConfPassword] = useState(false);
 
   useEffect(() => {
     const getUserData = async () => {
@@ -253,16 +250,23 @@ export default function UserAccount() {
     setShowAddressForm(true);
   };
 
-  const handlePasswordSubmit = (values, { resetForm }) => {
+  const handlePasswordSubmit = async (values, { resetForm }) => {
     // In a real app, you would send this to your API
-    console.log("Password change submitted:", values);
-    setShowPasswordDialog(false);
-    resetForm();
+    try {
+      await profileUpdate(profileData.user_id, {
+        password: values.newPassword,
+      });
+      console.log("Password change submitted:", values);
+      setShowPasswordDialog(false);
+      resetForm();
+    } catch (error) {
+      console.log("Failed to change password:", error);
+      showMessage("Failed to change password. Please try again later.");
+    }
   };
 
   const handleProfileUpdate = async (data) => {
     setLoading(true);
-    console.log(">>>>>", data);
     try {
       await profileUpdate(data.user_id, data);
       setUserDetails(data);
@@ -1088,7 +1092,6 @@ export default function UserAccount() {
           <Divider />
           <Formik
             initialValues={{
-              currentPassword: "",
               newPassword: "",
               confirmPassword: "",
             }}
@@ -1101,40 +1104,29 @@ export default function UserAccount() {
                   <Grid container spacing={3}>
                     <Grid item xs={12}>
                       <TextField
-                        name="currentPassword"
-                        label="Current Password"
-                        fullWidth
-                        variant="outlined"
-                        type="password"
-                        value={values.currentPassword}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        error={
-                          touched.currentPassword &&
-                          Boolean(errors.currentPassword)
-                        }
-                        helperText={
-                          touched.currentPassword && errors.currentPassword
-                        }
-                      />
-                    </Grid>
-                    <Grid item xs={12}>
-                      <TextField
                         name="newPassword"
                         label="New Password"
                         fullWidth
                         variant="outlined"
-                        type="password"
+                        type={showPassword ? "text" : "password"}
                         value={values.newPassword}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         error={
                           touched.newPassword && Boolean(errors.newPassword)
                         }
-                        helperText={
-                          (touched.newPassword && errors.newPassword) ||
-                          "Password must be at least 8 characters and include uppercase, lowercase, number, and special character"
-                        }
+                        helperText={touched.newPassword && errors.newPassword}
+                        InputProps={{
+                          autoComplete: "new-password",
+                          endAdornment: (
+                            <InputAdornment position="end">
+                              <EyeButton
+                                show={showPassword}
+                                setShow={setShowPassword}
+                              />
+                            </InputAdornment>
+                          ),
+                        }}
                       />
                     </Grid>
                     <Grid item xs={12}>
@@ -1143,7 +1135,7 @@ export default function UserAccount() {
                         label="Confirm New Password"
                         fullWidth
                         variant="outlined"
-                        type="password"
+                        type={showConfPassword ? "text" : "password"}
                         value={values.confirmPassword}
                         onChange={handleChange}
                         onBlur={handleBlur}
@@ -1154,6 +1146,17 @@ export default function UserAccount() {
                         helperText={
                           touched.confirmPassword && errors.confirmPassword
                         }
+                        InputProps={{
+                          autoComplete: "new-password",
+                          endAdornment: (
+                            <InputAdornment position="end">
+                              <EyeButton
+                                show={showConfPassword}
+                                setShow={setShowConfPassword}
+                              />
+                            </InputAdornment>
+                          ),
+                        }}
                       />
                     </Grid>
                   </Grid>
