@@ -39,10 +39,9 @@ import LowPriceGuarantee from "../components/PolicyPages/LowPriceGuarantee";
 import FeedbackComplaints from "../components/PolicyPages/FeedbackComplaints";
 import DeliveryInformation from "../components/PolicyPages/DeliveryInformation";
 import CookiesPolicy from "../components/PolicyPages/CookiesPolicy";
+import UserAccount from "../pages/UserAccount";
 
 import HowItWork from "../pages/HowItWork";
-
-
 
 import Verification from "../pages/Verification";
 const routes = [
@@ -252,16 +251,15 @@ const routes = [
     exact: true,
   },
   {
+    path: "/account",
+    component: UserAccount,
+    exact: true,
+  },
+  {
     path: "/how-it-work",
     component: HowItWork,
     exact: true,
   },
-
-  
-
-  
-  
-  
 ];
 
 export default routes;

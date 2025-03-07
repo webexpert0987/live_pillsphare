@@ -29,7 +29,19 @@ const ProductListingPage = () => {
   const [loading, setLoading] = useState(false);
   const handlePageChange = (e, value) => {
     setPage(value);
+    // Scroll to top when page changes
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
+
+  // Calculate pagination values
+  const productsPerPage = 9;
+  const indexOfLastProduct = page * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  const currentProducts = filteredProducts.slice(
+    indexOfFirstProduct,
+    indexOfLastProduct
+  );
+  const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -166,7 +178,7 @@ const ProductListingPage = () => {
               </Box>
             )}
             <Grid2 container spacing={{ xs: 2, sm: 3, md: 4 }}>
-              {filteredProducts.map((product) => (
+              {currentProducts.map((product) => (
                 <Grid2
                   style={shop3Grid.shopProductBox}
                   size={{ xs: 6, sm: 4, md: 4 }}
@@ -392,12 +404,14 @@ const ProductListingPage = () => {
                 </Grid2>
               ))}
             </Grid2>
-            <PaginationComponent
-              count={20}
-              page={page}
-              setPage={setPage}
-              onChange={handlePageChange}
-            />
+            {/* Add pagination at the bottom */}
+            {!loading && filteredProducts.length > 0 && (
+              <PaginationComponent
+                page={page}
+                onChange={handlePageChange}
+                count={totalPages}
+              />
+            )}
           </Box>
         </Box>
       </Container>

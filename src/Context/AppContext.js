@@ -260,7 +260,6 @@ export const AppProvider = ({ children }) => {
     if (!search) {
       setFilteredProducts(products);
     }
-    console.log(">>>products>>", products);
     const filteredProducts = products.filter((product) =>
       product?.name?.toLowerCase().includes(search.toLowerCase())
     );
@@ -298,6 +297,7 @@ export const AppProvider = ({ children }) => {
         searchValue,
         setSearchValue,
         searchProducts,
+        setUserDetails,
       }}
     >
       {children}

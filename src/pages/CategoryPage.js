@@ -26,23 +26,34 @@ import TrustBar from "./Trustbar";
 import { getProducts } from "../apis/apisList/productApi";
 import FilterPage from "../components/category";
 import { useApp } from "../Context/AppContext";
+import PaginationComponent from "../components/PaginationComponent";
 
 const CategoryPage = () => {
-  const [priceOpen, setPriceOpen] = useState(true);
-  const [priceRange, setPriceRange] = useState([0, 1000]);
   const [products, setProducts] = useState([]);
-  // const [sortOption, setSortOption] = useState("relevance");
-  // const [filteredProducts, setFilteredProducts] = useState([]);
   const { slug } = useParams();
   const [category, setCategory] = useState(null);
   const [categoryId, setCategoryId] = useState(null);
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
-  const clearFilters = () => {
-    setPriceRange([0, 1000]);
-  };
 
   const { filteredProducts, setSortOption } = useApp();
+
+  const [page, setPage] = useState(1);
+  const handlePageChange = (e, value) => {
+    setPage(value);
+    // Scroll to top when page changes
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  // Calculate pagination values
+  const productsPerPage = 9;
+  const indexOfLastProduct = page * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  const currentProducts = filteredProducts.slice(
+    indexOfFirstProduct,
+    indexOfLastProduct
+  );
+  const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
 
   const sidebar = {
     leftColParent: {
@@ -295,7 +306,7 @@ const CategoryPage = () => {
             </Box>
 
             <Grid2 container spacing={4}>
-              {filteredProducts.map((product) => (
+              {currentProducts.map((product) => (
                 <Grid2
                   style={shop3Grid.shopProductBox}
                   size={{ xs: 12, sm: 6, md: 4 }}
@@ -443,6 +454,14 @@ const CategoryPage = () => {
                 </Grid2>
               ))}
             </Grid2>
+            {/* Add pagination at the bottom */}
+            {!loading && filteredProducts.length > 0 && (
+              <PaginationComponent
+                page={page}
+                onChange={handlePageChange}
+                count={totalPages}
+              />
+            )}
           </Box>
         </Box>
       </Container>

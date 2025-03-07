@@ -30,3 +30,7 @@ export const uploadFile = async (file) => {
 
 export const subscribeNewsLetter = (data) =>
   apiClient.post("/wp-json/wp/v2/subscribe", data);
+
+export const profile = (id) => apiClient.get(`/wp-json/wp/v2/user/${id}`);
+export const profileUpdate = (id, data) =>
+  apiClient.post(`/wp-json/wp/v2/user/${id}`, data);

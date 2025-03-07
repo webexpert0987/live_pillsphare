@@ -43,7 +43,6 @@ import { useApp } from "../../Context/AppContext";
 import AddToCartModal from "../addToCart/addToCartModal";
 import { getShopCategories } from "../../apis/apisList/productApi";
 import { ExpandMore, ExpandLess } from "@mui/icons-material";
-
 import CloseIcon from "@mui/icons-material/Close";
 import KeyboardReturnIcon from "@mui/icons-material/KeyboardReturn"; //
 
@@ -109,21 +108,6 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   justifyContent: "flex-end",
 }));
 
-const nestedListData = [
-  {
-    title: "Shop",
-    options: ["Option 1", "Option 2"],
-  },
-  {
-    title: "Online Clinic",
-    options: ["Option 1", "Option 2"],
-  },
-  {
-    title: "Weight Loss",
-    options: ["Option 1", "Option 2"],
-  },
-];
-
 const onlineClinicItems = [
   { id: 1, name: "Weight Loss", link: "/online-clinic/weight-loss" },
   { id: 2, name: "Acid Reflux", link: "/online-clinic/acid-reflux" },
@@ -154,6 +138,111 @@ const onlineClinicItems = [
   },
   { id: 12, name: "Stop Smoking", link: "/online-clinic/stop-smoking" },
 ];
+
+const NestedList = ({ nestedListData, setOpenDrawer }) => {
+  const navigate = useNavigate();
+  const [openSections, setOpenSections] = useState({});
+  const [openSubcategories, setOpenSubcategories] = useState({});
+
+  // Toggle main category
+  const handleToggle = (index, event) => {
+    event.stopPropagation(); // Prevents navigation when clicking the arrow
+    setOpenSections((prev) => ({ ...prev, [index]: !prev[index] }));
+  };
+
+  // Toggle subcategory
+  const handleSubToggle = (parentIndex, subIndex, event) => {
+    event.stopPropagation(); // Prevents navigation when clicking the arrow
+    setOpenSubcategories((prev) => ({
+      ...prev,
+      [`${parentIndex}-${subIndex}`]: !prev[`${parentIndex}-${subIndex}`],
+    }));
+  };
+
+  // Handle navigation
+  const handleNavigation = (link) => {
+    if (link) {
+      navigate(link);
+      setOpenDrawer(false);
+    }
+  };
+
+  return (
+    <List
+      sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
+      component="nav"
+    >
+      {nestedListData.map((item, index) => (
+        <React.Fragment key={index}>
+          {/* Main Category */}
+          <ListItemButton
+            sx={{ justifyContent: "space-between", padding: "8px" }}
+            onClick={() => item.link && handleNavigation(item.link)}
+          >
+            <ListItemText primary={item.title} />
+            {item?.subcategories?.length > 0 && (
+              <IconButton onClick={(e) => handleToggle(index, e)} size="small">
+                {openSections[index] ? <ExpandLess /> : <ExpandMore />}
+              </IconButton>
+            )}
+          </ListItemButton>
+
+          {/* Subcategories */}
+          <Collapse in={openSections[index]} timeout="auto" unmountOnExit>
+            <List disablePadding>
+              {item?.subcategories?.map((subitem, subindex) => (
+                <React.Fragment key={subindex}>
+                  <ListItemButton
+                    sx={{
+                      padding: "0px 40px",
+                      justifyContent: "space-between",
+                    }}
+                    onClick={() =>
+                      subitem.link && handleNavigation(subitem.link)
+                    }
+                  >
+                    <ListItemText primary={subitem.title} />
+                    {subitem?.options?.length > 0 && (
+                      <IconButton
+                        onClick={(e) => handleSubToggle(index, subindex, e)}
+                        size="small"
+                      >
+                        {openSubcategories[`${index}-${subindex}`] ? (
+                          <ExpandLess />
+                        ) : (
+                          <ExpandMore />
+                        )}
+                      </IconButton>
+                    )}
+                  </ListItemButton>
+
+                  {/* Subcategory Options (Third Level) */}
+                  <Collapse
+                    in={openSubcategories[`${index}-${subindex}`]}
+                    timeout="auto"
+                    unmountOnExit
+                  >
+                    <List disablePadding>
+                      {subitem?.options?.map((option, optIndex) => (
+                        <ListItemButton
+                          key={optIndex}
+                          sx={{ padding: "0px 60px" }}
+                          onClick={() => handleNavigation(option.link)}
+                        >
+                          <ListItemText primary={option.title} />
+                        </ListItemButton>
+                      ))}
+                    </List>
+                  </Collapse>
+                </React.Fragment>
+              ))}
+            </List>
+          </Collapse>
+        </React.Fragment>
+      ))}
+    </List>
+  );
+};
 
 const MainHeader = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -276,9 +365,45 @@ const MainHeader = () => {
   const closeSearch = () => setIsSearchOpen(false);
   const handleSearch = () => {
     setSearchValue(searchQuery);
-    console.log("Searching for:", searchQuery); // Replace with actual search logic
     if (isMobile) closeSearch(); // Close only on mobile
   };
+
+  const nestedListData = [
+    {
+      title: "Shop",
+      link: "/shop",
+      subcategories: topCategories.map((cat) => ({
+        title: cat.name,
+        link: `/category/${cat.slug}`,
+        options: getSubcategories(cat.id).map((item) => {
+          return {
+            title: item.name,
+            link: `/subcategory/${item.slug}`,
+          };
+        }),
+      })),
+    },
+    {
+      title: "Online Clinic",
+      link: "/online-clinic",
+      subcategories: onlineClinicItems.map((item) => ({
+        title: item.name,
+        link: item.link,
+      })),
+    },
+    {
+      title: "Weight Loss",
+      link: "/online-clinic/weight-loss",
+    },
+    {
+      title: "Offers",
+      link: "/offers",
+    },
+    {
+      title: "Support",
+      link: "/support",
+    },
+  ];
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -611,49 +736,10 @@ const MainHeader = () => {
           //     </ListSubheader>
           // }
         >
-          {nestedListData.map((item, index) => (
-            <React.Fragment key={index}>
-              <ListItemButton onClick={() => handleToggle(index)}>
-                {/* <ListItemIcon>{item.icon}</ListItemIcon> */}
-                <ListItemText primary={item.title} />
-                {openSections[index] ? <ExpandLess /> : <ExpandMore />}
-              </ListItemButton>
-              <Collapse in={openSections[index]} timeout="auto" unmountOnExit>
-                <List component="div" disablePadding>
-                  {item.options.map((option, optIndex) => (
-                    <ListItemButton key={optIndex} sx={{ pl: 4 }}>
-                      {/* <ListItemIcon>
-                                                <StarBorder />
-                                            </ListItemIcon> */}
-                      <ListItemText primary={option} />
-                    </ListItemButton>
-                  ))}
-                </List>
-              </Collapse>
-            </React.Fragment>
-          ))}
-          <ListItemButton>
-            {/* <Button sx={{textTransform: 'capitalize'}}> */}
-            <Link
-              to={"/offers"}
-              style={{ textDecoration: "none", color: "inherit" }}
-            >
-              {/* <Text >Offers</Text> */}
-              <ListItemText primary={"Offers"} />
-            </Link>
-            {/* </Button> */}
-          </ListItemButton>
-          <ListItemButton>
-            {/* <Button sx={{textTransform: 'capitalize'}}> */}
-            <Link
-              to={"/support"}
-              style={{ textDecoration: "none", color: "inherit" }}
-            >
-              {/* <Text >Offers</Text> */}
-              <ListItemText primary={"Support"} />
-            </Link>
-            {/* </Button> */}
-          </ListItemButton>
+          <NestedList
+            nestedListData={nestedListData}
+            setOpenDrawer={setOpenDrawer}
+          />
         </List>
       </Drawer>
       {/* <DrawerHeader /> */}
@@ -712,7 +798,14 @@ const MainHeader = () => {
           "aria-labelledby": "basic-button",
         }}
       >
-        <MenuItem onClick={handleLoginClose}>User profile</MenuItem>
+        <MenuItem
+          onClick={() => {
+            handleLoginClose();
+            navigate("/account");
+          }}
+        >
+          User profile
+        </MenuItem>
         <MenuItem onClick={handorderHitory}>Order history</MenuItem>
         <MenuItem onClick={handleLogout}>Logout</MenuItem>
       </Menu>
