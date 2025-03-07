@@ -23,8 +23,13 @@ import { useApp } from "../Context/AppContext";
 import PaginationComponent from "../components/PaginationComponent";
 const ProductListingPage = () => {
   const [products, setProducts] = useState([]);
-  const { filteredProducts, setSortOption, searchProducts, searchValue } =
-    useApp();
+  const {
+    filteredProducts,
+    setSortOption,
+    searchProducts,
+    searchValue,
+    setFilteredProducts,
+  } = useApp();
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const handlePageChange = (e, value) => {
@@ -68,8 +73,29 @@ const ProductListingPage = () => {
   }, []);
 
   useEffect(() => {
-    searchProducts(products);
-  }, [searchValue]);
+    setLoading(false);
+
+    // Get the persisted search value from localStorage (if needed)
+    const savedSearchValue = localStorage.getItem("searchValue");
+
+    // If searchValue is empty but we have a saved search, use it
+    const effectiveSearchValue = searchValue || savedSearchValue;
+
+    if (!effectiveSearchValue) {
+      setFilteredProducts(products);
+      return;
+    }
+
+    const filteredProducts = products.filter((product) =>
+      product?.name?.toLowerCase().includes(effectiveSearchValue.toLowerCase())
+    );
+
+    if (filteredProducts.length === 0) {
+      setFilteredProducts([]);
+    } else {
+      setFilteredProducts(filteredProducts);
+    }
+  }, [searchValue, products]); // Depend on both searchValue and products
 
   const shop3Grid = {
     shopProductBox: {
@@ -236,7 +262,13 @@ const ProductListingPage = () => {
                       {/* Ensure CardContent expands to push the button down */}
                       <CardContent
                         style={shop3Grid.titlePriceBox}
-                        sx={{ flexGrow: 1 }}
+                        sx={{
+                          flexGrow: 1, // Ensures the content expands evenly
+                          display: "flex",
+                          flexDirection: "column",
+                          justifyContent: "space-between",
+                          minHeight: "180px", // Ensures all cards are equal height
+                        }}
                       >
                         <Typography
                           variant="h6"
@@ -245,116 +277,69 @@ const ProductListingPage = () => {
                             fontWeight: { xs: "600", sm: "600", md: "700" },
                             color: "#333333",
                             lineHeight: "1.3em",
-                            margin: {
-                              xs: "0 0 10px 0",
-                              sm: "0 0 25px 0",
-                              md: "0 0 32px 0",
-                            },
                           }}
                         >
                           {product.name}
                         </Typography>
 
-                        {/* Display product categories */}
-                        {product.categories &&
-                          product.categories.length > 0 && (
-                            <Box>
-                              {product.categories.map((category) => (
-                                <Typography
-                                  key={category.id}
-                                  variant="body2"
-                                  color="textSecondary"
-                                  sx={{
-                                    fontSize: {
-                                      xs: "13px",
-                                      sm: "14px",
-                                      md: "16px",
-                                    },
-                                    fontWeight: {
-                                      xs: "600",
-                                      sm: "400",
-                                      md: "500",
-                                    },
-                                  }}
-                                >
-                                  {category.name}
-                                </Typography>
-                              ))}
-                            </Box>
-                          )}
+                        {/* Product Categories */}
+                        {product.categories?.length > 0 && (
+                          <Box>
+                            {product.categories.map((category) => (
+                              <Typography
+                                key={category.id}
+                                variant="body2"
+                                color="textSecondary"
+                                sx={{
+                                  fontSize: {
+                                    xs: "13px",
+                                    sm: "14px",
+                                    md: "16px",
+                                  },
+                                  fontWeight: "500",
+                                  whiteSpace: "nowrap",
+                                }}
+                              >
+                                {category.name}
+                              </Typography>
+                            ))}
+                          </Box>
+                        )}
 
+                        {/* Price Section Sticks at the Bottom */}
                         <Box
-                          style={shop3Grid.proPriceRating}
                           sx={{
                             display: "flex",
-                            justifyContent: "space-between",
+                            justifyContent: "flex-start", // Keeps price left-aligned
                             alignItems: "center",
-                            flexDirection: {
-                              xs: "column-reverse",
-                              sm: "inherit",
-                              md: "inherit",
-                            },
+                            gap: "10px",
+                            minHeight: "40px", // Ensures height is uniform
                           }}
                         >
-                          <Box style={shop3Grid.priceBox}>
+                          <Typography
+                            variant="body1"
+                            sx={{
+                              fontSize: "18px",
+                              fontWeight: "800",
+                              color: "#FD6400",
+                            }}
+                          >
+                            £ {product.sale_price || product.price || 0}
+                          </Typography>
+
+                          {product.sale_price && (
                             <Typography
                               variant="body1"
                               sx={{
-                                fontSize: "18px",
-                                fontWeight: "800",
-                                color: "#FD6400",
-                                marginTop: {
-                                  xs: "15px",
-                                  sm: "10px",
-                                  md: "10px",
-                                },
+                                textDecoration: "line-through",
+                                color: "#A7A7A7",
+                                fontSize: "16px",
+                                fontWeight: "500",
                               }}
                             >
-                              £ {product.sale_price || product.price || 0}
+                              £{product.regular_price}
                             </Typography>
-                            {product.sale_price && (
-                              <Typography
-                                variant="body1"
-                                sx={{
-                                  textDecoration: "line-through",
-                                  color: "#A7A7A7",
-                                  marginLeft: "11px",
-                                  fontSize: "18px",
-                                  fontWeight: "500",
-                                  marginTop: {
-                                    xs: "15px",
-                                    sm: "10px",
-                                    md: "10px",
-                                  },
-                                }}
-                              >
-                                £{product.regular_price}
-                              </Typography>
-                            )}
-                          </Box>
-                          <Box
-                            display="flex"
-                            alignItems="center"
-                            gap={1}
-                            sx={{
-                              marginTop: { xs: "15px", sm: "10px", md: "10px" },
-                            }}
-                          >
-                            <Rating
-                              style={shop3Grid.proRating}
-                              value={4} // Replace with actual rating if available
-                              readOnly
-                              size="small"
-                            />
-                            <Typography
-                              style={shop3Grid.ratingCount}
-                              variant="body2"
-                              color="textSecondary"
-                            >
-                              (123){" "}
-                              {/* Replace with actual review count if available */}
-                            </Typography>
-                          </Box>
+                          )}
                         </Box>
                       </CardContent>
 

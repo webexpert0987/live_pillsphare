@@ -377,46 +377,33 @@ function FeaturedProducts() {
                         flexGrow: 1,
                         display: "flex",
                         flexDirection: "column",
-                        justifyContent: "space-between",
+                        justifyContent: "space-between", // Ensures spacing remains uniform
                         width: "100%",
-                        height: { xs: "180px", sm: "220px", md: "230px" },
-                        display: "flex",
+                        minHeight: "230px", // Fix height for all cards
                         maxHeight: "230px",
                         backgroundColor: "#FAFAFA",
                         borderRadius: "0 0 12px 12px",
                       }}
                     >
-                      {/* <Typography variant="subtitle2" color="error" fontWeight="bold" sx={{
-                      position: 'absolute',
-                      top: '20px',
-                      background: '#fff',
-                      border: '1px solid #000',
-                      borderRadius: '5px',
-                      padding: '0px 10px',
-                      fontSize: '12px',
-                    }}>
-                      {product.discount}
-                    </Typography> */}
                       <Typography
                         variant="h4"
                         fontWeight="bold"
                         sx={{
                           mt: 1,
-                          fontSize: {
-                            xs: "16px",
-                            md: "1.25rem",
-                            cursor: "pointer",
-                          },
+                          fontSize: { xs: "16px", md: "1.25rem" },
+                          cursor: "pointer",
                         }}
                       >
                         {product.name}
                       </Typography>
+
+                      {/* Price Section */}
                       <Box
-                        marginTop={3}
-                        display={"flex"}
-                        gap={6}
                         sx={{
+                          display: "flex",
                           justifyContent: "space-between",
+                          alignItems: "center",
+                          marginTop: "auto", // Pushes it to the bottom
                         }}
                       >
                         <Box display="flex" gap="1rem" alignItems="center">
@@ -425,55 +412,16 @@ function FeaturedProducts() {
                             color="#FD6400"
                             fontWeight="800"
                             sx={{
-                              fontSize: {
-                                xs: "18px",
-                                md: "18px",
-                                cursor: "pointer",
-                              },
+                              fontSize: { xs: "18px", md: "18px" },
+                              cursor: "pointer",
                             }}
                           >
                             £{product.price}
                           </Typography>
-                          {/* <Typography variant="body2" sx={{ textDecoration: "line-through", color: "gray" }}>
-                          {product.originalPrice}
-                        </Typography> */}
                         </Box>
-                        {/** 
-                        <Box>
-                          <Select
-                            value={
-                              product.selectedVariant
-                                ? product.selectedVariant
-                                : product?.variations?.[0].variation_id
-                            }
-                            onChange={(e) =>
-                              handleVariantSelect(product, e.target.value)
-                            }
-                            fullWidth
-                            sx={{
-                              ".MuiSelect-select": {
-                                padding: "7.5px 14px",
-                                maxWidth: "150px",
-                              },
-                            }}
-                          >
-                            {product?.variations?.map((variant) => (
-                              <MenuItem
-                                key={variant.variation_id}
-                                value={variant.variation_id}
-                              >
-                                {`${variant.attributes.tablets} `}
-                              </MenuItem>
-                            ))}
-                          </Select>
-                        </Box>*/}
+
                         {product.reviews && (
-                          <Box
-                            display="flex"
-                            alignItems="center"
-                            gap="0.5rem"
-                            sx={{ mt: 1 }}
-                          >
+                          <Box display="flex" alignItems="center" gap="0.5rem">
                             {product.rating && (
                               <Typography variant="body2">
                                 <Rating
@@ -489,6 +437,8 @@ function FeaturedProducts() {
                           </Box>
                         )}
                       </Box>
+
+                      {/* Button */}
                       <Button
                         variant="contained"
                         sx={{
@@ -502,20 +452,10 @@ function FeaturedProducts() {
                           fontWeight: "600",
                           textTransform: "none",
                         }}
-                        // onClick={()=>handleAddProduct(product, product.variations[0])}
-                        // onClick={() =>
-                        //   handleAddProduct(
-                        //     product,
-                        //     product.selectedVariantInfo
-                        //       ? product.selectedVariantInfo
-                        //       : product.variations[0]
-                        //   )
-                        // }
                       >
-                        View {/* changed "add to cart" to "View */}
+                        View
                         <Icon
                           icon="solar:arrow-right-broken"
-                          color="primary.main"
                           width="24"
                           height="24"
                         />

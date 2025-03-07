@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import TopHeader from "./TopHeader";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   AppBar,
   Toolbar,
@@ -262,7 +262,7 @@ const MainHeader = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [onlineClinicAnchorEl, setOnlineClinicAnchorEl] = useState(null);
   const onlineClinicOpen = Boolean(onlineClinicAnchorEl);
-
+  const location = useLocation(); // Get current route
   const handleOnlineClinicClose = () => {
     setOnlineClinicAnchorEl(null);
   };
@@ -365,6 +365,10 @@ const MainHeader = () => {
   const closeSearch = () => setIsSearchOpen(false);
   const handleSearch = () => {
     setSearchValue(searchQuery);
+    if (location.pathname !== "/shop") {
+      navigate("/shop");
+      setSearchValue(searchQuery);
+    }
     if (isMobile) closeSearch(); // Close only on mobile
   };
 

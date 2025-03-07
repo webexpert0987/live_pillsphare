@@ -267,11 +267,18 @@ export const AppProvider = ({ children }) => {
     const search = searchValue.trim();
     if (!search) {
       setFilteredProducts(products);
+      return;
     }
     const filteredProducts = products.filter((product) =>
       product?.name?.toLowerCase().includes(search.toLowerCase())
     );
-    setFilteredProducts(filteredProducts);
+    if (filteredProducts.length === 0) {
+      setFilteredProducts([]);
+      return;
+    } else {
+      setFilteredProducts(filteredProducts);
+      return;
+    }
   };
 
   return (

@@ -325,66 +325,84 @@ const OffersPage = () => {
                       </Box>
                       <CardContent
                         style={shop3Grid.titlePriceBox}
-                        sx={{ flexGrow: 1 }}
+                        sx={{
+                          flexGrow: 1, // Ensures the content expands evenly
+                          display: "flex",
+                          flexDirection: "column",
+                          justifyContent: "space-between",
+                          minHeight: "180px", // Ensures all cards are equal height
+                        }}
                       >
-                        <Typography style={shop3Grid.prodTitle} variant="h6">
+                        <Typography
+                          variant="h6"
+                          sx={{
+                            fontSize: { xs: "14px", sm: "16px", md: "20px" },
+                            fontWeight: { xs: "600", sm: "600", md: "700" },
+                            color: "#333333",
+                            lineHeight: "1.3em",
+                          }}
+                        >
                           {product.name}
                         </Typography>
 
-                        {/* Display product categories */}
-                        {product.categories &&
-                          product.categories.length > 0 && (
-                            <Box>
-                              {product.categories.map((category) => (
-                                <Typography
-                                  key={category.id}
-                                  variant="body2"
-                                  color="textSecondary"
-                                >
-                                  {category.name} {/* Display category name */}
-                                </Typography>
-                              ))}
-                            </Box>
-                          )}
-
-                        <Box
-                          style={shop3Grid.proPriceRating}
-                          display="flex"
-                          justifyContent="space-between"
-                          alignItems="center"
-                        >
-                          <Box style={shop3Grid.priceBox}>
-                            <Typography
-                              style={shop3Grid.proPrice}
-                              variant="body1"
-                            >
-                              £ {product.sale_price || product.price || 0}
-                            </Typography>
-                            {product.sale_price && (
+                        {/* Product Categories */}
+                        {product.categories?.length > 0 && (
+                          <Box>
+                            {product.categories.map((category) => (
                               <Typography
-                                style={shop3Grid.proPriceCross}
-                                variant="body1"
+                                key={category.id}
+                                variant="body2"
+                                color="textSecondary"
+                                sx={{
+                                  fontSize: {
+                                    xs: "13px",
+                                    sm: "14px",
+                                    md: "16px",
+                                  },
+                                  fontWeight: "500",
+                                  whiteSpace: "nowrap",
+                                }}
                               >
-                                ${product.regular_price}
+                                {category.name}
                               </Typography>
-                            )}
+                            ))}
                           </Box>
-                          <Box display="flex" alignItems="center" gap={1}>
-                            <Rating
-                              style={shop3Grid.proRating}
-                              value={4} // Replace with actual rating if available
-                              readOnly
-                              size="small"
-                            />
+                        )}
+
+                        {/* Price Section Sticks at the Bottom */}
+                        <Box
+                          sx={{
+                            display: "flex",
+                            justifyContent: "flex-start", // Keeps price left-aligned
+                            alignItems: "center",
+                            gap: "10px",
+                            minHeight: "40px", // Ensures height is uniform
+                          }}
+                        >
+                          <Typography
+                            variant="body1"
+                            sx={{
+                              fontSize: "18px",
+                              fontWeight: "800",
+                              color: "#FD6400",
+                            }}
+                          >
+                            £ {product.sale_price || product.price || 0}
+                          </Typography>
+
+                          {product.sale_price && (
                             <Typography
-                              style={shop3Grid.ratingCount}
-                              variant="body2"
-                              color="textSecondary"
+                              variant="body1"
+                              sx={{
+                                textDecoration: "line-through",
+                                color: "#A7A7A7",
+                                fontSize: "16px",
+                                fontWeight: "500",
+                              }}
                             >
-                              (123){" "}
-                              {/* Replace with actual review count if available */}
+                              £{product.regular_price}
                             </Typography>
-                          </Box>
+                          )}
                         </Box>
                       </CardContent>
                       <CardActions style={shop3Grid.divCart}>
