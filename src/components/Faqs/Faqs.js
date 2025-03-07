@@ -128,7 +128,7 @@ const FAQs = () => {
         {faqs.map((faq, index) => {
           const isActive = expanded === index;
           return (
-            <Accordion
+            <Accordion className="faqRowBox"
               sx={faqStyle.faqBox}
               key={index}
               expanded={isActive}

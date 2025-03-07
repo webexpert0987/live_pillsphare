@@ -40,6 +40,8 @@ import FeedbackComplaints from "../components/PolicyPages/FeedbackComplaints";
 import DeliveryInformation from "../components/PolicyPages/DeliveryInformation";
 import CookiesPolicy from "../components/PolicyPages/CookiesPolicy";
 
+import HowItWork from "../pages/HowItWork";
+
 
 
 import Verification from "../pages/Verification";
@@ -247,6 +249,11 @@ const routes = [
   {
     path: "/cookies-policy",
     component: CookiesPolicy,
+    exact: true,
+  },
+  {
+    path: "/how-it-work",
+    component: HowItWork,
     exact: true,
   },
 

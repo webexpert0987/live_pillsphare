@@ -91,6 +91,48 @@ ul.infoList2 {
   line-height: 1.6 !important;
   margin: 10px 0;
 }
+/********************************/
+.iconListRow {
+  margin: 15px 0;
+}
+.iconListRow h4 {
+  display: flex;
+  align-items: flex-start;
+  font-size: 20px !important;
+  font-weight: 600;
+  margin-bottom: 3px;
+}
+.iconListRow p {
+  font-size: 16px !important;
+  font-weight: 500;
+  line-height: 1.7;
+  margin-bottom: 5px;
+}
+.iconListRow img {
+  max-width: 100%;
+}
+
+.singleList {
+  display: flex;
+  margin: 15px 0;
+}
+.singleList h4 {
+  display: flex;
+  align-items: flex-start;
+  font-size: 17px !important;
+  font-weight: 500;
+  margin-bottom: 3px;
+}
+.singleList p {
+  font-size: 16px !important;
+  font-weight: 500;
+  line-height: 1.7;
+  margin-bottom: 5px;
+}
+.singleList img {
+  max-width: 100%;
+}
+
 
   
   /**************** Responsive Styles ****************/
@@ -169,6 +211,15 @@ ul.infoList2 {
 .infoList2 li {
   margin: 4px 0;
   font-size: 15px;
+}
+.iconListRow h4 {
+  font-size: 17px !important;
+}
+.faqRowBox h3 button h6 {
+  font-size: 17px !important;
+}
+.faqRowBox .MuiAccordionDetails-root p {
+  font-size: 16px !important;
 }
 
 }
