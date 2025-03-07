@@ -9,6 +9,7 @@ import {
   Grid2,
   Typography,
 } from "@mui/material";
+import { Link } from "react-router-dom";
 
 const supportBoxes = [
   {
@@ -202,26 +203,28 @@ function Support() {
                       </Typography>
                     </Box>
                     <Box>
-                      <Button
-                        variant="outlined"
-                        sx={{
-                          fontSize: { xs: "14px", sm: "14px", md: "14px" },
-                          fontWeight: "600",
-                          lineHeight: "1.4",
-                          backgroundColor: "#FD6400",
-                          color: "#FFF",
-                          borderRadius: "50px",
-                          border: "none",
-                          textTransform: "inherit",
-                          padding: {
-                            xs: "12px 15px",
-                            sm: "12px 15px",
-                            md: "12px 20px",
-                          },
-                        }}
-                      >
-                        {supportBoxes[0].buttonText}
-                      </Button>
+                      <Link to={supportBoxes[0].link}>
+                        <Button
+                          variant="outlined"
+                          sx={{
+                            fontSize: { xs: "14px", sm: "14px", md: "14px" },
+                            fontWeight: "600",
+                            lineHeight: "1.4",
+                            backgroundColor: "#FD6400",
+                            color: "#FFF",
+                            borderRadius: "50px",
+                            border: "none",
+                            textTransform: "inherit",
+                            padding: {
+                              xs: "12px 15px",
+                              sm: "12px 15px",
+                              md: "12px 20px",
+                            },
+                          }}
+                        >
+                          {supportBoxes[0].buttonText}
+                        </Button>
+                      </Link>
                     </Box>
                   </CardContent>
                 </Card>
