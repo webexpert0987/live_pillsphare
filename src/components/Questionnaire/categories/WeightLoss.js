@@ -18,7 +18,8 @@ import BmiCalculate from "../Consultation"; // Import the BMI calculation compon
 import { useApp } from "../../../Context/AppContext";
 import { useMessage } from "../../../Context/MessageContext";
 import GpSearch from "../GpSeacrch";
-import { uploadFile } from "../../../apis/apisList/userApi";
+// import { uploadFile } from "../../../apis/apisList/userApi";
+import uploadFile from "../../../lib/fileUpload";
 const steps = ["1", "2", "3", "4", "5"];
 
 function WeightLossQuestion() {
@@ -42,7 +43,6 @@ function WeightLossQuestion() {
     understandsNoMixingWeightLossMeds: "",
     understandsPancreatitisRisk: "",
     understandsConceptionRisk: "",
-    photoIDUpload: "",
     bodyPhoto: "",
     gpResult: null,
   });
@@ -111,11 +111,15 @@ function WeightLossQuestion() {
           return;
         }
       }
-      // if (answers.previousMedicationProof) {
-      //   const response = await uploadFile(answers.previousMedicationProof);
-      //   console.log(">>response>>>", response);
-      //   return;
-      // }
+      if (answers.previousMedicationProof) {
+        try {
+          const url = await uploadFile(answers.previousMedicationProof);
+          answers.previousMedicationProof = url;
+        } catch (error) {
+          showMessage("Error uploading medication proof documents", "error");
+          return;
+        }
+      }
     } else if (activeStep === 2) {
       const requiredAgreements = [
         "agreedToTerms",
@@ -139,6 +143,15 @@ function WeightLossQuestion() {
     } else if (activeStep === 3) {
       if (!answers.photoID || !answers.bodyPhoto) {
         showMessage("Please upload required documents", "error");
+        return;
+      }
+      try {
+        const photoID = await uploadFile(answers.photoID);
+        answers.photoID = photoID;
+        const bodyPhoto = await uploadFile(answers.bodyPhoto);
+        answers.bodyPhoto = bodyPhoto;
+      } catch (error) {
+        showMessage("Error uploading medication proof documents", "error");
         return;
       }
     }
