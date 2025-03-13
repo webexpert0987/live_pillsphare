@@ -37,9 +37,26 @@ const StyledTab = styled(Tab)(({ theme }) => ({
   },
 }));
 
-const ProductOverview = ({product}) => {
+const processFAQ = (questions) => {
+  if (!questions) return [];
+  return questions
+    .replace("Frequently Asked Questions (FAQs)", "") // Remove heading
+    .trim()
+    .split(/\r?\n\d+\.\s/) // Split on question numbers like "1. "
+    .filter(Boolean) // Remove empty values
+    .map((faq) => {
+      const lines = faq.split("\r\n"); // Handle newlines
+      return {
+        title: lines[0]?.trim() || "", // First line as title
+        description: lines.slice(1).join(" ").trim() || "", // Join the rest as description
+      };
+    });
+};
+
+const ProductOverview = ({ product }) => {
   const [tabIndex, setTabIndex] = useState(0);
   const isMobile = useMediaQuery(theme.breakpoints.down("md")); // Detect screen size
+  const faqs = processFAQ(product?.questions);
 
   const handleTabChange = (event, newIndex) => {
     setTabIndex(newIndex);
@@ -210,7 +227,7 @@ const ProductOverview = ({product}) => {
                   "&::after": {
                     content: '""',
                     position: "absolute",
-                    right: "0", 
+                    right: "0",
                     color: "#FFF",
                     width: "1px",
                     height: "24px",
@@ -275,20 +292,44 @@ const ProductOverview = ({product}) => {
                     color: "#333",
                   }}
                 >
-                { product?.short_description || "No Side Information available."}
+                  {product?.short_description ||
+                    "No Side Information available."}
                 </Typography>
               )}
               {tabIndex === 2 && (
-                <Typography
+                <Box
                   sx={{
-                    fontSize: { xs: "15px", sm: "16px", md: "16px" },
-                    fontWeight: "500",
-                    color: "#333",
+                    maxHeight: 400, // Adjust height as needed
+                    overflowY: "auto",
+                    pr: 1, // Add padding for scrollbar space
                   }}
                 >
-               {product?.questions || "No questions available."}
-
-                </Typography>
+                  {faqs.length > 0 ? (
+                    faqs.map((faq, index) => (
+                      <Box key={index} sx={{ mb: 3 }}>
+                        <Typography
+                          variant="h6"
+                          sx={{ fontWeight: "bold", color: "#104239" }}
+                        >
+                          Question: {faq.title}
+                        </Typography>
+                        <Typography
+                          variant="body1"
+                          sx={{ mt: 1, color: "#333" }}
+                        >
+                          Answer: {faq.description}
+                        </Typography>
+                      </Box>
+                    ))
+                  ) : (
+                    <Typography
+                      variant="body1"
+                      sx={{ color: "gray", textAlign: "center" }}
+                    >
+                      No questions available.
+                    </Typography>
+                  )}
+                </Box>
               )}
               {/* {tabIndex === 3 && (
                 <Typography

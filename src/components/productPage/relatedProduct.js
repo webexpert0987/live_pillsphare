@@ -64,6 +64,9 @@ const RelatedProductSlider = ({ relatedProducts }) => {
       { breakpoint: 480, settings: { slidesToShow: 2 } },
     ],
   };
+  // if (!relatedProducts.length) {
+  //   return null;
+  // }
   return (
     <Box
       id="ViewTreatments"
@@ -93,7 +96,7 @@ const RelatedProductSlider = ({ relatedProducts }) => {
           >
             Related Product
           </Typography>
-          <Typography
+          {/* <Typography
             variant="p"
             sx={{
               fontSize: { xs: "15px", sm: "16px", md: "18px" },
@@ -102,7 +105,7 @@ const RelatedProductSlider = ({ relatedProducts }) => {
             }}
           >
             Weight Loss Treatments: Tailored Solutions for a Healthier You.
-          </Typography>
+          </Typography> */}
         </Box>
       </Container>
       <Container sx={{ maxWidth: "1460px !important" }}>

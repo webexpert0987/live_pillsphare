@@ -2,6 +2,7 @@ import React from "react";
 import { Box, Card, CardContent, Container, Typography } from "@mui/material";
 import { Icon } from "@iconify/react";
 import CustomButton from "../Button/button";
+import { Link } from "react-router-dom";
 
 const treatments = [
   {
@@ -10,7 +11,7 @@ const treatments = [
       "Changes to diet and exercise are often combined with this medication.",
     // icon: "hugeicons:body-weight",
     icon: "/images/weight-loss.png",
-    link: "#",
+    link: "/online-clinic/weight-loss",
   },
   {
     title: "Mens Health",
@@ -18,7 +19,7 @@ const treatments = [
       "Men tend to go less frequently to medical professionals to seek help...",
     // icon: "solar:men-broken",
     icon: "/images/mens-health.png",
-    link: "#",
+    link: "/online-clinic/premature-ejaculation",
   },
   {
     title: "Womens Health",
@@ -26,14 +27,14 @@ const treatments = [
       "Women can be the most caring members of the family but can...",
     // icon: "solar:women-broken",
     icon: "/images/womens-health.png",
-    link: "#",
+    link: "/online-clinic/period-pain",
   },
   {
     title: "General Wellbeing",
     description:
       "We at the Medicus Express are passionate about encouraging a...",
     icon: "/images/general-wellbeing.png",
-    link: "#",
+    link: "/online-clinic",
   },
 ];
 
@@ -98,11 +99,13 @@ const TreatmentSection = () => {
                     >
                         View All <Icon icon="solar:arrow-right-broken" color="#fff" width="24" height="24" />
                     </Button> */}
-          <CustomButton
-            bgColor={"primary.main"}
-            txColor={"#fff"}
-            text="View All"
-          />
+          <Link to="online-clinic">
+            <CustomButton
+              bgColor={"primary.main"}
+              txColor={"#fff"}
+              text="View All"
+            />
+          </Link>
         </Box>
 
         {/* Cards */}

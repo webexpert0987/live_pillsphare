@@ -2,19 +2,18 @@ import React from "react";
 import { Box, Typography, Container, useMediaQuery } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import CustomButton from "../Button/button";
-
+import { Link } from "react-router-dom";
 
 const HowItWorksSection = () => {
-  
   const isMobile = useMediaQuery("(max-width:600px)");
   const steps = [
     {
       icon: (
         <img
-        style={{ 
-          width: isMobile ? "110px" : "224px", // Change width for mobile
-          height: isMobile ? "110px" : "228px", // Optional: adjust height too 
-        }}
+          style={{
+            width: isMobile ? "110px" : "224px", // Change width for mobile
+            height: isMobile ? "110px" : "228px", // Optional: adjust height too
+          }}
           src={"/images/01_image.png"}
           alt="Step 1 Icon"
         />
@@ -25,9 +24,9 @@ const HowItWorksSection = () => {
     {
       icon: (
         <img
-          style={{ 
+          style={{
             width: isMobile ? "110px" : "224px", // Change width for mobile
-            height: isMobile ? "110px" : "228px", // Optional: adjust height too 
+            height: isMobile ? "110px" : "228px", // Optional: adjust height too
           }}
           src={"/images/02_image.png"}
           alt="Step 2 Icon"
@@ -38,10 +37,10 @@ const HowItWorksSection = () => {
     {
       icon: (
         <img
-        style={{ 
-          width: isMobile ? "110px" : "224px", // Change width for mobile
-          height: isMobile ? "110px" : "228px", // Optional: adjust height too 
-        }}
+          style={{
+            width: isMobile ? "110px" : "224px", // Change width for mobile
+            height: isMobile ? "110px" : "228px", // Optional: adjust height too
+          }}
           src={"/images/03_image.png"}
           alt="Step 3 Icon"
         />
@@ -50,8 +49,6 @@ const HowItWorksSection = () => {
         "Receive your medication discreetly on the next day from our UK registered pharmacy.",
     },
   ];
-
-
 
   return (
     <Box
@@ -120,8 +117,8 @@ const HowItWorksSection = () => {
                 {step.icon}
                 <Typography
                   variant="h4"
-                  sx={{ 
-                    mt: 2, 
+                  sx={{
+                    mt: 2,
                     color: "#fff",
                     lineHeight: "1.5",
                     fontWeight: "400",
@@ -137,11 +134,21 @@ const HowItWorksSection = () => {
         {/* <Button variant="contained" sx={{ mt: 4, backgroundColor: 'tertiary.main', borderRadius: '20px' }}>
                     Read More <Icon icon="solar:arrow-right-broken" color="#fff" width="22" height="22" />
                 </Button> */}
-        <CustomButton
-          bgColor={"tertiary.main"}
-          txColor={"#fff"}
-          text="Read More"
-        />
+        <Link
+          to="how-it-work"
+          onClick={() => {
+            window.scrollTo({
+              top: 0,
+              behavior: "smooth",
+            });
+          }}
+        >
+          <CustomButton
+            bgColor={"tertiary.main"}
+            txColor={"#fff"}
+            text="Read More"
+          />
+        </Link>
       </Container>
     </Box>
   );
