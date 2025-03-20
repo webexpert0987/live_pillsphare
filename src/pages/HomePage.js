@@ -18,7 +18,7 @@ const HomePage = () => {
       <FeaturedProducts />
       <DiscreetPackagingSection />
       <HowItWorksSection />
-      <WeeklyOffersSection />
+      {/* <WeeklyOffersSection /> */}
     </Box>
   );
 };

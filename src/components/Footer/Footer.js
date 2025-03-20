@@ -55,7 +55,7 @@ const supportItems = [
   { id: 8, name: "Cookies Policy", link: "/cookies-policy" },
   { id: 6, name: "Feedback Complaints", link: "/feedback-complaints" },
   { id: 4, name: "Our Prescriber", link: "/our-prescribers" },
-  { id: 5, name: "Low Price Guarantee", link: "/low-price-guarantee" },
+  // { id: 5, name: "Low Price Guarantee", link: "/low-price-guarantee" },
   { id: 7, name: "Delivery Information", link: "/delivery-information" },
   { id: 9, name: "Refunds Returns", link: "/refunds-returns" },
   { id: 10, name: "Reorder Prescription", link: "/reorder-prescription" },
@@ -496,7 +496,13 @@ export default function Footer() {
                   fontWeight: "500",
                 }}
               >
-                Pill Sphere GPHC Number: XXXXXX
+                Pill Sphere GPHC Number:{" "}
+                <a
+                  href="https://www.pharmacyregulation.org/registers/pharmacist/2213569"
+                  target="_blank"
+                >
+                  2213569
+                </a>
               </Typography>
             </Grid>
 
@@ -530,7 +536,13 @@ export default function Footer() {
                   fontWeight: "500",
                 }}
               >
-                GPHC Number: 2213569
+                Shikar kerim GPHC Number:{" "}
+                <a
+                  href="https://www.pharmacyregulation.org/registers/pharmacist/2213569"
+                  target="_blank"
+                >
+                  2213569
+                </a>
               </Typography>
             </Grid>
 

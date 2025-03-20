@@ -81,7 +81,7 @@ const Carousel = () => {
                     {slide.text}
                   </Typography>
                 </Box>
-                <Box>
+                {/* <Box>
                   <Typography
                     variant="h3"
                     sx={{ lineHeight: "1.2", color: "#fff" }}
@@ -89,7 +89,7 @@ const Carousel = () => {
                     Use code PILLSMED at checkout. Discount code excludes
                     Saxenda and weight loss bundles.
                   </Typography>
-                </Box>
+                </Box> */}
                 <Box>
                 <Link to="/shop" style={{ textDecoration: "none" }}>
                   <CustomButton

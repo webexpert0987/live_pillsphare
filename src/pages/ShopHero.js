@@ -12,9 +12,9 @@ const HeroSection = ({
   defultTitle = "Pill Sphere",
   description = "Achieve your weight loss goals with our range of treatments, including tablets and injections.",
   points = [
-    "Lose up to 20% of body weight",
-    "Support from UK clinicians",
-    "Online prescriptions with discreet delivery",
+    // "Lose up to 20% of body weight",
+    // "Support from UK clinicians",
+    // "Online prescriptions with discreet delivery",
   ],
   button1Text = "Start Your Consultation Today",
   button2Text = "View Treatment",

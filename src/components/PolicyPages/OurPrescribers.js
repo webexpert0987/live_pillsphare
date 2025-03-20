@@ -21,7 +21,13 @@ function OurPrescribers() {
             <strong>
               Shikar Kerim
               <br />
-              GPhC No. 2213569
+              GPhC No.{" "}
+              <a
+                href="https://www.pharmacyregulation.org/registers/pharmacist/2213569"
+                target="_blank"
+              >
+                2213569
+              </a>
             </strong>
           </Typography>
           <Box>
@@ -69,6 +75,15 @@ function OurPrescribers() {
 
             {/***********/}
             <Typography variant="h2">About Our Superintendent</Typography>
+            <strong>
+              Shikar Kerim GPhC No.{" "}
+              <a
+                href="https://www.pharmacyregulation.org/registers/pharmacist/2213569"
+                target="_blank"
+              >
+                2213569
+              </a>
+            </strong>
             <Typography className="privacyPara" variant="body1">
               Shikar brings a wealth of experience and knowledge to Pill Sphere.
               His dedication to patient care and commitment to continual
