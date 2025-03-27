@@ -91,8 +91,8 @@ function YourDetailForm() {
     if (!formData.contactNumber) {
       newErrors.contactNumber = "Contact Number is required.";
       isValid = false;
-    } else if (!/^[+]?[0-9]*$/.test(formData.contactNumber)) {
-      newErrors.contactNumber = "Contact Number should be a number.";
+    } else if (!/^[+]?[0-9]{9,11}$/.test(formData.contactNumber)) {
+      newErrors.contactNumber = "Contact Number is not valid";
       isValid = false;
     }
     if (!formData.day) {

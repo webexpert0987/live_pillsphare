@@ -81,7 +81,7 @@ const ProfileSchema = Yup.object().shape({
     .oneOf(["male", "female", "other"], "Please select a valid gender")
     .required("Gender is required"),
   phone_number: Yup.string()
-    .matches(/^[0-9]{10}$/, "Phone number must be 10 digits")
+    .matches(/^[0-9]{11}$/, "Phone number must be 11 digits")
     .required("Phone number is required"),
 });
 
