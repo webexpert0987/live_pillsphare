@@ -30,6 +30,23 @@ const VerticalTabs = ({ product }) => {
     },
   ]);
 
+  useEffect(() => {
+    setTabContent([
+      {
+        title: "Directions",
+        description: product?.directions || "No directions available.",
+      },
+      {
+        title: "Side Effects",
+        description: product?.side_effects || "No Side Effects available.",
+      },
+      {
+        title: "Warnings",
+        description: product?.warnings || "No Side Warnings available.",
+      },
+    ]);
+  }, [product]);
+
   // useEffect(() => {
   //   axios
   //     .get("https://api.example.com/tabs")

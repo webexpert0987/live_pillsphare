@@ -86,22 +86,61 @@ const ProductOverview = ({ product }) => {
           // Accordion for mobile
           <>
             {[
-              { title: "Description", content: <VerticalTabs /> },
+              {
+                title: "Description",
+                content: <VerticalTabs product={product} />,
+              },
               {
                 title: "Information",
                 content: (
-                  <Typography>
-                    Here is the product information, including specifications,
-                    ingredients, and other relevant details.
+                  <Typography
+                    sx={{
+                      fontSize: { xs: "15px", sm: "16px", md: "16px" },
+                      fontWeight: "500",
+                      color: "#333",
+                    }}
+                  >
+                    {product?.short_description ||
+                      "No Information available."}
                   </Typography>
                 ),
               },
               {
                 title: "Questions",
                 content: (
-                  <Typography>
-                    Find answers to common questions about the product here.
-                  </Typography>
+                  <Box
+                    sx={{
+                      maxHeight: 400, // Adjust height as needed
+                      overflowY: "auto",
+                      pr: 1, // Add padding for scrollbar space
+                    }}
+                  >
+                    {faqs.length > 0 ? (
+                      faqs.map((faq, index) => (
+                        <Box key={index} sx={{ mb: 3 }}>
+                          <Typography
+                            variant="h6"
+                            sx={{ fontWeight: "bold", color: "#104239" }}
+                          >
+                            Question: {faq.title}
+                          </Typography>
+                          <Typography
+                            variant="body1"
+                            sx={{ mt: 1, color: "#333" }}
+                          >
+                            Answer: {faq.description}
+                          </Typography>
+                        </Box>
+                      ))
+                    ) : (
+                      <Typography
+                        variant="body1"
+                        sx={{ color: "gray", textAlign: "center" }}
+                      >
+                        No questions available.
+                      </Typography>
+                    )}
+                  </Box>
                 ),
               },
               // {
