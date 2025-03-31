@@ -236,6 +236,9 @@ function WeightLossQuestion() {
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
+              {answers.ageRange === "No" && (
+                <div>Can not proceed please see GP.</div>
+              )}
             </FormControl>
 
             {/****** Are you pregnant or breastfeeding? *****/}
@@ -251,16 +254,14 @@ function WeightLossQuestion() {
                 row
                 name="isPregnantOrBreastfeeding"
                 value={answers.isPregnantOrBreastfeeding}
-                onChange={(e) =>
-                  setAnswers({
-                    ...answers,
-                    isPregnantOrBreastfeeding: e.target.value,
-                  })
-                }
+                onChange={(e) => handleChange(e, "Yes")}
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
+              {answers.isPregnantOrBreastfeeding === "Yes" && (
+                <div>Can not proceed please see GP.</div>
+              )}
             </FormControl>
 
             {/****** Have you ever suffered from an eating disorder? *****/}
@@ -276,16 +277,14 @@ function WeightLossQuestion() {
                 row
                 name="hasEatingDisorder"
                 value={answers.hasEatingDisorder}
-                onChange={(e) =>
-                  setAnswers({
-                    ...answers,
-                    hasEatingDisorder: e.target.value,
-                  })
-                }
+                onChange={(e) => handleChange(e, "Yes")}
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
+              {answers.hasEatingDisorder === "Yes" && (
+                <div>Can not proceed please see GP.</div>
+              )}
             </FormControl>
 
             {/****** Using injections/medications (excluding Metformin) for Type 2 Diabetes? *****/}
@@ -303,16 +302,14 @@ function WeightLossQuestion() {
                 row
                 name="usesBloodSugarMedications"
                 value={answers.usesBloodSugarMedications}
-                onChange={(e) =>
-                  setAnswers({
-                    ...answers,
-                    usesBloodSugarMedications: e.target.value,
-                  })
-                }
+                onChange={(e) => handleChange(e, "Yes")}
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
+              {answers.usesBloodSugarMedications === "Yes" && (
+                <div>Can not proceed please see GP.</div>
+              )}
             </FormControl>
 
             {/****** Experienced allergic reactions to specific medications? *****/}
@@ -329,16 +326,14 @@ function WeightLossQuestion() {
                 row
                 name="hadAllergicReaction"
                 value={answers.hadAllergicReaction}
-                onChange={(e) =>
-                  setAnswers({
-                    ...answers,
-                    hadAllergicReaction: e.target.value,
-                  })
-                }
+                onChange={(e) => handleChange(e, "Yes")}
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
+              {answers.hadAllergicReaction === "Yes" && (
+                <div>Can not proceed please see GP.</div>
+              )}
             </FormControl>
 
             {/****** Family history of Thyroid Cancer or MEN2 syndrome? *****/}
@@ -356,16 +351,14 @@ function WeightLossQuestion() {
                 row
                 name="hasFamilyHistoryThyroidCancer"
                 value={answers.hasFamilyHistoryThyroidCancer}
-                onChange={(e) =>
-                  setAnswers({
-                    ...answers,
-                    hasFamilyHistoryThyroidCancer: e.target.value,
-                  })
-                }
+                onChange={(e) => handleChange(e, "Yes")}
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
+              {answers.hasFamilyHistoryThyroidCancer === "Yes" && (
+                <div>Can not proceed please see GP.</div>
+              )}
             </FormControl>
 
             {/****** Are you taking any medications? (Prescription, over-the-counter, or recreational) *****/}
@@ -382,16 +375,14 @@ function WeightLossQuestion() {
                 row
                 name="isTakingMedications"
                 value={answers.isTakingMedications}
-                onChange={(e) =>
-                  setAnswers({
-                    ...answers,
-                    isTakingMedications: e.target.value,
-                  })
-                }
+                onChange={(e) => handleChange(e, "Yes")}
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
+              {answers.isTakingMedications === "Yes" && (
+                <div>Can not proceed please see GP.</div>
+              )}
             </FormControl>
 
             {/****** Are you taking steroids or medication to treat your thyroid? *****/}
@@ -407,16 +398,14 @@ function WeightLossQuestion() {
                 row
                 name="isTakingSteroidsOrThyroidMeds"
                 value={answers.isTakingSteroidsOrThyroidMeds}
-                onChange={(e) =>
-                  setAnswers({
-                    ...answers,
-                    isTakingSteroidsOrThyroidMeds: e.target.value,
-                  })
-                }
+                onChange={(e) => handleChange(e, "Yes")}
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
+              {answers.isTakingSteroidsOrThyroidMeds === "Yes" && (
+                <div>Can not proceed please see GP.</div>
+              )}
             </FormControl>
 
             {/****** Have you taken injectable weight loss medication in the last 4 weeks? *****/}
