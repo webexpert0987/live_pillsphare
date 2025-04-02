@@ -64,13 +64,17 @@ const OffersPage = () => {
         // Check if products are already in localStorage
         const cachedProducts = localStorage.getItem("products");
 
-        if (cachedProducts) {
-          setProducts(JSON.parse(cachedProducts)); // Use cached products
-        } else {
-          const data = await getProducts();
-          setProducts(data.products);
-          localStorage.setItem("products", JSON.stringify(data.products)); // Cache the products in localStorage
-        }
+        // if (cachedProducts) {
+        //   setProducts(JSON.parse(cachedProducts)); // Use cached products
+        // } else {
+        const data = await getProducts();
+        const filteredProduct = data.products.filter(
+          (product) => product.sale_price && product.regular_price
+        );
+        // setProducts(data.products);
+        setProducts(filteredProduct);
+        localStorage.setItem("products", JSON.stringify(data.products)); // Cache the products in localStorage
+        // }
       } catch (error) {
         console.error("Failed to fetch products:", error);
       }
@@ -299,10 +303,8 @@ const OffersPage = () => {
                             objectFit: "contain",
                           }}
                         />
-                        <Typography style={shop3Grid.offerTag}>
-                          Save 24%
-                        </Typography>
-                        {product.sale_price && (
+
+                        {product.sale_price && product.regular_price && (
                           <Box
                             style={shop3Grid.offerTag}
                             position="absolute"

@@ -1,11 +1,33 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Breadcrumbs, Container, Link, Typography } from "@mui/material";
 import { useLocation, Link as RouterLink } from "react-router-dom";
+import { getShopCategories } from "../../apis/apisList/productApi";
 
-const BreadcrumbBar = () => {
-  const location = useLocation();
-  const pathnames = location.pathname.split("/").filter((x) => x);
+const BreadcrumbBar = ({ productName, categoryName }) => {
+  const [category, setCategory] = useState(null);
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await getShopCategories();
+        if (Array.isArray(response)) {
+          const filterCategory = response.find(
+            (cat) => cat.name == categoryName
+          );
+          if (filterCategory) {
+            setCategory(filterCategory);
+          }
+        } else {
+          console.error("Unexpected API response format", response);
+        }
+      } catch (error) {
+        console.error("Error fetching shop categories", error);
+      }
+    };
 
+    fetchCategories();
+  }, [categoryName]);
+
+  if (!category) return null;
   return (
     <Box
       sx={{
@@ -26,34 +48,28 @@ const BreadcrumbBar = () => {
             Home
           </Link>
 
-          {pathnames.map((value, index) => {
-            const to = `/${pathnames.slice(0, index + 1).join("/")}`;
-            const isLast = index === pathnames.length - 1;
+          <Link
+            component={RouterLink}
+            to={`/category/${category.slug || categoryName}`}
+            color="inherit"
+            underline="hover"
+            sx={{
+              textTransform: "capitalize",
+            }}
+          >
+            {category.name || categoryName}
+          </Link>
 
-            return isLast ? (
-              <Typography
-                key={to}
-                color="text.primary"
-                sx={{
-                  fontSize: "14px",
-                  color: "#104239",
-                  fontWeight: "500",
-                }}
-              >
-                {value.charAt(0).toUpperCase() + value.slice(1)}
-              </Typography>
-            ) : (
-              <Link
-                key={to}
-                component={RouterLink}
-                to={to}
-                color="inherit"
-                underline="hover"
-              >
-                {value.charAt(0).toUpperCase() + value.slice(1)}
-              </Link>
-            );
-          })}
+          <Typography
+            color="text.primary"
+            sx={{
+              fontSize: "14px",
+              color: "#104239",
+              fontWeight: "500",
+            }}
+          >
+            {productName}
+          </Typography>
         </Breadcrumbs>
       </Container>
     </Box>

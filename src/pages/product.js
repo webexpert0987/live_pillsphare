@@ -189,9 +189,19 @@ const Product = () => {
       setIsLoggedIn(true);
     }
   }, [userDetails]);
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+    });
+  }, []);
+
   return (
     <>
-      <BreadcrumbBar />
+      <BreadcrumbBar
+        productName={product?.name}
+        categoryName={product?.categories?.[0]?.name}
+      />
       <Container
         sx={{
           paddingY: "50px",

@@ -237,7 +237,7 @@ const ProductListingPage = () => {
                           } // Use product.image if available
                           alt={product.name}
                         />
-                        {product.sale_price && (
+                        {product.sale_price && product.regular_price && (
                           <Box
                             style={shop3Grid.offerTag}
                             position="absolute"

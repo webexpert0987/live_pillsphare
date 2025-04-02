@@ -754,7 +754,18 @@ const MainHeader = () => {
 
           return (
             <div key={category.id}>
-              <MenuItem onClick={() => handleCategoryClick(category.id)}>
+              <MenuItem
+                onClick={() => {
+                  handleCategoryClick(category.id);
+                  // Close the menu only if there are no subcategories or if ExpandLess is triggered
+                  if (
+                    subcategories.length === 0 ||
+                    selectedCategory === category.id
+                  ) {
+                    handleClose();
+                  }
+                }}
+              >
                 <Link
                   to={`/category/${category.slug}`}
                   style={{
@@ -777,7 +788,11 @@ const MainHeader = () => {
 
               {selectedCategory === category.id &&
                 subcategories.map((sub) => (
-                  <MenuItem key={sub.id} style={{ paddingLeft: 20 }}>
+                  <MenuItem
+                    key={sub.id}
+                    style={{ paddingLeft: 20 }}
+                    onClick={() => handleClose()}
+                  >
                     <Link
                       to={`/category/${sub.slug}`}
                       style={{
