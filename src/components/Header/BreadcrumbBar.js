@@ -47,6 +47,14 @@ const BreadcrumbBar = ({ productName, categoryName }) => {
           <Link component={RouterLink} to="/" color="inherit" underline="hover">
             Home
           </Link>
+          <Link
+            component={RouterLink}
+            to="/shop"
+            color="inherit"
+            underline="hover"
+          >
+            Shop
+          </Link>
 
           <Link
             component={RouterLink}
