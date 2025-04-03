@@ -39,7 +39,8 @@ function ContraceptivesQuestion() {
     unusualBleeding: "",
     feelingVulnerable: "",
     prescriptionUsage: "",
-    agreeToTerms: "",
+    agreeToTerms1: "",
+    agreeToTerms2: "",
     photoID: "",
   });
   const boxRef = useRef(null);
@@ -105,7 +106,7 @@ function ContraceptivesQuestion() {
         { field: "recentSurgery", condition: "Yes" },
         { field: "unusualBleeding", condition: "Yes" },
         { field: "allergicSubstances", condition: "Yes" },
-        { field: "agreeToTerms", condition: "Yes" },
+        { field: "agreeToTerms1", condition: "Yes" },
         { field: "cervicalCancerScreening", condition: "No" },
       ];
 
@@ -141,7 +142,7 @@ function ContraceptivesQuestion() {
         return;
       }
     } else if (activeStep === 1) {
-      const requiredAgreements = ["agreeToTerms"];
+      const requiredAgreements = ["agreeToTerms2"];
 
       for (const field of requiredAgreements) {
         if (!answers[field]) {
@@ -163,7 +164,7 @@ function ContraceptivesQuestion() {
   };
 
   const handleSubmit = () => {
-    if (!answers.agreeToTerms) {
+    if (!answers.agreeToTerms2) {
       showMessage(
         "Please fill all details before proceeding to the next step.",
         "error"
@@ -606,7 +607,7 @@ function ContraceptivesQuestion() {
             <FormControl
               component="fieldset"
               className="QuestionBox"
-              disabled={checkDisabled("agreeToTerms")}
+              disabled={checkDisabled("agreeToTerms1")}
             >
               <Typography variant="h4" className="labelOne">
                 Do you agree with the following statements?
@@ -659,9 +660,9 @@ function ContraceptivesQuestion() {
               <FormControlLabel
                 control={
                   <Checkbox
-                    checked={answers.agreeToTerms || false}
+                    checked={answers.agreeToTerms1 || false}
                     onChange={(e) => handleChange(e, "")}
-                    name="agreeToTerms"
+                    name="agreeToTerms1"
                   />
                 }
                 label="I agree"
@@ -696,11 +697,11 @@ function ContraceptivesQuestion() {
               <FormControlLabel
                 control={
                   <Checkbox
-                    checked={answers.agreeToTerms || false}
+                    checked={answers.agreeToTerms2 || false}
                     onChange={(e) =>
-                      setAnswers({ ...answers, agreeToTerms: e.target.checked })
+                      setAnswers({ ...answers, agreeToTerms2: e.target.checked })
                     }
-                    name="agreeToTerms"
+                    name="agreeToTerms2"
                   />
                 }
                 label="I agree"

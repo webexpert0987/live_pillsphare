@@ -37,8 +37,9 @@ function HighFeverQuestion() {
     followingSymptomsCheckbox: "",
     currentSymptoms: "",
     currentSymptomsDetails: "",
-    otherTreatment: "",
+    otherTreatment1: "",
     otherTreatmentDetails: "",
+    otherTreatment2: "",
     liverIssue: "",
     otherConditions: "",
     otherConditionsDetails: "",
@@ -602,7 +603,7 @@ function HighFeverQuestion() {
             <FormControl
               component="fieldset"
               className="QuestionBox"
-              disabled={checkDisabled("otherTreatment")}
+              disabled={checkDisabled("otherTreatment1")}
             >
               <Typography variant="h4" className="labelOne">
                 Have you previously tried other treatments for hayfever or
@@ -610,16 +611,16 @@ function HighFeverQuestion() {
               </Typography>
               <RadioGroup
                 row
-                name="otherTreatment"
-                value={answers.otherTreatment}
+                name="otherTreatment1"
+                value={answers.otherTreatment1}
                 onChange={(e) =>
-                  setAnswers({ ...answers, otherTreatment: e.target.value })
+                  setAnswers({ ...answers, otherTreatment1: e.target.value })
                 }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
-              {answers.otherTreatment === "Yes" && (
+              {answers.otherTreatment1 === "Yes" && (
                 <>
                   <Typography>Please Provide More details</Typography>
                   <TextField
@@ -645,12 +646,12 @@ function HighFeverQuestion() {
             <FormControl
               component="fieldset"
               className="QuestionBox"
-              disabled={checkDisabled("otherTreatment")}
+              disabled={checkDisabled("otherTreatment2")}
             >
               <Typography
                 variant="h4"
                 className="labelOne"
-                name="otherTreatment"
+                name="otherTreatment2"
               >
                 Do you have any of the following additional symptoms? (List
                 specific symptoms like nasal pain, eye discomfort, etc.)

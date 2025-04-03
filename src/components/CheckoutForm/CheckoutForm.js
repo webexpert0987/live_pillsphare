@@ -30,6 +30,7 @@ import {
 import { createPaymentIntent } from "../../apis/apisList/paymentApi";
 import { createOrder, orderEligibility } from "../../apis/apisList/orderApi";
 import useIpAddress from "../../hooks/ipAddressHook";
+import CouponCode from "../CouponCode";
 
 const Text = styled(Typography)(({ theme }) => ({
   color: "#333333",
@@ -150,6 +151,8 @@ export default function Checkout() {
   const [isDetailComplete, setIsDetailComplete] = useState(true);
   const [canPay, setCanPay] = useState(false);
   const [makePayment, setMakePayment] = useState(false);
+  const [appliedCoupon, setAppliedCoupon] = useState(null);
+  const [cartTotal, setCartTotal] = useState("0.00");
   const ipAddress = useIpAddress();
   let cardElement;
 
@@ -239,6 +242,13 @@ export default function Checkout() {
       setIsDetailComplete(true);
     }
   }, [canPay]);
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    const user = storedUser ? JSON.parse(storedUser) : {};
+    setUserDetails(user);
+    setCartTotal(calculateTotal());
+  }, [cart]);
 
   useEffect(() => {
     const questionAnswersMap = {};
@@ -361,6 +371,9 @@ export default function Checkout() {
                   phone: billingDetails.billing_address.phone,
                 },
                 ip: ipAddress,
+                amount: cartTotal,
+                actual_amount: calculateTotal(),
+                appliedCoupon: appliedCoupon || null,
               };
 
               const orderResponse = await createOrder(ordInfo);
@@ -766,6 +779,15 @@ export default function Checkout() {
                                 </Typography>
                               )}
                             </Grid>
+                            <CouponCode
+                              cartTotal={cartTotal}
+                              setCartTotal={setCartTotal}
+                              appliedCoupon={appliedCoupon}
+                              setAppliedCoupon={setAppliedCoupon}
+                            />
+                            <Typography variant="h6">
+                              Final Total: £{cartTotal}
+                            </Typography>
                           </Grid>
                           {/* <Button
                                                     type="submit"

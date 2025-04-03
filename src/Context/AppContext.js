@@ -55,6 +55,10 @@ export const AppProvider = ({ children }) => {
     } catch (error) {
       console.log("Error fetch userProfile", error);
     }
+    user = {
+      ...userInfo,
+      ...user,
+    };
 
     setUserDetails(user);
     fetchCart(userInfo);
@@ -128,17 +132,21 @@ export const AppProvider = ({ children }) => {
   };
   // Calculate total amount
   const calculateTotal = () => {
-    if (cart.length > 0) {
-      return cart
-        .reduce(
-          (total, item) =>
-            total +
-            parseFloat(item?.selectedVariantPrice || item?.price || 0) *
-              (item.quantity || 1),
-          0
-        )
-        .toFixed(2);
-    } else {
+    try {
+      if (cart.length > 0) {
+        return cart
+          .reduce(
+            (total, item) =>
+              total +
+              parseFloat(item?.selectedVariantPrice || item?.price || 0) *
+                (item.quantity || 1),
+            0
+          )
+          .toFixed(2);
+      } else {
+        return "0.00";
+      }
+    } catch (error) {
       return "0.00";
     }
   };

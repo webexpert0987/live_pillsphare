@@ -405,7 +405,7 @@ function PrematureQuestion() {
               <Typography variant="h4" className="labelOne">
                 Do you have any of the following health conditions?
               </Typography>
-              <ui>
+              <ul>
                 <li>Diabetes</li>
                 <li>High blood pressure</li>
                 <li>Heart disease</li>
@@ -415,8 +415,7 @@ function PrematureQuestion() {
                 <li>Depression</li>
                 <li>Anxiety</li>
                 <li>Mental health disorders</li>
-              </ui>
-
+              </ul>
               <RadioGroup
                 row
                 name="healthCondition"

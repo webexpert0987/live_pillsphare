@@ -22,6 +22,8 @@ import {
 import { createPaymentIntent } from "../../apis/apisList/paymentApi";
 import { createOrder, orderEligibility } from "../../apis/apisList/orderApi";
 import useIpAddress from "../../hooks/ipAddressHook";
+import { questionsMap } from "../../lib/questions";
+import CouponCode from "../CouponCode";
 
 // Load Stripe with your publishable key
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_API_KEY);
@@ -90,6 +92,7 @@ function CheckoutForm() {
   const [error, setError] = useState("");
   const { showMessage } = useMessage();
   const { qaCart: cart, setQaCart: setCart, cartEmpty } = useApp();
+  const [cartTotal, setCartTotal] = useState("0.00");
 
   const [userDetails, setUserDetails] = useState(() => {
     const storedUser = localStorage.getItem("user");
@@ -139,6 +142,7 @@ function CheckoutForm() {
   const [isDetailComplete, setIsDetailComplete] = useState(true);
   const [canPay, setCanPay] = useState(false);
   const [makePayment, setMakePayment] = useState(false);
+  const [appliedCoupon, setAppliedCoupon] = useState(null);
   const IP_ADDRESS = useIpAddress();
   let cardElement;
   useEffect(() => {
@@ -147,6 +151,24 @@ function CheckoutForm() {
       handleCardValidation();
     }
   }, [stripe, elements]);
+
+  const formatQuestionData = (data) => {
+    const { category, answers } = data;
+    const questions = questionsMap[category];
+
+    if (questions && answers) {
+      let answersData = {};
+
+      Object.entries(answers).forEach(([key, value]) => {
+        if (questions[key] !== undefined) {
+          // Ensure the question exists
+          answersData[questions[key]] = value;
+        }
+      });
+
+      return Object.keys(answersData).length ? answersData : null;
+    }
+  };
 
   const handleCardValidation = async (e) => {
     // e.preventDefault();
@@ -198,9 +220,13 @@ function CheckoutForm() {
   };
 
   const calculateTotal = () => {
-    const cartPrice = cart[0]?.selectedVariant?.price || cart[0].price;
-    const price = parseFloat(cartPrice) * cart[0].quantity || 0;
-    return price.toFixed(2);
+    try {
+      const cartPrice = cart[0]?.selectedVariant?.price || cart?.[0]?.price;
+      const price = parseFloat(cartPrice) * cart[0]?.quantity || 0;
+      return price.toFixed(2);
+    } catch (error) {
+      return "0.00";
+    }
   };
 
   const checkOrderEligibility = async (productId) => {
@@ -235,6 +261,13 @@ function CheckoutForm() {
   }, [canPay]);
 
   useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    const user = storedUser ? JSON.parse(storedUser) : {};
+    setUserDetails(user);
+    setCartTotal(calculateTotal());
+  }, [cart]);
+
+  useEffect(() => {
     async function payment() {
       if (makePayment) {
         setIsProcessing(true);
@@ -255,7 +288,7 @@ function CheckoutForm() {
             }
           }
           const response = await createPaymentIntent({
-            amount: calculateTotal(),
+            amount: cartTotal,
           });
           const data = response;
 
@@ -284,8 +317,9 @@ function CheckoutForm() {
               let questionAnswers_data = {};
               if (qaData) {
                 const data = JSON.parse(qaData);
+                const answers = formatQuestionData(data);
                 questionAnswers_data = {
-                  answers: data.answers || null,
+                  answers: answers || null,
                   category: data.category || "",
                   bmiData: data.bmiData || null,
                 };
@@ -342,6 +376,9 @@ function CheckoutForm() {
                 },
                 ip: IP_ADDRESS,
                 consultation: 1,
+                amount: cartTotal,
+                actual_amount: calculateTotal(),
+                appliedCoupon: appliedCoupon || null,
               };
 
               const orderResponse = await createOrder(ordInfo);
@@ -852,7 +889,17 @@ function CheckoutForm() {
                               </Typography>
                             )}
                           </Grid>
+                          <CouponCode
+                            cartTotal={cartTotal}
+                            setCartTotal={setCartTotal}
+                            appliedCoupon={appliedCoupon}
+                            setAppliedCoupon={setAppliedCoupon}
+                          />
+                          <Typography variant="h6">
+                            Final Total: £{cartTotal}
+                          </Typography>
                         </Grid>
+
                         <Button
                           // type="submit"
                           fullWidth

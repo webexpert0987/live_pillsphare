@@ -546,7 +546,7 @@ function PeriodPainQuestion() {
                 <br></br>
                 <FormControlLabel
                   control={<Checkbox />}
-                  label="Other treatments (please specify): "
+                  label="Other treatments "
                 />
               </ul>
             </FormControl>
