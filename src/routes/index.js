@@ -16,6 +16,7 @@ import Faqs from "../components/Faqs/Faqs";
 import Orderhisttory from "../pages/orderHistory";
 import OnlineClinicCategory from "../pages/OnlineClinicCategory";
 import SupportPage from "../components/Support/Support";
+import BlogPage from "../components/Blog";
 //////////////////////
 import HeyFever from "../components/CategoryInfoPages/HayFever";
 import CystitisTreatment from "../components/CategoryInfoPages/CystitisTreatment";
@@ -45,6 +46,7 @@ import HowItWork from "../pages/HowItWork";
 
 import Verification from "../pages/Verification";
 import ForgotPassword from "../pages/ForgotPassword";
+import BlogDetail from "../components/Blog/BlogDetail";
 const routes = [
   {
     path: "/",
@@ -133,7 +135,12 @@ const routes = [
   },
   {
     path: "/support",
-    component: SupportPage,
+    component: BlogPage,
+    exact: true,
+  },
+  {
+    path: "/support/:slug",
+    component: BlogDetail,
     exact: true,
   },
   {

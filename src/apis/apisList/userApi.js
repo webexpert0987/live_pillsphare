@@ -38,3 +38,6 @@ export const sendOtp = (data) =>
   apiClient.post(`/wp-json/wp/v2/send-otp`, data);
 export const resetPassword = (data) =>
   apiClient.post(`/wp-json/wp/v2/reset-password`, data);
+
+export const blogApi = () => apiClient.get(`/wp-json/wp/v2/posts?_embed`);
+export const getBlogDetail = (slug) => apiClient.get(`/wp-json/wp/v2/posts?slug=${slug}`);
