@@ -7,9 +7,11 @@ import {
   Card,
   CardContent,
   Container,
-  Grid2,
+  Grid,
   Typography,
   Avatar,
+  Chip,
+  CircularProgress,
 } from "@mui/material";
 import { Link } from "react-router-dom";
 
@@ -42,6 +44,12 @@ function Blog() {
 
     fetchPosts();
   }, []);
+  // Generate a placeholder image URL with random colors
+  const getPlaceholderImage = (id, title) => {
+    const colors = ["4C9AFF", "00C7E6", "57D9A3", "FFC400", "FF5630", "6554C0"];
+    const colorIndex = id % colors.length;
+    return `https://placehold.co/600x400/${colors[colorIndex]}/FFFFFF?text=${title}`;
+  };
 
   return (
     <>
@@ -49,18 +57,19 @@ function Blog() {
       <Box
         sx={{
           padding: { xs: "30px 0", sm: "50px 0", md: "80px 0" },
+          backgroundColor: "#f7f9fc",
         }}
       >
         <Box>
-          <Container>
+          <Container maxWidth="lg">
             <Typography
               variant="h1"
               sx={{
-                fontSize: { xs: "22px", sm: "30px", md: "32px" },
+                fontSize: { xs: "28px", sm: "32px", md: "36px" },
                 fontWeight: "700",
                 color: "#333",
                 lineHeight: "1.3",
-                marginBottom: "20px",
+                marginBottom: "10px",
               }}
             >
               Blog
@@ -68,11 +77,11 @@ function Blog() {
             <Typography
               variant="body1"
               sx={{
-                fontSize: { xs: "15px", sm: "16px", md: "17px" },
+                fontSize: { xs: "16px", sm: "17px", md: "18px" },
                 fontWeight: "500",
                 color: "#4A4A4A",
                 lineHeight: "1.6",
-                marginBottom: "25px",
+                marginBottom: "40px",
               }}
             >
               Stay informed with our latest health and wellness articles
@@ -81,176 +90,208 @@ function Blog() {
         </Box>
 
         <Box>
-          <Container sx={{ mt: 4 }}>
-            <Grid2
-              container
-              spacing={3}
-              sx={{
-                display: "flex",
-                justifyContent: "flex-start",
-              }}
-            >
-              {loading ? (
-                <Typography>Loading posts...</Typography>
-              ) : (
-                posts.map((post) => (
-                  <Grid2
+          <Container maxWidth="lg">
+            {loading ? (
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  minHeight: "300px",
+                }}
+              >
+                <CircularProgress color="primary" />
+              </Box>
+            ) : (
+              <Grid container spacing={3}>
+                {posts.map((post, index) => (
+                  <Grid
+                    item
                     key={post.id}
                     xs={12}
                     sm={6}
                     md={4}
                     sx={{
                       display: "flex",
-                      justifyContent: "center",
-                      alignItems: "stretch", // Ensure cards stretch to the same height
                     }}
                   >
                     <Card
                       sx={{
-                        borderRadius: "10px",
-                        boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
-                        border: "1px solid #EEE",
-                        height: "100%", // Ensure cards take full height of the Grid item
-                        maxWidth: "350px", // Set a consistent max width for all cards
-                        minWidth: "350px", // Set a consistent max width for all cards
-                        width: "100%", // Ensure cards take full width of the Grid item
-                        transition: "transform 0.2s",
-                        "&:hover": {
-                          transform: "translateY(-5px)",
-                        },
+                        width: "100%",
+                        height: "100%",
                         display: "flex",
                         flexDirection: "column",
+                        borderRadius: "12px",
+                        overflow: "hidden",
+                        boxShadow: "0 4px 20px rgba(0,0,0,0.08)",
+                        transition: "all 0.3s ease",
+                        "&:hover": {
+                          transform: "translateY(-8px)",
+                          boxShadow: "0 10px 25px rgba(0,0,0,0.15)",
+                          "& .blog-image": {
+                            transform: "scale(1.05)",
+                          },
+                        },
+                        backgroundColor: "#fff",
                       }}
                     >
-                      {/* Featured Image */}
-                      {post.featuredImage && (
+                      {/* Category tags */}
+
+                      {/* <Box
+                        sx={{
+                          position: "absolute",
+                          top: "12px",
+                          left: "12px",
+                          zIndex: 2,
+                        }}
+                      >
+                        <Chip
+                          label={getCategoryTag(post.categories)}
+                          size="small"
+                          sx={{
+                            backgroundColor: "#fff",
+                            color: "#333",
+                            fontWeight: "600",
+                            fontSize: "12px",
+                            boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+                          }}
+                        />
+                      </Box> */}
+
+                      {/* Featured Image with zoom effect */}
+                      <Box
+                        sx={{
+                          position: "relative",
+                          height: "220px",
+                          overflow: "hidden",
+                        }}
+                      >
                         <Box
+                          className="blog-image"
+                          component="img"
+                          src={
+                            post.featuredImage?.source_url ||
+                            getPlaceholderImage(post.id, post.title)
+                          }
+                          alt={post.featuredImage?.alt_text || post.title}
                           sx={{
                             width: "100%",
-                            height: "200px", // Fixed height for images
-                            overflow: "hidden",
-                            borderRadius: "10px 10px 0 0",
+                            // height: "100%",
+                            // objectFit: "fill",
+                            transition: "transform 0.5s ease",
                           }}
-                        >
-                          <img
-                            src={post.featuredImage.source_url}
-                            alt={post.featuredImage.alt_text || post.title}
-                            style={{
-                              width: "100%",
-                              height: "100%",
-                              objectFit: "cover",
-                            }}
-                          />
-                        </Box>
-                      )}
+                        />
+                      </Box>
 
                       <CardContent
                         sx={{
-                          padding: {
-                            xs: "15px 15px 0 15px",
-                            sm: "20px 20px 10px 20px",
-                            md: "30px 30px 15px 30px",
-                          },
+                          padding: "20px",
+                          flexGrow: 1,
                           display: "flex",
                           flexDirection: "column",
                           justifyContent: "space-between",
-                          flexGrow: 1,
-                          overflow: "hidden", // Prevent content overflow
                         }}
                       >
                         <Box>
-                          {/* Author Info */}
-                          {post.author && (
-                            <Box
-                              sx={{
-                                display: "flex",
-                                alignItems: "center",
-                                mb: 2,
-                              }}
-                            >
-                              <Avatar
-                                src={post.author.avatar_urls["96"]}
-                                alt={post.author.name}
-                                sx={{ width: 40, height: 40, mr: 2 }}
-                              />
-                              <Box>
-                                <Typography
-                                  variant="subtitle2"
-                                  sx={{
-                                    fontWeight: "500",
-                                    color: "#104239",
-                                    fontSize: "14px",
-                                  }}
-                                >
-                                  {post.author.name}
-                                </Typography>
-                                <Typography
-                                  variant="caption"
-                                  sx={{
-                                    color: "#666",
-                                    fontSize: "12px",
-                                  }}
-                                >
-                                  {post.date}
-                                </Typography>
-                              </Box>
-                            </Box>
-                          )}
-
                           <Typography
-                            variant="h6"
+                            variant="h2"
                             sx={{
-                              fontSize: { xs: "20px", sm: "22px", md: "24px" },
+                              fontSize: { xs: "18px", sm: "20px", md: "22px" },
                               fontWeight: "700",
-                              marginBottom: "15px",
                               color: "#333",
+                              lineHeight: "1.4",
+                              mb: 2,
+                              overflow: "hidden",
+                              textOverflow: "ellipsis",
+                              display: "-webkit-box",
+                              WebkitLineClamp: 2,
+                              WebkitBoxOrient: "vertical",
+                              minHeight: "62px",
                             }}
                           >
                             {post.title}
                           </Typography>
+
+                          {/* Post excerpt */}
                           <Box
-                            className="blog-content"
+                            className="blog-excerpt"
                             sx={{
-                              fontSize: { xs: "15px", sm: "16px", md: "16px" },
-                              fontWeight: "500",
-                              marginBottom: "15px",
-                              lineHeight: "1.6",
+                              fontSize: "15px",
                               color: "#666",
-                              height: "120px", // Fixed height for content
+                              lineHeight: "1.6",
+                              mb: 3,
                               overflow: "hidden",
                               textOverflow: "ellipsis",
                               display: "-webkit-box",
-                              WebkitLineClamp: "5",
+                              WebkitLineClamp: 3,
                               WebkitBoxOrient: "vertical",
-                              "& p": {
-                                margin: "0 0 10px 0",
-                                overflow: "hidden",
-                                textOverflow: "ellipsis",
-                                display: "-webkit-box",
-                                WebkitLineClamp: "5",
-                                WebkitBoxOrient: "vertical",
-                              },
-                              "& img": { display: "none" }, // Hide images in preview
+                              minHeight: "72px",
+                              "& p": { margin: 0 },
+                              "& img": { display: "none" },
                             }}
                             dangerouslySetInnerHTML={{
-                              __html: post.content.split("</p>")[0] + "</p>", // Only show first paragraph
+                              __html: post.content.split("</p>")[0] + "</p>",
                             }}
                           />
                         </Box>
-                        <Box>
-                          <Link to={`/support/${post.slug}`}>
-                            <Button
-                              variant="outlined"
+
+                        <Box sx={{ mt: 2 }}>
+                          {/* Author Info and Date */}
+                          <Box
+                            sx={{
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "space-between",
+                              mb: 3,
+                            }}
+                          >
+                            <Box sx={{ display: "flex", alignItems: "center" }}>
+                              <Avatar
+                                src={
+                                  post.author?.avatar_urls["96"] ||
+                                  "/placeholder-avatar.png"
+                                }
+                                alt={post.author?.name || "Author"}
+                                sx={{ width: 36, height: 36, mr: 1.5 }}
+                              />
+                              <Typography
+                                variant="subtitle2"
+                                sx={{
+                                  fontWeight: "600",
+                                  fontSize: "14px",
+                                  color: "#555",
+                                }}
+                              >
+                                {post.author?.name || "Admin"}
+                              </Typography>
+                            </Box>
+                            <Typography
+                              variant="caption"
                               sx={{
-                                fontSize: "14px",
-                                fontWeight: "600",
-                                lineHeight: "1.4",
+                                color: "#888",
+                                fontSize: "13px",
+                              }}
+                            >
+                              {post.date}
+                            </Typography>
+                          </Box>
+
+                          {/* Read More Button */}
+                          <Link
+                            to={`/support/${post.slug}`}
+                            style={{ textDecoration: "none" }}
+                          >
+                            <Button
+                              fullWidth
+                              variant="contained"
+                              sx={{
                                 backgroundColor: "#FD6400",
                                 color: "#FFF",
-                                borderRadius: "50px",
-                                border: "none",
-                                textTransform: "inherit",
-                                padding: "12px 20px",
+                                textTransform: "none",
+                                fontWeight: "600",
+                                fontSize: "15px",
+                                padding: "10px 16px",
+                                borderRadius: "8px",
                                 "&:hover": {
                                   backgroundColor: "#e55a00",
                                 },
@@ -262,10 +303,10 @@ function Blog() {
                         </Box>
                       </CardContent>
                     </Card>
-                  </Grid2>
-                ))
-              )}
-            </Grid2>
+                  </Grid>
+                ))}
+              </Grid>
+            )}
           </Container>
         </Box>
       </Box>
