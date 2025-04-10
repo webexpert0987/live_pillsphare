@@ -179,7 +179,10 @@ const NestedList = ({ nestedListData, setOpenDrawer }) => {
             sx={{ justifyContent: "space-between", padding: "8px" }}
             onClick={() => item.link && handleNavigation(item.link)}
           >
-            <ListItemText primary={item.title} />
+            <ListItemText
+              primary={item.title}
+              sx={{ textTransform: "capitalize" }}
+            />
             {item?.subcategories?.length > 0 && (
               <IconButton onClick={(e) => handleToggle(index, e)} size="small">
                 {openSections[index] ? <ExpandLess /> : <ExpandMore />}
@@ -201,7 +204,10 @@ const NestedList = ({ nestedListData, setOpenDrawer }) => {
                       subitem.link && handleNavigation(subitem.link)
                     }
                   >
-                    <ListItemText primary={subitem.title} />
+                    <ListItemText
+                      primary={subitem.title}
+                      sx={{ textTransform: "capitalize" }}
+                    />
                     {subitem?.options?.length > 0 && (
                       <IconButton
                         onClick={(e) => handleSubToggle(index, subindex, e)}
@@ -229,7 +235,7 @@ const NestedList = ({ nestedListData, setOpenDrawer }) => {
                           sx={{ padding: "0px 60px" }}
                           onClick={() => handleNavigation(option.link)}
                         >
-                          <ListItemText primary={option.title} />
+                          <ListItemText primary={option.title}  sx={{ textTransform: "capitalize" }}/>
                         </ListItemButton>
                       ))}
                     </List>
@@ -434,7 +440,7 @@ const MainHeader = () => {
               paddingRight: { xs: "0px" },
             }}
           >
-            {currentSize < 1000 ? (
+            {currentSize < 1080 ? (
               <IconButton
                 color="inherit"
                 aria-label="open drawer"

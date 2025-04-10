@@ -101,6 +101,36 @@ function Category(props) {
   } = props;
   const [categoriesOpen, setCategoriesOpen] = useState(true);
   const [priceOpen, setPriceOpen] = useState(true);
+  const [expandedCategories, setExpandedCategories] = useState({
+    // 35: true,
+    // 37: true,
+    // 38: true,
+  });
+
+  // Group categories by parent
+  const topCategories = shopCategories.filter((cat) => cat.parent === 0);
+  const getSubcategories = (parentId) =>
+    shopCategories.filter((cat) => cat.parent === parentId);
+
+  // Toggle category expansion
+  const toggleCategory = (categoryId) => {
+    setExpandedCategories((prev) => ({
+      ...prev,
+      [categoryId]: !prev[categoryId],
+    }));
+  };
+
+  useEffect(() => {
+    for (let id of selectedCategories) {
+      const newData = shopCategories.find((cat) => cat.id == id);
+      if (newData.parent) {
+        setExpandedCategories({
+          ...expandedCategories,
+          [newData.parent]: true,
+        });
+      }
+    }
+  }, [selectedCategories]);
 
   return (
     <Box
@@ -143,37 +173,87 @@ function Category(props) {
               onClick={() => setCategoriesOpen(!categoriesOpen)}
             >
               {categoriesOpen ? (
-                <ExpandLessSharpIcon fontSize="medium" />
+                <ExpandLessSharpIcon />
               ) : (
-                <ExpandMoreSharpIcon fontSize="medium" />
+                <ExpandMoreSharpIcon />
               )}
             </Button>
           </Box>
 
           <Collapse in={categoriesOpen}>
             <FormGroup>
-              {shopCategories.map((category) => (
-                <FormControlLabel
-                  key={category.id}
-                  control={
-                    <Checkbox
-                      checked={selectedCategories.includes(category.id)}
-                      onChange={(e) =>
-                        setSelectedCategories(
-                          e.target.checked
-                            ? [...selectedCategories, category.id]
-                            : selectedCategories.filter(
-                                (id) => id !== category.id
-                              )
-                        )
+              {topCategories.map((category) => (
+                <Box key={category.id}>
+                  {/* Main Category */}
+                  <Box sx={{ display: "flex", alignItems: "center" }}>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={selectedCategories.includes(category.id)}
+                          onChange={(e) =>
+                            setSelectedCategories(
+                              e.target.checked
+                                ? [...selectedCategories, category.id]
+                                : selectedCategories.filter(
+                                    (id) => id !== category.id
+                                  )
+                            )
+                          }
+                        />
                       }
+                      label={category.name}
+                      sx={{
+                        textTransform: "capitalize",
+                        flex: 1,
+                        whiteSpace: "nowrap",
+                      }}
                     />
-                  }
-                  label={category.name}
-                  sx={{
-                    textTransform: "capitalize",
-                  }}
-                />
+                    {getSubcategories(category.id).length > 0 && (
+                      <IconButton
+                        size="small"
+                        onClick={() => toggleCategory(category.id)}
+                      >
+                        {expandedCategories[category.id] ? (
+                          <ExpandLessSharpIcon fontSize="small" />
+                        ) : (
+                          <ExpandMoreSharpIcon fontSize="small" />
+                        )}
+                      </IconButton>
+                    )}
+                  </Box>
+
+                  {/* Subcategories */}
+                  <Collapse in={expandedCategories[category.id]}>
+                    <Box sx={{ pl: 3 }}>
+                      {getSubcategories(category.id).map((subCategory) => (
+                        <FormControlLabel
+                          key={subCategory.id}
+                          control={
+                            <Checkbox
+                              checked={selectedCategories.includes(
+                                subCategory.id
+                              )}
+                              onChange={(e) =>
+                                setSelectedCategories(
+                                  e.target.checked
+                                    ? [...selectedCategories, subCategory.id]
+                                    : selectedCategories.filter(
+                                        (id) => id !== subCategory.id
+                                      )
+                                )
+                              }
+                            />
+                          }
+                          label={subCategory.name}
+                          sx={{
+                            textTransform: "capitalize",
+                            display: "block",
+                          }}
+                        />
+                      ))}
+                    </Box>
+                  </Collapse>
+                </Box>
               ))}
             </FormGroup>
           </Collapse>
