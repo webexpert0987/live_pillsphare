@@ -325,29 +325,31 @@ const Product = () => {
               </Box>
               {/* Quantity */}
 
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "flex-start",
-                  marginTop: "10px",
-                  marginBottom: "20px",
-                  flexWrap: "nowrap",
-                  gap: "20px",
-                }}
-              >
-                <Typography variant="h4" sx={{ fontWeight: 600 }}>
-                  Quantity
-                </Typography>
-                <TextField
-                  value={quantity}
-                  onChange={handleQuantity}
-                  type="number"
-                  variant="outlined"
-                  sx={{ maxWidth: "100px" }}
-                  inputProps={{ min: 1, max: 10 }}
-                />
-              </Box>
+              {product?.variations?.length === 0 && (
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "flex-start",
+                    marginTop: "10px",
+                    marginBottom: "20px",
+                    flexWrap: "nowrap",
+                    gap: "20px",
+                  }}
+                >
+                  <Typography variant="h4" sx={{ fontWeight: 600 }}>
+                    Quantity
+                  </Typography>
+                  <TextField
+                    value={quantity}
+                    onChange={handleQuantity}
+                    type="number"
+                    variant="outlined"
+                    sx={{ maxWidth: "100px" }}
+                    inputProps={{ min: 1, max: 10 }}
+                  />
+                </Box>
+              )}
 
               <Box>
                 {/* Add to Cart Button */}

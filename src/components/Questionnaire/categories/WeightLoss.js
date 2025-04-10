@@ -375,14 +375,14 @@ function WeightLossQuestion() {
                 row
                 name="isTakingMedications"
                 value={answers.isTakingMedications}
-                onChange={(e) => handleChange(e, "Yes")}
+                onChange={(e) => handleChange(e, "Either")}
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
-              {answers.isTakingMedications === "Yes" && (
+              {/* {answers.isTakingMedications === "Yes" && (
                 <div>Can not proceed please see GP.</div>
-              )}
+              )} */}
             </FormControl>
 
             {/****** Are you taking steroids or medication to treat your thyroid? *****/}
@@ -398,14 +398,14 @@ function WeightLossQuestion() {
                 row
                 name="isTakingSteroidsOrThyroidMeds"
                 value={answers.isTakingSteroidsOrThyroidMeds}
-                onChange={(e) => handleChange(e, "Yes")}
+                onChange={(e) => handleChange(e, "Either")}
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
-              {answers.isTakingSteroidsOrThyroidMeds === "Yes" && (
+              {/* {answers.isTakingSteroidsOrThyroidMeds === "Yes" && (
                 <div>Can not proceed please see GP.</div>
-              )}
+              )} */}
             </FormControl>
 
             {/****** Have you taken injectable weight loss medication in the last 4 weeks? *****/}
