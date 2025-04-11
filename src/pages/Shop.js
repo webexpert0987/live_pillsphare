@@ -16,7 +16,10 @@ import {
 import { Rating } from "@mui/material";
 import HeroSection from "./ShopHero";
 import TrustBar from "./Trustbar";
-import { getProducts } from "../apis/apisList/productApi";
+import {
+  getProducts,
+  getConsultationProducts,
+} from "../apis/apisList/productApi";
 import { Link } from "react-router-dom";
 import CategoryPage from "../components/category";
 import { useApp } from "../Context/AppContext";
@@ -59,7 +62,12 @@ const ProductListingPage = () => {
         //   setProducts(JSON.parse(cachedProducts)); // Use cached products
         // } else {
         const data = await getProducts();
-        setProducts(data.products);
+        const consultationProducts = await getConsultationProducts();
+        const finalData = [
+          ...data?.products,
+          ...consultationProducts?.products,
+        ];
+        setProducts(finalData);
         localStorage.setItem("products", JSON.stringify(data.products)); // Cache the products in localStorage
         setLoading(false);
         // }
@@ -73,8 +81,6 @@ const ProductListingPage = () => {
   }, []);
 
   useEffect(() => {
-    setLoading(false);
-
     // Get the persisted search value from localStorage (if needed)
     const savedSearchValue = localStorage.getItem("searchValue");
 

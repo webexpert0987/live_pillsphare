@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import VerticalImageSlider from "../components/productSlider/ProductSlider";
 import { useApp } from "../Context/AppContext";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   getProductBySlug,
   getRelatedProduct,
@@ -59,6 +59,9 @@ const Product = () => {
     medication: "",
   });
   const [currentProduct, setCurrentProduct] = useState(null);
+
+  const [consultationLink, setConsultationLink] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -120,6 +123,12 @@ const Product = () => {
         "error"
       );
       return; // Prevent further actions
+    }
+    if (product.product_type === "Recommended Products Based on Consultation") {
+      showMessage(
+        "Sorry, this product can be buy ony via Consultation",
+        "error"
+      );
     }
     if (!isLoggedIn) {
       setIsModalOpen(true);
@@ -195,6 +204,37 @@ const Product = () => {
       top: 0,
     });
   }, []);
+
+  useEffect(() => {
+    if (!product) return;
+
+    const { categories, product_type } = product;
+    if (product_type === "Recommended Products Based on Consultation") {
+      const QuestionForm = {
+        "weight-loss": "/online-clinic/weight-loss",
+        "acid-reflux": "/online-clinic/acid-reflux",
+        contraceptives: "/online-clinic/contraceptives",
+        cystitis: "/online-clinic/cystitis",
+        "erectile-dysfunction": "/online-clinic/erectile-dysfunction",
+        "hair-loss": "/online-clinic/hair-loss",
+        hayfever: "/online-clinic/hayfever",
+        migraine: "/online-clinic/migraine",
+        "period-delay": "/online-clinic/period-delay",
+        "period-pain": "/online-clinic/period-pain",
+        "premature-ejaculation": "/online-clinic/premature-ejaculation",
+        "stop-smoking": "/online-clinic/stop-smoking",
+      };
+
+      for (let category of categories) {
+        const formatted = category.name.toLowerCase().replace(/\s+/g, "-");
+
+        if (QuestionForm.hasOwnProperty(formatted)) {
+          setConsultationLink(QuestionForm[formatted]);
+          break; // Exit the loop once a match is found
+        }
+      }
+    }
+  }, [product]);
 
   return (
     <>
@@ -366,7 +406,11 @@ const Product = () => {
                     boxShadow: "none",
                   }}
                   // onClick={()=>handleAddProduct(product, product.variations[0])}
-                  onClick={() =>
+                  onClick={() => {
+                    if (consultationLink) {
+                      navigate(consultationLink);
+                      return;
+                    }
                     handleAddProduct(
                       product,
                       product?.selectedVariantInfo
@@ -374,16 +418,22 @@ const Product = () => {
                         : product?.variations.length
                         ? product?.variations[0]
                         : []
-                    )
-                  }
+                    );
+                  }}
                 >
-                  Add To Cart &nbsp;
-                  <Icon
-                    icon="solar:arrow-right-broken"
-                    color="primary.main"
-                    width="24"
-                    height="24"
-                  />
+                  {consultationLink ? (
+                    "Start consultation"
+                  ) : (
+                    <>
+                      Add To Cart &nbsp;
+                      <Icon
+                        icon="solar:arrow-right-broken"
+                        color="primary.main"
+                        width="24"
+                        height="24"
+                      />
+                    </>
+                  )}
                 </Button>
               </Box>
             </Stack>

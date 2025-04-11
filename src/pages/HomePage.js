@@ -7,12 +7,14 @@ import HowItWorksSection from "../components/HomePage/HowItWorksSection";
 import FeaturedProducts from "../components/HomePage/featuredProduct/FeaturedProduct";
 import Carousel from "../components/HomePage/homeCarousel/carousel";
 import ConditionsWeTreat from "../components/OnlineClinic/ConditionsWeTreat";
+import TrustpilotReview from "../components/TrustpilotReview";
 
 const HomePage = () => {
   return (
     <Box>
       <Carousel />
       <ServiceProvided />
+      {/* <TrustpilotReview /> */}
       <ConditionsWeTreat />
       {/* <TreatmentSection/> */}
       <FeaturedProducts />

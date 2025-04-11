@@ -1,16 +1,18 @@
-import React from 'react';
-import { ThemeProvider } from '@mui/material/styles';
-import { CssBaseline } from '@mui/material';
-import theme from './Theme/theme';
-import StaticPaymentPage from './StaticPaymentPage';
+import React from "react";
+import { ThemeProvider } from "@mui/material/styles";
+import { CssBaseline } from "@mui/material";
+import theme from "./Theme/theme";
+import StaticPaymentPage from "./StaticPaymentPage";
 
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import routes from './routes';
-import MainLayout from './layout/MainLayout';
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import routes from "./routes";
+import MainLayout from "./layout/MainLayout";
+import ZendeskWidget from "./components/ZendeskWidget";
 
 function App() {
   return (
     <div className="App">
+      <ZendeskWidget />
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Router>
