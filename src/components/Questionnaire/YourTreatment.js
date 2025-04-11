@@ -101,7 +101,7 @@ const ProductCard = ({
               paddingLeft: "10px",
             }}
           >
-            £{product?.selectedVariant.price || product.price || 0}
+            £{product?.selectedVariant?.price || product?.price || 0}
           </Typography>
         </Box>
 
