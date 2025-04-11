@@ -325,7 +325,8 @@ const Product = () => {
                                 </Typography> */}
                 {product &&
                   product.price &&
-                  product?.variations?.length > 0 && (
+                  product?.variations?.length > 0 &&
+                  !consultationLink && (
                     <Select
                       value={
                         product.selectedVariant
