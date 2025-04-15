@@ -247,7 +247,7 @@ function PrivacyPolicy() {
             <Typography className="privacyPara" variant="body1">
             <strong>Superintendent Pharmacist:</strong> Shikar Kerim
               <br />
-              <strong>GPhC Reg No.:</strong> 2213569
+              <strong>GPhC Reg No.:</strong> 9012694
             </Typography>
             <Typography className="privacyPara" variant="body1">
               © 2024 Pill Sphere LTD. All rights reserved.

@@ -444,12 +444,12 @@ export default function Footer() {
                   >
                     <strong>Call:</strong>{" "}
                     <Link
-                      href="tel:555-555-1234"
+                      href="tel:02039165372"
                       color="inherit"
                       underline="hover"
                       sx={{ textDecoration: "none" }}
                     >
-                      555-555-1234
+                      02039165372
                     </Link>
                   </Typography>
                 </Box>
@@ -498,10 +498,10 @@ export default function Footer() {
               >
                 Pill Sphere GPHC Number:{" "}
                 <a
-                  href="https://www.pharmacyregulation.org/registers/pharmacist/2213569"
+                  href="https://www.pharmacyregulation.org/registers/pharmacy/9012694"
                   target="_blank"
                 >
-                  2213569
+                  9012694
                 </a>
               </Typography>
             </Grid>
@@ -538,10 +538,10 @@ export default function Footer() {
               >
                 Shikar kerim GPHC Number:{" "}
                 <a
-                  href="https://www.pharmacyregulation.org/registers/pharmacist/2213569"
+                  href="https://www.pharmacyregulation.org/registers/pharmacist/9012694"
                   target="_blank"
                 >
-                  2213569
+                  9012694
                 </a>
               </Typography>
             </Grid>
@@ -785,7 +785,7 @@ export default function Footer() {
 //                           Superintendent Pharmacist
 //                       </Typography>
 //                       <Typography variant="body2">
-//                           GPHC Number: 2213569
+//                           GPHC Number: 9012694
 //                       </Typography>
 //                   </Grid>
 //                   <Grid item xs={12} md={4}>
