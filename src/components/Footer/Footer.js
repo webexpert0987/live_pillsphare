@@ -408,8 +408,8 @@ export default function Footer() {
                     }}
                   >
                     <strong> Address: </strong>
-                    Unit 2ap Building B East Lane, Wembley Commercial Centre,
-                    Wembley, Middlesex, HA9 7UR
+                    Unit 2A and 2P Building B East Lane, Wembley Commercial
+                    Centre, Wembley, Middlesex, HA9 7UR
                   </Typography>
                   <Typography
                     variant="h4"
