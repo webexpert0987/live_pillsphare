@@ -19,6 +19,7 @@ import { useApp } from "../../Context/AppContext";
 import VerificationDialog from "./VerificationDialog";
 import { registerUser, loginUser } from "../../apis/apisList/userApi";
 import { useMessage } from "../../Context/MessageContext";
+import AddressSearch from "../AddressSearch";
 
 function YourDetailForm() {
   const [formData, setFormData] = useState({
@@ -66,6 +67,17 @@ function YourDetailForm() {
       ...formData,
       [name]: value,
     });
+  };
+
+  const handleAddressSelect = (address) => {
+    setFormData((prev) => ({
+      ...prev,
+      addressLine1: address.line1,
+      addressLine2: address.line2 || "",
+      postalCode: address.postcode,
+      city: address.city,
+      country: address.country,
+    }));
   };
 
   const validateForm = () => {
@@ -646,6 +658,13 @@ function YourDetailForm() {
               shipping address at the checkout.
             </Typography>
           </Box>
+
+          {/* Address Search */}
+          <AddressSearch
+            onAddressSelect={handleAddressSelect}
+            styles={detailStyle.fieldInput}
+            placeholder="Search for your address"
+          />
 
           {/* Address Fields */}
           <Grid2 size={{ xs: 12, sm: 6, md: 6 }} spacing={2}>

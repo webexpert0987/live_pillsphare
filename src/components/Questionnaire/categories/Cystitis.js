@@ -21,7 +21,7 @@ import "../../../../src/globalStyle.css";
 import BmiCalculate from "../Consultation"; // Import the BMI calculation component
 import { useApp } from "../../../Context/AppContext";
 import { useMessage } from "../../../Context/MessageContext";
-import GpSearch from "../GpSeacrch";
+import GpSearch from "../OdsGpSearch";
 const steps = ["1", "2", "3"];
 
 function CystitisQuestionnaire() {
