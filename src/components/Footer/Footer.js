@@ -538,7 +538,7 @@ export default function Footer() {
               >
                 Shikar kerim GPHC Number:{" "}
                 <a
-                  href="https://www.pharmacyregulation.org/registers/pharmacist/9012694"
+                  href="https://www.pharmacyregulation.org/registers/pharmacy/9012694"
                   target="_blank"
                 >
                   9012694

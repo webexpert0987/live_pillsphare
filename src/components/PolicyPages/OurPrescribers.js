@@ -23,7 +23,7 @@ function OurPrescribers() {
               <br />
               GPhC No.{" "}
               <a
-                href="https://www.pharmacyregulation.org/registers/pharmacist/9012694"
+                href="https://www.pharmacyregulation.org/registers/pharmacy/9012694"
                 target="_blank"
               >
                 9012694
@@ -65,11 +65,11 @@ function OurPrescribers() {
                 To view our superintendent pharmacist on the register, visit:{" "}
               </strong>{" "}
               <a
-                href="https://www.pharmacyregulation.org/registers/pharmacist/9012694"
+                href="https://www.pharmacyregulation.org/registers/pharmacy/9012694"
                 target="_blank"
                 style={{ textDecoration: "none", color: "inherit" }}
               >
-                https://www.pharmacyregulation.org/registers/pharmacist/9012694
+                https://www.pharmacyregulation.org/registers/pharmacy/9012694
               </a>
             </Typography>
 
@@ -78,7 +78,7 @@ function OurPrescribers() {
             <strong>
               Shikar Kerim GPhC No.{" "}
               <a
-                href="https://www.pharmacyregulation.org/registers/pharmacist/9012694"
+                href="https://www.pharmacyregulation.org/registers/pharmacy/9012694"
                 target="_blank"
               >
                 9012694
