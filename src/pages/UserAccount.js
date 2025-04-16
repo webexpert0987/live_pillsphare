@@ -481,12 +481,30 @@ export default function UserAccount() {
                           helperText={
                             touched.phone_number && errors.phone_number
                           }
+                          type="number"
                           InputProps={{
                             startAdornment: (
                               <InputAdornment position="start">
                                 <PhoneIcon color="primary" />
                               </InputAdornment>
                             ),
+                            inputProps: {
+                              inputMode: "numeric",
+                              pattern: "[0-9]*",
+                            },
+                          }}
+                          sx={{
+                            "& input::-webkit-outer-spin-button": {
+                              WebkitAppearance: "none",
+                              margin: 0,
+                            },
+                            "& input::-webkit-inner-spin-button": {
+                              WebkitAppearance: "none",
+                              margin: 0,
+                            },
+                            "& input[type=number]": {
+                              MozAppearance: "textfield",
+                            },
                           }}
                         />
                       </Grid>
