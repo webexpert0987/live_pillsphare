@@ -24,7 +24,7 @@ function BlogDetail() {
           id: post.id,
           title: post.title.rendered,
           content: post.content.rendered,
-          date: new Date(post.date).toLocaleDateString(),
+          date: post.date,
           excerpt: post.excerpt.rendered.replace(/<[^>]+>/g, ""),
           slug: post.slug,
           categories: post.categories,

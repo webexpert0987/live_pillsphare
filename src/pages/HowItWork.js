@@ -331,7 +331,7 @@ const HowItWork = () => {
                     </Box>
                     <Box>
                       <Typography variant="h4">
-                        Over The Counter 0 Products:
+                        Over The Counter Products:
                       </Typography>
                       <Typography variant="body1">
                         Purchase directly without a prescription.

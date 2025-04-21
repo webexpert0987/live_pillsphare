@@ -79,6 +79,10 @@ function WeightLossQuestion() {
         showMessage("Please calculate your BMI first", "error");
         return;
       }
+      else if(bmiData?.bmi<=27.50){
+        showMessage("Sorry we can not provide you the treatment Your bmi is less than 27.50", "error");
+        return;
+      }
     } else if (activeStep === 1) {
       const requiredFields = [
         "ageRange",

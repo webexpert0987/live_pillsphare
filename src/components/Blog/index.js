@@ -272,7 +272,7 @@ function Blog() {
                                 fontSize: "13px",
                               }}
                             >
-                              {post.date}
+                                {post.date||"N/A"}
                             </Typography>
                           </Box>
 

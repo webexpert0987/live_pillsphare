@@ -207,7 +207,7 @@ const RelatedProductSlider = ({ relatedProducts }) => {
                           >
                             £{product.price}
                           </Typography>
-                          <Typography
+                          {product.regular_price&& <Typography
                             variant="body1"
                             sx={{
                               textDecoration: "line-through",
@@ -219,9 +219,10 @@ const RelatedProductSlider = ({ relatedProducts }) => {
                             }}
                           >
                             £{product.regular_price}
-                          </Typography>
+                          </Typography> }
+                         
                         </Box>
-                        <Box
+                        {/* <Box
                           display="flex"
                           alignItems="center"
                           gap={1}
@@ -233,7 +234,7 @@ const RelatedProductSlider = ({ relatedProducts }) => {
                           <Typography variant="body2" color="textSecondary">
                             (123)
                           </Typography>
-                        </Box>
+                        </Box> */}
                       </Box>
                       <Box textAlign="center" mt={2}>
                         <Button
