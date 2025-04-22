@@ -15,6 +15,12 @@ const heroShop = {
     fontWeight: "800",
     lineHeight: "1.3",
   },
+  productPageTitle: {
+    fontSize: "45px",
+    letterSpacing: "-0.5px",
+    fontWeight: "800",
+    lineHeight: "1.3",
+  },
   catDescription: {
     fontSize: "18px",
     letterSpacing: "0px",
@@ -53,8 +59,9 @@ const heroShop = {
     padding: "12px 25px",
   },
 };
-
 const OfferHero = ({
+  productPageTitle,
+  productPageDescrtiption,
   title = "Pill Sphere ",
   defultTitle = "Offers",
   description = "Our wide range of offers updates each month - shop now so you don't miss out. One of our core values is striving to offer excellent value and low prices across a variety of products and brands. ",
@@ -70,9 +77,9 @@ const OfferHero = ({
 }) => {
   return (
     <Box
-      sx={{
-        backgroundImage: `url(${bgHeroUrl})`, // Dynamically set background image
-        backgroundSize: "cover",
+    sx={{
+      backgroundImage: `url(${bgHeroUrl})`, // Dynamically set background image
+      backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
         backgroundPosition: "center",
         minHeight: "450px", // Adjust height as needed
@@ -80,17 +87,23 @@ const OfferHero = ({
         display: "flex",
         alignItems: "center",
       }}
-    >
+      >
       <Container>
         <Box style={heroShop.contentColumn} textAlign="">
           {/* Page Title */}
           <Typography style={heroShop.catTitle} variant="h3" gutterBottom>
-            {catName ? `${catName}  ${title}` : defultTitle}
+            {/* {catName ? `${catName}  ${title}` : defultTitle} */}
+            {productPageTitle
+              ? productPageTitle
+              : catName
+                ? `${catName}  ${title}`
+                : defultTitle}
           </Typography>
 
           {/* Short Description */}
           <Typography style={heroShop.catDescription} variant="body1" paragraph>
-            {description}
+            {/* {description} */}
+            {productPageDescrtiption ? productPageDescrtiption : description}
           </Typography>
 
           {/* List of 3 Points as Bullet Points 
@@ -163,5 +176,4 @@ const OfferHero = ({
     </Box>
   );
 };
-
 export default OfferHero;

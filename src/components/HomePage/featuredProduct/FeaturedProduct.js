@@ -22,6 +22,7 @@ import { useNavigate } from "react-router-dom";
 import { useApp } from "../../../Context/AppContext";
 import LoginRequiredPopup from "../../loginRequiredPopup/LoginRequiredPopup";
 import { useMessage } from "../../../Context/MessageContext";
+import { Link } from "react-router-dom";
 
 // const products = [
 //   {
@@ -107,7 +108,6 @@ function CustomRightArrow({ onClick }) {
     </IconButton>
   );
 }
-
 const homeFeatured = {
   imageBox: {
     borderRadius: "12px !important",
@@ -293,12 +293,17 @@ function FeaturedProducts() {
             >
               View All &nbsp; <Icon icon="solar:arrow-right-broken" color="primary.main" width="22" height="22" />
             </Button> */}
+             <Link to="/featured-product-detail" style={{ textDecoration: "none" }}>
               <CustomButton
                 bgColor={"tertiary.main"}
                 txColor={"primary.main"}
                 text="View All"
                 style={{ width: "auto" }}
+                // onClick={() =>{
+                // console.log('HIi');
+                //  navigate("/featured-product-detail")}}
               />
+              </Link>
             </Box>
             <Box
               sx={{

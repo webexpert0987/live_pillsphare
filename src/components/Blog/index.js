@@ -72,7 +72,7 @@ function Blog() {
                 marginBottom: "10px",
               }}
             >
-              Blog
+              Support
             </Typography>
             <Typography
               variant="body1"

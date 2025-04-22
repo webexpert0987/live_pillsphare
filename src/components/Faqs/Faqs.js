@@ -43,6 +43,7 @@ const faqs = [
       "- Allergies (e.g. hay fever)",
       "- Sexual health (e.g., erectile dysfunction, contraception)",
       "- Weight management",
+      "- Weight Loss",
       "- General health concerns (e.g. hair loss)",
     ],
   },

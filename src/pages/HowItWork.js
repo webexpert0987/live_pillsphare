@@ -46,7 +46,7 @@ const HowItWork = () => {
     {
       title: "Is my personal information safe?",
       description:
-        "Yes, we take your privacy seriously. All personal and medical information is handled in strict confidence and stored securely in compliance with UK data protection laws (GDPR).",
+        "Yes, we take your privacy seriously. All personal and medical information is handled in strict confidence and stored securely in compliance with UK data protection laws (GDPR). We are registered with ICO.",
     },
     {
       title: "Can I get advice from a pharmacist?",

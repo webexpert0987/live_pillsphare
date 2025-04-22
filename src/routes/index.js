@@ -11,6 +11,7 @@ import CategoryPage from "../pages/CategoryPage";
 import WeightLoss from "../pages/WeightLoss";
 import Questionnaire from "../components/Questionnaire/QuestionnairePage";
 import OffersPage from "../components/Offers/OffersPage";
+import FeaturedProductDetailPage from "../components/HomePage/featuredProduct/FeaturedProductDetail";
 import OnlineClinic from "../components/OnlineClinic/OnlineClinicPage";
 import Faqs from "../components/Faqs/Faqs";
 import Orderhisttory from "../pages/orderHistory";
@@ -106,6 +107,11 @@ const routes = [
   {
     path: "/faqs",
     component: Faqs,
+    exact: true,
+  },
+  {
+    path: "/featured-product-detail",
+    component: FeaturedProductDetailPage,
     exact: true,
   },
   // {
