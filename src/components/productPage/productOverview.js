@@ -39,13 +39,24 @@ const StyledTab = styled(Tab)(({ theme }) => ({
 
 const processFAQ = (questions) => {
   if (!questions) return [];
-  return questions
-    .replace("Frequently Asked Questions (FAQs)", "") // Remove heading
-    .trim()
-    .split(/\r?\n\d+\.\s/) // Split on question numbers like "1. "
+
+  // Remove heading
+  const cleanedQuestions = questions
+    .replace("Frequently Asked Questions (FAQs)", "")
+    .trim();
+
+  // First, try splitting by the numbered pattern (1., 2., etc.)
+  let faqList = cleanedQuestions.split(/\r?\n\d+\.\s/);
+
+  // If no FAQ items are found (e.g., it wasn't in the numbered format), try splitting by double newlines
+  if (faqList.length === 1) {
+    faqList = cleanedQuestions.split(/\r?\n\r?\n/);
+  }
+
+  return faqList
     .filter(Boolean) // Remove empty values
     .map((faq) => {
-      const lines = faq.split("\r\n"); // Handle newlines
+      const lines = faq.split("\r\n"); // Handle newlines within each FAQ
       return {
         title: lines[0]?.trim() || "", // First line as title
         description: lines.slice(1).join(" ").trim() || "", // Join the rest as description
@@ -100,8 +111,7 @@ const ProductOverview = ({ product }) => {
                       color: "#333",
                     }}
                   >
-                    {product?.short_description ||
-                      "No Information available."}
+                    {product?.short_description || "No Information available."}
                   </Typography>
                 ),
               },
