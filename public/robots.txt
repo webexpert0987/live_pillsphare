@@ -1,3 +1,11 @@
 # https://www.robotstxt.org/robotstxt.html
 User-agent: *
-Disallow:
+Allow: /
+Disallow: /questionnaire
+Disallow: /checkout
+Disallow: /payment
+Disallow: /cart
+Disallow: /verification
+Disallow: /thankyou
+
+Sitemap: https://www.pillsphere.com/sitemap.xml
