@@ -1,6 +1,9 @@
 import apiClient from "../api";
 
 export const getProducts = () => apiClient.get("/wp-json/wp/v2/products");
+export const getFeaturedProducts = () => apiClient.get("/wp-json/wp/v2/featured-products");
+// /wp-json/wp/v2/featured-products
+
 export const getConsultationProducts = () =>
   apiClient.get("/wp-json/wp/v2/recommended-products");
 

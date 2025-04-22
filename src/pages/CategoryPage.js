@@ -245,7 +245,7 @@ const CategoryPage = () => {
 
     fetchProducts();
   }, [categoryId]); // ✅ Runs when categoryId changes
-
+console.log('products',products);
   if (loading) {
     return <div>Loading...</div>;
   }

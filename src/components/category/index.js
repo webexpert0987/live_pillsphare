@@ -111,6 +111,8 @@ function Category(props) {
   const topCategories = shopCategories.filter((cat) => cat.parent === 0);
   const getSubcategories = (parentId) =>
     shopCategories.filter((cat) => cat.parent === parentId);
+  // const getGrandSubcategories = (subCategory.parentId) =>
+  //   shopCategories.filter((cat) => cat.parent === parentId);
 
   // Toggle category expansion
   const toggleCategory = (categoryId) => {
@@ -131,7 +133,9 @@ function Category(props) {
       }
     }
   }, [selectedCategories]);
-
+// console.log('products1',categoriesOpen);
+// console.log('products2',expandedCategories);
+// console.log('categories',selectedCategories);
   return (
     <Box
       p={2}
@@ -143,7 +147,7 @@ function Category(props) {
         alignItems="center"
         mb={3}
       >
-        <Typography
+        <Typography  
           variant="h6"
           sx={{ fontSize: { xs: "20px", md: "24px" }, fontWeight: "700" }}
         >
@@ -221,7 +225,6 @@ function Category(props) {
                       </IconButton>
                     )}
                   </Box>
-
                   {/* Subcategories */}
                   <Collapse in={expandedCategories[category.id]}>
                     <Box sx={{ pl: 3 }}>
@@ -258,7 +261,6 @@ function Category(props) {
             </FormGroup>
           </Collapse>
         </Box>
-
         {/* Price Range Filter */}
         <Box mb={2}>
           <Box

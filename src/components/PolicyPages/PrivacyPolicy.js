@@ -25,8 +25,8 @@ function PrivacyPolicy() {
               the more important provisions in our privacy policy. We also
               recommend that you read the full privacy policy.
             </Typography>
-            <Box>
-              <Typography variant="h2">Information we collect</Typography>
+              <Typography variant="h2" >Information we collect</Typography>
+            <Box component="ul" sx={{ ml: 3}}>
               <Typography
                 component="li"
                 className="privacyPara"
@@ -47,11 +47,11 @@ function PrivacyPolicy() {
                 payment records and details of the medicines you have ordered.
               </Typography>
             </Box>
-            <Box>
               <Typography variant="h2">
-                Use of your information We use Your Data:
+                Use of your information We use Your Data :
               </Typography>
-              <Typography variant="h2">We use Your Data:</Typography>
+              <Typography variant="h2" className="privacyPara">We use Your Data :</Typography>
+              <Box component="ul" sx={{ ml: 3}}>
               <Typography
                 component="li"
                 className="privacyPara"
@@ -72,7 +72,7 @@ function PrivacyPolicy() {
               </Typography>
             </Box>
             <Box>
-              <Typography variant="h2">We share Your Data:</Typography>
+              <Typography variant="h2">We share Your Data :</Typography>
               <Typography
                 component="li"
                 className="privacyPara"
@@ -99,7 +99,7 @@ function PrivacyPolicy() {
             </Box>
             {/***********/}
             <Box>
-              <Typography variant="h2"> Patient confidentiality:</Typography>
+              <Typography variant="h2"> Patient confidentiality :</Typography>
               <Typography className="privacyPara" variant="body1">
                 Some of the information we collect is medical data. This
                 information is always treated confidentially. We will never
@@ -149,25 +149,28 @@ function PrivacyPolicy() {
                 leader ("DPL") who is responsible for overseeing questions in
                 relation to this Policy. If you have any questions about this
                 Policy, including any requests to exercise your legal rights,
-                please contact the DPL using the details set out below:
+                please contact the DPL using the details set out below :
               </Typography>
-              <Typography variant="h2">Full name of legal entity:</Typography>
+              <Typography variant="h2">Full name of legal entity :</Typography>
               <Typography component="privacyPara" variant="body1">
                 Pill Sphere LTD
               </Typography>
               <Typography variant="h2">Email address:</Typography>
-              <Typography component="privacyPara" variant="body1">
-                info@pillsphere.com
-              </Typography>
-              <Typography variant="h2">Postal address:</Typography>
+              <Link href="mailto:info@pillsphere.com" underline="hover">
+                <Typography variant="body1" className="privacyContentEmail">info@pillsphere.com</Typography>
+                </Link>
+              <Typography variant="h2">Postal address :</Typography>
               <Typography component="privacyPara" variant="body1">
                 Unit 2A and 2P Building B Wembley Commercial Centre East Lane
                 Wembley HA9 7UR
               </Typography>
-              <Typography variant="h2">Telephone number:</Typography>
+              <Typography variant="h2">Telephone number :</Typography>
+              <Link>
               <Typography component="privacyPara" variant="body1">
                 02039165372
               </Typography>
+              </Link>
+              <br/>
               <Typography component="privacyPara" variant="body1">
                 If you have any queries, concerns or complaints about the use of
                 Your Data by us, please raise them with the DPL. If this does
@@ -177,7 +180,7 @@ function PrivacyPolicy() {
               </Typography>
               <Typography component="privacyPara" variant="body1">
                 You have the right to make a complaint at any time to the
-                Information Commissioner's Office ("ICO"), the UK supervisory
+                Information Commissioner's Office ("<a href="https://ico.org.uk/" target="_blank"  rel="noopener noreferrer">ICO</a>"), the UK supervisory
                 authority for data protection issues. We would, however,
                 appreciate the chance to deal with your concerns before you
                 approach the ICO so please contact us in the first instance.
@@ -207,10 +210,10 @@ function PrivacyPolicy() {
             </Box>
             <Typography variant="h2">
               We may collect, use, store and transfer different kinds of data
-              about you which we have categorised as follows:
+              about you which we have categorised as follows :
             </Typography>
             {/****** li *****/}
-            <Box component="ul" sx={{ pl: 3 }}>
+            <Box component="ul" sx={{ ml: 3}}>
               <Typography component="li" variant="body1">
                 Identity Data includes first name, last name, date of birth and
                 gender.
@@ -272,7 +275,7 @@ function PrivacyPolicy() {
                 resources that you access. Such information may include
                 Aggregated Data, traffic data, location data and other
                 communication data. For more information about the cookies we
-                use, please see our Cookie Policy.
+                use, please see our <Link to="/cookies-policy">Cookie Policy.</Link>
               </Typography>
             </Box>
             {/* /////// */}
@@ -280,10 +283,10 @@ function PrivacyPolicy() {
               Direct interactions You may give us your Identity, Contact,
               Medical and Financial Data by filling in forms, or by
               corresponding with us by post, phone, email or otherwise. This
-              includes personal data you provide when you:
+              includes personal data you provide when you :
             </Typography>
             {/****** li *****/}
-            <Box component="ul" sx={{ pl: 3 }}>
+            <Box component="ul" sx={{ ml: 3 }}>
               <Typography component="li" variant="body1">
                 make an online enquiry;
               </Typography>
@@ -343,7 +346,7 @@ function PrivacyPolicy() {
               follows:
             </Typography>
             {/****** li *****/}
-            <Box component="ul" sx={{ pl: 3 }}>
+            <Box component="ul" sx={{ ml: 3 }}>
               <Typography component="li" variant="body1">
                 To enable us to provide our health services to you
               </Typography>
@@ -373,9 +376,9 @@ function PrivacyPolicy() {
               given us your express consent to contact you for this purpose.
               Once you have given us your permission to contact you for
               marketing purposes, we may use Your Data for one or more of the
-              following:
+              following :
             </Typography>
-            <Box component="ul" sx={{ pl: 3 }}>
+            <Box component="ul" sx={{ ml: 3 }}>
               <Typography component="li" variant="body1">
                 To provide information that you request from us relating to our
                 products or services.
@@ -392,8 +395,9 @@ function PrivacyPolicy() {
 
               <Typography className="privacyPara" variant="body1">
                 You may change your mind and withdraw your permission for us to
-                contact you for marketing purposes at any time by emailing us at
-                info@pillsphere.com . This will not affect your use of our
+                contact you for marketing purposes at any time by emailing us at {" "} 
+              <Link href="mailto:info@pillsphere.com" underline="hover">
+                 info@pillsphere.com </Link>. This will not affect your use of our
                 services.
               </Typography>
             </Box>
@@ -418,7 +422,10 @@ function PrivacyPolicy() {
               <Typography className="privacyPara" variant="body1">
                 You can change your mind and withdraw your permission for us to
                 use your Medical Data for marketing purposes at any time by
-                emailing us at info@pillsphere.com . This will not affect your
+                emailing us at{" "}
+                <Link href="mailto:info@pillsphere.com" underline="hover">
+                info@pillsphere.com </Link>.
+                 This will not affect your
                 use of our services.
               </Typography>
             </Box>
@@ -433,7 +440,9 @@ function PrivacyPolicy() {
                 it for another reason and that reason is compatible with the
                 original purpose. If you wish to get an explanation as to how
                 the processing for the new purpose is compatible with the
-                original purpose, please email info@pillsphere.com . Should we
+                original purpose, please email{" "}
+                <Link href="mailto:info@pillsphere.com" underline="hover">
+                info@pillsphere.com </Link>. Should we
                 need to use Your Data for an unrelated purpose, we will notify
                 you and we will explain the legal basis which allows us to do
                 so.
@@ -518,15 +527,15 @@ function PrivacyPolicy() {
             <Typography variant="h2">Disclosing Your Data</Typography>
             <Typography variant="h2">
               We may disclose Your Data to third parties, in accordance with
-              this Policy, in the following circumstances:
+              this Policy, in the following circumstances :
             </Typography>
             {/****** li *****/}
-            <Box component="ul" sx={{ pl: 3 }}>
+            <Box component="ul" sx={{ ml: 3 }}>
               <Typography component="li" variant="body1">
                 Where permitted by law and subject to us taking steps to ensure
                 that Your Data is properly protected and only used in accordance
                 with this Policy, we may share your Identity, Contact, Financial
-                and Medical Data with:
+                and Medical Data with :
                 <Typography component="li" variant="body1">
                   Your Doctor;
                 </Typography>
@@ -547,7 +556,7 @@ function PrivacyPolicy() {
                 may provide your postal address to a courier or we may share
                 your name, address and age with a third- party service provider
                 in order to verify your age and identity). The External Third
-                Parties we work with include:
+                Parties we work with include :
                 <Typography component="li" variant="body1">
                   Super payments: To process your online payment.
                 </Typography>
@@ -563,31 +572,31 @@ function PrivacyPolicy() {
                   Hotjar: To monitor and identify usability website issues.
                 </Typography>
                 <Typography component="li" variant="body1">
-                  Livechat and Facebook Messenger: To allow you to interact with
+                  Livechat and Facebook Messenger : To allow you to interact with
                   third-party live chat platforms directly from the pages of our
                   website, for contacting and being contacted by our support
                   service. This information is anonymised, so you cannot be
                   identified.
                 </Typography>
                 <Typography component="li" variant="body1">
-                  Survey Monkey: We send anonymous surveys about your medical
+                  Survey Monkey : We send anonymous surveys about your medical
                   treatment using SurveyMonkey for clinical governance. This
                   type of service allows you to interact with third-party online
                   survey platforms directly from the pages of our website.
                 </Typography>
                 <Typography component="li" variant="body1">
-                  Amazon SES email servers: We send marketing emails to you if
+                  Amazon SES email servers : We send marketing emails to you if
                   you have consented to receive marketing material. We send
                   emails using the Amazon SES email servers. Emails are
                   customized using your order history.
                 </Typography>
                 <Typography component="li" variant="body1">
-                  Mailchimp: If you register with our mailing list or sign up to
+                  Mailchimp : If you register with our mailing list or sign up to
                   our newsletter, your email address will be added to our
                   marketing contact list through Mailchimp.
                 </Typography>
                 <Typography component="li" variant="body1">
-                  Yay.com: We record telephone calls for monitoring and training
+                  Yay.com : We record telephone calls for monitoring and training
                   purposes which is kept for one month. This is used by the
                   patient and Pill Sphere in the event of a dispute, and in
                   order to manage and regulate the performance of our staff.
@@ -599,7 +608,7 @@ function PrivacyPolicy() {
                 parties for marketing purposes.
               </Typography>{" "}
               <Typography component="li" variant="body1">
-                We may also share Your Data where permitted by law:
+                We may also share Your Data where permitted by law :
                 <Typography component="li" variant="body1">
                   In the event of a joint venture, collaboration, financing,
                   sale, merger or reorganisation of the company. If a change
@@ -619,7 +628,7 @@ function PrivacyPolicy() {
             {/* /// */}
             <Typography variant="h2">International transfers</Typography>
             {/****** li *****/}
-            <Box component="ul" sx={{ pl: 3 }}>
+            <Box component="ul" sx={{ ml: 3 }}>
               <Typography component="privacyPara" variant="body1">
                 In addition to the disclosures set out in "Disclosing Your Data"
                 above, some of our third parties are based outside the United
@@ -628,7 +637,7 @@ function PrivacyPolicy() {
                 Union. Whenever we transfer Your Data out of the United Kingdom
                 or European Union, we ensure a similar degree of protection is
                 afforded to it by ensuring at least one of the following
-                safeguards is implemented:
+                safeguards is implemented :
                 <Typography component="li" variant="body1">
                   We will only transfer Your Data to countries that have been
                   deemed to provide an adequate level of protection for personal
@@ -638,11 +647,13 @@ function PrivacyPolicy() {
                   Where we use certain service providers, we may use specific
                   contracts approved by the UK Government or the European
                   Commission which give personal data the same protection it has
-                  in Europe.
+                  in Europe. 
                 </Typography>
               </Typography>
               <Typography component="privacyPara" variant="body1">
-                Please email info@pillsphere.com if you want further information
+                Please email{" "}
+                <Link href="mailto:info@pillsphere.com" underline="hover">
+                info@pillsphere.com </Link>. if you want further information
                 on the specific mechanism used by us when transferring Your Data
                 outside the United Kingdom or European Union.
               </Typography>
@@ -666,7 +677,7 @@ function PrivacyPolicy() {
               <Typography className="privacyPara" variant="body1">
                 In certain circumstances, you have the following rights under
                 data protection laws in relation to Your Data. You have the
-                right to:
+                right to :
               </Typography>
               <Typography className="privacyPara" variant="body1">
                 Request access to Your Data (commonly known as a "data subject
@@ -708,10 +719,10 @@ function PrivacyPolicy() {
             <Typography variant="h2">
               Request restriction of processing of Your Data . This enables you
               to ask us to suspend the processing of Your Data in the following
-              scenarios:
+              scenarios :
             </Typography>
             {/****** li *****/}
-            <Box component="ul" sx={{ pl: 3 }}>
+            <Box component="ul" sx={{ ml: 3 }}>
               <Typography component="privacyPara" variant="body1">
                 if you want us to establish the data's accuracy;
               </Typography>
@@ -752,7 +763,9 @@ function PrivacyPolicy() {
               </Typography>
               <Typography component="privacyPara" variant="body1">
                 If you wish to exercise any of the rights set out above, please
-                email info@pillsphere.com or telephone 02039165372 and ask to
+                email{" "}
+                <Link href="mailto:info@pillsphere.com" underline="hover">
+                info@pillsphere.com </Link>. or telephone 02039165372 and ask to
                 speak to the DPL.
               </Typography>
             </Box>
@@ -795,10 +808,12 @@ function PrivacyPolicy() {
             <Box>
               <Typography component="privacyPara" variant="body1">
                 Please do not hesitate to contact us regarding any matter
-                relating to this Policy at info@pillsphere.com
+                relating to this Policy at{" "}
+                <Link href="mailto:info@pillsphere.com" underline="hover">
+                  info@pillsphere.com </Link>.
               </Typography>
             </Box>
-          </Box>
+          </Box> 
         </Container>
       </Box>
     </>

@@ -21,20 +21,14 @@ import {
 import { Rating } from "@mui/material";
 import ExpandLessSharpIcon from "@mui/icons-material/ExpandLessSharp";
 import ExpandMoreSharpIcon from "@mui/icons-material/ExpandMoreSharp";
-// import OfferHero from "../../components/Offers/OfferHero";
 import OfferHero from "../../../components/Offers/OfferHero";
-// import TrustBar from "../../pages/Trustbar";
 import TrustBar from "../../../pages/Trustbar";
-// import { getProducts } from "../../apis/apisList/productApi";
-import { getProducts } from "../../../apis/apisList/productApi";
+// import { getProducts } from "../../../apis/apisList/productApi";
+import { getFeaturedProducts } from "../../../apis/apisList/productApi";
 import { Link } from "react-router-dom";
-// import { getShopCategories } from "../../apis/apisList/productApi";
 import { getShopCategories } from "../../../apis/apisList/productApi";
-// import CategoryPage from "../../components/category";
 import CategoryPage from "../../../components/category";
-// import { useApp } from "../../Context/AppContext";
 import { useApp } from "../../../Context/AppContext";
-// import PaginationComponent from "../PaginationComponent";
 import PaginationComponent from "../../PaginationComponent";
 
 const OffersPage = () => {
@@ -74,13 +68,10 @@ const OffersPage = () => {
         // if (cachedProducts) {
         //   setProducts(JSON.parse(cachedProducts)); // Use cached products
         // } else {
-        const data = await getProducts();
-        const filteredProduct = data.products.filter(
-          (product) => product.sale_price && product.regular_price
-        );
-        // setProducts(data.products);
-        setProducts(filteredProduct);
-        localStorage.setItem("products", JSON.stringify(data.products)); // Cache the products in localStorage
+        const data = await getFeaturedProducts();
+        console.log('datas',data)
+        setProducts(data);
+        localStorage.setItem("products", JSON.stringify(data)); // Cache the products in localStorage
         // }
       } catch (error) {
         console.error("Failed to fetch products:", error);

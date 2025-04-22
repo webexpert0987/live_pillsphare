@@ -111,7 +111,11 @@ ul.infoList2 {
 .iconListRow img {
   max-width: 100%;
 }
-
+/* .privacyContentEmail{
+  cursor:pointer;
+  text-decoration: underline !important;
+  color: #0043fd !important;
+} */
 .singleList {
   display: flex;
   margin: 15px 0;
