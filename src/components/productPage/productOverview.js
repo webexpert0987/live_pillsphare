@@ -40,28 +40,34 @@ const StyledTab = styled(Tab)(({ theme }) => ({
 const processFAQ = (questions) => {
   if (!questions) return [];
 
-  // Remove heading
-  const cleanedQuestions = questions
+  const cleaned = questions
     .replace("Frequently Asked Questions (FAQs)", "")
+    .replace(/Question:\s*Q:\s*/g, "") // remove "Question: Q:"
+    .replace(/Question:\s*/g, "") // remove "Question:"
+    .replace(/^Q:\s*/gm, "") // remove lines starting with "Q:"
+    .replace(/Answer:\s*A:\s*/g, "") // remove "Answer: A:"
+    .replace(/Answer:\s*/g, "") // remove "Answer:"
+    .replace(/^A:\s*/gm, "") // remove lines starting with "A:"
     .trim();
 
-  // First, try splitting by the numbered pattern (1., 2., etc.)
-  let faqList = cleanedQuestions.split(/\r?\n\d+\.\s/);
+  // Try splitting by numbered pattern first
+  let faqList = cleaned.split(/\r?\n\d+\.\s/);
 
-  // If no FAQ items are found (e.g., it wasn't in the numbered format), try splitting by double newlines
+  // Fallback to double newlines if only one item
   if (faqList.length === 1) {
-    faqList = cleanedQuestions.split(/\r?\n\r?\n/);
+    faqList = cleaned.split(/\r?\n\r?\n/);
   }
 
-  return faqList
-    .filter(Boolean) // Remove empty values
-    .map((faq) => {
-      const lines = faq.split("\r\n"); // Handle newlines within each FAQ
-      return {
-        title: lines[0]?.trim() || "", // First line as title
-        description: lines.slice(1).join(" ").trim() || "", // Join the rest as description
-      };
-    });
+  return faqList.filter(Boolean).map((faq) => {
+    const lines = faq
+      .split(/\r?\n/)
+      .map((line) => line.trim())
+      .filter(Boolean);
+    return {
+      title: lines[0] || "",
+      description: lines.slice(1).join(" ").trim() || "",
+    };
+  });
 };
 
 const ProductOverview = ({ product }) => {
