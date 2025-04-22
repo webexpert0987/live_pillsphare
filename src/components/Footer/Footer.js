@@ -536,7 +536,7 @@ export default function Footer() {
                   fontWeight: "500",
                 }}
               >
-                Shikar kerim GPHC Number:{" "}
+                Shikar Kerim GPHC Number:{" "}
                 <a
                   href="https://www.pharmacyregulation.org/registers/pharmacist/2213569"
                   target="_blank"

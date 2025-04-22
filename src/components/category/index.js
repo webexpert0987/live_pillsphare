@@ -256,6 +256,38 @@ function Category(props) {
                       ))}
                     </Box>
                   </Collapse>
+                  {/* getGrandSubcategories */}
+                  {/* <Collapse in={expandedCategories[category.id]}>
+                    <Box sx={{ pl: 3 }}>
+                      {getSubcategories(category.id).map((subCategory) => (
+                        <FormControlLabel
+                          key={subCategory.id}
+                          control={
+                            <Checkbox
+                              checked={selectedCategories.includes(
+                                subCategory.id
+                              )}
+                              onChange={(e) =>
+                                setSelectedCategories(
+                                  e.target.checked
+                                    ? [...selectedCategories, subCategory.id]
+                                    : selectedCategories.filter(
+                                        (id) => id !== subCategory.id
+                                      )
+                                )
+                              }
+                            />
+                          }
+                          label={subCategory.name}
+                          sx={{
+                            textTransform: "capitalize",
+                            display: "block",
+                          }}
+                        />
+                      ))}
+                    </Box>
+                  </Collapse> */}
+                  {/* ////////// */}
                 </Box>
               ))}
             </FormGroup>
