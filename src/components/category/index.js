@@ -111,9 +111,10 @@ function Category(props) {
   const topCategories = shopCategories.filter((cat) => cat.parent === 0);
   const getSubcategories = (parentId) =>
     shopCategories.filter((cat) => cat.parent === parentId);
-  // const getGrandSubcategories = (subCategory.parentId) =>
-  //   shopCategories.filter((cat) => cat.parent === parentId);
-
+  // const getGrandSubCategories = (subCategoryId) =>
+  //   shopCategories.filter((cat) => cat.parent === subCategoryId);
+  const getGrandSubCategories = (subCategoryId) =>
+    (shopCategories || []).filter((cat) => cat?.parent === subCategoryId)
   // Toggle category expansion
   const toggleCategory = (categoryId) => {
     setExpandedCategories((prev) => ({
@@ -125,7 +126,7 @@ function Category(props) {
   useEffect(() => {
     for (let id of selectedCategories) {
       const newData = shopCategories.find((cat) => cat.id == id);
-      if (newData.parent) {
+      if (newData && newData.parent) {
         setExpandedCategories({
           ...expandedCategories,
           [newData.parent]: true,
@@ -133,9 +134,9 @@ function Category(props) {
       }
     }
   }, [selectedCategories]);
-// console.log('products1',categoriesOpen);
-// console.log('products2',expandedCategories);
-// console.log('categories',selectedCategories);
+  // console.log('products1',categoriesOpen);
+  // console.log('products2',expandedCategories);
+  // console.log('categories',selectedCategories);
   return (
     <Box
       p={2}
@@ -147,7 +148,7 @@ function Category(props) {
         alignItems="center"
         mb={3}
       >
-        <Typography  
+        <Typography
           variant="h6"
           sx={{ fontSize: { xs: "20px", md: "24px" }, fontWeight: "700" }}
         >
@@ -162,7 +163,6 @@ function Category(props) {
           Clear All
         </Button>
       </Box>
-
       <Box style={sidebarStyles.borderBoxSide}>
         {/* Categories Filter */}
         <Box mb={2}>
@@ -183,7 +183,6 @@ function Category(props) {
               )}
             </Button>
           </Box>
-
           <Collapse in={categoriesOpen}>
             <FormGroup>
               {topCategories.map((category) => (
@@ -212,9 +211,11 @@ function Category(props) {
                         whiteSpace: "nowrap",
                       }}
                     />
+                    {/* Showing the arrow down icon for the nested categories */}
                     {getSubcategories(category.id).length > 0 && (
                       <IconButton
                         size="small"
+                        sx={{ ml: 0 }} 
                         onClick={() => toggleCategory(category.id)}
                       >
                         {expandedCategories[category.id] ? (
@@ -226,37 +227,6 @@ function Category(props) {
                     )}
                   </Box>
                   {/* Subcategories */}
-                  <Collapse in={expandedCategories[category.id]}>
-                    <Box sx={{ pl: 3 }}>
-                      {getSubcategories(category.id).map((subCategory) => (
-                        <FormControlLabel
-                          key={subCategory.id}
-                          control={
-                            <Checkbox
-                              checked={selectedCategories.includes(
-                                subCategory.id
-                              )}
-                              onChange={(e) =>
-                                setSelectedCategories(
-                                  e.target.checked
-                                    ? [...selectedCategories, subCategory.id]
-                                    : selectedCategories.filter(
-                                        (id) => id !== subCategory.id
-                                      )
-                                )
-                              }
-                            />
-                          }
-                          label={subCategory.name}
-                          sx={{
-                            textTransform: "capitalize",
-                            display: "block",
-                          }}
-                        />
-                      ))}
-                    </Box>
-                  </Collapse>
-                  {/* getGrandSubcategories */}
                   {/* <Collapse in={expandedCategories[category.id]}>
                     <Box sx={{ pl: 3 }}>
                       {getSubcategories(category.id).map((subCategory) => (
@@ -287,6 +257,116 @@ function Category(props) {
                       ))}
                     </Box>
                   </Collapse> */}
+                  {/* Getting Nested Subcategories */}
+                  <Collapse in={expandedCategories[category.id]}>
+                    {/* categories */}
+                    <Box sx={{ pl: 1 }}>
+                      {getSubcategories(category.id).map((subCategory) => (
+                        <Box key={subCategory.id}>
+                          {/* Subcategory Checkbox */}
+                          <Box sx={{ display: "flex", alignItems: "center" }}>
+                            <FormControlLabel
+                              control={
+                                <Checkbox
+                                  checked={selectedCategories.includes(
+                                    subCategory.id
+                                  )}
+                                  onChange={(e) =>
+                                    setSelectedCategories(
+                                      e.target.checked
+                                        ? [
+                                            ...selectedCategories,
+                                            subCategory.id,
+                                          ]
+                                        : selectedCategories.filter(
+                                            (id) => id !== subCategory.id
+                                          )
+                                    )
+                                  }
+                                />
+                              }
+                              label={subCategory.name}
+                              sx={{
+                                textTransform: "capitalize",
+                                flex: 1,
+                                whiteSpace: "nowrap",
+                              }}
+                              />
+                              {getGrandSubCategories(subCategory.id).length >
+                              0 && (
+                                <IconButton
+                                  size="small"
+                                  sx={{ ml: 0 }} 
+                                  onClick={() => toggleCategory(subCategory.id)}
+                                >
+                                  {expandedCategories[subCategory.id] ? (
+                                    <ExpandLessSharpIcon fontSize="small" />
+                                  ) : (
+                                    <ExpandMoreSharpIcon fontSize="small" />
+                                  )}
+                                </IconButton> 
+                              )}
+                            </Box>
+                            {/* Display Grand-Subcategories if any */}
+                            {getGrandSubCategories(subCategory.id).length >
+                              0 && (
+                              <>
+                                {/* <IconButton
+                                  size="small"
+                                  sx={{ ml: 0 }} 
+                                  onClick={() => toggleCategory(subCategory.id)}
+                                >
+                                  {expandedCategories[subCategory.id] ? (
+                                    <ExpandLessSharpIcon fontSize="small" />
+                                  ) : (
+                                    <ExpandMoreSharpIcon fontSize="small" />
+                                  )}
+                                </IconButton>  */}
+                                <Collapse
+                                  in={expandedCategories[subCategory.id]}
+                                >
+                                  <Box sx={{ pl: 1 }}>
+                                    {getGrandSubCategories(subCategory.id).map(
+                                      (grandSub) => (
+                                        <FormControlLabel
+                                          key={grandSub.id}
+                                          control={
+                                            <Checkbox
+                                              checked={selectedCategories.includes(
+                                                grandSub.id
+                                              )}
+                                              onChange={(e) =>
+                                                setSelectedCategories(
+                                                  e.target.checked
+                                                    ? [
+                                                        ...selectedCategories,
+                                                        grandSub.id,
+                                                      ]
+                                                    : selectedCategories.filter(
+                                                        (id) =>
+                                                          id !== grandSub.id
+                                                      )
+                                                )
+                                              }
+                                            />
+                                          }
+                                          label={grandSub.name}
+                                          sx={{
+                                            textTransform: "capitalize",
+                                            display: "block",
+                                          }}
+                                        />
+                                      )
+                                    )}
+                                  </Box>
+                                </Collapse>
+                              </>
+                            )}
+                          </Box>
+                        // </Box>
+                      ))}
+                    </Box>
+                  </Collapse>
                   {/* ////////// */}
                 </Box>
               ))}
