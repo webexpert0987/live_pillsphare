@@ -396,9 +396,6 @@ const MainHeader = () => {
           return {
             title: item.name,
             link: `/subcategory/${item.slug}`,
-            //////
-
-            //////
           };
         }),
       })),
@@ -830,10 +827,8 @@ const MainHeader = () => {
         })}
       </Menu> */}
       <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
-  {topCategories.map((category) => {
-    const subcategories = getSubcategories(category.id);
-    
-
+       {topCategories.map((category) => {
+       const subcategories = getSubcategories(category.id);
     return (
       <div key={category.id}>
         <MenuItem

@@ -20,13 +20,15 @@ const Carousel = () => {
     {
       id: 2,
       // text: "The website is currently under construction and is live only for the Gphc to review the application for new premises.",
-      img: "/images/banners/banner2.png",
+      // img: "/images/banners/banner2.png",
+      img: "/images/banners/banner3.png",
       link: "/shop",
     },
     {
       id: 3,
       // text: "The website is currently under construction and is live only for the Gphc to review the application for new premises.",
-      img: "/images/banners/banner3.png",
+      // img: "/images/banners/banner3.png",
+      img: "/images/banners/banner2.png",
       link: "/online-clinic/weight-loss",
     },
     {
@@ -56,17 +58,19 @@ const Carousel = () => {
             position={"relative"}
             sx={{ cursor: "pointer" }}
           >
-            <Box>
+            <Box
+                 className="carouselBgImgBox">
               <img
                 src={slide.img}
                 alt={slide.text}
-                style={{
-                  width: "100%",
-                  minHeight: "280px",
-                  height: "auto",
-                  minWidth: "950px",
-                  maxWWidth: "100%",
-                }}
+                className="carouselBgImg"
+                // style={{
+                  // width: "100%",
+                  // minHeight: "280px",
+                  // height: "auto",
+                  // minWidth: "950px",
+                  // maxWWidth: "100%",
+                // }}
                 onClick={(e) => {
                   e.preventDefault();
                   e.stopPropagation();

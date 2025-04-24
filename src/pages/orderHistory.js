@@ -23,6 +23,7 @@ import {
 import { rateProduct } from "../apis/apisList/orderApi";
 import { toast } from "react-toastify";
 import { useMessage } from "../Context/MessageContext";
+import SingleOrderHistory from "../components/SingleOrderHistory";
 const OrderHistory = () => {
   const [orders, setOrders] = useState([]); // State to hold the orders data
   const [loading, setLoading] = useState(true); // State for loading indicator
@@ -194,8 +195,9 @@ const OrderHistory = () => {
               </TableHead>
               <TableBody>
                 {order.line_items.map((item, index) => (
-                  <>
-                    <TableRow key={index} sx={{ borderTop: "0", marginTop: 0 }}>
+                  <div key={index}>
+                  <SingleOrderHistory item={item} order={order} ratingProductID={ratingProductID} setRatingProductID={setRatingProductID} open={open} setOpen={setOpen} />
+                    {/* <TableRow key={index} sx={{ borderTop: "0", marginTop: 0 }}>
                       <TableCell>
                         <div
                           style={{
@@ -245,13 +247,11 @@ const OrderHistory = () => {
                       <TableCell>
                         £{Number(item.subtotal).toFixed(2)}
                       </TableCell>{" "}
-                      {/* Convert to number */}
                       <TableCell>
                         £{Number(item.total).toFixed(2)}
                       </TableCell>{" "}
-                      {/* Convert to number */}
-                    </TableRow>
-                  </>
+                    </TableRow> */}
+                  </div>
                 ))}
 
                 <Dialog
