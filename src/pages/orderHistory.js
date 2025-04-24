@@ -17,13 +17,17 @@ import {
   DialogContent,
   DialogActions,
   Rating,
+  Snackbar,
+  Alert,
 } from "@mui/material";
 import { rateProduct } from "../apis/apisList/orderApi";
-
+import { toast } from "react-toastify";
+import { useMessage } from "../Context/MessageContext";
 const OrderHistory = () => {
   const [orders, setOrders] = useState([]); // State to hold the orders data
   const [loading, setLoading] = useState(true); // State for loading indicator
   const [error, setError] = useState(null); // State for error handling
+  const [success, setSuccess] = useState(null); // State for error handling
   const [open, setOpen] = useState(false); // State for dialog handling
   const [rating, setRating] = useState(0); // State for rating handling
   const [comment, setComment] = useState(""); // State for comment handling
@@ -33,13 +37,11 @@ const OrderHistory = () => {
   const storedUser = JSON.parse(localStorage.getItem("user"));
   const userId = storedUser ? storedUser.user_id : null;
 
+  const {showMessage}=useMessage()
+
   const handleSubmit = async () => {
-    const hasText = /[a-zA-Z]/.test(comment);
-    if (!rating || comment.trim() === "") {
-      setRatingError("Please provide both a rating and a comment.");
-      return;
-    } else if (!hasText) {
-      setRatingError("Comment should have at least one character.");
+    if (!rating) {
+      setRatingError("Please provide rating.");
       return;
     }
     const userProductRatingDetails = {
@@ -49,26 +51,26 @@ const OrderHistory = () => {
       comment: comment.trim(),
     };
     try {
-      await rateProduct(userProductRatingDetails)
-      console.log('user rate',userProductRatingDetails);
+      await rateProduct(userProductRatingDetails);
+      console.log("user rate", userProductRatingDetails);
       setRating(0);
       setComment("");
       setOpen(false);
       setRatingError("");
-    } 
-    
-    catch (error) {
-      console.log('Some Error occured');
+      showMessage('Rating Successful', 'success');
+    } catch (error) {
+      // toast.error('Some toast error');
+      showMessage(error.response.data.message, 'error');
+      setOpen(false);
+      // setRatingError(error.response.data.message);
+      console.log(error.response.data.message);
     }
-   
   };
-
   // Fetch orders only if userId is available
   useEffect(() => {
     if (!userId) {
       return; // No need to fetch data if user is not logged in
     }
-
     const fetchOrdersData = async () => {
       try {
         const response = await fetch(
@@ -144,7 +146,21 @@ const OrderHistory = () => {
       >
         Order History
       </Typography>
-
+      {/* <Snackbar
+        open={success}
+        onClose={() => setSuccess(false)}
+        autoHideDuration={3000}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <Alert
+          onClose={() => setSuccess(false)}
+          severity="success"
+          variant="filled"
+          sx={{ width: "100%" }}
+        >
+         "Your review was submitted successfully!
+        </Alert>
+      </Snackbar> */}
       {orders.map((order) => (
         <Card
           key={order.order_id}
@@ -181,42 +197,48 @@ const OrderHistory = () => {
                   <>
                     <TableRow key={index} sx={{ borderTop: "0", marginTop: 0 }}>
                       <TableCell>
-                        <div style={{
-                          display:'flex',
-                          flexDirection:"column",
-                          gap:5
-                        }}>
-                          <span style={{
-                            flex:1
-                          }}>{item.product_name}</span>
-                          {order.order_status==='completed'&&
-                          <Button
-                            variant="contained"
-                            size="small"
-                            onClick={() => {
-                              setRatingProductID(item.product_id);
-                              setOpen(true);
-                            }}
-                            sx={{
-                              backgroundColor: "rgb(253, 100, 0)",
-                              color: "#fff",
-                              width: "130px",
-                              borderRadius: "20px",
-                              padding: "6px 9px",
-                              textTransform: "none",
-                              fontSize: "13px",
-                              fontWeight: "500",
-                              lineHeight: "1.75",
-                              margin: 0,
-                              "&:hover": {
-                                backgroundColor: "rgb(230, 90, 0)", // better hover color
-                                boxShadow: "none",
-                              },
+                        <div
+                          style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            gap: 5,
+                          }}
+                        >
+                          <span
+                            style={{
+                              flex: 1,
                             }}
                           >
-                            Write Review
-                          </Button>
-                           }
+                            {item.product_name}
+                          </span>
+                          {order.order_status === "completed" && (
+                            <Button
+                              variant="contained"
+                              size="small"
+                              onClick={() => {
+                                setRatingProductID(item.product_id);
+                                setOpen(true);
+                              }}
+                              sx={{
+                                backgroundColor: "rgb(253, 100, 0)",
+                                color: "#fff",
+                                width: "130px",
+                                borderRadius: "20px",
+                                padding: "6px 9px",
+                                textTransform: "none",
+                                fontSize: "13px",
+                                fontWeight: "500",
+                                lineHeight: "1.75",
+                                margin: 0,
+                                "&:hover": {
+                                  backgroundColor: "rgb(230, 90, 0)", // better hover color
+                                  boxShadow: "none",
+                                },
+                              }}
+                            >
+                              Write Review
+                            </Button>
+                          )}
                         </div>
                       </TableCell>
                       <TableCell>{item.quantity}</TableCell>
@@ -240,8 +262,9 @@ const OrderHistory = () => {
                   }}
                   PaperProps={{
                     sx: {
-                      boxShadow: "none",
-                      borderRadius: 2,
+                      // boxShadow: '0px 0px 2px rgba(0, 0, 0, 0.1)',
+                      boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.05)",
+                      borderRadius: 1,
                     },
                   }}
                 >

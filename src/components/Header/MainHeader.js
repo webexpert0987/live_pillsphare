@@ -181,6 +181,7 @@ const NestedList = ({ nestedListData, setOpenDrawer }) => {
           >
             <ListItemText
               primary={item.title}
+              // primary={'itemllist'}
               sx={{ textTransform: "capitalize" }}
             />
             {item?.subcategories?.length > 0 && (
@@ -235,7 +236,10 @@ const NestedList = ({ nestedListData, setOpenDrawer }) => {
                           sx={{ padding: "0px 60px" }}
                           onClick={() => handleNavigation(option.link)}
                         >
-                          <ListItemText primary={option.title}  sx={{ textTransform: "capitalize" }}/>
+                          <ListItemText
+                            primary={option.title}
+                            sx={{ textTransform: "capitalize" }}
+                          />
                         </ListItemButton>
                       ))}
                     </List>
@@ -266,6 +270,7 @@ const MainHeader = () => {
   const [openCartModel, setOpenCartModel] = useState(false);
   const [shopCategories, setShopCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedSubCategory, setSelectedSubCategory] = useState(null);
   const [onlineClinicAnchorEl, setOnlineClinicAnchorEl] = useState(null);
   const onlineClinicOpen = Boolean(onlineClinicAnchorEl);
   const location = useLocation(); // Get current route
@@ -302,7 +307,9 @@ const MainHeader = () => {
   const topCategories = shopCategories.filter((cat) => cat.parent === 0);
   const getSubcategories = (parentId) =>
     shopCategories.filter((cat) => cat.parent === parentId);
-
+  // Getting grand subcategories
+  const getGrandSubCategories = (subCategoryId) =>
+    (shopCategories || []).filter((cat) => cat?.parent === subCategoryId);
   const handleCategoryClick = (categoryId) => {
     setSelectedCategory(selectedCategory === categoryId ? null : categoryId);
   };
@@ -389,6 +396,9 @@ const MainHeader = () => {
           return {
             title: item.name,
             link: `/subcategory/${item.slug}`,
+            //////
+
+            //////
           };
         }),
       })),
@@ -481,8 +491,8 @@ const MainHeader = () => {
                         text === "Shop"
                           ? "/shop"
                           : text === "Online Clinic"
-                          ? "/online-clinic"
-                          : "/online-clinic/weight-loss"
+                            ? "/online-clinic"
+                            : "/online-clinic/weight-loss"
                       }
                       style={{ textDecoration: "none" }}
                     >
@@ -754,7 +764,7 @@ const MainHeader = () => {
       </Drawer>
       {/* <DrawerHeader /> */}
       {/* Dropdown Menu */}
-      <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
+      {/* <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
         {topCategories.map((category) => {
           const subcategories = getSubcategories(category.id);
 
@@ -782,6 +792,7 @@ const MainHeader = () => {
                   }}
                 >
                   {category.name}
+                  {/* {category.name} 
                 </Link>
                 {subcategories.length > 0 ? (
                   selectedCategory === category.id ? (
@@ -808,13 +819,117 @@ const MainHeader = () => {
                       }}
                     >
                       {sub.name}
+                  
                     </Link>
                   </MenuItem>
+                 
+                  // ////////
                 ))}
             </div>
           );
         })}
-      </Menu>
+      </Menu> */}
+      <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
+  {topCategories.map((category) => {
+    const subcategories = getSubcategories(category.id);
+    
+
+    return (
+      <div key={category.id}>
+        <MenuItem
+          onClick={() => {
+            handleCategoryClick(category.id);
+            if (
+              subcategories.length === 0 ||
+              selectedCategory === category.id
+            ) {
+              handleClose();
+            }
+          }}
+        >
+          <Link
+            to={`/category/${category.slug}`}
+            style={{
+              textDecoration: "none",
+              color: "inherit",
+              flex: 1,
+              textTransform: "capitalize",
+            }}
+          >
+            {category.name}
+          </Link>
+          {subcategories.length > 0 ? (
+            selectedCategory === category.id ? <ExpandLess /> : <ExpandMore />
+          ) : null}
+        </MenuItem>
+        {/* Render subcategories if this category is selected */}
+        {selectedCategory === category.id &&
+          subcategories.map((sub) => {
+            // const grandSubcategories = getSubcategories(sub.id);
+            const grandSubcategories = getGrandSubCategories(sub.id);
+
+            return (
+              <div key={sub.id}>
+                <MenuItem
+                  style={{ paddingLeft: 20 }}
+                  onClick={() => {
+                    if (grandSubcategories.length > 0) {
+                      setSelectedSubCategory((prev) =>
+                        prev === sub.id ? null : sub.id
+                      );
+                    } else {
+                      handleClose();
+                    }
+                  }}
+                >
+                  <Link
+                    to={`/category/${sub.slug}`}
+                    style={{
+                      textDecoration: "none",
+                      color: "inherit",
+                      textTransform: "capitalize",
+                      flex: 1,
+                    }}
+                  >
+                    {sub.name}
+                  </Link>
+
+                  {grandSubcategories.length > 0 ? (
+                    selectedSubCategory === sub.id ? (
+                      <ExpandLess />
+                    ) : (
+                      <ExpandMore />
+                    )
+                  ) : null}
+                </MenuItem>
+                {/* ✅ Render grand-subcategories if subcategory is toggled open */}
+                {selectedSubCategory === sub.id &&
+                  grandSubcategories.map((grand) => (
+                    <MenuItem
+                      key={grand.id}
+                      style={{ paddingLeft: 40 }}
+                      onClick={handleClose}
+                    >
+                      <Link
+                        to={`/category/${grand.slug}`}
+                        style={{
+                          textDecoration: "none",
+                          color: "inherit",
+                          textTransform: "capitalize",
+                        }}
+                      >
+                        {grand.name}
+                      </Link>
+                    </MenuItem>
+                  ))}
+              </div>
+            );
+          })}
+      </div>
+    );
+  })}
+</Menu>
+
       <Menu
         anchorEl={loginDrop}
         open={openLogin}
@@ -854,5 +969,4 @@ const MainHeader = () => {
     </Box>
   );
 };
-
 export default MainHeader;
