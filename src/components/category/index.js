@@ -445,18 +445,22 @@ export default function CategoryPage({ products }) {
   };
 
   useEffect(() => {
+    // console.log("useEffect running"); 
     const fetchCategories = async () => {
       const cachedCategories = localStorage.getItem("shopCategories");
       if (cachedCategories) {
         try {
           setShopCategories(JSON.parse(cachedCategories));
+          console.log('shop categories ',shopCategories);
           return;
         } catch {
+          // console.log('catch error section',shopCategories);
           localStorage.removeItem("shopCategories");
         }
       }
       const response = await getShopCategories();
       if (Array.isArray(response)) {
+        // console.log("Fetched new categories:", response);
         setShopCategories(response);
         localStorage.setItem("shopCategories", JSON.stringify(response));
       }

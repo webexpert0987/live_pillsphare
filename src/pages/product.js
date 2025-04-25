@@ -25,6 +25,7 @@ import ProductOverview from "../components/productPage/productOverview";
 import RelatedProduct from "../components/productPage/relatedProduct";
 import LoginRequiredPopup from "../components/loginRequiredPopup/LoginRequiredPopup";
 import BreadcrumbBar from "../components/Header/BreadcrumbBar";
+import ReviewDisplayPage from "../components/productPage/ReviewsDisplayPage"
 import {
   Dialog,
   DialogTitle,
@@ -62,7 +63,7 @@ const Product = () => {
 
   const [consultationLink, setConsultationLink] = useState("");
   const navigate = useNavigate();
-
+  
   useEffect(() => {
     const fetchProduct = async () => {
       try {
@@ -115,7 +116,7 @@ const Product = () => {
     // updateVariant(product, variantId);
   };
   const handleAddProduct = (product, selectedVariant) => {
-    const test = 0;
+    const test = 1;
     if (test == 0) {
       // Show the error message
       showMessage(
@@ -207,7 +208,7 @@ const Product = () => {
 
   useEffect(() => {
     if (!product) return;
-
+    // console.log('product detail',product);
     const { categories, product_type } = product;
     if (product_type === "Recommended Products Based on Consultation") {
       const QuestionForm = {
@@ -235,8 +236,8 @@ const Product = () => {
       }
     }
   }, [product]);
-
-  return (
+// console.log('ALl Products ', product);
+return (
     <>
       <BreadcrumbBar
         productName={product?.name}
@@ -574,6 +575,10 @@ const Product = () => {
         {/********* Product Overview **********/}
         <Box>
           <ProductOverview product={product} />
+        </Box>
+        {/********* Product Review Details Section **********/}
+        <Box>
+          <ReviewDisplayPage product={product} />
         </Box>
         {/********* Product Overview End **********/}
       </Container>

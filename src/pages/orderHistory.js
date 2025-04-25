@@ -193,67 +193,12 @@ const OrderHistory = () => {
                   </TableCell>
                 </TableRow>
               </TableHead>
-              <TableBody>
+              <TableBody >
                 {order.line_items.map((item, index) => (
-                  <div key={index}>
-                  <SingleOrderHistory item={item} order={order} ratingProductID={ratingProductID} setRatingProductID={setRatingProductID} open={open} setOpen={setOpen} />
-                    {/* <TableRow key={index} sx={{ borderTop: "0", marginTop: 0 }}>
-                      <TableCell>
-                        <div
-                          style={{
-                            display: "flex",
-                            flexDirection: "column",
-                            gap: 5,
-                          }}
-                        >
-                          <span
-                            style={{
-                              flex: 1,
-                            }}
-                          >
-                            {item.product_name}
-                          </span>
-                          {order.order_status === "completed" && (
-                            <Button
-                              variant="contained"
-                              size="small"
-                              onClick={() => {
-                                setRatingProductID(item.product_id);
-                                setOpen(true);
-                              }}
-                              sx={{
-                                backgroundColor: "rgb(253, 100, 0)",
-                                color: "#fff",
-                                width: "130px",
-                                borderRadius: "20px",
-                                padding: "6px 9px",
-                                textTransform: "none",
-                                fontSize: "13px",
-                                fontWeight: "500",
-                                lineHeight: "1.75",
-                                margin: 0,
-                                "&:hover": {
-                                  backgroundColor: "rgb(230, 90, 0)", // better hover color
-                                  boxShadow: "none",
-                                },
-                              }}
-                            >
-                              Write Review
-                            </Button>
-                          )}
-                        </div>
-                      </TableCell>
-                      <TableCell>{item.quantity}</TableCell>
-                      <TableCell>
-                        £{Number(item.subtotal).toFixed(2)}
-                      </TableCell>{" "}
-                      <TableCell>
-                        £{Number(item.total).toFixed(2)}
-                      </TableCell>{" "}
-                    </TableRow> */}
-                  </div>
+                  // <div key={index} style={{display:"flex",width:"100%"}}>
+                  <SingleOrderHistory index={index} item={item} order={order} ratingProductID={ratingProductID} setRatingProductID={setRatingProductID} open={open} setOpen={setOpen} />
+                  // </div>
                 ))}
-
                 <Dialog
                   open={open}
                   onClose={() => setOpen(false)}

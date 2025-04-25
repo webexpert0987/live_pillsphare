@@ -26,6 +26,7 @@ import { useMessage } from "../Context/MessageContext";
 import { reviewProductData } from "../apis/apisList/orderApi";
 
 const SingleOrderHistory = ({
+  index,
   item,
   order,
   ratingProductId,
@@ -43,14 +44,17 @@ const SingleOrderHistory = ({
         const response = await reviewProductData({
           userId,
           product_id: item.product_id,
+          // variation_id: item.variation_id,
         });
         console.log("rate data", response);
         const reviewsData = response?.reviews;
         if (reviewsData && reviewsData.length > 0) {
           // assuming one review per user-product pair
           const review = reviewsData[0];
+          console.log('Reviewww data ',reviewsData);
           setUserReview(review);
           console.log("Review by user:", review);
+          // console.log('other review product details ',reviewProductData[1]);
         } else {
           setUserReview(null);
           console.log("No review found");
@@ -66,29 +70,29 @@ const SingleOrderHistory = ({
     getData();
   }, [userId, ratingProductId]);
 
-  console.log("userReview",userReview)
-
+  console.log("userReview",userReview);
 //   if(order.order_status !== "completed"){
 //     return
 //   }
-
   return (
-    <TableRow sx={{ borderTop: "0", marginTop: 0 }}>
+    <TableRow key={index} sx={{ borderTop: "0",  }}>
       <TableCell>
-        <div
+        {/* <div
           style={{
             display: "flex",
             flexDirection: "column",
             gap: 5,
           }}
-        >
-          <span
+        > */}
+        <Box display="flex" flexDirection="column" gap={1}>
+
+          <Typography
             style={{
               flex: 1,
             }}
           >
             {item.product_name}
-          </span>
+          </Typography>
           {/* ////// */}
 
           {userReview ? (
@@ -102,7 +106,7 @@ const SingleOrderHistory = ({
             </Box>
           ) : (
               <Box>
-              {order.order_status === "pending" && (
+              {order.order_status === "completed" && (
                 <Button
                   variant="contained"
                   size="small"
@@ -113,17 +117,24 @@ const SingleOrderHistory = ({
                   sx={{
                     backgroundColor: "rgb(253, 100, 0)",
                     color: "#fff",
-                    width: "130px",
+                    width: "110px",
                     borderRadius: "20px",
-                    padding: "6px 9px",
+                    padding: "6px 8px",
                     textTransform: "none",
                     fontSize: "13px",
                     fontWeight: "500",
                     lineHeight: "1.75",
-                    margin: 0,
+                    margin:0,
+                    transform:"none",
+                    transition:"none",
+                    boxShadow: "none",
+                    outline: "none",
                     "&:hover": {
-                      backgroundColor: "rgb(230, 90, 0)", // better hover color
+                      backgroundColor: "rgb(253, 100, 0)", // better hover color
                       boxShadow: "none",
+                      outline: "none",
+                      textTransform:"none",
+                      transition:"none"
                     },
                   }}
                 >
@@ -133,12 +144,12 @@ const SingleOrderHistory = ({
               </Box>
             
           )}
-        </div>
+        </Box>
       </TableCell>
-      <TableCell>{item.quantity}</TableCell>
-      <TableCell>£{Number(item.subtotal).toFixed(2)}</TableCell>{" "}
+      <TableCell  sx={{ verticalAlign: "top" }}>{item.quantity}</TableCell>
+      <TableCell  sx={{ verticalAlign: "top" }}>£{Number(item.subtotal).toFixed(2)}</TableCell>{" "}
       {/* Convert to number */}
-      <TableCell>£{Number(item.total).toFixed(2)}</TableCell>{" "}
+      <TableCell  sx={{ verticalAlign: "top" }}>£{Number(item.total).toFixed(2)}</TableCell>{" "}
       {/* Convert to number */}
     </TableRow>
   );

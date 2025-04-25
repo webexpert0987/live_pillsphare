@@ -263,13 +263,13 @@ ul.infoList2 {
 @media (max-width: 600px) {
   .carouselBgImgBox{
     width: 100%;
-    min-height: 280px;
+    /* min-height: 280px; */
     height: auto;
   }
   .carouselBgImg {
     width: 100%;
-    min-height: 280px;
     height: auto;
+    object-fit: contain;
   }  
 }
 @media (min-width: 600px) {
@@ -286,7 +286,5 @@ ul.infoList2 {
   width: 100%;
   min-height: 280px;
   height: auto;
-
-  /* min-width: 950px; */
 }
 }
