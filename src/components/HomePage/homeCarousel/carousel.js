@@ -15,21 +15,19 @@ const Carousel = () => {
       id: 1,
       // text: "The website is currently under construction and is live only for the Gphc to review the application for new premises.",
       img: "/images/banners/banner1.png",
-      link: "/online-clinic",
+      link: "/shop",
     },
     {
       id: 2,
       // text: "The website is currently under construction and is live only for the Gphc to review the application for new premises.",
-      // img: "/images/banners/banner2.png",
       img: "/images/banners/banner3.png",
-      link: "/shop",
+      link: "/online-clinic/weight-loss",
     },
     {
       id: 3,
       // text: "The website is currently under construction and is live only for the Gphc to review the application for new premises.",
-      // img: "/images/banners/banner3.png",
       img: "/images/banners/banner2.png",
-      link: "/online-clinic/weight-loss",
+      link: "/heyfever",
     },
     {
       id: 4,
@@ -74,7 +72,7 @@ const Carousel = () => {
                 onClick={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
-                  // window.location.href = `${slide.link}`;
+                  window.location.href = `${slide.link}`;
                 }}
               />
             </Box>

@@ -9,10 +9,13 @@ import {
   AccordionDetails,
   useMediaQuery,
 } from "@mui/material";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import CardActionArea from "@mui/material/CardActionArea";
 import StarIcon from "@mui/icons-material/Star";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import axios from "axios";
-import theme from "../../Theme/theme"; // Make sure to import your theme if needed
+import theme from "../../Theme/theme";
 import { reviewProductData } from "../../apis/apisList/orderApi";
 import { rateProduct } from "../../apis/apisList/orderApi";
 
@@ -23,11 +26,11 @@ const ReviewsDisplayPage = ({ product }) => {
     console.log("Review displaying useeffect");
     const getData = async () => {
       try {
-        console.log("try block");
+        console.log("try block 01");
         const response = await reviewProductData({
           product_id: product.id,
         });
-        console.log("Full response from reviewProductData API:", response);
+        console.log("Full response from reviewProductData Api:", response);
         setReview(response.reviews || []);
       } catch (error) {
         console.error("Error fetching review:", {
@@ -73,7 +76,6 @@ const ReviewsDisplayPage = ({ product }) => {
         sx={{
           display: "flex",
           width: "100%",
-          height: "auto",
           flexDirection: "column",
           gap: 5,
           padding: "12px",
@@ -82,91 +84,106 @@ const ReviewsDisplayPage = ({ product }) => {
         {review && review.length > 0 ? (
           <Box
             sx={{
-              display: "flex",
+              display: "grid",
               width: "100%",
-              height: "auto",
               flexDirection: "column",
-              gap: 5,
-              padding: "12px",
+              gap: 3,
+              gridTemplateColumns: "repeat(3, 1fr)",
+              gridAutoRows: "auto",
+              overflowY: "auto",
+              "@media (max-width: 568px)": {
+                gridTemplateColumns: "repeat(2, 1fr)",
+              },
             }}
           >
             {review.map((reviewItem, index) => (
-              <Box
-                key={index}
-                sx={{ display: "flex", flexDirection: "column", gap: 2 }}
+              <Card
+                sx={{
+                  backgroundColor: "rgba(247, 247, 247, 0.97)",
+                  boxShadow: "none",
+                  border: "0.3px solid rgba(218, 218, 218, 0.7)",
+                  borderRadius: "4px",
+                  width: "85%",
+                  "@media (max-width: 568px)": {
+                    width: "100%"
+              },
+                }}
               >
-                 <Box style={{display:"flex",flexDirection:"row",gap: "20px"}}>
-                <Typography variant="subtitle1" style={{ display:"flex", flexDirection:"row", gap:"8px" , alignItems:"center",fontSize:"18px",fontWeight:"600",lineHeight:"1.7"}}>
-                   {/* <span style={{backgroundColor:"green",color: "white"}}>{reviewItem.rating}⭐</span>  */}
-                 Rating :  {reviewItem.rating}<StarIcon sx={{backgroundColor:"green", color: "white", fontSize: "1.3rem", borderRadius:"2px",padding:"1px",width :"20px",height:"22px"}} /> 
-                </Typography>
-                </Box>
-                <Typography variant="subtitle1" style={{fontSize:"18px",fontWeight:"600",lineHeight:"1.7"}}>
-                 Comment : <span style={{fontSize:"17px",color:"black", fontWeight: "500",lineHeight:"1.5"}}>{reviewItem.comment}</span>
-                </Typography>  
-                {/* <Box
-                  style={{ display: "flex", flexDirection: "row", gap: "20px" }}
-                >
-                  <Typography
-                    variant="subtitle1"
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                      gap: "10px",
-                      alignItems: "center",
-                      fontSize: "18px", // Keep the title size intact
-                      fontWeight: "600", // Keep the title weight intact
-                      lineHeight: "1.7",
-                      color: "black", // Set color to black
-                      marginLeft: "0", // Ensure equal start
-                    }}
-                  >
-                    Rating :
-                    <span
-                      style={{
-                        paddingLeft:"20px",
-                        fontSize: "14px", // Reduced font size for the dynamic rating value
-                        fontWeight: "400", // Reduced weight for the rating data
-                      }}
-                    >
-                      {reviewItem.rating}
-                    </span>
-                    <StarIcon
-                      sx={{
-                        backgroundColor: "green",
-                        color: "white",
-                        fontSize: "1.3rem",
-                        borderRadius: "2px",
-                        padding: "1px",
-                        width: "20px",
-                        height: "22px",
-                      }}
-                    />
-                  </Typography>
-                </Box> */}
-
-                {/* <Typography
-                  variant="subtitle1"
-                  style={{
-                    fontSize: "18px", // Keep the title size intact
-                    fontWeight: "600", // Keep the title weight intact
-                    lineHeight: "1.7",
-                    color: "black", // Set color to black
-                    marginLeft: "0", // Ensure equal start
+                <CardActionArea
+                  sx={{
+                    height: "100%",
+                    "&[data-active]": {
+                      backgroundColor: "none",
+                      "&:hover": {
+                        backgroundColor: "none",
+                      },
+                    },
                   }}
                 >
-                  Comment :
-                  <span
-                    style={{
-                      fontSize: "14px", // Reduced font size for the dynamic comment text
-                      fontWeight: "400", // Reduced weight for the comment text
-                      lineHeight: "1.7",
-                    }}
-                  >
-                    {reviewItem.comment}
-                  </span>
-                </Typography> */}
-              </Box>
+                  <CardContent sx={{ height: "100%" }}>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                      
+                      }}
+                    >
+                      <Typography
+                        variant="h3"
+                        component="div"
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          // gap: "5px",
+                          fontSize: "1.25rem",
+                          fontWeight: "500",
+                          lineHeight: "1.5",
+                          color: "rgb(51, 51, 51)",
+                        }}
+                      >
+                        Rating
+                      </Typography>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "5px",
+                        }}
+                      >
+                        <Typography variant="h3" component="div">
+                          {reviewItem.rating}
+                        </Typography>
+                        <StarIcon
+                          sx={{
+                            backgroundColor: "green",
+                            color: "white",
+                            fontSize: "1.2rem",
+                            borderRadius: "2px",
+                            padding: "1px",
+                            width: "18px",
+                            height: "18px",
+                          }}
+                        />
+                      </Box>
+                    </Box>
+                    <Typography
+                      variant="body2"
+                      color="text.secondary"
+                      sx={{
+                        marginTop: "2px",
+                        fontSize: "0.9rem",
+                        fontWeight: "400",
+                        lineHeight: "1.3",
+                        // marginRight:"7px",
+                        color: "rgb(51, 51, 51)",
+                      }}
+                    >
+                       {reviewItem.comment} 
+                    </Typography>
+                  </CardContent>
+                </CardActionArea>
+              </Card>
             ))}
           </Box>
         ) : (

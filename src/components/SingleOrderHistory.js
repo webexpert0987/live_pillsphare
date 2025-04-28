@@ -36,6 +36,7 @@ const SingleOrderHistory = ({
 }) => {
   const storedUser = JSON.parse(localStorage.getItem("user"));
   const userId = storedUser ? storedUser.user_id : null;
+console.log('user-id ',userId);
   const [userReview, setUserReview] = useState(null);
   useEffect(() => {
     const getData = async () => {
@@ -48,7 +49,7 @@ const SingleOrderHistory = ({
         });
         console.log("rate data", response);
         const reviewsData = response?.reviews;
-        if (reviewsData && reviewsData.length > 0) {
+        if (reviewsData && reviewsData.length > 0){
           // assuming one review per user-product pair
           const review = reviewsData[0];
           console.log('Reviewww data ',reviewsData);
@@ -68,9 +69,9 @@ const SingleOrderHistory = ({
       }
     };
     getData();
-  }, [userId, ratingProductId]);
+  }, [userId, userReview?.user_id, ratingProductId]);
 
-  console.log("userReview",userReview);
+  console.log("userReviews",userReview?.user_id,userId);
 //   if(order.order_status !== "completed"){
 //     return
 //   }
@@ -94,8 +95,8 @@ const SingleOrderHistory = ({
             {item.product_name}
           </Typography>
           {/* ////// */}
-
-          {userReview ? (
+          {/* {((userReview) && (userReview === userReview?.user_id))? ( */}
+          {userReview && userReview.user_id === userId? (
             <Box>
               <Typography variant="subtitle2">
                 Your Rating: {userReview.rating} ⭐
@@ -106,7 +107,7 @@ const SingleOrderHistory = ({
             </Box>
           ) : (
               <Box>
-              {order.order_status === "completed" && (
+              {(order.order_status === "completed") && (
                 <Button
                   variant="contained"
                   size="small"

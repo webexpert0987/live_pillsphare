@@ -36,7 +36,6 @@ import { TextField } from "@mui/material";
 
 const Product = () => {
   const { slug } = useParams();
-
   const { showMessage } = useMessage();
   const { addToCart, userDetails } = useApp();
   const [product, setProduct] = useState({});
@@ -116,7 +115,7 @@ const Product = () => {
     // updateVariant(product, variantId);
   };
   const handleAddProduct = (product, selectedVariant) => {
-    const test = 1;
+    const test = 0;
     if (test == 0) {
       // Show the error message
       showMessage(
@@ -532,8 +531,9 @@ return (
                   lineHeight: "1.5",
                 }}
               >
-                Order in the next <strong>00:35:06</strong> to get it tomorrow*
-                using Express 1-2 Days (Royal Mail Tracked 24)
+                {/* Order in the next <strong>00:35:06</strong> to get it tomorrow*
+                using Express 1-2 Days (Royal Mail Tracked 24) */}
+                Monday to Friday up to <strong>3pm</strong> it’s next day
               </Typography>
             </Box>
             {/******** 03. What out expert says ********/}
