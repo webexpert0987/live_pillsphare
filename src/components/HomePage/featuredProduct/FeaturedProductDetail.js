@@ -207,6 +207,7 @@ const OffersPage = () => {
     },
     resultNum: {
       fontSize: "16px",
+      lineHeight: "1.4",
       fontWeight: "700",
       color: "#333333",
     },
@@ -245,13 +246,27 @@ const OffersPage = () => {
 
           {/* Right Column */}
           <Box width="73%" style={shop3Grid.rightColParent}>
-            <Box
+            <Box 
               display="flex"
               justifyContent="space-between"
               alignItems="center"
               mb={3}
             >
-              <Typography style={shop3Grid.resultNum} variant="body1">
+              <Typography 
+               style={shop3Grid.resultNum}
+              //  sx={{
+              //   fontSize: {
+              //     xs: "14px",
+              //     md: "16px",
+              //   },
+              //   fontWeight: {
+              //     xs : "600",
+              //     md : "700",
+              //   },
+              //   lineHeight: 1.4,
+              //   color: "#333333",
+              // }}            
+               variant="body1">
                 Showing Results from featured products  {filteredProducts.length}
               </Typography>
               <Select

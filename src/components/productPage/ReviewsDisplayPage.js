@@ -45,7 +45,7 @@ const ReviewsDisplayPage = ({ product }) => {
       getData();
     }
   }, [product.id]);
-  console.log("reviews dataa", review);
+  console.log("reviews Data", review);
   return (
     <Box
       sx={{

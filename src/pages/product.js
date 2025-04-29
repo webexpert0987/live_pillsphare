@@ -25,7 +25,7 @@ import ProductOverview from "../components/productPage/productOverview";
 import RelatedProduct from "../components/productPage/relatedProduct";
 import LoginRequiredPopup from "../components/loginRequiredPopup/LoginRequiredPopup";
 import BreadcrumbBar from "../components/Header/BreadcrumbBar";
-import ReviewDisplayPage from "../components/productPage/ReviewsDisplayPage"
+import ReviewDisplayPage from "../components/productPage/ReviewsDisplayPage";
 import {
   Dialog,
   DialogTitle,
@@ -62,7 +62,7 @@ const Product = () => {
 
   const [consultationLink, setConsultationLink] = useState("");
   const navigate = useNavigate();
-  
+
   useEffect(() => {
     const fetchProduct = async () => {
       try {
@@ -115,7 +115,7 @@ const Product = () => {
     // updateVariant(product, variantId);
   };
   const handleAddProduct = (product, selectedVariant) => {
-    const test = 0;
+    const test = 1;
     if (test == 0) {
       // Show the error message
       showMessage(
@@ -235,8 +235,9 @@ const Product = () => {
       }
     }
   }, [product]);
-// console.log('ALl Products ', product);
-return (
+  // console.log('ALl Products ', product);
+  // console.log('Estimated delivery content : ',product.estimated_delivery,product.name);
+  return (
     <>
       <BreadcrumbBar
         productName={product?.name}
@@ -417,8 +418,8 @@ return (
                       product?.selectedVariantInfo
                         ? product?.selectedVariantInfo
                         : product?.variations.length
-                        ? product?.variations[0]
-                        : []
+                          ? product?.variations[0]
+                          : []
                     );
                   }}
                 >
@@ -531,9 +532,18 @@ return (
                   lineHeight: "1.5",
                 }}
               >
-                {/* Order in the next <strong>00:35:06</strong> to get it tomorrow*
-                using Express 1-2 Days (Royal Mail Tracked 24) */}
-                Monday to Friday up to <strong>3pm</strong> it’s next day
+                {product?.estimated_delivery ? (
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: product?.estimated_delivery,
+                    }}
+                  />
+                ) : (
+                  <div>
+                    Order in the next <strong>00:35:06</strong> to get
+                    it tomorrow* using Express 1-2 Days (Royal Mail Tracked 24)
+                  </div>
+                )}
               </Typography>
             </Box>
             {/******** 03. What out expert says ********/}

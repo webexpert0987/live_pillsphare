@@ -47,7 +47,7 @@ console.log('user-id ',userId);
           product_id: item.product_id,
           // variation_id: item.variation_id,
         });
-        console.log("rate data", response);
+        console.log("current rating data ", response);
         const reviewsData = response?.reviews;
         if (reviewsData && reviewsData.length > 0){
           // assuming one review per user-product pair
@@ -69,9 +69,10 @@ console.log('user-id ',userId);
       }
     };
     getData();
-  }, [userId, userReview?.user_id, ratingProductId]);
+  }, [userId, ratingProductId]);
 
   console.log("userReviews",userReview?.user_id,userId);
+// console.log("userReviews data",userReview);
 //   if(order.order_status !== "completed"){
 //     return
 //   }
@@ -95,8 +96,8 @@ console.log('user-id ',userId);
             {item.product_name}
           </Typography>
           {/* ////// */}
-          {/* {((userReview) && (userReview === userReview?.user_id))? ( */}
-          {userReview && userReview.user_id === userId? (
+          {/* {((userReview) && (userId === userReview?.user_id))? ( */}
+          {userReview && userReview?.user_id === userId ? (
             <Box>
               <Typography variant="subtitle2">
                 Your Rating: {userReview.rating} ⭐

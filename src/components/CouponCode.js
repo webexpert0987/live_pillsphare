@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { TextField, Button, Typography, Box } from "@mui/material";
 import { getCouponCodes } from "../apis/apisList/paymentApi";
+import { usedCoupons } from "../apis/apisList/paymentApi";
+import { useApp } from "../Context/AppContext";
 
 const CouponCode = ({
   cartTotal,
@@ -13,6 +15,20 @@ const CouponCode = ({
   const [discount, setDiscount] = useState(0);
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const {userDetails} = useApp()
+  //sending the coupon details to backend side through this couponUsed post api method..
+  const checkUsedCoupon = async () => {
+    try {
+      const response = await usedCoupons({
+        user_id: userDetails.user_id,
+        email:userDetails.email,
+        coupon_code:couponCode,
+      });
+      return response;
+    } catch (error) {
+     console.log('error message',error)
+    }
+  };
 
   const handleApplyCoupon = async () => {
     setError("");
@@ -24,15 +40,23 @@ const CouponCode = ({
         setError("No coupons available.");
         return;
       }
-      const validCoupon = coupons.find(
-        (coupon) => coupon.code.toLowerCase() === couponCode.toLowerCase()
-      );
-
+      // checking the coupon is valid means it exists on backend side or not ...
+      const validCoupon = coupons.find((coupon) => coupon.code === couponCode);
+      console.log('valid coupon', validCoupon);
       if (!validCoupon) {
         setError("Invalid coupon code.");
         return;
       }
 
+      const checkApplied = await checkUsedCoupon()
+      console.log('applied coupon',checkApplied);
+      // check whether the coupon code is already used earlier...
+      if (checkApplied?.orders_found) {
+        if(couponCode==='new2025'){
+          setError("Coupon is not applicable as it has been used earlier.");
+          return;
+        }
+      }
       // Check minimum amount condition
       if (
         validCoupon.minimum_amount &&

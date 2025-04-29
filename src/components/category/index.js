@@ -129,7 +129,7 @@ function Category(props) {
       if (newData && newData.parent) {
         setExpandedCategories({
           ...expandedCategories,
-          [newData.parent]: true,
+          [newData?.parent]: true,
         });
       }
     }
@@ -188,7 +188,7 @@ function Category(props) {
               {topCategories.map((category) => (
                 <Box key={category.id}>
                   {/* Main Category */}
-                  <Box sx={{ display: "flex", alignItems: "center" }}>
+                  <Box sx={{ display: "flex", alignItems: "center"}}>
                     <FormControlLabel
                       control={
                         <Checkbox
@@ -205,11 +205,25 @@ function Category(props) {
                         />
                       }
                       label={category.name}
+                      // sx={{
+                      //   textTransform: "capitalize",
+                      //   flex: 1,
+                      //   whiteSpace: "nowrap",
+                      // }}
                       sx={{
-                        textTransform: "capitalize",
                         flex: 1,
-                        whiteSpace: "nowrap",
-                      }}
+                        "& .MuiFormControlLabel-label": {
+                          textTransform: "capitalize",
+                          whiteSpace: {
+                            xs: "wrap",
+                            sm: "nowrap",
+                          },
+                          fontSize: {
+                            xs: "14px",
+                            sm: "unset", 
+                          },
+                        },
+                      }}                    
                     />
                     {/* Showing the arrow down icon for the nested categories */}
                     {getSubcategories(category.id).length > 0 && (
@@ -260,12 +274,13 @@ function Category(props) {
                   {/* Getting Nested Subcategories */}
                   <Collapse in={expandedCategories[category.id]}>
                     {/* categories */}
-                    <Box sx={{ pl: 1 }}>
+                    <Box sx={{ pl: 1,}}>
                       {getSubcategories(category.id).map((subCategory) => (
                         <Box key={subCategory.id}>
                           {/* Subcategory Checkbox */}
-                          <Box sx={{ display: "flex", alignItems: "center" }}>
+                          <Box sx={{ display: "flex", alignItems: "center"}}>
                             <FormControlLabel
+                            ////////
                               control={
                                 <Checkbox
                                   checked={selectedCategories.includes(
