@@ -7,12 +7,14 @@ import {
   IconButton,
   Container,
   Divider,
+  autocompleteClasses,
 } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import { Link } from "react-router-dom";
 import { useMessage } from "../../Context/MessageContext";
 import { subscribeNewsLetter } from "../../apis/apisList/userApi";
-
+import FooterLogoImg from "../../pages/images/Info-Images/PillSPhereICOImg.jpg";
+import FooterNpaLogoImg from "../../pages/images/Info-Images/NPA-logo-big-footer.jpg";
 const onlineClinicItems = [
   { id: 1, name: "Weight Loss", link: "/online-clinic/weight-loss" },
   { id: 2, name: "Acid Reflux", link: "/online-clinic/acid-reflux" },
@@ -578,7 +580,7 @@ export default function Footer() {
               >
                 Pill Sphere Limited:{" "}
                 <a
-                  href="https://www.pharmacyregulation.org/registers/pharmacist/2213569"
+                  href=" https://find-and-update.company-information.service.gov.uk/company/16158942"
                   target="_blank"
                 >
                   16158942
@@ -623,10 +625,19 @@ export default function Footer() {
           <Box
             display="flex"
             justifyContent="left"
+            marginRight="50px"
+            width="auto"
+            height="auto"
             gap={1}
-            marginTop={{ xs: 2, md: 1 }}
+            marginTop={{ xs: 2, md: 0 }}
           >
+            {/* <a href="https://www.facebook.com/pillsphere" target="_blank">
+              <img src={FooterLogoImg} alt="img_logo" style={{width:"100%",height:"100%",padding:"4px",borderRadius:"6px"}}/>
+            </a>
             <a href="https://www.facebook.com/pillsphere" target="_blank">
+              <img src={FooterNpaLogoImg} alt="img_logo" style={{width:"100%",height:"100%",padding:"4px",borderRadius:"6px"}}/>
+            </a> */}
+            {/* <a href="https://www.facebook.com/pillsphere" target="_blank">
               <img src="/images/social/fb.png" alt="facebook" />
             </a>
             <a href="https://www.x.com/pillsphere" target="_blank">
@@ -637,6 +648,33 @@ export default function Footer() {
             </a>
             <a href="https://www.linkdin.com/pillsphere" target="_blank">
               <img src="/images/social/linkedin.png" alt="linkedin" />
+            </a> */}
+
+            <a href="https://www.facebook.com/pillsphere" target="_blank">
+              <img
+                src={FooterLogoImg}
+                alt="footer_img_logo"
+                style={{
+                  // width: "130px", 
+                  height: "55px", 
+                  objectFit: "cover",
+                  padding: "4px",
+                  borderRadius: "6px",
+                }}
+              />
+            </a>
+            <a href="https://www.facebook.com/pillsphere" target="_blank">
+              <img
+                src={FooterNpaLogoImg}
+                alt="footer_img_logo"
+                style={{
+                  // width: "130px",  
+                  height: "55px", 
+                  objectFit: "cover", 
+                  padding: "4px",
+                  borderRadius: "6px",
+                }}
+              />
             </a>
           </Box>
         </Box>

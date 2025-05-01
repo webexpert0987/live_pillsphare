@@ -69,7 +69,7 @@ function ErectileDysfunctionQuestionnaire() {
   };
   
   const isValidSelection =
-    ( (questionnaireResponses.conditions.length == 0));
+    ( (questionnaireResponses.takesOtherMedications=="Yes" && questionnaireResponses.conditions.length == 0));
    
   const handleNext = () => {
     const qaData = JSON.parse(
@@ -140,6 +140,8 @@ function ErectileDysfunctionQuestionnaire() {
         }
       }
       if (isValidSelection) {
+        console.log('isvalidsection ',isValidSelection);
+        console.log('responses ',questionnaireResponses);
         showMessage(
           "Please provide complete details and fill all the necessary section",
           "error"

@@ -42,63 +42,32 @@ function Blog() {
   // const { setSearchBlogValue } = useApp();
   const navigate = useNavigate();
   const location = useLocation();
-  // searching the blogs conditionally
-  // const searchBlogs = (search) => {
-  //   const query = search.trim().toLowerCase();
-  //   console.log("Search query:", query);
-
-  //   if (!query) {
-  //     setPosts(allPosts);
-  //     console.log("No query entered, showing all posts:", allPosts);
-  //     return;
-  //   }
-
-  //   const filteredBlogs = allPosts.filter(
-  //     (post) =>
-  //       post.title.toLowerCase().includes(query) ||
-  //       post.content.toLowerCase().includes(query)
-  //   );
-
-  //   if (filteredBlogs.length === 0) {
-  //     console.log("No matching posts found");
-  //   } else {
-  //     console.log("Matching posts:", filteredBlogs);
-  //   }
-
-  //   setPosts(filteredBlogs);
-  // };
   const searchBlogs = (search) => {
-    // Normalize input: lowercase, trim, collapse all whitespace into single spaces
     const query = search.trim().toLowerCase().replace(/\s+/g, " ");
-    console.log("Normalized search query:", query);
-  
+    // console.log("Normalized search query:", query);
     if (!query) {
       setPosts(allPosts);
-      console.log("No query entered, showing all posts:", allPosts);
+      // console.log("No query entered, showing all posts:", allPosts);
       return;
     }
-  
-    const keywords = query.split(" "); // split into array of words
-  
-    const filteredBlogs = allPosts.filter((post) => {
+      const keywords = query.split(" ");
+      const filteredBlogs = allPosts.filter((post) => {
       const title = post.title.toLowerCase();
       const content = post.content.toLowerCase();
-  
+
       // Match only if all keywords are present in title or content
       return keywords.every(
         (word) => title.includes(word) || content.includes(word)
       );
     });
-  
+
     if (filteredBlogs.length === 0) {
       console.log("No matching posts found");
     } else {
       console.log("Matching posts:", filteredBlogs);
     }
-  
     setPosts(filteredBlogs);
   };
-  
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -144,7 +113,10 @@ function Blog() {
       <Box
         sx={{
           padding: { xs: "30px 0", sm: "50px 0", md: "80px 0" },
+          // backgroundColor: "#f7f9fc",
           backgroundColor: "#f7f9fc",
+          // width:"75%",
+          // height:"auto"
         }}
       >
         <Box>
@@ -196,9 +168,8 @@ function Blog() {
                             value={searchQuery}
                             onChange={(e) => {
                               setSearchQuery(e.target.value);
-                              handleSearch();
                             }}
-                            onKeyress={(e) =>
+                            onKeyPress={(e) =>
                               e.key === "Enter" && handleSearch()
                             }
                             sx={{

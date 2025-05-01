@@ -322,6 +322,8 @@ function CheckoutForm() {
                   answers: answers || null,
                   category: data.category || "",
                   bmiData: data.bmiData || null,
+                  photoId: data.answers?.photoId || null,
+                  bodyPhoto: data.answers?.bodyPhoto || null,
                 };
               }
 
@@ -375,7 +377,7 @@ function CheckoutForm() {
                   phone: billingDetails.billing_address.phone,
                 },
                 ip: IP_ADDRESS,
-                consultation: 1,
+                consultation: JSON.stringify(questionAnswers_data),
                 amount: cartTotal,
                 actual_amount: calculateTotal(),
                 appliedCoupon: appliedCoupon || null,

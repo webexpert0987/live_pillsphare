@@ -11,6 +11,7 @@ import {
   Box,
   IconButton,
   TextField,
+  styled,
 } from "@mui/material";
 import { useApp } from "../../Context/AppContext";
 import { getProductByCategory } from "../../apis/apisList/productApi";
@@ -25,7 +26,8 @@ const ProductCard = ({
   products,
 }) => {
   const [quantity, setQuantity] = useState(1); // Default quantity
-
+  // const [productsExist, setProductsExist] = useState(true);
+  // const [msg, setMsg] = useState("");
   const handleQuantity = (e) => {
     let value = Number(e.target.value);
     if (value < 1 || isNaN(value)) {
@@ -41,10 +43,16 @@ const ProductCard = ({
       setProducts((prevProducts) =>
         prevProducts.map((p) => (p.id === product.id ? filterProduct : p))
       );
+      // setProductsExist(true);
+      // setMsg("");
     }
-
+    //  else {
+    //   setProductsExist(false);
+    //   setMsg("Product does not exists");
+    // }
     // setProducts(updatedProducts);
   };
+  // console.log('msgs',msg);
   return (
     <Card
       sx={{
@@ -375,7 +383,7 @@ const TreatmentRecommendation = () => {
         our team will recommend the treatment which is most suitable for you.
       </Typography>
 
-      <Grid2 container spacing={{ xs: 1, sm: 3, md: 4 }} mt={4}>
+      {/* <Grid2 container spacing={{ xs: 1, sm: 3, md: 4 }} mt={4}>
         {products.slice(0, visibleProducts).map((product, index) => (
           <Grid2 size={{ xs: 6, sm: 6, md: 6 }} key={index}>
             <ProductCard
@@ -387,6 +395,33 @@ const TreatmentRecommendation = () => {
             />
           </Grid2>
         ))}
+      </Grid2> */}
+      <Grid2 container spacing={{ xs: 1, sm: 3, md: 4 }} mt={4}>
+        {products.length === 0 ? (
+          <Grid2
+            xs={12}
+            container
+            justifyContent="center"
+            alignItems="center"
+            sx={{ minHeight: "200px", width:"100%",display: "flex" }}
+          >
+            <Typography color="error" sx={{ textAlign: "center" }}>
+              No recommended products found in this category.
+            </Typography>
+          </Grid2>
+        ) : (
+          products.slice(0, visibleProducts).map((product, index) => (
+            <Grid2 size={{ xs: 6, sm: 6, md: 6 }} key={index}>
+              <ProductCard
+                product={product}
+                handleSubmit={handleSubmit}
+                handleVariantSelect={handleVariantSelect}
+                products={products}
+                setProducts={setProducts}
+              />
+            </Grid2>
+          ))
+        )}
       </Grid2>
 
       {visibleProducts < products.length && (
