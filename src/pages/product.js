@@ -387,8 +387,16 @@ const Product = () => {
                     onChange={handleQuantity}
                     type="number"
                     variant="outlined"
-                    sx={{ maxWidth: "100px" }}
+                    sx={{ maxWidth: "100px"}}
                     inputProps={{ min: 1, max: 10 }}
+                    InputProps={{
+                      sx: {
+                        height: "40px", 
+                        width:"95px",
+                        // padding: "2 8px", 
+                      },
+                    }}
+                  
                   />
                 </Box>
               )}
@@ -473,7 +481,7 @@ const Product = () => {
               >
                 Delivery Options
               </Typography>
-              <Stack direction={"row"} alignItems={"center"} gap={2} my={1.8}>
+              <Stack direction={"row"} alignItems={"center"} gap={1} my={1.8}>
                 <Box>
                   <Icon
                     icon="material-symbols:circle"

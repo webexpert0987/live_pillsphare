@@ -59,7 +59,7 @@ const HowItWorksSection = () => {
                 {/* <Button variant="contained" sx={{ mt: 4, backgroundColor: 'tertiary.main', borderRadius: '20px' }}>
                     Read More <Icon icon="solar:arrow-right-broken" color="#fff" width="22" height="22" />
                 </Button> */}
-                <CustomButton style={HowItWorks.Btn} bgColor={"tertiary.main"} txColor={"#fff"} text='Start Your Consultation Today'/>
+                <CustomButton  style={HowItWorks.Btn} bgColor={"tertiary.main"} txColor={"#fff"} text='Start Your Consultation Today'/>
             </Container>
         </Box>
   );

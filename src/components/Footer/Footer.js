@@ -576,7 +576,13 @@ export default function Footer() {
                   fontWeight: "500",
                 }}
               >
-                Pill Sphere Limited: 16158942
+                Pill Sphere Limited:{" "}
+                <a
+                  href="https://www.pharmacyregulation.org/registers/pharmacist/2213569"
+                  target="_blank"
+                >
+                  16158942
+                </a>
               </Typography>
             </Grid>
           </Grid>

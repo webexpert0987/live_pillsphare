@@ -119,7 +119,7 @@ const OnlineClinicHero = ({
           </Box>*/}
 
           {/* Two Buttons */}
-          <Box mt={4} display="flex" gap={2}>
+          {/* <Box mt={4} display="flex" gap={2}>
             <Button style={heroShop.primaryBtn} variant="contained">
               {button1Text}{" "}
               <svg
@@ -139,7 +139,7 @@ const OnlineClinicHero = ({
                 />
               </svg>
             </Button>
-          </Box>
+          </Box> */}
         </Box>
       </Container>
     </Box>

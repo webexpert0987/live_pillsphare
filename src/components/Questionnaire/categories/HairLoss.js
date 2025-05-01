@@ -54,18 +54,17 @@ function HairLossQuestionnaire() {
         const offset = 300; // Change this value as needed
         window.scrollTo({
           top: absoluteElementTop - offset,
-          behavior: "smooth",
+          // behavior: "auto",
         });
       }
-    }, 100);
+    },0);
   };
-
+//  console.log('currentscroling ',handleScroll,handleScroll);
   const goToNextStep = () => {
     const qaData = JSON.parse(
       localStorage.getItem("questionnaire_info") || "{}"
     );
     const { bmiData } = qaData;
-
     if (currentStep === 0) {
       const requiredFields = [
         "isAgedBetween17And74",
@@ -120,13 +119,15 @@ function HairLossQuestionnaire() {
         }
       }
 
-      if(questionnaireResponses.isTakingAnyMedication ==='Yes'){
-        if(!questionnaireResponses.isTakingSpecificMedications){
-          showMessage("Please provide contraception usage details to proceed","error")
-          return
+      if (questionnaireResponses.isTakingAnyMedication === "Yes") {
+        if (!questionnaireResponses.isTakingSpecificMedications) {
+          showMessage(
+            "Please provide contraception usage details to proceed",
+            "error"
+          );
+          return;
         }
       }
-
     } else if (currentStep === 1) {
       const requiredAgreements = ["agreesToTermsAndConditions"];
 
@@ -143,10 +144,13 @@ function HairLossQuestionnaire() {
 
     setCurrentStep((prevStep) => prevStep + 1);
     handleScroll();
+    // setTimeout(() => handleScroll(), 100);
   };
   const goToPreviousStep = () => {
     setCurrentStep((prevStep) => prevStep - 1);
     handleScroll();
+    // setTimeout(() => handleScroll(), 100);
+
   };
 
   const handleChange = (e, condition) => {

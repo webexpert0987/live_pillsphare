@@ -69,10 +69,10 @@ function HighFeverQuestion() {
         const offset = 300; // Change this value as needed
         window.scrollTo({
           top: absoluteElementTop - offset,
-          behavior: "smooth",
+          // behavior: "smooth",
         });
       }
-    }, 100);
+    }, 0);
   };
 
   const isValidSelection = answers.conditions1.length === 0;

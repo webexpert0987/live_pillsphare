@@ -16,10 +16,12 @@ export const AppProvider = ({ children }) => {
   const { showMessage } = useMessage();
   const [selectedTab, setSelectedTab] = useState(0);
   const [filteredProducts, setFilteredProducts] = useState([]);
+  const [filteredBlogs, setFilteredBlogs] = useState([]);
   const [sortOption, setSortOption] = useState("relevance");
   const [qaCart, setQaCart] = useState([]);
   const [questionData, setQuestionData] = useState({});
   const [searchValue, setSearchValue] = useState("");
+  const [searchBlogValue, setSearchBlogValue] = useState("");
 
   const fetchCart = async (user) => {
     try {
@@ -288,7 +290,27 @@ export const AppProvider = ({ children }) => {
       return;
     }
   };
+// searching blogs and blog data  
 
+// const searchBlogs = (blogs) => {
+//   const search = searchBlogValue.trim();
+//   if (!search) {
+//     setFilteredBlogs(blogs);
+//     return;
+//   }
+//   const filteredBlogs = blogs.filter((blog) =>
+//     blog?.name?.toLowerCase().includes(search.toLowerCase())
+//   );
+//   if (filteredBlogs.length === 0) {
+//     setFilteredBlogs([]);
+//     return;
+//   } else {
+//     setFilteredBlogs(filteredBlogs);
+//     return;
+//   }
+// };
+
+// ---------
   return (
     <AppContext.Provider
       value={{
@@ -321,6 +343,11 @@ export const AppProvider = ({ children }) => {
         setSearchValue,
         searchProducts,
         setUserDetails,
+        // searchBlogValue,
+        // filteredBlogs,
+        // setFilteredBlogs,
+        // setSearchBlogValue,
+        // searchBlogs,
       }}
     >
       {children}

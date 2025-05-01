@@ -55,10 +55,10 @@ function AcidRefluxQuestion() {
         const offset = 300; // Change this value as needed
         window.scrollTo({
           top: absoluteElementTop - offset,
-          behavior: "smooth",
+          // behavior: "auto",
         });
       }
-    }, 100);
+    }, 0);
   };
 
   const handleNext = () => {

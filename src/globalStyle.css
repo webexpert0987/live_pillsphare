@@ -287,3 +287,8 @@ ul.infoList2 {
     object-fit: contain;
     overflow: hidden;
   }   
+/* @media (min-width:1080px) and (max-width:1300px) {
+  .categoriesTitleIconBox{
+   max-width: 260px;
+  }
+} */
