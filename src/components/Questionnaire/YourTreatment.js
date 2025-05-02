@@ -339,6 +339,7 @@ const TreatmentRecommendation = () => {
       async function getProducts() {
         try {
           const response = await getProductByCategory(category);
+          // console.log('product response ',response);
           const result = response.map((product) => ({
             ...product,
             selectedVariant: product.variations[0],
@@ -352,7 +353,7 @@ const TreatmentRecommendation = () => {
       getProducts();
     }
   }, []);
-
+//  console.log('categoroy...', category);
   return (
     <Box>
       <Typography
@@ -405,8 +406,8 @@ const TreatmentRecommendation = () => {
             alignItems="center"
             sx={{ minHeight: "200px", width:"100%",display: "flex" }}
           >
-            <Typography color="error" sx={{ textAlign: "center" }}>
-              No recommended products found in this category.
+            <Typography color="rgb(139, 57, 57)" sx={{ textAlign: "center",fontSize:"18px",fontWeight:"600",lineHeight:"1.2" }}>
+              No recommended products found in this {category} category.
             </Typography>
           </Grid2>
         ) : (

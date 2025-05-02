@@ -26,6 +26,7 @@ import { useParams } from "react-router-dom";
 
 const sidebarStyles = {
   borderBoxSide: {
+    // width: "70%",
     border: "1px solid #F3F3F3",
     padding: "18px",
     borderRadius: "10px",
@@ -158,10 +159,19 @@ function Category(props) {
           size="small"
           onClick={clearFilters}
         >
-          Clear All
+          Clear All 
         </Button>
       </Box>
-      <Box style={sidebarStyles.borderBoxSide}>
+      <Box
+        // style={sidebarStyles.borderBoxSide}
+        sx={{
+          width: "100%",
+          ...sidebarStyles.borderBoxSide,
+          "@media (max-width:960px)": {
+            width: "100%",
+          },
+        }}
+      >
         {/* Categories Filter */}
         <Box mb={2}>
           <Box
@@ -184,7 +194,9 @@ function Category(props) {
           <Collapse in={categoriesOpen}>
             <FormGroup>
               {topCategories.map((category) => (
-                <Box key={category.id}>
+                <Box
+                  key={category.id}
+                >
                   {/* Main Category */}
                   <Box
                     sx={{
@@ -193,7 +205,7 @@ function Category(props) {
                       "@media (min-width:1080px) and (max-width:1300px)": {
                         maxWidth: "260px",
                       },
-                    }}
+                    }}  
                     className="categoriesTitleIconBox"
                   >
                     <FormControlLabel
@@ -226,9 +238,15 @@ function Category(props) {
                             sm: "nowrap",
                           },
                           fontSize: {
-                            xs: "14px",
+                            xs: "1rem",
                             sm: "unset",
                           },
+                          fontWeight: {
+                            xs: "unset",
+                          },
+                          lineHeight: {
+                            xs: "unset"
+                          }
                         },
                       }}
                     />
@@ -283,13 +301,24 @@ function Category(props) {
                   {/* Getting Nested Subcategories */}
                   <Collapse in={expandedCategories[category.id]}>
                     {/* categories */}
-                    <Box sx={{ pl: 1 }}>
+                    <Box
+                      sx={{
+                        pl: 1,
+                      }}
+                    >
                       {getSubcategories(category.id).map((subCategory) => (
                         <Box key={subCategory.id}>
                           {/* Subcategory Checkbox */}
-                          <Box sx={{ display: "flex", alignItems: "center" , '@media (min-width:1080px) and (max-width:1300px)': {
-               maxWidth: '220px',
-                   },}}>
+                          <Box
+                            sx={{
+                              display: "flex",
+                              alignItems: "center",
+                              "@media (min-width:1080px) and (max-width:1300px)":
+                                {
+                                  maxWidth: "220px",
+                                },
+                            }}
+                          >
                             <FormControlLabel
                               ////////
                               control={
@@ -315,14 +344,18 @@ function Category(props) {
                               sx={{
                                 textTransform: "capitalize",
                                 flex: 1,
-                                whiteSpace: "nowrap",
+                                whiteSpace: "no-wrap",
+                                // wordBreak:"break-word",
+                                "@media (max-width:455px)": {
+                                  whiteSpace: "wrap",
+                                },
                               }}
                             />
                             {getGrandSubCategories(subCategory.id).length >
                               0 && (
                               <IconButton
                                 size="small"
-                                sx={{ ml: 0 }}
+                                sx={{ ml: "-15px",}}
                                 onClick={() => toggleCategory(subCategory.id)}
                               >
                                 {expandedCategories[subCategory.id] ? (

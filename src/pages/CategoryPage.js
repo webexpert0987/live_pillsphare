@@ -279,11 +279,18 @@ const CategoryPage = () => {
           }}
         >
           {/* Left Column */}
-
           <FilterPage products={products} />
-
           {/* Right Column */}
-          <Box width="73%" style={shop3Grid.rightColParent}>
+          {/* <Box width="73%" style={shop3Grid.rightColParent}> */}
+          <Box   sx={{width: {
+      xs: "100%",  // 0–599px
+      sm: "100%",  // 600–899px
+      md: "100%",  // 900–960px
+    },
+    "@media (min-width:961px)": {
+      width: "73%",
+    },
+  }} style={shop3Grid.rightColParent}>
             <Box
               display="flex"
               justifyContent="space-between"

@@ -166,7 +166,6 @@ const NestedList = ({ nestedListData, setOpenDrawer }) => {
       setOpenDrawer(false);
     }
   };
-
   return (
     <List
       sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
@@ -177,7 +176,11 @@ const NestedList = ({ nestedListData, setOpenDrawer }) => {
           {/* Main Category */}
           <ListItemButton
             sx={{ justifyContent: "space-between", padding: "8px" }}
-            onClick={() => item.link && handleNavigation(item.link)}
+            onClick={() => {
+              console.log("subitemss0011", JSON.stringify(item, null, 2));
+              console.log("link subcategory1", item.link);
+              item.link && handleNavigation(item.link);
+            }}
           >
             <ListItemText
               primary={item.title}
@@ -185,7 +188,17 @@ const NestedList = ({ nestedListData, setOpenDrawer }) => {
               sx={{ textTransform: "capitalize" }}
             />
             {item?.subcategories?.length > 0 && (
-              <IconButton onClick={(e) => handleToggle(index, e)} size="small">
+              // <IconButton onClick={(e) => handleToggle(index, e)} size="small">
+              //   {openSections[index] ? <ExpandLess /> : <ExpandMore />}
+              // </IconButton>
+              <IconButton
+                onClick={(e) => {
+                  console.log("subitemss00", JSON.stringify(item, null, 2));
+                  e.stopPropagation(); // Prevent the parent click
+                  handleToggle(index, e);
+                }}
+                size="small"
+              >
                 {openSections[index] ? <ExpandLess /> : <ExpandMore />}
               </IconButton>
             )}
@@ -201,17 +214,39 @@ const NestedList = ({ nestedListData, setOpenDrawer }) => {
                       padding: "0px 40px",
                       justifyContent: "space-between",
                     }}
-                    onClick={() =>
-                      subitem.link && handleNavigation(subitem.link)
-                    }
+                    onClick={() => {
+                      console.log(
+                        "subitemss up2",
+                        JSON.stringify(subitem, null, 2)
+                      );
+                      console.log("link subcategory2", subitem.link);
+                      subitem.link && handleNavigation(subitem.link);
+                    }}
                   >
                     <ListItemText
                       primary={subitem.title}
                       sx={{ textTransform: "capitalize" }}
                     />
                     {subitem?.options?.length > 0 && (
+                      // <IconButton
+                      //   onClick={(e) => handleSubToggle(index, subindex, e)}
+                      //   size="small"
+                      // >
+                      //   {openSubcategories[`${index}-${subindex}`] ? (
+                      //     <ExpandLess />
+                      //   ) : (
+                      //     <ExpandMore />
+                      //   )}
+                      // </IconButton>
                       <IconButton
-                        onClick={(e) => handleSubToggle(index, subindex, e)}
+                        onClick={(e) => {
+                          console.log(
+                            "subitems up 1",
+                            JSON.stringify(subitem, null, 2)
+                          );
+                          e.stopPropagation(); // prevent parent click
+                          handleSubToggle(index, subindex, e);
+                        }}
                         size="small"
                       >
                         {openSubcategories[`${index}-${subindex}`] ? (
@@ -234,7 +269,14 @@ const NestedList = ({ nestedListData, setOpenDrawer }) => {
                         <ListItemButton
                           key={optIndex}
                           sx={{ padding: "0px 60px" }}
-                          onClick={() => handleNavigation(option.link)}
+                          onClick={() => {
+                            console.log(
+                              "subitemss",
+                              JSON.stringify(subitem, null, 2)
+                            );
+                            console.log("link subcategory3", option.link);
+                            handleNavigation(option.link);
+                          }}
                         >
                           <ListItemText
                             primary={option.title}
@@ -248,7 +290,7 @@ const NestedList = ({ nestedListData, setOpenDrawer }) => {
               ))}
             </List>
           </Collapse>
-        </React.Fragment>
+        </React.Fragment>                           
       ))}
     </List>
   );
@@ -293,6 +335,7 @@ const MainHeader = () => {
         const response = await getShopCategories();
         if (Array.isArray(response)) {
           setShopCategories(response);
+          // console.log('shopcategoriesss', response);
         } else {
           console.error("Unexpected API response format", response);
         }
@@ -313,7 +356,7 @@ const MainHeader = () => {
   const handleCategoryClick = (categoryId) => {
     setSelectedCategory(selectedCategory === categoryId ? null : categoryId);
   };
-
+//  console.log('shopcategoriessss ', shopCategories);
   useEffect(() => {
     if (width > 960) {
       setCurrentSize(width);
@@ -395,7 +438,7 @@ const MainHeader = () => {
         options: getSubcategories(cat.id).map((item) => {
           return {
             title: item.name,
-            link: `/subcategory/${item.slug}`,
+            link: `/category/${item.slug}`,
           };
         }),
       })),
@@ -827,103 +870,107 @@ const MainHeader = () => {
         })}
       </Menu> */}
       <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
-       {topCategories.map((category) => {
-       const subcategories = getSubcategories(category.id);
-    return (
-      <div key={category.id}>
-        <MenuItem
-          onClick={() => {
-            handleCategoryClick(category.id);
-            if (
-              subcategories.length === 0 ||
-              selectedCategory === category.id
-            ) {
-              handleClose();
-            }
-          }}
-        >
-          <Link
-            to={`/category/${category.slug}`}
-            style={{
-              textDecoration: "none",
-              color: "inherit",
-              flex: 1,
-              textTransform: "capitalize",
-            }}
-          >
-            {category.name}
-          </Link>
-          {subcategories.length > 0 ? (
-            selectedCategory === category.id ? <ExpandLess /> : <ExpandMore />
-          ) : null}
-        </MenuItem>
-        {/* Render subcategories if this category is selected */}
-        {selectedCategory === category.id &&
-          subcategories.map((sub) => {
-            // const grandSubcategories = getSubcategories(sub.id);
-            const grandSubcategories = getGrandSubCategories(sub.id);
-
-            return (
-              <div key={sub.id}>
-                <MenuItem
-                  style={{ paddingLeft: 20 }}
-                  onClick={() => {
-                    if (grandSubcategories.length > 0) {
-                      setSelectedSubCategory((prev) =>
-                        prev === sub.id ? null : sub.id
-                      );
-                    } else {
-                      handleClose();
-                    }
+        {topCategories.map((category) => {
+          const subcategories = getSubcategories(category.id);
+          return (
+            <div key={category.id}>
+              <MenuItem
+                onClick={() => {
+                  handleCategoryClick(category.id);
+                  if (
+                    subcategories.length === 0 ||
+                    selectedCategory === category.id
+                  ) {
+                    handleClose();
+                  }
+                }}
+              >
+                <Link
+                  to={`/category/${category.slug}`}
+                  style={{
+                    textDecoration: "none",
+                    color: "inherit",
+                    flex: 1,
+                    textTransform: "capitalize",
                   }}
                 >
-                  <Link
-                    to={`/category/${sub.slug}`}
-                    style={{
-                      textDecoration: "none",
-                      color: "inherit",
-                      textTransform: "capitalize",
-                      flex: 1,
-                    }}
-                  >
-                    {sub.name}
-                  </Link>
+                  {category.name}
+                </Link>
+                {subcategories.length > 0 ? (
+                  selectedCategory === category.id ? (
+                    <ExpandLess />
+                  ) : (
+                    <ExpandMore />
+                  )
+                ) : null}
+              </MenuItem>
+              {/* Render subcategories if this category is selected */}
+              {selectedCategory === category.id &&
+                subcategories.map((sub) => {
+                  // const grandSubcategories = getSubcategories(sub.id);
+                  const grandSubcategories = getGrandSubCategories(sub.id);
 
-                  {grandSubcategories.length > 0 ? (
-                    selectedSubCategory === sub.id ? (
-                      <ExpandLess />
-                    ) : (
-                      <ExpandMore />
-                    )
-                  ) : null}
-                </MenuItem>
-                {/* ✅ Render grand-subcategories if subcategory is toggled open */}
-                {selectedSubCategory === sub.id &&
-                  grandSubcategories.map((grand) => (
-                    <MenuItem
-                      key={grand.id}
-                      style={{ paddingLeft: 40 }}
-                      onClick={handleClose}
-                    >
-                      <Link
-                        to={`/category/${grand.slug}`}
-                        style={{
-                          textDecoration: "none",
-                          color: "inherit",
-                          textTransform: "capitalize",
+                  return (
+                    <div key={sub.id}>
+                      <MenuItem
+                        style={{ paddingLeft: 20 }}
+                        onClick={() => {
+                          if (grandSubcategories.length > 0) {
+                            setSelectedSubCategory((prev) =>
+                              prev === sub.id ? null : sub.id
+                            );
+                          } else {
+                            handleClose();
+                          }
                         }}
                       >
-                        {grand.name}
-                      </Link>
-                    </MenuItem>
-                  ))}
-              </div>
-            );
-          })}
-      </div>
-    );
-  })}
-</Menu>
+                        <Link
+                          to={`/category/${sub.slug}`}
+                          style={{
+                            textDecoration: "none",
+                            color: "inherit",
+                            textTransform: "capitalize",
+                            flex: 1,
+                          }}
+                        >
+                          {sub.name}
+                        </Link>
+
+                        {grandSubcategories.length > 0 ? (
+                          selectedSubCategory === sub.id ? (
+                            <ExpandLess />
+                          ) : (
+                            <ExpandMore />
+                          )
+                        ) : null}
+                      </MenuItem>
+                      {/* ✅ Render grand-subcategories if subcategory is toggled open */}
+                      {selectedSubCategory === sub.id &&
+                        grandSubcategories.map((grand) => (
+                          <MenuItem
+                            key={grand.id}
+                            style={{ paddingLeft: 40 }}
+                            onClick={handleClose}
+                          >
+                            <Link
+                              to={`/category/${grand.slug}`}
+                              style={{
+                                textDecoration: "none",
+                                color: "inherit",
+                                textTransform: "capitalize",
+                              }}
+                            >
+                              {grand.name}
+                            </Link>
+                          </MenuItem>
+                        ))}
+                    </div>
+                  );
+                })}
+            </div>
+          );
+        })}
+      </Menu>
 
       <Menu
         anchorEl={loginDrop}

@@ -13,7 +13,8 @@ import Grid from "@mui/material/Grid2";
 import { Link } from "react-router-dom";
 import { useMessage } from "../../Context/MessageContext";
 import { subscribeNewsLetter } from "../../apis/apisList/userApi";
-import FooterLogoImg from "../../pages/images/Info-Images/PillSPhereICOImg.jpg";
+// import FooterLogoImg from "../../pages/images/Info-Images/PillSPhereICOImg.jpg";
+import FooterLogoIcoImg from "../../pages/images/Info-Images/ICO_Logo_WhiteOnBluee.jpg";
 import FooterNpaLogoImg from "../../pages/images/Info-Images/NPA-logo-big-footer.jpg";
 const onlineClinicItems = [
   { id: 1, name: "Weight Loss", link: "/online-clinic/weight-loss" },
@@ -177,6 +178,7 @@ export default function Footer() {
                 },
               }}
               onChange={(e) => setEmail(e.target.value)}
+
             />
             <Button
               variant="contained"
@@ -423,17 +425,18 @@ export default function Footer() {
                     }}
                   >
                     <strong>Email:</strong>{" "}
-                    <Link
+                    <a
                       href="mailto:info@pillsphere.com"
                       color="inherit"
                       underline="hover"
+                      component="a"
                       sx={{
                         textDecoration: "none",
                         fontSize: { xs: "15px", sm: "16px", md: "16px" },
                       }}
                     >
                       info@pillsphere.com
-                    </Link>
+                    </a>
                   </Typography>
                   <Typography
                     variant="h4"
@@ -445,14 +448,15 @@ export default function Footer() {
                     }}
                   >
                     <strong>Call:</strong>{" "}
-                    <Link
+                    <a
                       href="tel:02039165372"
                       color="inherit"
                       underline="hover"
+                      component="a"
                       sx={{ textDecoration: "none" }}
                     >
                       02039165372
-                    </Link>
+                    </a>
                   </Typography>
                 </Box>
               </Box>
@@ -650,9 +654,9 @@ export default function Footer() {
               <img src="/images/social/linkedin.png" alt="linkedin" />
             </a> */}
 
-            <a href="https://www.facebook.com/pillsphere" target="_blank">
+         
               <img
-                src={FooterLogoImg}
+                src={FooterLogoIcoImg}
                 alt="footer_img_logo"
                 style={{
                   // width: "130px", 
@@ -662,8 +666,6 @@ export default function Footer() {
                   borderRadius: "6px",
                 }}
               />
-            </a>
-            <a href="https://www.facebook.com/pillsphere" target="_blank">
               <img
                 src={FooterNpaLogoImg}
                 alt="footer_img_logo"
@@ -675,7 +677,6 @@ export default function Footer() {
                   borderRadius: "6px",
                 }}
               />
-            </a>
           </Box>
         </Box>
       </Container>

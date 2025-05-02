@@ -199,7 +199,7 @@ const ProductListingPage = () => {
                 <MenuItem value="priceHighLow">Price: High to Low</MenuItem>
               </Select>
             </Box>
-            {loading && (
+            {loading ? (
               <Box
                 sx={{
                   display: "flex",
@@ -208,7 +208,7 @@ const ProductListingPage = () => {
               >
                 <CircularProgress />
               </Box>
-            )}
+            ) : currentProducts.length > 0 ? (
             <Grid2 container spacing={{ xs: 2, sm: 3, md: 4 }}>
               {currentProducts.map((product) => (
                 <Grid2
@@ -395,6 +395,16 @@ const ProductListingPage = () => {
                 </Grid2>
               ))}
             </Grid2>
+            ) : (
+              <Box sx={{display:"flex",justifyContent:"center",alignItems:"center",width:"100%",height:"100%",margin:0,padding:0}}>
+              <Typography
+              variant="body1"
+              sx={{ textAlign: "center", mt: 4, color: "text.secondary",}}
+            >
+              No products available for this category.
+            </Typography>
+            </Box>
+            )}
             {/* Add pagination at the bottom */}
             {!loading && filteredProducts.length > 0 && (
               <PaginationComponent

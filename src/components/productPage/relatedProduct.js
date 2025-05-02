@@ -1,4 +1,4 @@
-import React from "react";
+import {React , useEffect} from "react";
 import Slider from "react-slick";
 import { Box, Typography, Button, Container, Rating } from "@mui/material";
 import PrevArrowImg from "../../pages/images/prev-arrow.svg";
@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 const PrevArrow = (props) => {
   const { onClick } = props;
   return (
+
     <div
       onClick={onClick}
       style={{
@@ -52,10 +53,16 @@ const NextArrow = (props) => {
 };
 
 const RelatedProductSlider = ({ relatedProducts }) => {
+  useEffect(() => {
+    setTimeout(() => {
+      window.dispatchEvent(new Event("resize"));
+    }, 100); 
+  }, []);
   const settings = {
     infinite: false,
     slidesToShow: 4,
     slidesToScroll: 1,
+    lazyLoad: "ondemand", // added to load the slide
     prevArrow: <PrevArrow />,
     nextArrow: <NextArrow />,
     responsive: [
@@ -117,7 +124,7 @@ const RelatedProductSlider = ({ relatedProducts }) => {
                 sx={{
                   padding: { xs: "5px", sm: "10px", md: "15px" },
                   position: "relative",
-                  width: { xs: "100%", sm: "250px", md: "300px" }, // Set a fixed width
+                  // width: { xs: "100%", sm: "250px", md: "300px" }, 
                   height: "450px", // Set a fixed height
                 }}
               >

@@ -45,6 +45,7 @@ const TopHeader = () => {
                   fontSize: "inherit",
                   padding: "0px",
                 }}
+                onClick={() => (window.location.href = `/shop`)}
               >
                 Shop now!
               </Button>

@@ -186,6 +186,8 @@ const HeroSection = ({
                   md: "12px 25px",
                 },
                 boxShadow: "none",
+                // boxShadow: "none",
+                marginBottom: { xs: "15px", sm: "0", md: "0" },
               }}
               onClick={() => {
                 if (!isShopPage) {

@@ -410,6 +410,7 @@ function ErectileDysfunction() {
                     md: "12px 25px",
                   },
                   boxShadow: "none",
+                  marginBottom: { xs: "15px", sm: "0", md: "0" },
                 }}
                 onClick={() =>
                   (window.location.href = `#Treatment`)
