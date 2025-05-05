@@ -314,14 +314,15 @@ function CheckoutForm() {
               setPaymentStatus("Payment successful!");
               showMessage("Payment successful!", "success");
               const qaData = localStorage.getItem("questionnaire_info");
+              let parsedData = null;
               let questionAnswers_data = {};
               if (qaData) {
-                const data = JSON.parse(qaData);
-                const answers = formatQuestionData(data);
+                parsedData = JSON.parse(qaData);
+                const answers = formatQuestionData(parsedData);
                 questionAnswers_data = {
                   answers: answers || null,
-                  category: data.category || "",
-                  bmiData: data.bmiData || null,
+                  category: parsedData.category || "",
+                  bmiData: parsedData.bmiData || null,
                 };
               }
 
@@ -379,8 +380,11 @@ function CheckoutForm() {
                 amount: cartTotal,
                 actual_amount: calculateTotal(),
                 appliedCoupon: appliedCoupon || null,
-                photoId: data.answers?.photoId || null,
-                bodyPhoto: data.answers?.bodyPhoto || null,
+                photoId:
+                  parsedData.answers?.photoId ||
+                  parsedData.answers?.photoID ||
+                  null,
+                bodyPhoto: parsedData.answers?.bodyPhoto || null,
               };
 
               const orderResponse = await createOrder(ordInfo);

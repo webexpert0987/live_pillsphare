@@ -219,25 +219,24 @@ const CategoryPage = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        if (!categoryId) return; // ✅ Ensure categoryId is set before proceeding
-
         // Check if products are already in localStorage
-        const cachedProducts = localStorage.getItem("products");
-        let productsData = cachedProducts ? JSON.parse(cachedProducts) : null;
+        // const cachedProducts = localStorage.getItem("products");
+        // let productsData = cachedProducts ? JSON.parse(cachedProducts) : null;
 
-        if (!productsData) {
-          const data = await getProducts();
-          productsData = data.products;
-          localStorage.setItem("products", JSON.stringify(productsData)); // Cache the products
-        }
+        // if (!productsData) {
+        const data = await getProducts();
+        let productsData = data.products;
+        localStorage.setItem("products", JSON.stringify(productsData)); // Cache the products
+        // }
 
         // ✅ Set products normally, without using a separate filteredProducts variable
-        setProducts(
-          productsData.filter(
-            (product) =>
-              product.categories.some((category) => category.id === categoryId) // ✅ Filter by categoryId
-          )
-        );
+        setProducts(data.products);
+        // setProducts(
+        //   productsData.filter(
+        //     (product) =>
+        //       product.categories.some((category) => category.id === categoryId) // ✅ Filter by categoryId
+        //   )
+        // );
       } catch (error) {
         console.error("Failed to fetch products:", error);
       }
@@ -245,7 +244,6 @@ const CategoryPage = () => {
 
     fetchProducts();
   }, [categoryId]); // ✅ Runs when categoryId changes
-  console.log('current products',products);
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -282,15 +280,19 @@ const CategoryPage = () => {
           <FilterPage products={products} />
           {/* Right Column */}
           {/* <Box width="73%" style={shop3Grid.rightColParent}> */}
-          <Box   sx={{width: {
-      xs: "100%",  // 0–599px
-      sm: "100%",  // 600–899px
-      md: "100%",  // 900–960px
-    },
-    "@media (min-width:961px)": {
-      width: "73%",
-    },
-  }} style={shop3Grid.rightColParent}>
+          <Box
+            sx={{
+              width: {
+                xs: "100%", // 0–599px
+                sm: "100%", // 600–899px
+                md: "100%", // 900–960px
+              },
+              "@media (min-width:961px)": {
+                width: "73%",
+              },
+            }}
+            style={shop3Grid.rightColParent}
+          >
             <Box
               display="flex"
               justifyContent="space-between"

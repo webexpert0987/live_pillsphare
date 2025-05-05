@@ -282,14 +282,14 @@ export default function Checkout() {
           for (let item of cart) {
             const { status, message } = await checkOrderEligibility(item.id);
             if (status === false) {
-              // showMessage(
-              //   `${message} Please remove the product ${item?.name} from your cart and try again`,
-              //   "error"
-              // );
-              // setIsProcessing(false);
-              // setMakePayment(false);
-              // setIsDetailComplete(false);
-              // return;
+              showMessage(
+                `${message} Please remove the product ${item?.name} from your cart and try again`,
+                "error"
+              );
+              setIsProcessing(false);
+              setMakePayment(false);
+              setIsDetailComplete(false);
+              return;
             }
           }
 

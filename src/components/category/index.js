@@ -159,7 +159,7 @@ function Category(props) {
           size="small"
           onClick={clearFilters}
         >
-          Clear All 
+          Clear All
         </Button>
       </Box>
       <Box
@@ -194,9 +194,7 @@ function Category(props) {
           <Collapse in={categoriesOpen}>
             <FormGroup>
               {topCategories.map((category) => (
-                <Box
-                  key={category.id}
-                >
+                <Box key={category.id}>
                   {/* Main Category */}
                   <Box
                     sx={{
@@ -205,7 +203,7 @@ function Category(props) {
                       "@media (min-width:1080px) and (max-width:1300px)": {
                         maxWidth: "260px",
                       },
-                    }}  
+                    }}
                     className="categoriesTitleIconBox"
                   >
                     <FormControlLabel
@@ -245,8 +243,8 @@ function Category(props) {
                             xs: "unset",
                           },
                           lineHeight: {
-                            xs: "unset"
-                          }
+                            xs: "unset",
+                          },
                         },
                       }}
                     />
@@ -355,7 +353,7 @@ function Category(props) {
                               0 && (
                               <IconButton
                                 size="small"
-                                sx={{ ml: "-15px",}}
+                                sx={{ ml: "-15px" }}
                                 onClick={() => toggleCategory(subCategory.id)}
                               >
                                 {expandedCategories[subCategory.id] ? (
@@ -563,7 +561,7 @@ export default function CategoryPage({ products }) {
         const response = await getCategoryBySlug(slug);
 
         if (response.success) {
-          setSelectedCategories((prev) => [...prev, response.category_id]);
+          setSelectedCategories((prev) => [response.category_id]);
         } else {
         }
       } catch (error) {
