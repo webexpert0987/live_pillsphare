@@ -58,13 +58,13 @@ function DeliveryInformation() {
             </Box>
             {/***********/}
             <Typography className="privacyPara" variant="body1">
-            Royal mail standard (1st class) usually next day (Monday to Saturday) £2.90
+            Royal mail standard (1st class) usually next day (Monday to Saturday) £2.95
             </Typography>
             <Typography className="privacyPara" variant="body1">
-            Next day by 1pm (special delivery 1pm) guaranteed next day by 1pm (Monday to Saturday ) £5.95
+            Next day by 1pm (special delivery 1pm) guaranteed next day by 1pm (Monday to Saturday ) £8.95
             </Typography>
             <Typography className="privacyPara" variant="body1">
-            Next day by 9am Guarenteed next day by 9am (Monday-Saturday) special delivery 9am £13.95
+            Next day by 9am Guarenteed next day by 9am (Monday-Saturday) special delivery 9am £21.95
             </Typography>
             {/***********/}
           </Box>
