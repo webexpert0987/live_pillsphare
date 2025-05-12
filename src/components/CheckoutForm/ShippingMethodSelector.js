@@ -97,7 +97,8 @@ const ShippingMethodSelector = ({ selectedMethod, onMethodSelect }) => {
       >
         <RadioGroup
           value={selectedMethod}
-          onChange={(e) => onMethodSelect(e.target.value)}
+          onChange={(e) => { onMethodSelect(e.target.value)         
+          }}
           sx={{
             display: "flex",
             gap: 2,
@@ -125,7 +126,7 @@ const ShippingMethodSelector = ({ selectedMethod, onMethodSelect }) => {
                       justifyContent: "space-between",
                       alignItems: "center",
                       width: "100%",
-                    }}
+                    }}   
                   >
                     <Typography variant="subtitle1">
                       {method?.name || "N/A"}

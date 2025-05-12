@@ -74,6 +74,11 @@ function MigraineQuestion() {
         "experienceMigrain",
         "anySymptoms",
         "diagnosed",
+        "triptans",
+        "otherAllergy",
+        "diagnoseAny",
+        "medicationAny1",
+        "agreedTC1",
       ];
 
       for (const field of requiredFields) {
@@ -88,6 +93,11 @@ function MigraineQuestion() {
           );
           return;
         }
+      }
+      // Other medications options checking
+      if (answers.medicationAny1 === "Yes" && !answers.medicationAny2) {
+        showMessage("Please provide other medications.", "error");
+        return;
       }
       const preventProceedConditions = [
         { field: "agedBetween", condition: "No" },
@@ -178,13 +188,15 @@ function MigraineQuestion() {
   const renderStepContent = (stepIndex) => {
     switch (stepIndex) {
       //============= Step 01 =============//
-
       case 0:
         return (
           <>
             {/****** Are you between 18 and 65 years old?**  ****/}
-
-            <FormControl component="fieldset" className="QuestionBox" disabled={checkDisabled("agedBetween")}>
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("agedBetween")}
+            >
               <Typography variant="h4" className="labelOne">
                 Are you between 18 and 65 years old?
               </Typography>
@@ -192,20 +204,24 @@ function MigraineQuestion() {
                 row
                 name="agedBetween"
                 value={answers.agedBetween}
-                onChange={(e) =>
-                 handleChange(e,"No")
-                }
+                onChange={(e) => handleChange(e, "No")}
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
               {answers.agedBetween === "No" && (
-                <div>Please consult your GP for a migraine treatment plan.</div>
+                <Typography color="error" sx={{ mt: 1, fontSize: "14px" }}>
+                  Please consult your GP for a migraine treatment plan.
+                </Typography>
               )}
             </FormControl>
             {/****** Do your migraines follow a consistent pattern?****/}
 
-            <FormControl component="fieldset" className="QuestionBox" disabled={checkDisabled("migrain")}>
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("migrain")}
+            >
               <Typography variant="h4" className="labelOne">
                 Do your migraines follow a consistent pattern?
               </Typography>
@@ -213,21 +229,25 @@ function MigraineQuestion() {
                 row
                 name="migrain"
                 value={answers.migrain}
-                onChange={(e) =>
-                  handleChange(e,"No")
-                }
+                onChange={(e) => handleChange(e, "No")}
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
               {answers.migrain === "No" && (
-                <div>Please consult your GP for device.</div>
+                <Typography color="error" sx={{ mt: 1, fontSize: "14px" }}>
+                  Please consult your GP for device.
+                </Typography>
               )}
             </FormControl>
             {/****** Do your migraines last less than 4 hours or longer than 24
                 hours?  ****/}
 
-            <FormControl component="fieldset" className="QuestionBox" disabled={checkDisabled("migrainTime")}>
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("migrainTime")}
+            >
               <Typography variant="h4" className="labelOne">
                 Do your migraines last less than 4 hours or longer than 24
                 hours?
@@ -236,20 +256,24 @@ function MigraineQuestion() {
                 row
                 name="migrainTime"
                 value={answers.migrainTime}
-                onChange={(e) =>
-                  handleChange(e,"Yes")
-                }
+                onChange={(e) => handleChange(e, "Yes")}
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
               {answers.migrainTime === "Yes" && (
-                <div>Please consult your GP for a management plan.</div>
+                <Typography color="error" sx={{ mt: 1, fontSize: "14px" }}>
+                  Please consult your GP for a management plan.
+                </Typography>
               )}
             </FormControl>
             {/****** Do you experience migraines more than 10 days per month?  ****/}
 
-            <FormControl component="fieldset" className="QuestionBox" disabled={checkDisabled("experienceMigrain")}>
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("experienceMigrain")}
+            >
               <Typography variant="h4" className="labelOne">
                 Do you experience migraines more than 10 days per month?
               </Typography>
@@ -257,53 +281,64 @@ function MigraineQuestion() {
                 row
                 name="experienceMigrain"
                 value={answers.experienceMigrain}
-                onChange={(e) =>
-                 handleChange(e,"Yes")
-                }
+                onChange={(e) => handleChange(e, "Yes")}
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
               {answers.experienceMigrain === "Yes" && (
-                <div>Please consult your GP for further guidance.</div>
+                <Typography color="error" sx={{ mt: 1, fontSize: "14px" }}>
+                  Please consult your GP for further guidance.
+                </Typography>
               )}
             </FormControl>
             {/****** Do you have any of the following symptoms****/}
 
-            <FormControl component="fieldset" className="QuestionBox"  disabled={checkDisabled("anySymptoms")}>
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("anySymptoms")}
+            >
               <Typography variant="h4" className="labelOne">
-                Do you have any of the following symptoms
-                <ul>
-                  <li>Coordination issues </li>
-                  <li>Back-of-head pain </li>
-                  <li>Ringing in ears </li>
-                  <li>Seizure-like episodes </li>
-                  <li>Recent rash with headache</li>
-                  <li>Reduced alertness </li>
-                  <li>Blurred/double vision </li>
-                  <li>
-                    Increased frequency, severity, or duration of migraines{" "}
-                  </li>
-                  <li>One-sided weakness </li>
-                </ul>
+                Do you have any of the following symptoms?
               </Typography>
+              <ul>
+                <li>Coordination issues </li>
+                <li>Back-of-head pain </li>
+                <li>Ringing in ears </li>
+                <li>Seizure-like episodes </li>
+                <li>Recent rash with headache</li>
+                <li>Reduced alertness </li>
+                <li>Blurred/double vision </li>
+                <li>
+                  Increased frequency, severity, or duration of migraines{" "}
+                </li>
+                <li>One-sided weakness </li>
+              </ul>
               <RadioGroup
+                // sx={{pl:2}}
                 row
                 name="anySymptoms"
                 value={answers.anySymptoms}
-                onChange={(e) =>
-                handleChange(e,"Yes")
-                }
+                onChange={(e) => handleChange(e, "Yes")}
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
-              {answers.anySymptoms === "Yes" && <div>Consult your GP.</div>}
+              {answers.anySymptoms === "Yes" && (
+                <Typography color="error" sx={{ mt: 1, fontSize: "14px" }}>
+                  Consult your GP.
+                </Typography>
+              )}
             </FormControl>
             {/****** Have you been diagnosed with migraines, and do triptans relieve
                 them?  ****/}
 
-            <FormControl component="fieldset" className="QuestionBox"  disabled={checkDisabled("diagnosed")}>
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("diagnosed")}
+            >
               <Typography variant="h4" className="labelOne">
                 Have you been diagnosed with migraines, and do triptans relieve
                 them?
@@ -312,93 +347,113 @@ function MigraineQuestion() {
                 row
                 name="diagnosed"
                 value={answers.diagnosed}
-                onChange={(e) =>
-                handleChange(e,"No")
-                }
+                onChange={(e) => handleChange(e, "No")}
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
-              {answers.diagnosed === "No" && <div>Consult your GP.</div>}
+              {answers.diagnosed === "No" && (
+                <Typography color="error" sx={{ mt: 1, fontSize: "14px" }}>
+                  Consult your GP.
+                </Typography>
+              )}
             </FormControl>
             {/***** Do you have an allergy to any of the following medications?  ****/}
 
-            <FormControl component="fieldset" className="QuestionBox"  disabled={checkDisabled("otherAllergy")}>
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("otherAllergy")}
+            >
               <Typography variant="h4" className="labelOne">
                 Do you have an allergy to any of the following medications?
-                <ul>
-                  <li>Sumatriptan </li>
-                  <li>Rizatriptan </li>
-                  <li>Zolmitriptan </li>
-                </ul>
               </Typography>
+              <ul>
+                <li>Sumatriptan </li>
+                <li>Rizatriptan </li>
+                <li>Zolmitriptan </li>
+              </ul>
               <RadioGroup
                 row
                 name="otherAllergy"
                 value={answers.otherAllergy}
-                onChange={(e) =>
-              handleChange(e,"Yes")
-                }
+                onChange={(e) => handleChange(e, "Yes")}
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
-              {answers.otherAllergy === "Yes" && <div>Consult your GP.</div>}
+              {answers.otherAllergy === "Yes" && (
+                <Typography color="error" sx={{ mt: 1, fontSize: "14px" }}>
+                  Consult your GP.
+                </Typography>
+              )}
             </FormControl>
             {/******  Have you experienced any of the following after taking triptans?*  ****/}
 
-            <FormControl component="fieldset" className="QuestionBox" disabled={checkDisabled("triptans")}>
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("triptans")}
+            >
               <Typography variant="h4" className="labelOne">
                 Have you experienced any of the following after taking triptans?
-                <ul>
-                  <li>Chest tightness </li>
-                  <li>Palpitations or dizziness </li>
-                  <li>Worsening nausea </li>
-                  <li>Increased blood pressure </li>
-                </ul>
               </Typography>
+              <ul>
+                <li>Chest tightness </li>
+                <li>Palpitations or dizziness </li>
+                <li>Worsening nausea </li>
+                <li>Increased blood pressure </li>
+              </ul>
               <RadioGroup
                 row
                 name="triptans"
                 value={answers.triptans}
-                onChange={(e) =>
-                  handleChange(e,"Yes")
-                }
+                onChange={(e) => handleChange(e, "Yes")}
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
-              {answers.triptans === "Yes" && <div>Consult your GP.</div>}
+              {answers.triptans === "Yes" && (
+                <Typography color="error" sx={{ mt: 1, fontSize: "14px" }}>
+                  Consult your GP.
+                </Typography>
+              )}
             </FormControl>
             {/****** Have you been diagnosed with any of the following conditions? ****/}
 
-            <FormControl component="fieldset" className="QuestionBox"  disabled={checkDisabled("diagnoseAny")}>
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("diagnoseAny")}
+            >
               <Typography variant="h4" className="labelOne">
                 Have you been diagnosed with any of the following conditions?
-                <ul>
-                  <li>Heart disease </li>
-                  <li>Stroke or mini-stroke </li>
-                  <li>High blood pressure </li>
-                  <li>Epilepsy </li>
-                  <li>Serious medical conditions requiring hospitalization </li>
-                </ul>
               </Typography>
+              <ul>
+                <li>Heart disease </li>
+                <li>Stroke or mini-stroke </li>
+                <li>High blood pressure </li>
+                <li>Epilepsy </li>
+                <li>Serious medical conditions requiring hospitalization </li>
+              </ul>
               <RadioGroup
                 row
                 name="diagnoseAny"
                 value={answers.diagnoseAny}
-                onChange={(e) =>
-                 handleChange(e,"Yes")
-                }
+                onChange={(e) => handleChange(e, "Yes")}
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
-              {answers.diagnoseAny === "Yes" && <div>Consult your GP.</div>}
+              {answers.diagnoseAny === "Yes" && (
+                <Typography color="error" sx={{ mt: 1, fontSize: "14px" }}>
+                  Consult your GP.
+                </Typography>
+              )}
             </FormControl>
             {/****** Are you currently taking any medications? ****/}
 
-            <FormControl component="fieldset" className="QuestionBox" >
+            <FormControl component="fieldset" className="QuestionBox">
               <Typography variant="h4" className="labelOne">
                 Are you currently taking any medications?
               </Typography>
@@ -410,12 +465,20 @@ function MigraineQuestion() {
                   setAnswers({ ...answers, medicationAny1: e.target.value })
                 }
               >
-                <FormControlLabel value="Yes" control={<Radio  disabled={checkDisabled("medicationAny1")} />} label="Yes" />
-                <FormControlLabel value="No" control={<Radio  disabled={checkDisabled("medicationAny1")}/>} label="No" />
+                <FormControlLabel
+                  value="Yes"
+                  control={<Radio disabled={checkDisabled("medicationAny1")} />}
+                  label="Yes"
+                />
+                <FormControlLabel
+                  value="No"
+                  control={<Radio disabled={checkDisabled("medicationAny1")} />}
+                  label="No"
+                />
               </RadioGroup>
               {answers.medicationAny1 === "Yes" && (
                 <div>
-                  Please check for the following:
+                  Please check for the following :
                   <ul>
                     <li>Ergotamine or Methysergide </li>
                     <li>Another triptan in the last 24 hours </li>
@@ -431,23 +494,27 @@ function MigraineQuestion() {
                     row
                     name="medicationAny2"
                     value={answers.medicationAny2}
-                    onChange={(e) =>
-                     handleChange(e,"Yes")
-                    }
+                    onChange={(e) => handleChange(e, "Yes")}
                   >
                     <FormControlLabel
                       value="Yes"
-                      control={<Radio  disabled={checkDisabled("medicationAny2")} />}
+                      control={
+                        <Radio disabled={checkDisabled("medicationAny2")} />
+                      }
                       label="Yes"
                     />
                     <FormControlLabel
                       value="No"
-                      control={<Radio  disabled={checkDisabled("medicationAny2")} />}
+                      control={
+                        <Radio disabled={checkDisabled("medicationAny2")} />
+                      }
                       label="No"
                     />
                   </RadioGroup>
                   {answers.medicationAny2 === "Yes" && (
-                    <div>Consult your GP.</div>
+                    <Typography color="error" sx={{ mt: 1, fontSize: "14px" }}>
+                      Consult your GP.
+                    </Typography>
                   )}
                 </div>
               )}
@@ -455,32 +522,36 @@ function MigraineQuestion() {
 
             {/****** Do you agree to the following terms?**    ****/}
 
-            <FormControl component="fieldset" className="QuestionBox" disabled={checkDisabled("agreedTC1")}>
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("agreedTC1")}
+            >
               <Typography variant="h4" className="labelOne">
-                Do you agree to the following terms?**
-                <ul>
-                  <li> I will read the patient information leaflet </li>
-                  <li>
-                    I will inform Medicus Express and my GP about any side
-                    effects or changes in condition.{" "}
-                  </li>
-                  <li>The treatment is for my personal use. </li>
-                  <li>I confirm all answers are truthful. </li>
-                </ul>
+                Do you agree to the following terms?
               </Typography>
+              <ul>
+                <li> I will read the patient information leaflet </li>
+                <li>
+                  I will inform Medicus Express and my GP about any side effects
+                  or changes in condition.{" "}
+                </li>
+                <li>The treatment is for my personal use. </li>
+                <li>I confirm all answers are truthful. </li>
+              </ul>
               <RadioGroup
                 row
                 name="agreedTC1"
                 value={answers.agreedTC1}
-                onChange={(e) =>
-                  handleChange(e,"No")
-                }
+                onChange={(e) => handleChange(e, "No")}
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
               {answers.agreedTC1 === "No" && (
-                <div>Treatment cannot be provided.</div>
+                <Typography color="error" sx={{ mt: 1, fontSize: "14px" }}>
+                  Treatment cannot be provided.
+                </Typography>
               )}
             </FormControl>
 

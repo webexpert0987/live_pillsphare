@@ -63,8 +63,7 @@ function StopSmokingQuestion() {
     }, 0);
   };
 
-  const isValidSelection =
-    ( (answers.conditions.length == 0));
+  const isValidSelection = answers.conditions.length == 0;
 
   const handleNext = () => {
     const qaData = JSON.parse(
@@ -110,13 +109,15 @@ function StopSmokingQuestion() {
         );
         return;
       }
-      if(answers.currTakingAnyMedi==='Yes'){
-        if(!answers.currTakingAnyMediDetails){
-          showMessage("Please provide current medication details to proceed","error")
-          return
+      if (answers.currTakingAnyMedi === "Yes") {
+        if (!answers.currTakingAnyMediDetails) {
+          showMessage(
+            "Please provide current medication details to proceed",
+            "error"
+          );
+          return;
         }
       }
-      
     } else if (activeStep === 1) {
       const requiredAgreements = ["agreeToTerms"];
 
@@ -204,7 +205,9 @@ function StopSmokingQuestion() {
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
               {answers.purchaseMedication === "No" && (
-                <div>Can not proceed.</div>
+                <Typography color="error" sx={{ mt: 1, fontSize: "14px" }}>
+                  Can not proceed.
+                </Typography>
               )}
             </FormControl>
             {/****** Are you aged between 18-75 years *****/}
@@ -227,7 +230,9 @@ function StopSmokingQuestion() {
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
               {answers.agedBetween === "No" && (
-                <div>Can not proceed please see GP.</div>
+                <Typography color="error" sx={{ mt: 1, fontSize: "14px" }}>
+                  Can not proceed please see GP.
+                </Typography>
               )}
             </FormControl>
             {/****** Are you breast feeding, pregnant or planning to become pregnant?  *****/}
@@ -250,7 +255,9 @@ function StopSmokingQuestion() {
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
               {answers.areYouBreastFeeding === "Yes" && (
-                <div>Can not proceed please see GP.</div>
+                <Typography color="error" sx={{ mt: 1, fontSize: "14px" }}>
+                  Can not proceed please see GP.
+                </Typography>
               )}
             </FormControl>
             {/****** Do you have allergy to varenicline? *****/}
@@ -273,7 +280,9 @@ function StopSmokingQuestion() {
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
               {answers.varenicline === "Yes" && (
-                <div>Can not proceed please see GP.</div>
+                <Typography color="error" sx={{ mt: 1, fontSize: "14px" }}>
+                  Can not proceed please see GP.
+                </Typography>
               )}
             </FormControl>
 
@@ -283,10 +292,7 @@ function StopSmokingQuestion() {
               className="QuestionBox"
               // disabled={checkDisabled("followingCond")}
             >
-              <Typography
-                variant="h4"
-                className="labelOne"
-              >
+              <Typography variant="h4" className="labelOne">
                 Please confirm the following box to confirm?
               </Typography>
 
@@ -350,12 +356,12 @@ function StopSmokingQuestion() {
               <Typography variant="h4" className="labelOne">
                 Do you suffer from any of the following?
                 <ul>
-                  <li>Kidney (renal) disease</li>
-                  <li>History of epilepsy/seizure</li>
-                  <li>Stroke</li>
-                  <li>Heart disease</li>
-                  <li>Diabetes</li>
-                  <li>
+                  <li style={{ fontSize: "1rem" }}>Kidney (renal) disease</li>
+                    <li style={{ fontSize: "1rem" }}>History of epilepsy/seizure</li>
+                    <li style={{ fontSize: "1rem" }}>Stroke</li>
+                    <li style={{ fontSize: "1rem" }}>Heart disease</li>
+                    <li style={{ fontSize: "1rem" }}>Diabetes</li>
+                    <li style={{ fontSize: "1rem" }}>
                     Any serious medical condition which may require immediate
                     hospitalisation
                   </li>
@@ -371,7 +377,9 @@ function StopSmokingQuestion() {
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
               {answers.sufferAnyFollowing === "Yes" && (
-                <div>Can not proceed please see GP.</div>
+                <Typography color="error" sx={{ mt: 1, fontSize: "14px" }}>
+                  Can not proceed please see GP.
+                </Typography>
               )}
             </FormControl>
 
@@ -399,7 +407,7 @@ function StopSmokingQuestion() {
               </RadioGroup>
               {answers.currTakingAnyMedi === "Yes" && (
                 <TextField
-                disabled={checkDisabled("currTakingAnyMediDetails")}
+                  disabled={checkDisabled("currTakingAnyMediDetails")}
                   multiline
                   line={3}
                   value={answers.currTakingAnyMediDetails}
@@ -424,27 +432,27 @@ function StopSmokingQuestion() {
               <Typography variant="h4" className="labelOne">
                 Do you suffer from any of the following?
                 <ul>
-                  <li>
+                <li style={{ fontSize: "1rem" }}>
                     You will read the patient information leaflet supplied with
                     your medication
                   </li>
-                  <li>
+                  <li style={{ fontSize: "1rem" }}>
                     You will contact us and inform your GP of your medication if
                     you experience any side effects of treatment, you start new
                     medication and/or your medical conditions change during
                     treatment
                   </li>
-                  <li>The treatment is solely for your own use</li>
-                  <li>
+                  <li style={{ fontSize: "1rem" }}>The treatment is solely for your own use</li>
+                  <li style={{ fontSize: "1rem" }}>
                     You have answered all the above questions accurately and
                     truthfully
                   </li>
-                  <li>
+                  <li style={{ fontSize: "1rem" }}>
                     You understand our prescribers take your answers in good
                     faith and base their prescribing decisions accordingly, and
                     that incorrect information can be hazardous to your health
                   </li>
-                  <li>
+                  <li style={{ fontSize: "1rem" }}>
                     You understand that whilst decisions relating to your
                     treatment are made jointly between you and the prescriber,
                     the final decision to issue a prescription will always be
@@ -462,7 +470,9 @@ function StopSmokingQuestion() {
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
               {answers.agreeToTheFollowing === "No" && (
-                <div>Can not proceed please see GP.</div>
+                <Typography color="error" sx={{ mt: 1, fontSize: "14px" }}>
+                  Can not proceed please see GP.
+                </Typography>
               )}
             </FormControl>
             {/****** Do you understand that when starting varenicline treatment you should start with a 2-week starter pack  *****/}
@@ -531,16 +541,16 @@ function StopSmokingQuestion() {
                 contact your GP or other urgent healthcare provider if you
                 experience any of the following conditions?
                 <ul>
-                  <li>
+                <li style={{ fontSize: "1rem" }}>
                     new or worse heart or blood vessel (cardiovascular) problems
                   </li>
-                  <li>seizures</li>
-                  <li>
+                  <li style={{ fontSize: "1rem" }}>seizures</li>
+                  <li style={{ fontSize: "1rem" }}>
                     agitatation, depressed mood, changes in behaviour, suicidal
                     thoughts
                   </li>
-                  <li>swelling of face, mouth or neck</li>
-                  <li>skin rash or skin peeling</li>
+                  <li style={{ fontSize: "1rem" }}>swelling of face, mouth or neck</li>
+                  <li style={{ fontSize: "1rem" }}>skin rash or skin peeling</li>
                 </ul>
               </Typography>
               <FormControlLabel

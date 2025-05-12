@@ -151,9 +151,7 @@ export default function Checkout() {
   const ipAddress = useIpAddress();
   const [selectedShippingMethod, setSelectedShippingMethod] = useState("");
   const [shippingCost, setShippingCost] = useState(0);
-
   let cardElement;
-
   useEffect(() => {
     if (stripe && elements) {
       cardElement = elements.getElement(CardElement);
@@ -475,9 +473,10 @@ export default function Checkout() {
 
   const calculateTotalWithShipping = () => {
     const subtotal = calculateTotal();
+    // console.log('price1', subtotal);
     return (parseFloat(subtotal) + shippingCost).toFixed(2);
   };
-
+   // console.log('price', shippingCost);
   if (!userDetails) {
     return <>Loading...</>;
   }

@@ -78,8 +78,8 @@ function HighFeverQuestion() {
   const isValidSelection = answers.conditions1.length === 0;
 
   const isValidSelection1 =
-    (answers.conditions2.includes("None") && answers.conditions2.length > 1) ||
-    answers.conditions2.length === 0;
+  answers.conditions2.length === 0;
+    // (answers.conditions2.includes("None") && answers.conditions2.length > 1) ||
 
   const handleNext = () => {
     const qaData = JSON.parse(
@@ -111,6 +111,13 @@ function HighFeverQuestion() {
           return;
         }
       }
+
+      // checking wheather the given name is in correct format or not 
+      if (!/^[a-zA-Z\s]+$/.test(answers.fullName)) {
+        showMessage("Full Name should only contain letters and spaces.","error");
+        return;
+      }
+      
       // Additional checks for conditional fields
       if (answers.pregnancyDetails === "Yes" && !answers.additionalDetails) {
         showMessage(
@@ -135,6 +142,16 @@ function HighFeverQuestion() {
         );
         return;
       }
+      if (
+        answers.conditions2.includes("None") &&
+        answers.conditions2.length > 1
+      ) {
+        showMessage(
+          "Sorry you can not select none and other options at the same time .",
+          "error"
+        );
+        return;
+      }
       if (answers.confirmTC === "No" || answers.agreedTC === "No") {
         showMessage(
           "We are unable to provide you with treatment at this time.",
@@ -142,7 +159,6 @@ function HighFeverQuestion() {
         );
         return;
       }
-
       if (isValidSelection) {
         showMessage(
           "Based on your answers, we are unable to provide you with treatment at this time. Please consult your GP.",
@@ -245,8 +261,10 @@ function HighFeverQuestion() {
                 name="fullName"
                 value={answers.fullName}
                 onChange={(e) =>
-                  setAnswers({ ...answers, fullName: e.target.value })
-                }
+                {
+                  setAnswers({ ...answers, fullName: e.target.value });
+
+                }}
                 fullWidth
               />
             </FormControl>
@@ -352,8 +370,8 @@ function HighFeverQuestion() {
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
               {answers.smokeDetails === "Yes" && (
-                <div>
-                  <Typography>Would you like more information?</Typography>
+                <Box>
+                  <Typography sx={{fontSize:"15px",mt:1}}>Would you like more information?</Typography>
                   <RadioGroup
                     row
                     name="smokeDetailsNext"
@@ -376,7 +394,7 @@ function HighFeverQuestion() {
                       label="No"
                     />
                   </RadioGroup>
-                </div>
+                </Box>
               )}
             </FormControl>
             {/* ........ Do you consume alcohal ?....... */}
@@ -401,7 +419,7 @@ function HighFeverQuestion() {
               </RadioGroup>
               {answers.alcohalDetails === "Yes" && (
                 <div>
-                  <Typography>
+                  <Typography sx={{fontSize:"15px",mt:1}}>
                     Would you like information on safe consumption?
                   </Typography>
                   <RadioGroup
@@ -451,7 +469,7 @@ function HighFeverQuestion() {
               </RadioGroup>
               {answers.weightDetails === "Yes" && (
                 <div>
-                  <Typography>
+                  <Typography sx={{fontSize:"15px",mt:1}}>
                     Would you like guidance on weight management?
                   </Typography>
                   <RadioGroup
@@ -528,6 +546,7 @@ function HighFeverQuestion() {
                 "Itchy, red, or watery eyes",
               ].map((condition, index) => (
                 <FormControlLabel
+                sx={{pl:3}}
                   className="checkbox2Col"
                   key={index}
                   control={
@@ -580,7 +599,7 @@ function HighFeverQuestion() {
               </RadioGroup>
               {answers.currentSymptoms === "Yes" && (
                 <>
-                  <Typography>Please Provide More details</Typography>
+                  <Typography  sx={{fontSize:"15px"}}>Please Provide More details</Typography>
                   <TextField
                     multiline
                     disabled={checkDisabled("currentSymptomsDetails")}
@@ -622,7 +641,7 @@ function HighFeverQuestion() {
               </RadioGroup>
               {answers.otherTreatment1 === "Yes" && (
                 <>
-                  <Typography>Please Provide More details</Typography>
+                  <Typography sx={{fontSize:"15px"}}>Please Provide More details</Typography>
                   <TextField
                     disabled={checkDisabled("otherTreatmentDetails")}
                     multiline
@@ -667,6 +686,7 @@ function HighFeverQuestion() {
                 "None",
               ].map((condition, index) => (
                 <FormControlLabel
+                sx={{pl:3}}
                   className="checkbox2Col"
                   key={index}
                   control={
@@ -696,7 +716,6 @@ function HighFeverQuestion() {
                 />
               ))}
             </FormControl>
-
             {/* ......... Do you have any liver or kidney conditions?....... */}
             <FormControl
               component="fieldset"
@@ -741,7 +760,7 @@ function HighFeverQuestion() {
               </RadioGroup>
               {answers.otherConditions === "Yes" && (
                 <>
-                  <Typography>Please Provide More details</Typography>
+                  <Typography  sx={{fontSize:"15px"}}>Please Provide More details</Typography>
                   <TextField
                     disabled={checkDisabled("otherConditionsDetails")}
                     multiline
@@ -783,7 +802,7 @@ function HighFeverQuestion() {
               </RadioGroup>
               {answers.currentMedication === "Yes" && (
                 <>
-                  <Typography>Please Provide More details</Typography>
+                  <Typography  sx={{fontSize:"15px"}}>Please Provide More details</Typography>
                   <TextField
                     multiline
                     disabled={checkDisabled("currentMedicationDetails")}
@@ -825,7 +844,7 @@ function HighFeverQuestion() {
               </RadioGroup>
               {answers.otherAllergy === "Yes" && (
                 <>
-                  <Typography>Please Provide More details</Typography>
+                  <Typography  sx={{fontSize:"15px"}}>Please Provide More details</Typography>
                   <TextField
                     disabled={checkDisabled("otherAllergyDetails")}
                     multiline
@@ -879,29 +898,29 @@ function HighFeverQuestion() {
               </Typography>
               <ul>
                 <li>
-                  " You confirm that you have reviewed the treatment
+                  You confirm that you have reviewed the treatment
                   information, including side effects, effectiveness, and
-                  available alternatives"
+                  available alternatives.
                 </li>
                 <li>
-                  "You agree to contact your GP if there’s no improvement after
-                  14 days or if symptoms persist beyond 28 days."
+                  You agree to contact your GP if there’s no improvement after
+                  14 days or if symptoms persist beyond 28 days.
                 </li>
                 <li>
-                  "Your answers are truthful, and this treatment is intended
-                  solely for your own use."
+                  Your answers are truthful, and this treatment is intended
+                  solely for your own use.
                 </li>
                 <li>
-                  "You will read and understand the patient information leaflet
-                  provided."
+                  You will read and understand the patient information leaflet
+                  provided.
                 </li>
                 <li>
-                  "While optional, you acknowledge the importance of informing
-                  your GP to ensure safe care."
+                  While optional, you acknowledge the importance of informing
+                  your GP to ensure safe care.
                 </li>
                 <li>
-                  "You understand that prescriptions rely on accurate
-                  information, and orders may be declined if unsuitable.."
+                  You understand that prescriptions rely on accurate
+                  information, and orders may be declined if unsuitable.
                 </li>
               </ul>
 
@@ -917,10 +936,10 @@ function HighFeverQuestion() {
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
               {answers.agreedTC === "No" && (
-                <div>
+                 <Typography color="error" sx={{ mt: 1, fontSize: "14px" }}>
                   We are unable to provide you with treatment at this time.
                   Please consult your GP.
-                </div>
+                </Typography>
               )}
             </FormControl>
 
@@ -945,10 +964,11 @@ function HighFeverQuestion() {
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
               {answers.confirmTC === "No" && (
-                <div>
+          <Typography color="error" sx={{ mt: 1, fontSize: "14px" }}>
+
                   We are unable to provide you with treatment at this time.
                   Please consult your GP.
-                </div>
+                </Typography>
               )}
             </FormControl>
 

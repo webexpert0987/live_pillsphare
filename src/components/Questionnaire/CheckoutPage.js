@@ -13,6 +13,7 @@ import { useMessage } from "../../Context/MessageContext";
 import Stack from "@mui/material/Stack";
 import { useApp } from "../../Context/AppContext";
 import { loadStripe } from "@stripe/stripe-js";
+import ShippingMethodSelector from "../CheckoutForm/ShippingMethodSelector";
 import {
   Elements,
   CardElement,
@@ -24,6 +25,7 @@ import { createOrder, orderEligibility } from "../../apis/apisList/orderApi";
 import useIpAddress from "../../hooks/ipAddressHook";
 import { questionsMap } from "../../lib/questions";
 import CouponCode from "../CouponCode";
+import { getShippingMethods } from "../../apis/apisList/orderApi";
 
 // Load Stripe with your publishable key
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_API_KEY);
@@ -93,6 +95,63 @@ function CheckoutForm() {
   const { showMessage } = useMessage();
   const { qaCart: cart, setQaCart: setCart, cartEmpty } = useApp();
   const [cartTotal, setCartTotal] = useState("0.00");
+  /////
+  const [selectedMethod, setSelectedMethod] = useState("");
+  const [shippingMethods, setShippingMethods] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchShippingMethods = async () => {
+      try {
+        const response = await getShippingMethods();
+        // Transform shipping methods into required format
+        const methods = [
+          {
+            id: "tracked24",
+            name: "tracked24",
+            label: "Royal Mail Tracked 24",
+            price: "£3.95",
+            description: "Next working day tracked delivery",
+          },
+          {
+            id: "standard",
+            name: "standard",
+            label: "Standard Delivery",
+            price: "£2.95",
+            description: "3-5 working days",
+          },
+          {
+            id: "special_delivery_1pm",
+            name: "special_delivery_1pm",
+            label: "Next day by 1pm",
+            price: "£5.95",
+            description: "Next working day before 1pm",
+          },
+          {
+            id: "next_day_9am",
+            name: "next_day_9am",
+            label: "Next day by 9am",
+            price: "£13.95",
+            description: "Next working day before 9am (Monday-Saturday)",
+          },
+          {
+            id: "free_shipping",
+            name: "free_shipping",
+            label: "Free Shipping",
+            price: "FREE",
+            description: "Orders over £30 (3-5 working days)",
+          },
+        ];
+        setShippingMethods(response);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching shipping methods:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchShippingMethods();
+  }, []);
 
   const [userDetails, setUserDetails] = useState(() => {
     const storedUser = localStorage.getItem("user");
@@ -222,13 +281,15 @@ function CheckoutForm() {
   const calculateTotal = () => {
     try {
       const cartPrice = cart[0]?.selectedVariant?.price || cart?.[0]?.price;
+      // console.log('cart price ',cartPrice);
       const price = parseFloat(cartPrice) * cart[0]?.quantity || 0;
+      // console.log('price ',price);
       return price.toFixed(2);
     } catch (error) {
       return "0.00";
     }
   };
-
+  // console.log('total  ',calculateTotal);
   const checkOrderEligibility = async (productId) => {
     try {
       const { shipping_address, billing_address } = billingDetails;
@@ -895,17 +956,24 @@ function CheckoutForm() {
                               </Typography>
                             )}
                           </Grid>
+
                           <CouponCode
                             cartTotal={cartTotal}
                             setCartTotal={setCartTotal}
                             appliedCoupon={appliedCoupon}
                             setAppliedCoupon={setAppliedCoupon}
                           />
+                          {/* shipping method selector component called */}
+                          <Box sx={{ mt: 1, width: "100%" }}>
+                            <ShippingMethodSelector
+                              selectedMethod={selectedMethod}
+                              onMethodSelect={setSelectedMethod}
+                            />
+                          </Box>
                           <Typography variant="h6">
                             Final Total: £{cartTotal}
                           </Typography>
                         </Grid>
-
                         <Button
                           // type="submit"
                           fullWidth

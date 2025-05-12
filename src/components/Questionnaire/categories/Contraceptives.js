@@ -120,17 +120,23 @@ function ContraceptivesQuestion() {
         }
       }
 
-      if(answers.contraceptionUsage ==='Yes'){
-        if(!answers.contraceptionUsageInfo){
-          showMessage("Please provide contraception usage details to proceed","error")
-          return
+      if (answers.contraceptionUsage === "Yes") {
+        if (!answers.contraceptionUsageInfo) {
+          showMessage(
+            "Please provide contraception usage details to proceed",
+            "error"
+          );
+          return;
         }
       }
 
-      if(answers.previousContraceptivePill ==='Yes'){
-        if(!answers.previousContraceptivePillInfo){
-          showMessage("Please provide previous Contraceptive Pill details to proceed","error")
-          return
+      if (answers.previousContraceptivePill === "Yes") {
+        if (!answers.previousContraceptivePillInfo) {
+          showMessage(
+            "Please provide previous Contraceptive Pill details to proceed",
+            "error"
+          );
+          return;
         }
       }
 
@@ -197,11 +203,10 @@ function ContraceptivesQuestion() {
       return null;
     }
     return (
-      <div>
+      <Typography color="error" sx={{ mt: 1, fontSize: "14px" }}>
         We are unable to provide you with treatment at this time. Please consult
         your GP.
-        <br></br>Please Do not proceed.
-      </div>
+      </Typography>
     );
   };
 
@@ -300,10 +305,12 @@ function ContraceptivesQuestion() {
                 row
                 name="previousContraceptivePill"
                 value={answers.previousContraceptivePill}
-                onChange={(e) => setAnswers({
-                  ...answers,
-                  previousContraceptivePill: e.target.value,
-                })}
+                onChange={(e) =>
+                  setAnswers({
+                    ...answers,
+                    previousContraceptivePill: e.target.value,
+                  })
+                }
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
@@ -356,7 +363,7 @@ function ContraceptivesQuestion() {
               className="QuestionBox"
               disabled={checkDisabled("cervicalCancerScreening")}
             >
-              <Typography variant="h4" className="labelOne" >
+              <Typography variant="h4" className="labelOne">
                 Have you had a cervical cancer screening test in the past 3-5
                 years?
               </Typography>
@@ -370,7 +377,11 @@ function ContraceptivesQuestion() {
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
               {answers.cervicalCancerScreening === "No" && (
-                <Typography variant="body">
+                <Typography
+                  color="error"
+                  variant="body"
+                  sx={{ mt: 1, fontSize: "14px" }}
+                >
                   Cervical cancer screening is recommended for women aged 25-64.
                   If you're not up-to-date with this screening, please see your
                   doctor or contraception nurse. We cannot provide the pill
@@ -390,24 +401,34 @@ function ContraceptivesQuestion() {
                 Have you or any immediate family member been diagnosed with any
                 of the following health conditions?
                 <ul>
-                  <li>
+                  <li style={{ fontSize: "1rem" }}>
                     Blood clot in the legs (deep vein thrombosis, DVT), lungs
                     (pulmonary embolism, PE), or other organs
                   </li>
-                  <li>Diabetes</li>
-                  <li>Migraine</li>
-                  <li>
+                  <li style={{ fontSize: "1rem" }}>Diabetes</li>
+                  <li style={{ fontSize: "1rem" }}>Migraine</li>
+                  <li style={{ fontSize: "1rem" }}>
                     Heart attack, stroke, angina, chest pain, mini-stroke (TIA),
                     abnormal heart rhythm, or impaired heart function
                   </li>
-                  <li>High blood pressure</li>
-                  <li>High cholesterol or triglycerides</li>
-                  <li>Cancer (breast, cervical, liver, etc.)</li>
-                  <li>Liver or gallbladder disease</li>
-                  <li>Epilepsy</li>
-                  <li>Systemic lupus erythematosus (SLE)</li>
-                  <li>Sickle cell disease or blood disorders</li>
-                  <li>
+                  <li style={{ fontSize: "1rem" }}>High blood pressure</li>
+                  <li style={{ fontSize: "1rem" }}>
+                    High cholesterol or triglycerides
+                  </li>
+                  <li style={{ fontSize: "1rem" }}>
+                    Cancer (breast, cervical, liver, etc.)
+                  </li>
+                  <li style={{ fontSize: "1rem" }}>
+                    Liver or gallbladder disease
+                  </li>
+                  <li style={{ fontSize: "1rem" }}>Epilepsy</li>
+                  <li style={{ fontSize: "1rem" }}>
+                    Systemic lupus erythematosus (SLE)
+                  </li>
+                  <li style={{ fontSize: "1rem" }}>
+                    Sickle cell disease or blood disorders
+                  </li>
+                  <li style={{ fontSize: "1rem" }}>
                     Inflammatory bowel disease (e.g., Crohn’s or ulcerative
                     colitis)
                   </li>
@@ -436,12 +457,24 @@ function ContraceptivesQuestion() {
               <Typography variant="h4" className="labelOne">
                 Are you currently taking any of the following medications?
                 <ul>
-                  <li>HIV Protease Inhibitors (e.g., Atazanavir, Ritonavir)</li>
-                  <li>Antifungals (e.g., Itraconazole, Ketoconazole)</li>
-                  <li>Antibiotics (e.g., Tetracycline, Ampicillin)</li>
-                  <li>Antiepileptics (e.g., Phenobarbital, Phenytoin)</li>
-                  <li>Herbal medications (e.g., St John's Wort)</li>
-                  <li>Imatinib, Rifampicin, Ciclosporin</li>
+                  <li style={{ fontSize: "1rem" }}>
+                    HIV Protease Inhibitors (e.g., Atazanavir, Ritonavir)
+                  </li>
+                  <li style={{ fontSize: "1rem" }}>
+                    Antifungals (e.g., Itraconazole, Ketoconazole)
+                  </li>
+                  <li style={{ fontSize: "1rem" }}>
+                    Antibiotics (e.g., Tetracycline, Ampicillin)
+                  </li>
+                  <li style={{ fontSize: "1rem" }}>
+                    Antiepileptics (e.g., Phenobarbital, Phenytoin)
+                  </li>
+                  <li style={{ fontSize: "1rem" }}>
+                    Herbal medications (e.g., St John's Wort)
+                  </li>
+                  <li style={{ fontSize: "1rem" }}>
+                    Imatinib, Rifampicin, Ciclosporin
+                  </li>
                 </ul>
               </Typography>
               <RadioGroup
@@ -538,8 +571,12 @@ function ContraceptivesQuestion() {
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
               {answers.feelingVulnerable === "Yes" && (
-                <Typography variant="body">
-                  You are not alone. We are here to help. Contact us
+                <Typography
+                  color="error"
+                  variant="body"
+                  sx={{ mt: 1, fontSize: "14px" }}
+                >
+                  You are not alone. We are here to help. Contact us.
                 </Typography>
               )}
             </FormControl>
@@ -614,43 +651,43 @@ function ContraceptivesQuestion() {
               </Typography>
               <Typography variant="body" className="labelOne">
                 <ul>
-                  <li>
+                  <li style={{ fontSize: "1rem" }}>
                     You understand that vomiting or diarrhea may affect the
                     effectiveness of the pill.
                   </li>
-                  <li>
+                  <li style={{ fontSize: "1rem" }}>
                     You acknowledge the risks and possible side effects of
                     contraception and agree to report any pain in the leg,
                     breathing difficulties, or new migraines to your doctor.
                   </li>
-                  <li>
+                  <li style={{ fontSize: "1rem" }}>
                     You have read and understood the information on the
                     treatments and medications, including side effects,
                     effectiveness, and available alternatives.
                   </li>
-                  <li>
+                  <li style={{ fontSize: "1rem" }}>
                     You have answered all questions truthfully, and the
                     treatment is for your personal use only.
                   </li>
-                  <li>
+                  <li style={{ fontSize: "1rem" }}>
                     You will read and understand the patient information leaflet
                     provided with the medication.
                   </li>
-                  <li>
+                  <li style={{ fontSize: "1rem" }}>
                     You understand that, while not compulsory, it is important
                     to inform your GP about this treatment so they can provide
                     safe healthcare.
                   </li>
-                  <li>
+                  <li style={{ fontSize: "1rem" }}>
                     You understand that prescribing decisions are based on your
                     responses, and inaccurate information may lead to the
                     rejection of your order or harm to your health.
                   </li>
-                  <li>
+                  <li style={{ fontSize: "1rem" }}>
                     You are aware that a soft identity check will be conducted
                     via LexisNexis, which does not affect your credit rating.
                   </li>
-                  <li>
+                  <li style={{ fontSize: "1rem" }}>
                     You have read and agree to our Terms and Conditions, Terms
                     of Use, and Privacy Policy.
                   </li>
@@ -699,7 +736,10 @@ function ContraceptivesQuestion() {
                   <Checkbox
                     checked={answers.agreeToTerms2 || false}
                     onChange={(e) =>
-                      setAnswers({ ...answers, agreeToTerms2: e.target.checked })
+                      setAnswers({
+                        ...answers,
+                        agreeToTerms2: e.target.checked,
+                      })
                     }
                     name="agreeToTerms2"
                   />

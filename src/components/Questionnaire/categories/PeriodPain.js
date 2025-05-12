@@ -230,11 +230,11 @@ function PeriodPainQuestion() {
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
               {answers.agedBetween === "No" && (
-                <div>
-                  "This treatment is only suitable for women aged between 18 and
+                <Typography color="error" sx={{ mt: 1, fontSize: "14px" }}>
+                  This treatment is only suitable for women aged between 18 and
                   65. If you do not meet this criterion, you may not be eligible
-                  for treatment."
-                </div>
+                  for treatment.
+                </Typography>
               )}
             </FormControl>
             {/******2.	Do you currently experience period pain (dysmenorrhea)? *****/}
@@ -257,11 +257,11 @@ function PeriodPainQuestion() {
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
               {answers.periodPain === "No" && (
-                <div>
-                  "It appears that you do not suffer from period pain. We are
+                <Typography color="error" sx={{ mt: 1, fontSize: "14px" }}>
+                  It appears that you do not suffer from period pain. We are
                   unable to provide treatment for you. Please consult your
-                  healthcare provider for more information."
-                </div>
+                  healthcare provider for more information.
+                </Typography>
               )}
             </FormControl>
             {/****** 3.	Do you experience moderate to severe pain during menstruation?****/}
@@ -285,13 +285,13 @@ function PeriodPainQuestion() {
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
-              {answers.experience === "No" && (
-                <div>
-                  "Please confirm the severity of your period pain (mild,
+              {/* {answers.experience === "No" && (
+                <Typography sx={{ mt: 1, fontSize: "14px" }}>
+                  Please confirm the severity of your period pain (mild,
                   moderate, or severe) to help us determine the best treatment
-                  option."
-                </div>
-              )}
+                  option.
+                </Typography>
+              )} */}
             </FormControl>
             {/******4.	Do you also experience any of the following symptoms with your period pain? *****/}
 
@@ -346,11 +346,11 @@ function PeriodPainQuestion() {
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
               {answers.experienceChange === "No" && (
-                <div>
-                  "It is important to discuss any changes in your symptoms with
+                <Typography sx={{ mt: 1, fontSize: "14px" }}>
+                  It is important to discuss any changes in your symptoms with
                   your GP to rule out underlying conditions. We recommend
-                  consulting with your healthcare provider before proceeding."
-                </div>
+                  consulting with your healthcare provider before proceeding.
+                </Typography>
               )}
             </FormControl>
             {/******6.	Is your period pain accompanied by any other medical symptoms, such as pelvic pain, heavy bleeding, or irregular periods? *****/}
@@ -374,11 +374,11 @@ function PeriodPainQuestion() {
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
               {answers.periodPain1 === "Yes" && (
-                <div>
-                  "This could be a sign of another condition, such as
+                <Typography color="error" sx={{ mt: 1, fontSize: "14px" }}>
+                  This could be a sign of another condition, such as
                   endometriosis or fibroids. We recommend you consult your GP
-                  for further evaluation."
-                </div>
+                  for further evaluation.
+                </Typography>
               )}
             </FormControl>
             {/******7.	Have you ever been diagnosed with any of the following conditions? *****/}
@@ -419,7 +419,7 @@ function PeriodPainQuestion() {
                   label="Chronic pelvic pain"
                 />
                 <br></br>
-                <FormControlLabel control={<Checkbox />} label="Other : " />
+                <FormControlLabel control={<Checkbox />} label="Other " />
               </ul>
             </FormControl>
             {/******8.	Do you have any known allergies to medications, especially pain relief medications like NSAIDs (e.g., ibuprofen, aspirin)? *****/}
@@ -431,7 +431,7 @@ function PeriodPainQuestion() {
             >
               <Typography variant="h4" className="labelOne">
                 Do you have any known allergies to medications, especially pain
-                relief medications like NSAIDs (e.g., ibuprofen, aspirin)?
+                relief medications like NSAIDs (e.g. ibuprofen, aspirin)?
               </Typography>
               <RadioGroup
                 row
@@ -446,10 +446,10 @@ function PeriodPainQuestion() {
               </RadioGroup>
               {answers.knownAllergy === "Yes" && (
                 <>
-                  <Typography>
-                    "Please specify the medication(s) to which you are allergic
+                  <Typography sx={{fontSize:"15px"}}>
+                    Please specify the medications to which you are allergic
                     so we can avoid recommending any contraindicated
-                    treatments."
+                    treatments.
                   </Typography>
                   <TextField
                     multiline
@@ -486,6 +486,7 @@ function PeriodPainQuestion() {
                   <li>Pain relief medication (e.g., ibuprofen, paracetamol)</li>
                   <li>Antidepressants or antianxiety medication</li>
                   <li>Any other relevant medications</li>
+                  </ul>
                   <RadioGroup
                     row
                     name="otherMedication"
@@ -504,13 +505,12 @@ function PeriodPainQuestion() {
                     />
                   </RadioGroup>
                   {answers.otherMedication === "Yes" && (
-                    <div>
-                      "Some medications can interact with period pain
+                    <Typography color="error" sx={{ mt: 1, fontSize: "14px" }}>
+                      Some medications can interact with period pain
                       treatments. Please consult your GP if you're unsure about
-                      any potential interactions."
-                    </div>
+                      any potential interactions.
+                    </Typography>
                   )}
-                </ul>
               </>
             </FormControl>
             {/******10.	Have you used any treatments in the past for period pain, such as: *****/}
@@ -570,9 +570,9 @@ function PeriodPainQuestion() {
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
               {answers.anyTreatment === "No" && (
-                <Typography>
-                  "If you did not respond to previous treatments, we recommend
-                  speaking to your GP for alternative options."
+                <Typography color="error" sx={{ mt: 1, fontSize: "14px" }}>
+                  If you did not respond to previous treatments, we recommend
+                  speaking to your GP for alternative options.
                 </Typography>
               )}
             </FormControl>
@@ -597,6 +597,7 @@ function PeriodPainQuestion() {
                     setAnswers({ ...answers, painseverity: e.target.value })
                   }
                   label="Pain severity"
+                  className="painSeverityDropdown"
                 >
                   {[...Array(10).keys()].map((value) => (
                     <MenuItem key={value + 1} value={value + 1}>
@@ -627,12 +628,12 @@ function PeriodPainQuestion() {
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
               {answers.painActivity === "Yes" && (
-                <div>
-                  "If your period pain significantly impacts your daily life,
+                <Typography color="error" sx={{ mt: 1, fontSize: "14px" }}>
+                  If your period pain significantly impacts your daily life,
                   this may require a more intensive treatment approach. We
                   recommend a consultation with your GP to explore further
-                  options."
-                </div>
+                  options.
+                </Typography>
               )}
             </FormControl>
 
@@ -649,21 +650,17 @@ function PeriodPainQuestion() {
               </Typography>
               <ul>
                 <li>Asthma</li>
-                <br></br>
                 <li>Diabetes</li>
-                <br></br>
                 <li>Hypertension</li>
-                <br></br>
                 <li>Cardiovascular disease</li>
-                <br></br>
                 <li>Blood clotting disorders</li>
-                <br></br>
+                </ul>
                 <RadioGroup
                   row
                   name="followingCondition"
                   value={answers.followingCondition}
                   onChange={(e) => handleChange(e, "Yes")}
-                >
+                  >
                   <FormControlLabel
                     value="Yes"
                     control={<Radio />}
@@ -672,13 +669,12 @@ function PeriodPainQuestion() {
                   <FormControlLabel value="No" control={<Radio />} label="No" />
                 </RadioGroup>
                 {answers.followingCondition === "Yes" && (
-                  <div>
-                    "Certain health conditions may affect the suitability of
+                  <Typography color="error" sx={{ mt: 1, fontSize: "14px" }}>
+                    Certain health conditions may affect the suitability of
                     period pain treatments. It is important to consult with your
-                    GP before starting any treatment."
-                  </div>
+                    GP before starting any treatment.
+                  </Typography>
                 )}
-              </ul>
             </FormControl>
             {/******15.	Are you currently pregnant or breastfeeding? *****/}
 
@@ -700,11 +696,11 @@ function PeriodPainQuestion() {
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
               {answers.currPregnant === "Yes" && (
-                <div>
-                  "You should not take certain medications for period pain
+                <Typography color="error" sx={{ mt: 1, fontSize: "14px" }}>
+                  You should not take certain medications for period pain
                   during pregnancy or breastfeeding. Please consult your GP for
-                  suitable alternatives."
-                </div>
+                  suitable alternatives.
+                </Typography>
               )}
             </FormControl>
             {/******16.	Do you understand that the treatment options available for period pain may have potential side effects, and you should consult your GP if you experience any adverse reactions? *****/}
@@ -729,7 +725,9 @@ function PeriodPainQuestion() {
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
               {answers.understandTO === "No" && (
-                <div>Please consult your GP for suitable alternatives.</div>
+                <Typography color="error" sx={{ mt: 1, fontSize: "14px" }}>
+                  Please consult your GP for suitable alternatives.
+                </Typography>
               )}
             </FormControl>
             {/******17.	Do you consent to proceeding with treatment for period pain after reviewing the information provided? *****/}
@@ -753,7 +751,9 @@ function PeriodPainQuestion() {
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
               {answers.consentToPro === "No" && (
-                <div>Please consult your GP for suitable alternatives.</div>
+                <Typography color="error" sx={{ mt: 1, fontSize: "14px" }}>
+                  Please consult your GP for suitable alternatives.
+                </Typography>
               )}
             </FormControl>
 

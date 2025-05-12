@@ -223,10 +223,10 @@ function HairLossQuestionnaire() {
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
               {questionnaireResponses.isAgedBetween17And74 === "No" && (
-                <div>
-                  "This treatment is not suitable for women or individuals under
-                  18 or over 65." [Do not proceed]
-                </div>
+              <Typography color="error" sx={{ mt: 1, fontSize: "14px" }}>
+                  This treatment is not suitable for women or individuals under
+                  18 or over 65. Do not proceed.
+                </Typography>
               )}
             </FormControl>
             {/*****•	•	Do you have hair loss in patches, or is your scalp itchy or sore?*****/}
@@ -251,10 +251,11 @@ function HairLossQuestionnaire() {
               </RadioGroup>
               {questionnaireResponses.hasHairLossInPatchesOrScalpIssues ===
                 "Yes" && (
-                <div>
+                  <Typography color="error" sx={{ mt: 1, fontSize: "14px" }}>
+
                   This treatment may not be suitable for you. We recommend
                   contacting your GP for further advice." [Do not proceed]
-                </div>
+                </Typography>
               )}
             </FormControl>
             {/****•	Is your hair loss localized to the temple area?******/}
@@ -283,10 +284,10 @@ function HairLossQuestionnaire() {
               </RadioGroup>
               {questionnaireResponses.isHairLossLocalizedToTempleArea ===
                 "No" && (
-                <div>
+                  <Typography  sx={{ mt: 1, fontSize: "14px" }}>
                   We can still offer treatment, but the range of available
                   medications may be limited.
-                </div>
+                </Typography>
               )}
             </FormControl>
             {/****** •	Do you have a healthy scalp? *****/}
@@ -298,16 +299,18 @@ function HairLossQuestionnaire() {
             >
               <Typography variant="h4" className="labelOne">
                 Do you have a healthy scalp?
-                <br></br>
-                Your scalp should not have any of the following:
+                 </Typography>
+                <Typography sx={{mt:1,fontSize:"15px"}} >
+                Your scalp should not have any of the following :   </Typography>
                 <ul>
-                  <li>Inflammation</li>
-                  <li>Redness</li>
-                  <li>Medical dressings</li>
-                  <li>Shaved areas</li>
+                <li style={{ fontSize: "15px" }}>Inflammation</li>
+                <li style={{ fontSize: "15px" }}>Redness</li>
+                <li style={{ fontSize: "15px" }}>Medical dressings</li>
+                <li style={{ fontSize: "15px" }}>Shaved areas</li>
                 </ul>
-              </Typography>
+           
               <RadioGroup
+              sx={{pl:2}}
                 row
                 name="hasHealthyScalp"
                 value={questionnaireResponses.hasHealthyScalp}
@@ -317,10 +320,11 @@ function HairLossQuestionnaire() {
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
               {questionnaireResponses.hasHealthyScalp === "No" && (
-                <div>
-                  "We are unable to supply treatment. Please consult your GP."
-                  [Do not proceed]
-                </div>
+                                  <Typography color="error" sx={{ mt: 1, fontSize: "14px" }}>
+
+                  We are unable to supply treatment. Please consult your GP.
+                  Do not proceed.
+                </Typography>
               )}
             </FormControl>
             {/****** Are you experiencing sudden or complete hair loss? *****/}
@@ -343,11 +347,12 @@ function HairLossQuestionnaire() {
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
               {questionnaireResponses.hasSuddenOrCompleteHairLoss === "Yes" && (
-                <div>
-                  "This treatment is not suitable for this type of hair loss. We
-                  recommend speaking to your GP for further advice." [Do not
-                  proceed]
-                </div>
+                                 <Typography color="error" sx={{ mt: 1, fontSize: "14px" }}>
+
+                  This treatment is not suitable for this type of hair loss. We
+                  recommend speaking to your GP for further advice. Do not
+                  proceed.
+                </Typography>
               )}
             </FormControl>
             {/****** 	Could your hair loss be related to medication, dietary factors, or an illness? *****/}
@@ -374,10 +379,11 @@ function HairLossQuestionnaire() {
               </RadioGroup>
               {questionnaireResponses.isHairLossRelatedToMedicationOrIllness ===
                 "Yes" && (
-                <div>
-                  "If your hair loss is caused by lifestyle or health factors,
-                  we recommend discussing it with your GP." [Do not proceed]
-                </div>
+                               <Typography color="error" sx={{ mt: 1, fontSize: "14px" }}>
+
+                  If your hair loss is caused by lifestyle or health factors,
+                  we recommend discussing it with your GP. Do not proceed.
+                </Typography>
               )}
             </FormControl>
             {/******•	Have you ever been diagnosed with any of the following conditions?  *****/}
@@ -391,21 +397,21 @@ function HairLossQuestionnaire() {
                 Have you ever been diagnosed with any of the following
                 conditions?
                 <ul>
-                  <li>
+                <li style={{ fontSize: "1rem" }}>
                     Heart disease (including chest pain, angina, heart attack,
                     or any history of cardiovascular events)
                   </li>
-                  <li>
+                  <li style={{ fontSize: "1rem" }}>
                     Acute Porphyria (a rare hereditary disease affecting
                     haemoglobin)
                   </li>
-                  <li>Pheochromocytoma (cancer of the adrenal glands)</li>
-                  <li>
+                  <li style={{ fontSize: "1rem" }}>Pheochromocytoma (cancer of the adrenal glands)</li>
+                  <li style={{ fontSize: "1rem" }}>
                     Prostate problems (e.g., prostate enlargement, prostatitis,
                     prostate cancer)
                   </li>
-                  <li>Male breast cancer</li>
-                  <li>High blood pressure</li>
+                  <li style={{ fontSize: "1rem" }}>Male breast cancer</li>
+                  <li style={{ fontSize: "1rem" }}>High blood pressure</li>
                 </ul>
               </Typography>
               <RadioGroup
@@ -419,9 +425,10 @@ function HairLossQuestionnaire() {
               </RadioGroup>
               {questionnaireResponses.hasDiagnosedMedicalConditions ===
                 "Yes" && (
-                <div>
-                  "This treatment is not suitable for you." [Do not proceed]
-                </div>
+                  <Typography color="error" sx={{ mt: 1, fontSize: "14px" }}>
+
+                  This treatment is not suitable for you. Do not proceed.
+                </Typography>
               )}
             </FormControl>
             {/******•	Do you have a history of depression or any other mental health conditions?  *****/}
@@ -453,10 +460,10 @@ function HairLossQuestionnaire() {
               </RadioGroup>
               {questionnaireResponses.hasHistoryOfDepressionOrMentalHealth ===
                 "Yes" && (
-                <div>
+                  <Typography sx={{ mt: 1, fontSize: "14px" }}>
                   We can still offer treatment, but with a limited product
                   range.
-                </div>
+                </Typography>
               )}
             </FormControl>
             {/****** •	Are you currently taking any medication (including prescription, over-the-counter, or recreational drugs)? *****/}
@@ -485,26 +492,26 @@ function HairLossQuestionnaire() {
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
               {questionnaireResponses.isTakingAnyMedication === "Yes" && (
-                <div>
-                  <ul>
-                    <Typography>
+                <Box>
+                    <Typography sx={{fontSize:"1rem"}}>
                       Are you taking any of the following medications?
                     </Typography>
                     <ul>
-                      <li>Dithranol (used to treat psoriasis)</li>
-                      <li>
+                    <li style={{ fontSize: "15px" }}>Dithranol (used to treat psoriasis)</li>
+                    <li style={{ fontSize: "15px" }}>
                         Tretinoin (used to treat acne or other skin disorders)
                       </li>
-                      <li>
+                      <li style={{ fontSize: "15px" }}>
                         Corticosteroids (e.g., hydrocortisone, betamethasone
                         dipropionate)
                       </li>
-                      <li>
+                      <li style={{ fontSize: "15px" }}>
                         Petrolatum (a common ingredient in hair wax and gel)
                       </li>
                     </ul>
 
                     <RadioGroup
+                    sx={{pl:3}}
                       row
                       name="isTakingSpecificMedications"
                       value={questionnaireResponses.isTakingSpecificMedications}
@@ -528,13 +535,12 @@ function HairLossQuestionnaire() {
                     </RadioGroup>
                     {questionnaireResponses.isTakingSpecificMedications ===
                       "Yes" && (
-                      <div>
-                        "We are unable to supply you with treatment. Please
-                        consult your GP." [Do not proceed]
-                      </div>
+                        <Typography color="error" sx={{ mt: 1, fontSize: "14px" }}>
+                        We are unable to supply you with treatment. Please
+                        consult your GP. Do not proceed.
+                      </Typography>
                     )}
-                  </ul>
-                </div>
+                    </Box>
               )}
             </FormControl>
             {/****** •	Do you understand that if prescribed finasteride, and your partner is (or may be) pregnant, they should avoid handling crushed or broken tablets, and that you should always wear a condom during sex?*****/}
@@ -560,10 +566,11 @@ function HairLossQuestionnaire() {
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
               {questionnaireResponses.understandsFinasterideRisks === "No" && (
-                <div>
-                  "We are unable to supply you with medication unless you
-                  understand and agree to this condition." [Do not proceed]
-                </div>
+                                       <Typography color="error" sx={{ mt: 1, fontSize: "14px" }}>
+
+                  We are unable to supply you with medication unless you
+                  understand and agree to this condition. Do not proceed.
+             </Typography>
               )}
             </FormControl>
             {/******	Do you understand that if prescribed finasteride, you should inform your GP before undergoing a PSA blood test for your prostate?  *****/}
@@ -589,10 +596,10 @@ function HairLossQuestionnaire() {
               </RadioGroup>
               {questionnaireResponses.understandsPSATestImplications ===
                 "No" && (
-                <div>
-                  "We are unable to supply you with medication unless you
-                  understand and agree to this condition." [Do not proceed]
-                </div>
+                  <Typography color="error" sx={{ mt: 1, fontSize: "14px" }}>
+                  We are unable to supply you with medication unless you
+                  understand and agree to this condition. Do not proceed.
+                </Typography>
               )}
             </FormControl>
             {/****** •	I agree to the terms and conditions, and I confirm that I am over 18 years of age. *****/}
@@ -616,10 +623,11 @@ function HairLossQuestionnaire() {
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
               {questionnaireResponses.agreesToTermsAndConfirmsAge === "No" && (
-                <div>
-                  "We are unable to supply you with medication unless you
-                  understand and agree to this condition." [Do not proceed]
-                </div>
+                                        <Typography color="error" sx={{ mt: 1, fontSize: "14px" }}>
+
+                  We are unable to supply you with medication unless you
+                  understand and agree to this condition. Do not proceed.
+                </Typography>
               )}
             </FormControl>
             {/****** End *****/}

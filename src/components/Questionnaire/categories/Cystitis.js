@@ -381,12 +381,13 @@ function CystitisQuestionnaire() {
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
               {questionnaireResponses.canMakeHealthcareDecisions === "No" && (
-                <div>
-                  <Typography variant="h4">
+          
+          <Typography variant="h4" color="error" sx={{ mt: 1, fontSize: "14px" }}>
+                  
                     Sorry we can’t offer you this treatment, please contact your
-                    GP or on 111 and not proceed .
+                    GP or on <strong> 111</strong> and not proceed .
                   </Typography>
-                </div>
+          
               )}
             </FormControl>
 
@@ -577,13 +578,14 @@ function CystitisQuestionnaire() {
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
               {questionnaireResponses.isOver65 === "Yes" && (
-                <div>
-                  <Typography variant="h4">
+  
+              <Typography color="error" variant="h4" sx={{ mt: 1, fontSize: "14px" }}>
+                  
                     Note that over the age 65 are more likely to require longer
                     duration and closer monitoring. Therefore please see your GP
-                    if unable call 111.
+                    if unable call <strong>111</strong>.
                   </Typography>
-                </div>
+          
               )}
             </FormControl>
             {/* ---- Have you previously been diagnosed with cystitis (UTI)?--- */}
@@ -1032,10 +1034,10 @@ function CystitisQuestionnaire() {
               </RadioGroup>
               {questionnaireResponses.agreesToSeekAdviceForSymptoms ===
                 "No" && (
-                <div>
+                  <Typography color="error" variant="h4" sx={{ mt: 1, fontSize: "14px" }}>
                   we are unable to provide you with treatment at this time.
                   Please consult your GP.
-                </div>
+                </Typography>
               )}
             </FormControl>
             {/* Do you agree not to take UTI medication if pregnant or breastfeeding? */}
@@ -1061,14 +1063,15 @@ function CystitisQuestionnaire() {
               </RadioGroup>
               {questionnaireResponses.agreesNotToTakeUTIMedicationIfPregnant ===
                 "No" && (
-                <div>
+                  <Typography color="error" variant="h4" sx={{ mt: 1, fontSize: "14px" }}>
                   we are unable to provide you with treatment at this time.
                   Please consult your GP.
-                </div>
+                </Typography>
               )}
             </FormControl>
             {/* How many UTIs have you had in the last 6 months? */}
             <FormControl
+            fullWidth
               component="fieldset"
               className="QuestionBox"
               disabled={checkDisabled("numberOfUTIsInLast6Months")}
@@ -1077,18 +1080,17 @@ function CystitisQuestionnaire() {
                 How many UTI have you had in last 6 months?
               </Typography>
               <Select
-                width="500"
-                //  labelId=""
-                //  id=""
+                labelId="uti-count-label"
+                 id="uti-count"
                 name="numberOfUTIsInLast6Months"
                 value={questionnaireResponses.numberOfUTIsInLast6Months}
-                label="Select"
                 onChange={(e) =>
                   setQuestionnaireResponses({
                     ...questionnaireResponses,
                     numberOfUTIsInLast6Months: e.target.value,
                   })
                 }
+                sx={{width:"50%"}}
               >
                 <MenuItem value="">
                   <em>None</em>

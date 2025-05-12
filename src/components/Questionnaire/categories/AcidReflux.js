@@ -177,11 +177,10 @@ function AcidRefluxQuestion() {
       return null;
     }
     return (
-      <div>
-        We are unable to provide you with treatment at this time. Please consult
-        your GP.
-        <br></br>Please Do not proceed.
-      </div>
+      <Typography color="error" sx={{ mt: 1, fontSize: "14px" }}>
+        Can not proceed please see GP We are unable to provide you with
+        treatment at this time.
+      </Typography>
     );
   };
 
@@ -238,12 +237,12 @@ function AcidRefluxQuestion() {
                 Do you experience acid reflux symptoms at least twice a week,
                 including : <br></br>
                 <ul>
-                  <li>
+                  <li style={{ fontSize: "1rem" }}>
                     {" "}
                     Burning sensation in the throat or sour/acidic taste.
                   </li>
-                  <li> Chest pain after meals, when lying down, or bending.</li>
-                  <li> Food sensation “sticking” in the chest or throat.</li>
+                  <li style={{ fontSize: "1rem" }}> Chest pain after meals, when lying down, or bending.</li>
+                  <li style={{ fontSize: "1rem" }}> Food sensation “sticking” in the chest or throat.</li>
                 </ul>
               </Typography>
               <RadioGroup
@@ -273,12 +272,12 @@ function AcidRefluxQuestion() {
               <Typography variant="h4" className="labelOne">
                 Do you have any of these symptoms :
                 <ul>
-                  <li>Difficulty swallowing</li> <li>Unintended weight loss</li>{" "}
-                  <li>Persistent vomiting</li>{" "}
-                  <li>Severe/persistent diarrhea</li> <li>Vomiting blood</li>{" "}
-                  <li>Blood in stools or black stools</li>
-                  <li>Iron deficiency anemia</li>{" "}
-                  <li>Severe liver problems or abdominal swelling</li>
+                   <li style={{ fontSize: "1rem" }}>Difficulty swallowing</li> <li>Unintended weight loss</li>{" "}
+                   <li style={{ fontSize: "1rem" }}>Persistent vomiting</li>{" "}
+                   <li style={{ fontSize: "1rem" }}>Severe/persistent diarrhea</li> <li>Vomiting blood</li>{" "}
+                   <li style={{ fontSize: "1rem" }}>Blood in stools or black stools</li>
+                   <li style={{ fontSize: "1rem" }}>Iron deficiency anemia</li>{" "}
+                   <li style={{ fontSize: "1rem" }}>Severe liver problems or abdominal swelling</li>
                 </ul>
               </Typography>
               <RadioGroup
@@ -348,10 +347,10 @@ function AcidRefluxQuestion() {
               <Typography variant="h4" className="labelOne">
                 Do you have any of the following conditions:
                 <ul>
-                  <li>Osteoporosis</li>
-                  <li>Liver disease</li>
-                  <li>Gastric cancer</li>
-                  <li>Hypomagnesemia (low blood magnesium) </li>
+                   <li style={{ fontSize: "1rem" }}>Osteoporosis</li>
+                   <li style={{ fontSize: "1rem" }}>Liver disease</li>
+                   <li style={{ fontSize: "1rem" }}>Gastric cancer</li>
+                   <li style={{ fontSize: "1rem" }}>Hypomagnesemia (low blood magnesium) </li>
                 </ul>
               </Typography>
               <RadioGroup
@@ -424,18 +423,18 @@ function AcidRefluxQuestion() {
               <Typography variant="h4" className="labelOne">
                 Are you on any of the following medications?
                 <ul>
-                  <li>NSAIDs (e.g., ibuprofen)</li>
-                  <li>Antifungals (e.g., ketoconazole)</li>
-                  <li>Digoxin, Diazepam, or Ulipristal</li>
-                  <li>
+                   <li style={{ fontSize: "1rem" }}>NSAIDs (e.g., ibuprofen)</li>
+                   <li style={{ fontSize: "1rem" }}>Antifungals (e.g., ketoconazole)</li>
+                   <li style={{ fontSize: "1rem" }}>Digoxin, Diazepam, or Ulipristal</li>
+                   <li style={{ fontSize: "1rem" }}>
                     Phenytoin, Fosphenytoin, warfarin, or vitamin K blockers
                   </li>
-                  <li>
+                   <li style={{ fontSize: "1rem" }}>
                     Rifampicin, HIV medications, Ledipasvir, Ciclosporin,
                     Tacrolimus
                   </li>
-                  <li>St John's Wort, Cilostazol, Clopidogrel, Vitamin B12</li>
-                  <li>
+                   <li style={{ fontSize: "1rem" }}>St John's Wort, Cilostazol, Clopidogrel, Vitamin B12</li>
+                   <li style={{ fontSize: "1rem" }}>
                     Certain cancer treatments, antibiotics, Methotrexate,
                     Escitalopram, Clozapine
                   </li>
@@ -468,13 +467,13 @@ function AcidRefluxQuestion() {
               <Typography variant="h4" className="labelOne">
                 Do you agree to :
                 <ul>
-                  <li>Read the patient information leaflet</li>
-                  <li>Use the treatment for personal use only</li>
-                  <li>
+                   <li style={{ fontSize: "1rem" }}>Read the patient information leaflet</li>
+                   <li style={{ fontSize: "1rem" }}>Use the treatment for personal use only</li>
+                   <li style={{ fontSize: "1rem" }}>
                     {" "}
                     Provide accurate and truthful answers for safe prescribing
                   </li>
-                  <li>
+                   <li style={{ fontSize: "1rem" }}>
                     Inform Medicus Express and your GP if you experience side
                     effects or change medications
                   </li>

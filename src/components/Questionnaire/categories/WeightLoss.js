@@ -78,9 +78,11 @@ function WeightLossQuestion() {
       if (!bmiData?.bmi) {
         showMessage("Please calculate your BMI first", "error");
         return;
-      }
-      else if(bmiData?.bmi<=27.50){
-        showMessage("Sorry we can not provide you the treatment Your bmi is less than 27.50", "error");
+      } else if (bmiData?.bmi <= 27.5) {
+        showMessage(
+          "Sorry we can not provide you the treatment Your bmi is less than 27.50",
+          "error"
+        );
         return;
       }
     } else if (activeStep === 1) {
@@ -241,7 +243,9 @@ function WeightLossQuestion() {
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
               {answers.ageRange === "No" && (
-                <div>Can not proceed please see GP.</div>
+                <Typography color="error" sx={{ mt: 1, fontSize: "14px" }}>
+                  Cannot proceed, please see GP.
+                </Typography>
               )}
             </FormControl>
 
@@ -264,7 +268,9 @@ function WeightLossQuestion() {
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
               {answers.isPregnantOrBreastfeeding === "Yes" && (
-                <div>Can not proceed please see GP.</div>
+                <Typography color="error" sx={{ mt: 1, fontSize: "14px" }}>
+                Can not proceed please see GP.
+              </Typography>
               )}
             </FormControl>
 
@@ -287,7 +293,9 @@ function WeightLossQuestion() {
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
               {answers.hasEatingDisorder === "Yes" && (
-                <div>Can not proceed please see GP.</div>
+                <Typography color="error" sx={{ mt: 1, fontSize: "14px" }}>
+                  Can not proceed please see GP.
+                </Typography>
               )}
             </FormControl>
 
@@ -312,7 +320,9 @@ function WeightLossQuestion() {
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
               {answers.usesBloodSugarMedications === "Yes" && (
-                <div>Can not proceed please see GP.</div>
+                <Typography color="error" sx={{ mt: 1, fontSize: "14px" }}>
+                  Can not proceed please see GP.
+              </Typography>
               )}
             </FormControl>
 
@@ -336,7 +346,8 @@ function WeightLossQuestion() {
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
               {answers.hadAllergicReaction === "Yes" && (
-                <div>Can not proceed please see GP.</div>
+                <Typography color="error" sx={{ mt: 1, fontSize: "14px" }}>
+                Can not proceed please see GP.</Typography>
               )}
             </FormControl>
 
@@ -361,7 +372,8 @@ function WeightLossQuestion() {
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
               {answers.hasFamilyHistoryThyroidCancer === "Yes" && (
-                <div>Can not proceed please see GP.</div>
+                 <Typography color="error" sx={{ mt: 1, fontSize: "14px" }}>
+                Can not proceed please see GP.</Typography>
               )}
             </FormControl>
 

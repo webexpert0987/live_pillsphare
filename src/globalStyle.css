@@ -10,6 +10,10 @@
   display: block !important;
   padding: 30px 0 !important;
 }
+.NestedQuestionBox {
+  display: block !important;
+  padding: 30px 0 !important;
+}
 .checkbox2Col {
   display: block !important;
 }
@@ -30,6 +34,10 @@
   font-size: 15px !important;
   color: #999 !important;
 }
+/* .painSeverityDropdown{
+  width: auto;
+  height: auto;
+} */
 .MuiBox-root.css-1ruxp1v {
   padding: 0 !important;
 }

@@ -238,12 +238,12 @@ function ErectileDysfunctionQuestionnaire() {
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
               {questionnaireResponses.isAgedBetween18And75 === "No" && (
-                <div>
+                 <Typography color="error" sx={{ mt: 1, fontSize: "14px" }}>
+    
                   We are unable to provide you with treatment at this time.
                   Please consult your GP.
-                  <br></br>
-                  <br></br>Please Do not proceed.
-                </div>
+                
+                </Typography>
               )}
             </FormControl>
 
@@ -291,11 +291,11 @@ function ErectileDysfunctionQuestionnaire() {
               </RadioGroup>
               {questionnaireResponses.consumesAlcohol === "Yes" && (
                 <div>
-                  <Typography>
-                    "You are eligible for treatment, however, please be aware
+                  <Typography sx={{ mt: 1, fontSize: "0.9rem" }}>
+                    You are eligible for treatment, however, please be aware
                     that alcohol consumption and smoking may worsen erectile
                     difficulties. We recommend consulting your GP for advice on
-                    quitting smoking."
+                    quitting smoking.
                   </Typography>
                 </div>
               )}
@@ -309,11 +309,11 @@ function ErectileDysfunctionQuestionnaire() {
                 dysfunction (at least 4 times previously) without experiencing
                 any adverse effects?
                 <ul>
-                  <li>Levitra (vardenafil)</li>
-                  <li>Spedra</li>
-                  <li>Viagra (sildenafil)</li>
-                  <li>Nipatra</li>
-                  <li>Cialis (tadalafil)</li>
+                   <li style={{ fontSize: "1rem" }}>Levitra (vardenafil)</li>
+                   <li style={{ fontSize: "1rem" }}>Spedra</li>
+                   <li style={{ fontSize: "1rem" }}>Viagra (sildenafil)</li>
+                 <li style={{ fontSize: "1rem" }}>Nipatra</li>
+                   <li style={{ fontSize: "1rem" }}>Cialis (tadalafil)</li>
                 </ul>
               </Typography>
               <RadioGroup
@@ -350,15 +350,12 @@ function ErectileDysfunctionQuestionnaire() {
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
               {questionnaireResponses.hasErectionDifficulties === "No" && (
-                <div>
-                  <Typography>
-                    "It does not appear that you have erectile dysfunction. We
+               <Typography color="error" sx={{ mt: 1, fontSize: "14px" }}>
+                    It does not appear that you have erectile dysfunction. We
                     are unable to provide you with treatment. Please consult
-                    your GP for further information."
-                    <br></br>
-                    <br></br>Please Do not proceed.
+                    your GP for further information.
                   </Typography>
-                </div>
+   
               )}
             </FormControl>
 
@@ -368,8 +365,9 @@ function ErectileDysfunctionQuestionnaire() {
               <Typography variant="h4" className="labelOne">
                 Do you have high blood pressure (above 160/90) or are you
                 currently receiving treatment for high blood pressure?
-                <br></br>(If unsure, you can have your blood pressure measured
-                at your local pharmacy or GP surgery.)
+                <br></br>
+                <Typography sx={{ mt: 1, fontSize: "0.9rem" }}>If unsure, you can have your blood pressure measured
+                at your local pharmacy or GP surgery. </Typography>
               </Typography>
               <RadioGroup
                 row
@@ -383,15 +381,11 @@ function ErectileDysfunctionQuestionnaire() {
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
               {questionnaireResponses.hasHighBloodPressure === "Yes" && (
-                <div>
-                  <Typography>
-                    "We are unable to provide you with treatment if you have
+                 <Typography color="error" sx={{ mt: 1, fontSize: "14px" }}>
+                    We are unable to provide you with treatment if you have
                     high blood pressure. Please consult your GP for further
-                    information."
-                    <br></br>
-                    <br></br>Please Do not proceed.
+                    information.
                   </Typography>
-                </div>
               )}
             </FormControl>
 
@@ -400,8 +394,8 @@ function ErectileDysfunctionQuestionnaire() {
             <FormControl component="fieldset" className="QuestionBox" disabled={checkDisabled("hasLowBloodPressure")}>
               <Typography variant="h4" className="labelOne">
                 Do you have low blood pressure (below 90/50)?
-                <br></br>(If unsure, you can have your blood pressure measured
-                at your local pharmacy or GP surgery.)
+                <br></br> <Typography sx={{ mt: 1, fontSize: "0.9rem" }}>If unsure, you can have your blood pressure measured
+                  at your local pharmacy or GP surgery. </Typography>
               </Typography>
               <RadioGroup
                 row
@@ -416,12 +410,10 @@ function ErectileDysfunctionQuestionnaire() {
               </RadioGroup>
               {questionnaireResponses.hasLowBloodPressure === "Yes" && (
                 <div>
-                  <Typography>
-                    "We are unable to provide you with treatment if you have low
+                  <Typography color="error" sx={{ mt: 1, fontSize: "14px" }}>
+                    We are unable to provide you with treatment if you have low
                     blood pressure. Please consult your GP for further
-                    information."
-                    <br></br>
-                    <br></br>Please Do not proceed.
+                    information.
                   </Typography>
                 </div>
               )}
@@ -445,12 +437,10 @@ function ErectileDysfunctionQuestionnaire() {
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
               {questionnaireResponses.hasDifficultyWalking === "Yes" && (
-                <div>
-                  "We are unable to provide you with treatment at this time.
-                  Please consult your GP."
-                  <br></br>
-                  <br></br>Please Do not proceed.
-                </div>
+                <Typography color="error" sx={{ mt: 1, fontSize: "14px" }}>
+                  We are unable to provide you with treatment at this time.
+                  Please consult your GP.
+                  </Typography>
               )}
             </FormControl>
 
@@ -473,12 +463,10 @@ function ErectileDysfunctionQuestionnaire() {
               </RadioGroup>
               {questionnaireResponses.advisedAgainstStrenuousExercise ===
                 "Yes" && (
-                <div>
-                  "We are unable to provide you with treatment at this time.
-                  Please consult your GP."
-                  <br></br>
-                  <br></br>Please Do not proceed.
-                </div>
+                  <Typography color="error" sx={{ mt: 1, fontSize: "14px" }}>
+                  We are unable to provide you with treatment at this time.
+                  Please consult your GP.
+              </Typography>
               )}
             </FormControl>
 
@@ -500,12 +488,10 @@ function ErectileDysfunctionQuestionnaire() {
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
               {questionnaireResponses.hasUntreatedDepression === "Yes" && (
-                <div>
-                  "We are unable to provide you with treatment at this time.
-                  Please consult your GP."
-                  <br></br>
-                  <br></br>Please Do not proceed.
-                </div>
+            <Typography color="error" sx={{ mt: 1, fontSize: "14px" }}>
+                  We are unable to provide you with treatment at this time.
+                  Please consult your GP.
+                </Typography>
               )}
             </FormControl>
 
@@ -531,12 +517,10 @@ function ErectileDysfunctionQuestionnaire() {
               </RadioGroup>
               {questionnaireResponses.hasAllergiesOrAdverseReactions ===
                 "Yes" && (
-                <div>
-                  "We are unable to provide you with treatment at this time.
-                  Please consult your GP."
-                  <br></br>
-                  <br></br>Please Do not proceed.
-                </div>
+                  <Typography color="error" sx={{ mt: 1, fontSize: "14px" }}>
+                  We are unable to provide you with treatment at this time.
+                  Please consult your GP.
+                  </Typography>
               )}
             </FormControl>
 
@@ -546,34 +530,34 @@ function ErectileDysfunctionQuestionnaire() {
               <Typography variant="h4" className="labelOne">
                 Have you ever had any of the following health conditions?
                 <ul>
-                  <li>Kidney problems</li>
-                  <li>
+                     <li style={{ fontSize: "1rem" }}>Kidney problems</li>
+                     <li style={{ fontSize: "1rem" }}>
                     Heart problems (e.g., angina, chest pain, heart failure,
                     irregular heartbeat, heart attack, myocardial infarction,
                     cardiomyopathy, valvular heart disease)
                   </li>
-                  <li>Inherited eye diseases (e.g., retinitis pigmentosa)</li>
-                  <li>Liver problems</li>
-                  <li>
+                     <li style={{ fontSize: "1rem" }}>Inherited eye diseases (e.g., retinitis pigmentosa)</li>
+                     <li style={{ fontSize: "1rem" }}>Liver problems</li>
+                     <li style={{ fontSize: "1rem" }}>
                     Blood disorders (e.g., haemophilia, sickle cell anaemia,
                     leukaemia)
                   </li>
-                  <li>Multiple myeloma (bone marrow cancer)</li>
-                  <li>Prolonged erections (lasting more than 4 hours)</li>
-                  <li>
+                     <li style={{ fontSize: "1rem" }}>Multiple myeloma (bone marrow cancer)</li>
+                     <li style={{ fontSize: "1rem" }}>Prolonged erections (lasting more than 4 hours)</li>
+                     <li style={{ fontSize: "1rem" }}>
                     Physical conditions affecting the shape of the penis (e.g.,
                     Peyronie’s disease)
                   </li>
-                  <li>
+                     <li style={{ fontSize: "1rem" }}>
                     Galactose intolerance or glucose-galactose malabsorption
                   </li>
-                  <li>Stomach ulcers (e.g., peptic/gastric ulcers)</li>
-                  <li>
+                     <li style={{ fontSize: "1rem" }}>Stomach ulcers (e.g., peptic/gastric ulcers)</li>
+                     <li style={{ fontSize: "1rem" }}>
                     Sight loss due to poor circulation or Non-Arteritic Anterior
                     Ischemic Optic Neuropathy (NAION)
                   </li>
-                  <li>Stroke</li>
-                  <li>
+                     <li style={{ fontSize: "1rem" }}>Stroke</li>
+                     <li style={{ fontSize: "1rem" }}>
                     Any serious medical condition requiring hospitalisation
                   </li>
                 </ul>
@@ -590,12 +574,11 @@ function ErectileDysfunctionQuestionnaire() {
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
               {questionnaireResponses.hasPreviousHealthConditions === "Yes" && (
-                <div>
-                  "We are unable to provide you with treatment at this time.
-                  Please consult your GP."
-                  <br></br>
-                  <br></br>Please Do not proceed.
-                </div>
+                                  <Typography color="error" sx={{ mt: 1, fontSize: "14px" }}>
+
+                  We are unable to provide you with treatment at this time.
+                  Please consult your GP.
+               </Typography>
               )}
             </FormControl>
 
@@ -605,11 +588,11 @@ function ErectileDysfunctionQuestionnaire() {
               <Typography variant="h4" className="labelOne">
                 Are you currently taking any of the following medications?
                 <ul>
-                  <li>
+                <li style={{ fontSize: "1rem" }}>
                     Nitrates (e.g., glyceryl trinitrate, isosorbide mononitrate,
                     isosorbide dinitrate)
                   </li>
-                  <li>Nitric oxide donors ('poppers') for chest pain/angina</li>
+                  <li style={{ fontSize: "1rem" }}>Nitric oxide donors ('poppers') for chest pain/angina</li>
                 </ul>
               </Typography>
               <RadioGroup
@@ -625,15 +608,13 @@ function ErectileDysfunctionQuestionnaire() {
               </RadioGroup>
               {questionnaireResponses.takesNitratesOrNitricOxideDonors ===
                 "Yes" && (
-                <div>
-                  "We do not recommend using recreational drugs with PDE5
+                  <Typography color="error" sx={{ mt: 1, fontSize: "14px" }}>
+                  We do not recommend using recreational drugs with PDE5
                   inhibitors, especially nitric oxide donors ('poppers'), as
                   they may cause a dangerous drop in blood pressure. We are
                   unable to provide you with treatment. Please consult your
-                  doctor for more information".
-                  <br></br>
-                  <br></br>Please Do not proceed.
-                </div>
+                  doctor for more information.
+                 </Typography>
               )}
             </FormControl>
             {/*****14.Are you currently taking any other medication (including prescription, over-the-counter, or recreational drugs)?******/}
@@ -658,7 +639,7 @@ function ErectileDysfunctionQuestionnaire() {
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
               {questionnaireResponses.takesOtherMedications === "Yes" && (
-                <FormControl component="fieldset" className="QuestionBox"  disabled={checkDisabled("conditions")}>
+                <FormControl component="fieldset" className="NestedQuestionBox"  disabled={checkDisabled("conditions")}>
                   {[
                     "Diabetes",
                     "High blood pressure",
@@ -673,6 +654,7 @@ function ErectileDysfunctionQuestionnaire() {
                   ].map((condition, index) => (
                     <FormControlLabel
                       className="checkbox2Col"
+                      sx={{pl:3}}
                       key={index}
                       control={
                         <Checkbox
@@ -730,10 +712,10 @@ function ErectileDysfunctionQuestionnaire() {
               </RadioGroup>
               {questionnaireResponses.understandsUnderlyingConditions ===
                 "No" && (
-                <div>
-                  "You must agree to this before continuing. If you need
-                  assistance, please contact customer support."
-                </div>
+                  <Typography color="error" sx={{ mt: 1, fontSize: "14px" }}>
+                You must agree to this before continuing. If you need
+                  assistance, please contact customer support.
+               </Typography>
               )}
             </FormControl>
 
@@ -760,10 +742,10 @@ function ErectileDysfunctionQuestionnaire() {
               </RadioGroup>
               {questionnaireResponses.agreesToSeekHelpForProlongedErection ===
                 "No" && (
-                <div>
-                  "You must agree to this before continuing. If you need
-                  assistance, please contact customer support."
-                </div>
+                  <Typography color="error" sx={{ mt: 1, fontSize: "14px" }}>
+                  You must agree to this before continuing. If you need
+                  assistance, please contact customer support.
+               </Typography>
               )}
             </FormControl>
 
@@ -773,17 +755,17 @@ function ErectileDysfunctionQuestionnaire() {
               <Typography variant="h4" className="labelOne">
                 Do you agree to the following conditions?
                 <ul>
-                  <li>
+                <li style={{ fontSize: "1rem" }}>
                     You will read the patient information leaflet provided with
                     your medication.
                   </li>
-                  <li>
+                  <li style={{ fontSize: "1rem" }}>
                     You will inform your GP and us if you experience any side
                     effects or changes in your medical conditions during
                     treatment.
                   </li>
-                  <li>The treatment is solely for your personal use.</li>
-                  <li>
+                  <li style={{ fontSize: "1rem" }}>The treatment is solely for your personal use.</li>
+                  <li style={{ fontSize: "1rem" }}>
                     You have answered all questions truthfully and accurately.
                     You understand that the prescriber's decisions are based on
                     your responses, and that incorrect information can be
@@ -803,10 +785,10 @@ function ErectileDysfunctionQuestionnaire() {
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
               {questionnaireResponses.agreesToConditions === "No" && (
-                <div>
-                  "You must agree to this before continuing. If you need
-                  assistance, please contact customer support."
-                </div>
+                                <Typography color="error" sx={{ mt: 1, fontSize: "14px" }}>
+                  You must agree to this before continuing. If you need
+                  assistance, please contact customer support.
+               </Typography>
               )}
             </FormControl>
 

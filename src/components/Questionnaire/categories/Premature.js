@@ -140,10 +140,10 @@ function PrematureQuestion() {
         );
         return;
       }
-      if(answers.allergy==='Yes'){
-        if(!answers.allergyIssue){
-          showMessage("Please provide allergies details to proceed","error")
-          return
+      if (answers.allergy === "Yes") {
+        if (!answers.allergyIssue) {
+          showMessage("Please provide allergies details to proceed", "error");
+          return;
         }
       }
     } else if (activeStep === 1) {
@@ -217,7 +217,11 @@ function PrematureQuestion() {
           <>
             {/****** •	Are you male? *****/}
 
-            <FormControl component="fieldset" className="QuestionBox"  disabled={checkDisabled("gender")}>
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("gender")}
+            >
               <Typography variant="h4" className="labelOne">
                 Are you male?
               </Typography>
@@ -225,22 +229,24 @@ function PrematureQuestion() {
                 row
                 name="gender"
                 value={answers.gender}
-                onChange={(e) =>
-                 handleChange(e,"No")
-                }
+                onChange={(e) => handleChange(e, "No")}
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
               {answers.gender === "No" && (
-                <div>
-                  "This treatment is not suitable for females. Please consult
-                  your doctor for further advice."{" "}
-                </div>
+                <Typography color="error" sx={{ mt: 1, fontSize: "14px" }}>
+                  This treatment is not suitable for females. Please consult
+                  your doctor for further advice.{" "}
+                </Typography>
               )}
             </FormControl>
             {/******•	Are you aged between 18 and 65 years? *****/}
-            <FormControl component="fieldset" className="QuestionBox"  disabled={checkDisabled("agedBetween")}>
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("agedBetween")}
+            >
               <Typography variant="h4" className="labelOne">
                 Are you aged between 18 and 65 years?
               </Typography>
@@ -248,23 +254,25 @@ function PrematureQuestion() {
                 row
                 name="agedBetween"
                 value={answers.agedBetween}
-                onChange={(e) =>
-                  handleChange(e,"No")
-                }
+                onChange={(e) => handleChange(e, "No")}
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
               {answers.agedBetween === "No" && (
-                <div>
-                  "This treatment is only suitable for males aged between 18 and
-                  65." [Do not proceed]{" "}
-                </div>
+                <Typography color="error" sx={{ mt: 1, fontSize: "14px" }}>
+                  This treatment is only suitable for males aged between 18 and
+                  65. Do not proceed.{" "}
+                </Typography>
               )}
             </FormControl>
             {/******•	Do you often experience premature ejaculation? *****/}
 
-            <FormControl component="fieldset" className="QuestionBox"  disabled={checkDisabled("premature")}>
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("premature")}
+            >
               <Typography variant="h4" className="labelOne">
                 Do you often experience premature ejaculation?
               </Typography>
@@ -272,23 +280,26 @@ function PrematureQuestion() {
                 row
                 name="premature"
                 value={answers.premature}
-                onChange={(e) =>
-                  handleChange(e,"No")
-                }
+                onChange={(e) => handleChange(e, "No")}
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
               {answers.premature === "No" && (
-                <div>
-                  "This treatment is intended for individuals with premature
-                  ejaculation. Please consult your GP for further information."{" "}
-                </div>
+                <Typography color="error" sx={{ mt: 1, fontSize: "14px" }}>
+                  This treatment is intended for individuals with premature
+                  ejaculation. Please consult your GP for further
+                  information.{" "}
+                </Typography>
               )}
             </FormControl>
             {/*****•	Do you find it difficult to control ejaculation during sexual intercourse?******/}
 
-            <FormControl component="fieldset" className="QuestionBox" disabled={checkDisabled("ejaculation")}>
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("ejaculation")}
+            >
               <Typography variant="h4" className="labelOne">
                 Do you find it difficult to control ejaculation during sexual
                 intercourse?
@@ -304,13 +315,19 @@ function PrematureQuestion() {
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
-              {/* {answers.ejaculation === "Yes" && (
-                <div>If yes, proceed with further assessment. </div>
-              )} */}
+              {answers.ejaculation === "No" && (
+                <Typography color="error" sx={{ mt: 1, fontSize: "14px" }}>
+                  Can not proceed with further assessment.{" "}
+                </Typography>
+              )}
             </FormControl>
             {/****** •	Do you have any allergies? *****/}
 
-            <FormControl component="fieldset" className="QuestionBox"  disabled={checkDisabled("allergy")}>
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("allergy")}
+            >
               <Typography variant="h4" className="labelOne">
                 Do you have any allergies?
               </Typography>
@@ -327,7 +344,9 @@ function PrematureQuestion() {
               </RadioGroup>
               {answers.allergy === "Yes" && (
                 <>
-                  <Typography>"Provide more details."</Typography>
+                  <Typography sx={{ fontSize: "15px" }}>
+                    Provide more details.
+                  </Typography>
                   <TextField
                     multiline
                     required={answers.allergy === "Yes"}
@@ -343,12 +362,17 @@ function PrematureQuestion() {
               )}
             </FormControl>
             {/* •	On average, how long does it take you to ejaculate during sexual intercourse? */}
-            <FormControl component="fieldset" className="QuestionBox" disabled={checkDisabled("ejaculateTime")}>
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("ejaculateTime")}
+            >
               <Typography variant="h4" className="labelOne">
                 On average, how long does it take you to ejaculate during sexual
                 intercourse ?
               </Typography>
               <RadioGroup
+                sx={{ pl: 3 }}
                 aria-labelledby="demo-radio-buttons-group-label"
                 defaultValue="Rarely"
                 name="radio-buttons-group"
@@ -370,13 +394,17 @@ function PrematureQuestion() {
                 <FormControlLabel
                   value="more than 3 minute"
                   control={<Radio />}
-                  label="more than 3 minute"
+                  label="More than 3 minutes"
                 />
               </RadioGroup>
             </FormControl>
             {/*****•	Have you experienced persistent premature ejaculation for more than 6 months?******/}
 
-            <FormControl component="fieldset" className="QuestionBox" disabled={checkDisabled("persistentPre")}>
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("persistentPre")}
+            >
               <Typography variant="h4" className="labelOne">
                 Have you experienced persistent premature ejaculation for more
                 than 6 months?
@@ -385,23 +413,25 @@ function PrematureQuestion() {
                 row
                 name="persistentPre"
                 value={answers.persistentPre}
-                onChange={(e) =>
-                 handleChange(e,"No")
-                }
+                onChange={(e) => handleChange(e, "No")}
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
               {answers.persistentPre === "No" && (
-                <div>
-                  "Treatment may not be suitable for individuals with recent
-                  symptoms. Please consult your GP."
-                </div>
+                <Typography color="error" sx={{ mt: 1, fontSize: "14px" }}>
+                  Treatment may not be suitable for individuals with recent
+                  symptoms. Please consult your GP.
+                </Typography>
               )}
             </FormControl>
             {/*****•	Do you have any of the following health conditions? ******/}
 
-            <FormControl component="fieldset" className="QuestionBox"  disabled={checkDisabled("healthCondition")}>
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("healthCondition")}
+            >
               <Typography variant="h4" className="labelOne">
                 Do you have any of the following health conditions?
               </Typography>
@@ -420,23 +450,25 @@ function PrematureQuestion() {
                 row
                 name="healthCondition"
                 value={answers.healthCondition}
-                onChange={(e) =>
-                 handleChange(e,"Yes")
-                }
+                onChange={(e) => handleChange(e, "Yes")}
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
               {answers?.healthCondition === "Yes" && (
-                <div>
+                <Typography color="error" sx={{ mt: 1, fontSize: "14px" }}>
                   We may not be able to provide treatment if you have any of the
                   conditions listed. Please consult your GP.
-                </div>
+                </Typography>
               )}
             </FormControl>
             {/*****•	Are you currently taking any medication for any of the following? Please select all that apply******/}
 
-            <FormControl component="fieldset" className="QuestionBox"  disabled={checkDisabled("anyMedication")}>
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("anyMedication")}
+            >
               <Typography variant="h4" className="labelOne">
                 Are you currently taking any medication for any of the
                 following? Please select all that apply
@@ -450,32 +482,30 @@ function PrematureQuestion() {
                   control={<Checkbox />}
                   label="Other"
                 /> */}
-                <RadioGroup
-                  row
-                  name="anyMedication"
-                  value={answers.anyMedication}
-                  onChange={(e) =>
-                   handleChange(e,"Yes")
-                  }
-                >
-                  <FormControlLabel
-                    value="Yes"
-                    control={<Radio />}
-                    label="Yes"
-                  />
-                  <FormControlLabel value="No" control={<Radio />} label="No" />
-                </RadioGroup>
-                {answers.anyMedication === "Yes" && (
-                  <div>
-                    "Please inform your GP of any current medications before
-                    starting treatment for premature ejaculation."{" "}
-                  </div>
-                )}
               </ul>
+              <RadioGroup
+                row
+                name="anyMedication"
+                value={answers.anyMedication}
+                onChange={(e) => handleChange(e, "Yes")}
+              >
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </RadioGroup>
+              {answers.anyMedication === "Yes" && (
+                <Typography color="error" sx={{ mt: 1, fontSize: "14px" }}>
+                  Please inform your GP of any current medications before
+                  starting treatment for premature ejaculation.{" "}
+                </Typography>
+              )}
             </FormControl>
             {/****** •	Do you smoke? *****/}
 
-            <FormControl component="fieldset" className="QuestionBox"  disabled={checkDisabled("smoke")}>
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("smoke")}
+            >
               <Typography variant="h4" className="labelOne">
                 Do you smoke?
               </Typography>
@@ -535,7 +565,11 @@ function PrematureQuestion() {
               )}
             </FormControl> */}
 
-            <FormControl component="fieldset" className="QuestionBox"  disabled={checkDisabled("alcohal")}>
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("alcohal")}
+            >
               <Typography
                 variant="h4"
                 className="labelOne"
@@ -556,9 +590,11 @@ function PrematureQuestion() {
               </RadioGroup>
               {answers.alcohal === "Yes" && (
                 <>
-                  <Typography>Please specify how often -:</Typography>
-
+                  <Typography sx={{ fontSize: "15px", mt: 1 }}>
+                    Please specify how often -:
+                  </Typography>
                   <RadioGroup
+                    sx={{ pl: 3, fontSize: "14px" }}
                     aria-labelledby="demo-radio-buttons-group-label"
                     defaultValue="Rarely"
                     name="radio-buttons-group"
@@ -590,7 +626,11 @@ function PrematureQuestion() {
 
             {/*****•	•	Do you have a healthy diet and exercise regularly?*****/}
 
-            <FormControl component="fieldset" className="QuestionBox" disabled={checkDisabled("healthyDiet")}> 
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("healthyDiet")}
+            >
               <Typography variant="h4" className="labelOne">
                 Do you have a healthy diet and exercise regularly?
               </Typography>
@@ -606,15 +646,19 @@ function PrematureQuestion() {
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
               {answers.healthyDiet === "No" && (
-                <div>
+                <Typography color="error" sx={{ mt: 1, fontSize: "14px" }}>
                   Consider discussing healthy lifestyle changes with your GP to
                   improve your overall well-being and treatment outcomes{" "}
-                </div>
+                </Typography>
               )}
             </FormControl>
             {/*****••	Do you understand that this treatment is not intended for individuals who have certain medical conditions or are taking specific medications, and that you should consult your GP if you have any concerns?******/}
 
-            <FormControl component="fieldset" className="QuestionBox" disabled={checkDisabled("understandTM")}>
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("understandTM")}
+            >
               <Typography variant="h4" className="labelOne">
                 Do you understand that this treatment is not intended for
                 individuals who have certain medical conditions or are taking
@@ -625,23 +669,25 @@ function PrematureQuestion() {
                 row
                 name="understandTM"
                 value={answers.understandTM}
-                onChange={(e) =>
-                  handleChange(e,"No")
-                }
+                onChange={(e) => handleChange(e, "No")}
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
               {answers.understandTM === "No" && (
-                <div>
-                  "We cannot proceed with treatment without your understanding
-                  of the possible risks and contraindications."{" "}
-                </div>
+                <Typography color="error" sx={{ mt: 1, fontSize: "14px" }}>
+                  We cannot proceed with treatment without your understanding of
+                  the possible risks and contraindications.{" "}
+                </Typography>
               )}
             </FormControl>
             {/*****•	Do you agree to follow the instructions for use of the prescribed medication and understand the potential side effects associated with treatment?******/}
 
-            <FormControl component="fieldset" className="QuestionBox"  disabled={checkDisabled("agreeInstruc")}>
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("agreeInstruc")}
+            >
               <Typography variant="h4" className="labelOne">
                 Do you agree to follow the instructions for use of the
                 prescribed medication and understand the potential side effects
@@ -651,23 +697,25 @@ function PrematureQuestion() {
                 row
                 name="agreeInstruc"
                 value={answers.agreeInstruc}
-                onChange={(e) =>
-                 handleChange(e,"No")
-                }
+                onChange={(e) => handleChange(e, "No")}
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
               {answers.agreeInstruc === "No" && (
-                <div>
-                  "We cannot provide treatment without your agreement to follow
-                  the prescribed guidelines."
-                </div>
+                <Typography color="error" sx={{ mt: 1, fontSize: "14px" }}>
+                  We cannot provide treatment without your agreement to follow
+                  the prescribed guidelines.
+                </Typography>
               )}
             </FormControl>
             {/*****•	I understand that this treatment is for my personal use only and that I will not share any prescribed medication with others******/}
 
-            <FormControl component="fieldset" className="QuestionBox"  disabled={checkDisabled("understandTreat1")}>
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("understandTreat1")}
+            >
               <Typography variant="h4" className="labelOne">
                 I understand that this treatment is for my personal use only and
                 that I will not share any prescribed medication with others
@@ -676,23 +724,25 @@ function PrematureQuestion() {
                 row
                 name="understandTreat1"
                 value={answers.understandTreat1}
-                onChange={(e) =>
-                handleChange(e,"No")
-                }
+                onChange={(e) => handleChange(e, "No")}
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
               {answers.understandTreat1 === "No" && (
-                <div>
-                  "We cannot provide treatment without your agreement to follow
-                  the prescribed guidelines."
-                </div>
+                <Typography color="error" sx={{ mt: 1, fontSize: "14px" }}>
+                  We cannot provide treatment without your agreement to follow
+                  the prescribed guidelines.
+                </Typography>
               )}
             </FormControl>
             {/*****••	I confirm that the information provided is accurate and complete to the best of my knowledge.******/}
 
-            <FormControl component="fieldset" className="QuestionBox" disabled={checkDisabled("confirmAll")}>
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("confirmAll")}
+            >
               <Typography variant="h4" className="labelOne">
                 I confirm that the information provided is accurate and complete
                 to the best of my knowledge.
@@ -701,23 +751,25 @@ function PrematureQuestion() {
                 row
                 name="confirmAll"
                 value={answers.confirmAll}
-                onChange={(e) =>
-                  handleChange(e,"No")
-                }
+                onChange={(e) => handleChange(e, "No")}
               >
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
               {answers.confirmAll === "No" && (
-                <div>
-                  "We cannot provide treatment without your agreement to follow
-                  the prescribed guidelines."
-                </div>
+                <Typography color="error" sx={{ mt: 1, fontSize: "14px" }}>
+                  We cannot provide treatment without your agreement to follow
+                  the prescribed guidelines.
+                </Typography>
               )}
             </FormControl>
             {/*****•	I understand that pill sphere will treat my information in accordance with its Privacy Policy and Terms and Conditions.******/}
 
-            <FormControl component="fieldset" className="QuestionBox"  disabled={checkDisabled("agree_pillsphere")}>
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("agree_pillsphere")}
+            >
               <Typography variant="h4" className="labelOne">
                 I understand that pill sphere will treat my information in
                 accordance with its Privacy Policy and Terms and Conditions.
@@ -736,7 +788,11 @@ function PrematureQuestion() {
             </FormControl>
             {/*****••	I confirm that I am over 18 years old and agree to the Terms and Conditions of Medicus Express.******/}
 
-            <FormControl component="fieldset" className="QuestionBox"  disabled={checkDisabled("lastConfirm")}>
+            <FormControl
+              component="fieldset"
+              className="QuestionBox"
+              disabled={checkDisabled("lastConfirm")}
+            >
               <Typography variant="h4" className="labelOne">
                 I confirm that I am over 18 years old and agree to the Terms and
                 Conditions of Medicus Express.
