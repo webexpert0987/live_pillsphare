@@ -1,41 +1,45 @@
-import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
+import apiClient from "../apis/api";
+import axios from "axios";
 
-const {
-  REACT_APP_S3_ACCESS_KEY_ID,
-  REACT_APP_S3_SECRET_ACCESS_KEY,
-  REACT_APP_S3_BUCKET_NAME,
-  REACT_APP_S3_REGION,
-} = process.env;
-
-const s3Client = new S3Client({
-  region: REACT_APP_S3_REGION,
-  credentials: {
-    accessKeyId: REACT_APP_S3_ACCESS_KEY_ID,
-    secretAccessKey: REACT_APP_S3_SECRET_ACCESS_KEY,
-  },
-});
-
-const uploadFile = async (file) => {
+const uploadFile = async (file, onProgress) => {
   if (!file) {
-    return;
+    console.error("No file provided for upload.");
+    return null;
   }
 
-  const fileBuffer = await file.arrayBuffer(); // Convert file to ArrayBuffer
-
-  const params = {
-    Bucket: REACT_APP_S3_BUCKET_NAME,
-    Key: file.name,
-    Body: new Uint8Array(fileBuffer), // Convert to Uint8Array
-    ContentType: file.type,
-  };
-
   try {
-    await s3Client.send(new PutObjectCommand(params));
-    const fileUrl = `https://${REACT_APP_S3_BUCKET_NAME}.s3.${REACT_APP_S3_REGION}.amazonaws.com/${file.name}`;
+    const backendRes = await apiClient.get(
+      "/wp-json/wp/v2/generate-signed-url",
+      {
+        params: {
+          fileName: file.name,
+          fileType: file.type,
+        },
+      }
+    );
+
+    const { signedUrl, fileUrl } = backendRes;
+
+    // Step 2: Upload file directly to S3 using the signed URL
+    await axios.put(decodeURIComponent(signedUrl), file, {
+      headers: {
+        "Content-Type": file.type,
+        "Content-Disposition": `attachment; filename="${file.name}"`,
+      },
+      onUploadProgress: (progressEvent) => {
+        if (onProgress) {
+          const percentCompleted = Math.round(
+            (progressEvent.loaded * 100) / progressEvent.total
+          );
+          onProgress(percentCompleted);
+        }
+      },
+    });
+
+    // Step 3: Return the public S3 file URL
     return fileUrl;
-  } catch (error) {
-    console.error("Upload error:", error);
-    throw new Error(error?.message);
+  } catch (err) {
+    throw new Error(err?.message);
   }
 };
 

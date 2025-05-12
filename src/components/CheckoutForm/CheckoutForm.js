@@ -31,6 +31,7 @@ import { createPaymentIntent } from "../../apis/apisList/paymentApi";
 import { createOrder, orderEligibility } from "../../apis/apisList/orderApi";
 import useIpAddress from "../../hooks/ipAddressHook";
 import CouponCode from "../CouponCode";
+import ShippingMethodSelector from "./ShippingMethodSelector";
 
 const Text = styled(Typography)(({ theme }) => ({
   color: "#333333",
@@ -67,9 +68,6 @@ const validationSchema = Yup.object({
       const domainPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       return domainPattern.test(value);
     }),
-  // company: Yup.string()
-  //     .required('Company is required'),
-  // .min(2, 'Company must be at least 2 characters'),
   address_1: Yup.string()
     .required("Address is required")
     .min(2, "Address must be at least 10 characters"),
@@ -77,18 +75,15 @@ const validationSchema = Yup.object({
     .required("Address 2 is required")
     .min(2, "Address 2 must be at least 10 characters"),
   city: Yup.string().required("City is required"),
-  // .min(2, 'Last name must be at least 2 characters'),
   state: Yup.string().required("State is required"),
-  // .min(2, 'Last name must be at least 2 characters'),
   postcode: Yup.string().required("Postcode is required"),
-  // .min(2, 'Last name must be at least 2 characters'),
   country: Yup.string().required("Country is required"),
-  // .min(2, 'Last name must be at least 2 characters'),
   phone: Yup.string()
     .matches(/^\d+$/, "Phone must contain only numbers")
     .min(10, "Phone number must be at least 10 digits")
     .max(15, "Phone number cannot exceed 15 digits")
     .required("Phone is required"),
+  shipping_method: Yup.string().required("Please select a shipping method"),
 });
 
 export default function Checkout() {
@@ -154,8 +149,11 @@ export default function Checkout() {
   const [appliedCoupon, setAppliedCoupon] = useState(null);
   const [cartTotal, setCartTotal] = useState("0.00");
   const ipAddress = useIpAddress();
+  const [selectedShippingMethod, setSelectedShippingMethod] = useState("");
+  const [shippingCost, setShippingCost] = useState(0);
+
   let cardElement;
-  // console.log('user-details ',userDetails);
+
   useEffect(() => {
     if (stripe && elements) {
       cardElement = elements.getElement(CardElement);
@@ -374,6 +372,7 @@ export default function Checkout() {
                 amount: cartTotal,
                 actual_amount: calculateTotal(),
                 appliedCoupon: appliedCoupon || null,
+                shipping_method: selectedShippingMethod,
               };
 
               const orderResponse = await createOrder(ordInfo);
@@ -388,13 +387,11 @@ export default function Checkout() {
               }
             }
           } else {
-            // setPaymentStatus('Error creating payment intent.');
             showMessage("Error creating payment intent.", "error");
           }
         } catch (error) {
           console.log(">>>>>", error);
           showMessage("There was a problem with the payment process.", "error");
-          // setPaymentStatus('There was a problem with the payment process.');
         }
 
         setIsProcessing(false);
@@ -462,6 +459,23 @@ export default function Checkout() {
         [name]: value,
       },
     }));
+  };
+
+  const handleShippingMethodSelect = (methodId) => {
+    setSelectedShippingMethod(methodId);
+    const costs = {
+      tracked24: 3.95,
+      standard: 2.95,
+      special_delivery_1pm: 5.95,
+      next_day_9am: 13.95,
+      free_shipping: 0,
+    };
+    setShippingCost(costs[methodId] || 0);
+  };
+
+  const calculateTotalWithShipping = () => {
+    const subtotal = calculateTotal();
+    return (parseFloat(subtotal) + shippingCost).toFixed(2);
   };
 
   if (!userDetails) {
@@ -785,28 +799,25 @@ export default function Checkout() {
                               appliedCoupon={appliedCoupon}
                               setAppliedCoupon={setAppliedCoupon}
                             />
-                            <Typography variant="h6">
-                              Final Total: £{cartTotal}
-                            </Typography>
+
+                            <div
+                              style={{
+                                width: "100%",
+                              }}
+                            >
+                              <ShippingMethodSelector
+                                selectedMethod={selectedShippingMethod}
+                                onMethodSelect={handleShippingMethodSelect}
+                              />
+                              <Typography variant="h6">
+                                Final Total: £{calculateTotalWithShipping()}
+                              </Typography>
+                            </div>
                           </Grid>
-                          {/* <Button
-                                                    type="submit"
-                                                    fullWidth
-                                                    variant="contained"
-                                                    color="primary"
-                                                    sx={{ margin: '30px 0px 10px 0px' }}
-                                                    // disabled={isSubmitting}
-                                                    onClick={handleCheckoutSubmit}
-                                                >
-                                                    Checkout & Pay
-                                                </Button> */}
                           <Button
-                            // type="submit"
                             fullWidth
                             variant="contained"
                             color="primary"
-                            // sx={{ margin: '30px 0px 10px 0px' }}
-                            // disabled={isSubmitting}
                             disabled={
                               !stripe || isProcessing || !isDetailComplete
                             }
@@ -947,10 +958,39 @@ export default function Checkout() {
                         px={2}
                       >
                         <Typography variant="body3" marginTop={1}>
-                          Total:
+                          Subtotal:
                         </Typography>
                         <Typography variant="body3" marginTop={1}>
                           £{calculateTotal()}
+                        </Typography>
+                      </Box>
+
+                      {shippingCost > 0 && (
+                        <Box
+                          display={"flex"}
+                          justifyContent={"space-between"}
+                          px={2}
+                        >
+                          <Typography variant="body3" marginTop={1}>
+                            Shipping:
+                          </Typography>
+                          <Typography variant="body3" marginTop={1}>
+                            £{shippingCost.toFixed(2)}
+                          </Typography>
+                        </Box>
+                      )}
+
+                      <Box
+                        display={"flex"}
+                        justifyContent={"space-between"}
+                        px={2}
+                        mt={2}
+                      >
+                        <Typography variant="h6" fontWeight="bold">
+                          Total:
+                        </Typography>
+                        <Typography variant="h6" fontWeight="bold">
+                          £{calculateTotalWithShipping()}
                         </Typography>
                       </Box>
                     </>
