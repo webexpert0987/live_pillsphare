@@ -243,7 +243,8 @@ export default function UnifiedCheckoutPage({ isFromQA = false }) {
           addressData
         );
         if (status === false) {
-          if (process.env.REACT_TEST_MODE == 0) {
+          const test = process.env.REACT_TEST_MODE || 1; //always 0 for production
+          if (test == 0) {
             showMessage(
               `${message} Please remove the product ${item?.name} from your cart and try again`,
               "error"
@@ -692,6 +693,11 @@ export default function UnifiedCheckoutPage({ isFromQA = false }) {
 
                                       const attributeValue =
                                         attributes[attributeKey];
+
+                                      if (attributeKey === "quantity") {
+                                        return null;
+                                      }
+
                                       return (
                                         <Typography key={variant.id}>
                                           {attributeKey === "tablets" ||

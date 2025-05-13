@@ -115,7 +115,7 @@ const Product = () => {
     // updateVariant(product, variantId);
   };
   const handleAddProduct = (product, selectedVariant) => {
-    const test = process.env.REACT_TEST_MODE;
+    const test = process.env.REACT_TEST_MODE || 1; //always 0 for production 
     if (test == 0) {
       // Show the error message
       showMessage(
