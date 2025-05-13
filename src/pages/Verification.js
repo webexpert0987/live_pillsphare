@@ -61,7 +61,11 @@ const VerificationPage = () => {
 
   const handlePaste = (e) => {
     e.preventDefault();
-    const pastedData = e.clipboardData.getData("text").replace(/\D/g, "").slice(0, 6).split("");
+    const pastedData = e.clipboardData
+      .getData("text")
+      .replace(/\D/g, "")
+      .slice(0, 6)
+      .split("");
     if (pastedData.length > 0) {
       setOtp([...pastedData, ...Array(6 - pastedData.length).fill("")]);
       inputRefs.current[pastedData.length - 1]?.focus();
@@ -82,22 +86,43 @@ const VerificationPage = () => {
       const response = await loginUser(user);
       // const response = await res.json();
       if (response.status == 200) {
-        let userInfo = { first_name: response.first_name, last_name: response.last_name, user_id: response.user_id, token: response.token,email: response.email}
+        let userInfo = {
+          first_name: response.first_name,
+          last_name: response.last_name,
+          user_id: response.user_id,
+          token: response.token,
+          email: response.email,
+        };
         login(userInfo);
-        showMessage("Login successful", 'success')
-        localStorage.removeItem('verify_user')
+        showMessage("Login successful", "success");
+        localStorage.removeItem("verify_user");
         setIsSubmitting(false);
-        navigate('/');
+        navigate("/");
       }
     } catch (err) {
-      setError(err.message);
+      const message =
+        err?.response?.data?.message || err.message || "Internal issue";
+      setError(message);
       setIsSubmitting(false);
     }
   };
 
   return (
     <Grid container justifyContent="center">
-      <Grid item xs={12} sm={8} md={5} lg={4} sx={{ border: "1px solid #d1cbcb", p: 3, m: 2, borderRadius: 2, boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)" }}>
+      <Grid
+        item
+        xs={12}
+        sm={8}
+        md={5}
+        lg={4}
+        sx={{
+          border: "1px solid #d1cbcb",
+          p: 3,
+          m: 2,
+          borderRadius: 2,
+          boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+        }}
+      >
         <Box display="flex" flexDirection="column" alignItems="center">
           <Typography variant="h4" fontWeight="600" mb={2} textAlign="center">
             Verification
@@ -105,7 +130,13 @@ const VerificationPage = () => {
           <Typography mb={2} textAlign="center">
             Enter the 6-digit code sent to your email
           </Typography>
-          <Box display="flex" justifyContent="center" gap={2} mb={2} onPaste={handlePaste}>
+          <Box
+            display="flex"
+            justifyContent="center"
+            gap={2}
+            mb={2}
+            onPaste={handlePaste}
+          >
             {otp.map((digit, index) => (
               <OtpInput
                 key={index}
@@ -113,16 +144,29 @@ const VerificationPage = () => {
                 value={digit}
                 onChange={(e) => handleChange(e, index)}
                 onKeyDown={(e) => handleKeyDown(e, index)}
-                inputProps={{ maxLength: 1, inputMode: "numeric", pattern: "[0-9]*" }}
+                inputProps={{
+                  maxLength: 1,
+                  inputMode: "numeric",
+                  pattern: "[0-9]*",
+                }}
                 type="text"
               />
             ))}
           </Box>
-          {error && <Typography color="error" textAlign="center">{error}</Typography>}
-          <Button fullWidth variant="contained" color="primary" onClick={handleSubmit} sx={{ mt: 2 }} disabled={isSubmitting}>
-            {
-              isSubmitting ? "Verifying..." : "Verify"
-            }
+          {error && (
+            <Typography color="error" textAlign="center">
+              {error}
+            </Typography>
+          )}
+          <Button
+            fullWidth
+            variant="contained"
+            color="primary"
+            onClick={handleSubmit}
+            sx={{ mt: 2 }}
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? "Verifying..." : "Verify"}
           </Button>
         </Box>
       </Grid>
