@@ -13,6 +13,7 @@ import { getShippingMethods } from "../../apis/apisList/orderApi";
 const ShippingMethodSelector = ({ selectedMethod, onMethodSelect }) => {
   const [shippingMethods, setShippingMethods] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [value, setValue] = useState("");
 
   useEffect(() => {
     const fetchShippingMethods = async () => {
@@ -67,6 +68,13 @@ const ShippingMethodSelector = ({ selectedMethod, onMethodSelect }) => {
     fetchShippingMethods();
   }, []);
 
+  const handleChange = (e) => {
+    let methodId = e.target.value;
+    setValue(methodId);
+    const method = shippingMethods.find((m) => m.id == methodId);
+    onMethodSelect(method);
+  };
+
   if (loading) {
     return (
       <Box display="flex" justifyContent="center" my={2}>
@@ -96,9 +104,8 @@ const ShippingMethodSelector = ({ selectedMethod, onMethodSelect }) => {
         }}
       >
         <RadioGroup
-          value={selectedMethod}
-          onChange={(e) => { onMethodSelect(e.target.value)         
-          }}
+          value={value}
+          onChange={handleChange}
           sx={{
             display: "flex",
             gap: 2,
@@ -126,7 +133,7 @@ const ShippingMethodSelector = ({ selectedMethod, onMethodSelect }) => {
                       justifyContent: "space-between",
                       alignItems: "center",
                       width: "100%",
-                    }}   
+                    }}
                   >
                     <Typography variant="subtitle1">
                       {method?.name || "N/A"}

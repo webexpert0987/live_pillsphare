@@ -30,7 +30,7 @@ import {
 } from "./categories";
 import YourTreatment from "../Questionnaire/YourTreatment";
 import { useApp } from "../../Context/AppContext";
-import CheckoutPage from "./CheckoutPage";
+import CheckoutPage from "../../components/CheckoutForm/UnifiedCheckoutPage";
 import { useSearchParams } from "react-router-dom";
 
 const tabData = [
@@ -56,7 +56,7 @@ const tabData = [
     number: "4",
     title: "Checkout",
     subtitle: "Securely Complete Your Purchase and Start Your Journey.",
-    content: <CheckoutPage />,
+    content: <CheckoutPage isFromQA={true} />,
   },
 ];
 

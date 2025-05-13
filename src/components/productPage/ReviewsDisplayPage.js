@@ -45,7 +45,6 @@ const ReviewsDisplayPage = ({ product }) => {
       getData();
     }
   }, [product.id]);
-  console.log("reviews Data", review);
   return (
     <Box
       sx={{
@@ -105,8 +104,8 @@ const ReviewsDisplayPage = ({ product }) => {
                   borderRadius: "4px",
                   width: "85%",
                   "@media (max-width: 568px)": {
-                    width: "100%"
-              },
+                    width: "100%",
+                  },
                 }}
               >
                 <CardActionArea
@@ -126,7 +125,6 @@ const ReviewsDisplayPage = ({ product }) => {
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "space-between",
-                      
                       }}
                     >
                       <Typography
@@ -179,7 +177,7 @@ const ReviewsDisplayPage = ({ product }) => {
                         color: "rgb(51, 51, 51)",
                       }}
                     >
-                       {reviewItem.comment} 
+                      {reviewItem.comment}
                     </Typography>
                   </CardContent>
                 </CardActionArea>

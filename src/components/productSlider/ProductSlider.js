@@ -14,7 +14,7 @@ const ImageGallery = ({ id }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const [isImageLoading, setIsImageLoading] = useState(true);
-  
+
   useEffect(() => {
     if (images[selectedImage]) {
       setIsImageLoading(true);
@@ -65,7 +65,6 @@ const ImageGallery = ({ id }) => {
       : [
           "https://www.fraction9coffee.com/cdn/shop/t/23/assets/placeholder_600x.png?v=113555733946226816651714543406",
         ];
-        console.log("Selected image:", images[selectedImage]);
 
   return (
     <Box
@@ -122,51 +121,51 @@ const ImageGallery = ({ id }) => {
         </Box>
       )}
 
-      {/* Main Selected Image */} 
-        <Box
-          sx={{
-            width: { xs: "100%", sm: "80%", md: "100%" },
-            "& > img": {
-              width: "100%",
-              borderRadius: "8px",
-              border: "1px solid #ccc",
-              // display: isImageLoading ? "none" : "block",
-            },
+      {/* Main Selected Image */}
+      <Box
+        sx={{
+          width: { xs: "100%", sm: "80%", md: "100%" },
+          "& > img": {
+            width: "100%",
+            borderRadius: "8px",
+            border: "1px solid #ccc",
+            // display: isImageLoading ? "none" : "block",
+          },
+        }}
+      >
+        {isImageLoading && (
+          <Box
+            sx={{
+              width: { xs: "100%", sm: "80%", md: "100%" },
+              minHeight: 300,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              color: "black",
+              // color: "#999",
+              fontSize: "28px",
+            }}
+          >
+            Image is loading ...
+          </Box>
+        )}
+        <img
+          key={images[selectedImage]}
+          src={images[selectedImage]}
+          onLoad={() => {
+            console.log("Image loaded");
+            setIsImageLoading(false);
           }}
-        >
-          {isImageLoading && (
-        <Box
-          sx={{
-            width: { xs: "100%", sm: "80%", md: "100%" },
-            minHeight: 300,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            color: "black",
-            // color: "#999",
-            fontSize: "28px",
+          onError={() => {
+            console.warn("Image failed to load");
+            setIsImageLoading(false);
           }}
-        >
-          Image is loading ...
-        </Box>
-         )}
-          <img
-           key={images[selectedImage]}
-            src={images[selectedImage]}
-            onLoad={() => {
-              console.log("Image loaded");
-              setIsImageLoading(false);
-            }}
-            onError={() => {
-              console.warn("Image failed to load");
-              setIsImageLoading(false);
-            }}
-            style={{
-              display: isImageLoading ? "none" : "block",
-            }}
-            alt="Selected"
-          />
-        </Box>
+          style={{
+            display: isImageLoading ? "none" : "block",
+          }}
+          alt="Selected"
+        />
+      </Box>
 
       {isMobile && (
         <Box

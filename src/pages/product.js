@@ -115,7 +115,7 @@ const Product = () => {
     // updateVariant(product, variantId);
   };
   const handleAddProduct = (product, selectedVariant) => {
-    const test = 0;
+    const test = process.env.REACT_TEST_MODE;
     if (test == 0) {
       // Show the error message
       showMessage(
@@ -387,16 +387,15 @@ const Product = () => {
                     onChange={handleQuantity}
                     type="number"
                     variant="outlined"
-                    sx={{ maxWidth: "100px"}}
+                    sx={{ maxWidth: "100px" }}
                     inputProps={{ min: 1, max: 10 }}
                     InputProps={{
                       sx: {
-                        height: "40px", 
-                        width:"95px",
-                        // padding: "2 8px", 
+                        height: "40px",
+                        width: "95px",
+                        // padding: "2 8px",
                       },
                     }}
-                  
                   />
                 </Box>
               )}
@@ -425,9 +424,9 @@ const Product = () => {
                       product,
                       product?.selectedVariantInfo
                         ? product?.selectedVariantInfo
-                        : product?.variations.length
-                          ? product?.variations[0]
-                          : []
+                        : product?.variations?.length
+                        ? product?.variations?.[0]
+                        : []
                     );
                   }}
                 >

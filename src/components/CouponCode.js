@@ -15,18 +15,18 @@ const CouponCode = ({
   const [discount, setDiscount] = useState(0);
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
-  const {userDetails} = useApp()
+  const { userDetails } = useApp();
   //sending the coupon details to backend side through this couponUsed post api method..
   const checkUsedCoupon = async () => {
     try {
       const response = await usedCoupons({
         user_id: userDetails.user_id,
-        email:userDetails.email,
-        coupon_code:couponCode,
+        email: userDetails.email,
+        coupon_code: couponCode,
       });
       return response;
     } catch (error) {
-     console.log('error message',error)
+      console.log("error message", error);
     }
   };
 
@@ -42,17 +42,17 @@ const CouponCode = ({
       }
       // checking the coupon is valid means it exists on backend side or not ...
       const validCoupon = coupons.find((coupon) => coupon.code === couponCode);
-      console.log('valid coupon', validCoupon);
+      console.log("valid coupon", validCoupon);
       if (!validCoupon) {
         setError("Invalid coupon code.");
         return;
       }
 
-      const checkApplied = await checkUsedCoupon()
-      console.log('applied coupon',checkApplied);
+      const checkApplied = await checkUsedCoupon();
+      console.log("applied coupon", checkApplied);
       // check whether the coupon code is already used earlier...
       if (checkApplied?.orders_found) {
-        if(couponCode==='new2025'){
+        if (couponCode === "new2025") {
           setError("Coupon is not applicable as it has been used earlier.");
           return;
         }
@@ -84,7 +84,7 @@ const CouponCode = ({
       const newTotal = (cartTotal - discountAmount).toFixed(2);
       setCartTotal(newTotal);
       setDiscount(discountAmount.toFixed(2));
-      setAppliedCoupon(validCoupon);
+      setAppliedCoupon({ ...validCoupon, discount: discountAmount.toFixed(2) });
       setSuccessMessage(
         `Coupon applied successfully! You saved £${discountAmount.toFixed(2)}.`
       );
