@@ -218,6 +218,7 @@ function HighFeverQuestion() {
       );
       return;
     }
+    console.log('datas ',answers);
     const data = localStorage.getItem("questionnaire_info");
     let parsedData = {};
     if (data) {
@@ -599,7 +600,7 @@ function HighFeverQuestion() {
               </RadioGroup>
               {answers.currentSymptoms === "Yes" && (
                 <>
-                  <Typography  sx={{fontSize:"15px"}}>Please Provide More details</Typography>
+                  {/* <Typography  sx={{fontSize:"15px"}}>Please Provide More details</Typography> */}
                   <TextField
                     multiline
                     disabled={checkDisabled("currentSymptomsDetails")}
@@ -641,7 +642,7 @@ function HighFeverQuestion() {
               </RadioGroup>
               {answers.otherTreatment1 === "Yes" && (
                 <>
-                  <Typography sx={{fontSize:"15px"}}>Please Provide More details</Typography>
+                  {/* <Typography sx={{fontSize:"15px"}}>Please Provide More details</Typography> */}
                   <TextField
                     disabled={checkDisabled("otherTreatmentDetails")}
                     multiline
@@ -760,7 +761,7 @@ function HighFeverQuestion() {
               </RadioGroup>
               {answers.otherConditions === "Yes" && (
                 <>
-                  <Typography  sx={{fontSize:"15px"}}>Please Provide More details</Typography>
+                  {/* <Typography  sx={{fontSize:"15px"}}>Please Provide More details</Typography> */}
                   <TextField
                     disabled={checkDisabled("otherConditionsDetails")}
                     multiline
@@ -802,7 +803,7 @@ function HighFeverQuestion() {
               </RadioGroup>
               {answers.currentMedication === "Yes" && (
                 <>
-                  <Typography  sx={{fontSize:"15px"}}>Please Provide More details</Typography>
+                  {/* <Typography  sx={{fontSize:"15px"}}>Please Provide More details</Typography> */}
                   <TextField
                     multiline
                     disabled={checkDisabled("currentMedicationDetails")}
@@ -844,7 +845,7 @@ function HighFeverQuestion() {
               </RadioGroup>
               {answers.otherAllergy === "Yes" && (
                 <>
-                  <Typography  sx={{fontSize:"15px"}}>Please Provide More details</Typography>
+                  {/* <Typography  sx={{fontSize:"15px"}}>Please Provide More details</Typography> */}
                   <TextField
                     disabled={checkDisabled("otherAllergyDetails")}
                     multiline

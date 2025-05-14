@@ -481,7 +481,7 @@ const Product = () => {
                 Delivery Options
               </Typography>
               <Stack direction={"row"} alignItems={"center"} gap={1} my={1.8}>
-                <Box>
+                <Box sx={{display:"flex",alignItems:"center"}}>
                   <Icon
                     icon="material-symbols:circle"
                     width="20"
@@ -509,6 +509,8 @@ const Product = () => {
                 <Box
                   sx={{
                     marginTop: "0px",
+                    display:"flex",
+                    alignItems:"center",
                   }}
                 >
                   <Icon

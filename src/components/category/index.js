@@ -313,7 +313,7 @@ function Category(props) {
                               alignItems: "center",
                               "@media (min-width:1080px) and (max-width:1300px)":
                                 {
-                                  maxWidth: "220px",
+                                  maxWidth: "220px", 
                                 },
                             }}
                           >
@@ -480,7 +480,7 @@ function Category(props) {
   );
 }
 
-export default function CategoryPage({ products }) {
+export default function CategoryPage({ products}) {
   const isMobile = useMediaQuery("(max-width: 960px)");
   const { setFilteredProducts, sortOption } = useApp();
 
@@ -503,8 +503,9 @@ export default function CategoryPage({ products }) {
       const cachedCategories = localStorage.getItem("shopCategories");
       if (cachedCategories) {
         try {
+          // setPage(1);
           setShopCategories(JSON.parse(cachedCategories));
-          console.log("shop categories ", shopCategories);
+          // console.log("shop categories ", shopCategories);
           return;
         } catch {
           // console.log('catch error section',shopCategories);
@@ -515,10 +516,11 @@ export default function CategoryPage({ products }) {
       if (Array.isArray(response)) {
         // console.log("Fetched new categories:", response);
         setShopCategories(response);
+        // setPage(1);
         localStorage.setItem("shopCategories", JSON.stringify(response));
       }
     };
-
+     
     fetchCategories();
   }, []);
 
@@ -552,6 +554,7 @@ export default function CategoryPage({ products }) {
     );
 
     setFilteredProducts(filteredProducts);
+    // setPage(1);
   }, [products, sortOption, priceRange, selectedCategories]);
 
   useEffect(() => {

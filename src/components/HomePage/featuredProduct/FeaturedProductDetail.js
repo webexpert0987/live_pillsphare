@@ -13,6 +13,7 @@ import {
   FormControlLabel,
   FormGroup,
   Collapse,
+  CircularProgress,
   Select,
   MenuItem,
   Container,
@@ -39,10 +40,14 @@ const OffersPage = () => {
     setSortOption,
     searchProducts,
     searchValue,
+    page,
+    setPage,
   } = useApp();
 
-  const [page, setPage] = useState(1);
+  // const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [loadingProducts, setLoadingProducts] = useState(true);
+  
   const handlePageChange = (e, value) => {
     setPage(value);
     // Scroll to top when page changes
@@ -71,9 +76,11 @@ const OffersPage = () => {
         const data = await getFeaturedProducts();
         console.log('datas',data)
         setProducts(data);
+        setLoadingProducts(false);
         localStorage.setItem("products", JSON.stringify(data)); // Cache the products in localStorage
         // }
       } catch (error) {
+        setLoadingProducts(true);
         console.error("Failed to fetch products:", error);
       }
     };
@@ -267,7 +274,7 @@ const OffersPage = () => {
               //   color: "#333333",
               // }}            
                variant="body1">
-                Showing Results from featured products  {filteredProducts.length}
+                Showing Results from featured products {filteredProducts.length}
               </Typography>
               <Select
                 style={shop3Grid.sortingBox}
@@ -281,6 +288,20 @@ const OffersPage = () => {
               </Select>
             </Box>
 
+            {loadingProducts ? (
+              <Box
+                height="70vh"
+                width="100%"
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+                flexDirection="column"
+                textAlign="center"
+              >
+                <CircularProgress />
+                <Typography mt={2}>Loading...</Typography>
+              </Box>
+            ) : (
             <Grid2 container spacing={4}>
               {currentProducts.map((product) => (
                 <Grid2
@@ -449,7 +470,7 @@ const OffersPage = () => {
                   </Link>
                 </Grid2>
               ))}
-            </Grid2>
+            </Grid2>)}
             {/* Add pagination at the bottom */}
             {!loading && filteredProducts.length > 0 && (
               <PaginationComponent

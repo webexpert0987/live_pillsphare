@@ -531,7 +531,7 @@ function MigraineQuestion() {
                 Do you agree to the following terms?
               </Typography>
               <ul>
-                <li> I will read the patient information leaflet </li>
+                <li> I will read the patient information leaflet. </li>
                 <li>
                   I will inform Medicus Express and my GP about any side effects
                   or changes in condition.{" "}

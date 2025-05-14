@@ -10,6 +10,7 @@ import {
   IconButton,
   Select,
   MenuItem,
+  CircularProgress,
   Grid2,
 } from "@mui/material";
 import Slider from "react-slick";
@@ -133,6 +134,7 @@ function FeaturedProducts() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { showMessage } = useMessage();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -145,10 +147,12 @@ function FeaturedProducts() {
         // } else {
         const data = await getProducts();
         setProducts(data.products);
+        setLoading(false);
         localStorage.setItem("products", JSON.stringify(data.products)); // Cache the products in localStorage
         // }
       } catch (error) {
         console.error("Failed to fetch products:", error);
+        setLoading(true);
       }
     };
 
@@ -293,16 +297,19 @@ function FeaturedProducts() {
             >
               View All &nbsp; <Icon icon="solar:arrow-right-broken" color="primary.main" width="22" height="22" />
             </Button> */}
-             <Link to="/featured-product-detail" style={{ textDecoration: "none" }}>
-              <CustomButton
-                bgColor={"tertiary.main"}
-                txColor={"primary.main"}
-                text="View All"
-                style={{ width: "auto" }}
-                // onClick={() =>{
-                // console.log('HIi');
-                //  navigate("/featured-product-detail")}}
-              />
+              <Link
+                to="/featured-product-detail"
+                style={{ textDecoration: "none" }}
+              >
+                <CustomButton
+                  bgColor={"tertiary.main"}
+                  txColor={"primary.main"}
+                  text="View All"
+                  style={{ width: "auto" }}
+                  // onClick={() =>{
+                  // console.log('HIi');
+                  //  navigate("/featured-product-detail")}}
+                />
               </Link>
             </Box>
             <Box
@@ -331,145 +338,163 @@ function FeaturedProducts() {
             marginTop: { xs: "30px", sm: "0", md: "0" },
           }}
         >
-          <Slider
-            {...settings}
-            prevArrow={<CustomLeftArrow />}
-            nextArrow={<CustomRightArrow />}
-          >
-            {Array.isArray(products) &&
-              products.length > 0 &&
+          {loading ? (
+            <Box
+              height="100vh"
+              minHeight="200px"
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              boxShadow="none"
+              border="none"
+              outline="none"
+              gap={3}
+              sx={{ flexDirection: "column" }}
+            >
+              <CircularProgress color="primary" />
+              <Typography>Loading...</Typography>
+            </Box>
+          ) : (
+            <Slider
+              {...settings}
+              prevArrow={<CustomLeftArrow />}
+              nextArrow={<CustomRightArrow />}
+            >
+              {" "}
+              {Array.isArray(products) && products.length > 0 &&
               products.map((product, index) => (
-                <Box
+              <Box
+                sx={{
+                  padding: { xs: "0", sm: "0 0 0 30px", md: "0 0 0 30px" },
+                }}
+                key={index}
+              >
+                <Card
                   sx={{
-                    padding: { xs: "0", sm: "0 0 0 30px", md: "0 0 0 30px" },
+                    boxShadow: "none",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "space-between",
+                    height: "100%",
+                    borderRadius: "12px",
+                    border: "1px solid #eee",
+                    cursor: "pointer",
                   }}
-                  key={index}
+                  onClick={() => {
+                    navigate(`/product/${product.slug}`);
+                  }}
                 >
-                  <Card
+                  <Box
+                    style={homeFeatured.imageBox}
                     sx={{
-                      boxShadow: "none",
+                      height: { xs: "180px", sm: "220px", md: "280px" },
                       display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "space-between",
-                      height: "100%",
-                      borderRadius: "12px",
-                      border: "1px solid #eee",
-                      cursor: "pointer",
-                    }}
-                    onClick={() => {
-                      navigate(`/product/${product.slug}`);
+                      alignItems: "center",
+                      justifyContent: "center",
+                      overflow: "hidden",
                     }}
                   >
+                    <img
+                      style={homeFeatured.imageSource}
+                      src={product.image}
+                      alt={product.name}
+                      // style={{ width: "100%", height: "auto", borderRadius: "8px 8px 0 0" }}
+                    />
+                  </Box>
+                  <CardContent
+                    sx={{
+                      flexGrow: 1,
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "space-between", // Ensures spacing remains uniform
+                      width: "100%",
+                      minHeight: "230px", // Fix height for all cards
+                      maxHeight: "230px",
+                      backgroundColor: "#FAFAFA",
+                      borderRadius: "0 0 12px 12px",
+                    }}
+                  >
+                    <Typography
+                      variant="h4"
+                      fontWeight="bold"
+                      sx={{
+                        mt: 1,
+                        fontSize: { xs: "16px", md: "1.25rem" },
+                        cursor: "pointer",
+                      }}
+                    >
+                      {product.name}
+                    </Typography>
+
+                    {/* Price Section */}
                     <Box
-                      style={homeFeatured.imageBox}
                       sx={{
-                        height: { xs: "180px", sm: "220px", md: "280px" },
                         display: "flex",
+                        justifyContent: "space-between",
                         alignItems: "center",
-                        justifyContent: "center",
-                        overflow: "hidden",
+                        marginTop: "auto", // Pushes it to the bottom
                       }}
                     >
-                      <img
-                        style={homeFeatured.imageSource}
-                        src={product.image}
-                        alt={product.name}
-                        // style={{ width: "100%", height: "auto", borderRadius: "8px 8px 0 0" }}
-                      />
-                    </Box>
-                    <CardContent
-                      sx={{
-                        flexGrow: 1,
-                        display: "flex",
-                        flexDirection: "column",
-                        justifyContent: "space-between", // Ensures spacing remains uniform
-                        width: "100%",
-                        minHeight: "230px", // Fix height for all cards
-                        maxHeight: "230px",
-                        backgroundColor: "#FAFAFA",
-                        borderRadius: "0 0 12px 12px",
-                      }}
-                    >
-                      <Typography
-                        variant="h4"
-                        fontWeight="bold"
-                        sx={{
-                          mt: 1,
-                          fontSize: { xs: "16px", md: "1.25rem" },
-                          cursor: "pointer",
-                        }}
-                      >
-                        {product.name}
-                      </Typography>
-
-                      {/* Price Section */}
-                      <Box
-                        sx={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                          alignItems: "center",
-                          marginTop: "auto", // Pushes it to the bottom
-                        }}
-                      >
-                        <Box display="flex" gap="1rem" alignItems="center">
-                          <Typography
-                            variant="h6"
-                            color="#FD6400"
-                            fontWeight="800"
-                            sx={{
-                              fontSize: { xs: "18px", md: "18px" },
-                              cursor: "pointer",
-                            }}
-                          >
-                            £{product.price}
-                          </Typography>
-                        </Box>
-
-                        {product.reviews && (
-                          <Box display="flex" alignItems="center" gap="0.5rem">
-                            {product.rating && (
-                              <Typography variant="body2">
-                                <Rating
-                                  name="read-only"
-                                  value={product.rating}
-                                  readOnly
-                                  precision={0.5}
-                                  size="small"
-                                />
-                              </Typography>
-                            )}
-                            ({product.reviews})
-                          </Box>
-                        )}
+                      <Box display="flex" gap="1rem" alignItems="center">
+                        <Typography
+                          variant="h6"
+                          color="#FD6400"
+                          fontWeight="800"
+                          sx={{
+                            fontSize: { xs: "18px", md: "18px" },
+                            cursor: "pointer",
+                          }}
+                        >
+                          £{product.price}
+                        </Typography>
                       </Box>
 
-                      {/* Button */}
-                      <Button
-                        variant="contained"
-                        sx={{
-                          mt: 2,
-                          backgroundColor: "#FD6400",
-                          width: "100%",
-                          borderRadius: "50px",
-                          padding: "10px",
-                          boxShadow: "none",
-                          fontSize: "14px",
-                          fontWeight: "600",
-                          textTransform: "none",
-                        }}
-                      >
-                        View
-                        <Icon
-                          icon="solar:arrow-right-broken"
-                          width="24"
-                          height="24"
-                        />
-                      </Button>
-                    </CardContent>
-                  </Card>
-                </Box>
+                      {product.reviews && (
+                        <Box display="flex" alignItems="center" gap="0.5rem">
+                          {product.rating && (
+                            <Typography variant="body2">
+                              <Rating
+                                name="read-only"
+                                value={product.rating}
+                                readOnly
+                                precision={0.5}
+                                size="small"
+                              />
+                            </Typography>
+                          )}
+                          ({product.reviews})
+                        </Box>
+                      )}
+                    </Box>
+
+                    {/* Button */}
+                    <Button
+                      variant="contained"
+                      sx={{
+                        mt: 2,
+                        backgroundColor: "#FD6400",
+                        width: "100%",
+                        borderRadius: "50px",
+                        padding: "10px",
+                        boxShadow: "none",
+                        fontSize: "14px",
+                        fontWeight: "600",
+                        textTransform: "none",
+                      }}
+                    >
+                      View
+                      <Icon
+                        icon="solar:arrow-right-broken"
+                        width="24"
+                        height="24"
+                      />
+                    </Button>
+                  </CardContent>
+                </Card>
+              </Box>
               ))}
-          </Slider>
+            </Slider>
+            )}
         </Box>
         <LoginRequiredPopup
           isOpen={isModalOpen}

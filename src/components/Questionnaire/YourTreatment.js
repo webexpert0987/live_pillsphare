@@ -12,6 +12,7 @@ import {
   IconButton,
   TextField,
   styled,
+  CircularProgress,
 } from "@mui/material";
 import { useApp } from "../../Context/AppContext";
 import { getProductByCategory } from "../../apis/apisList/productApi";
@@ -40,6 +41,7 @@ const ProductCard = ({
     const filterProduct = products.filter((p) => p.id === product.id)?.[0];
     if (filterProduct) {
       filterProduct.quantity = value;
+      // setLoading(false);
       setProducts((prevProducts) =>
         prevProducts.map((p) => (p.id === product.id ? filterProduct : p))
       );
@@ -298,6 +300,7 @@ const TreatmentRecommendation = () => {
   const [products, setProducts] = useState([]);
   const { setSelectedTab, userDetails, setQaCart } = useApp();
   const [searchParams] = useSearchParams();
+  const [loading, setLoading] = useState(true);
   const category = searchParams.get("category"); // Get the "category" query param
   const loadMore = () => {
     setVisibleProducts((prev) => prev + 4); // Load 4 more products each time
@@ -346,14 +349,16 @@ const TreatmentRecommendation = () => {
             quantity: 1,
           }));
           setProducts(result);
+          setLoading(false);
         } catch (error) {
           console.log(error);
+          setLoading(true);
         }
       }
       getProducts();
     }
   }, []);
-//  console.log('categoroy...', category);
+  //  console.log('categoroy...', category);
   return (
     <Box>
       <Typography
@@ -398,16 +403,34 @@ const TreatmentRecommendation = () => {
         ))}
       </Grid2> */}
       <Grid2 container spacing={{ xs: 1, sm: 3, md: 4 }} mt={4}>
-        {products.length === 0 ? (
+        {loading ? (
           <Grid2
             xs={12}
             container
             justifyContent="center"
             alignItems="center"
-            sx={{ minHeight: "200px", width:"100%",display: "flex" }}
+            sx={{ minHeight: "200px", width: "100%", display: "flex" }}
           >
-            <Typography color="rgb(139, 57, 57)" sx={{ textAlign: "center",fontSize:"18px",fontWeight:"600",lineHeight:"1.2" }}>
-              No recommended products found in this {category} category.
+            <CircularProgress />
+          </Grid2>
+        ) : products.length === 0 ? (
+          <Grid2
+            xs={12}
+            container
+            justifyContent="center"
+            alignItems="center"
+            sx={{ minHeight: "200px", width: "100%", display: "flex" }}
+          >
+            <Typography
+              color="rgb(139, 57, 57)"
+              sx={{
+                textAlign: "center",
+                fontSize: "17px",
+                fontWeight: "600",
+                lineHeight: "1.2",
+              }}
+            >
+              No recommended products found in {category} category.
             </Typography>
           </Grid2>
         ) : (

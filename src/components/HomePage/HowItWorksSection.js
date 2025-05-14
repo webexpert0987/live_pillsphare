@@ -135,7 +135,7 @@ const HowItWorksSection = () => {
                     Read More <Icon icon="solar:arrow-right-broken" color="#fff" width="22" height="22" />
                 </Button> */}
         <Link
-          to="how-it-work"
+          // to="/how-it-work"
           onClick={() => {
             window.scrollTo({
               top: 0,

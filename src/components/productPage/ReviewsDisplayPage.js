@@ -68,7 +68,7 @@ const ReviewsDisplayPage = ({ product }) => {
             paddingTop: { xs: "10px", sm: "10px", md: "15px" },
           }}
         >
-          Rating & Reviews
+          Rating and <span style={{fontWeight:"600",color:"#FD6400"}}>Reviews</span>
         </Typography>
       </Box>
       <Box
@@ -86,7 +86,7 @@ const ReviewsDisplayPage = ({ product }) => {
               display: "grid",
               width: "100%",
               flexDirection: "column",
-              gap: 3,
+              gap: 2,
               gridTemplateColumns: "repeat(3, 1fr)",
               gridAutoRows: "auto",
               overflowY: "auto",
@@ -98,11 +98,11 @@ const ReviewsDisplayPage = ({ product }) => {
             {review.map((reviewItem, index) => (
               <Card
                 sx={{
-                  backgroundColor: "rgba(247, 247, 247, 0.97)",
+                  backgroundColor: "rgba(247, 247, 247, 0.99)",
                   boxShadow: "none",
-                  border: "0.3px solid rgba(218, 218, 218, 0.7)",
-                  borderRadius: "4px",
-                  width: "85%",
+                  border: "0.3px solid rgba(218, 218, 218, 0.81)",
+                  borderRadius: "8px",
+                  width: "70%",
                   "@media (max-width: 568px)": {
                     width: "100%",
                   },
@@ -125,6 +125,7 @@ const ReviewsDisplayPage = ({ product }) => {
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "space-between",
+                        width:"100%",
                       }}
                     >
                       <Typography

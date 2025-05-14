@@ -45,6 +45,9 @@ function PeriodPainQuestion() {
     currPregnant: "",
     consentToPro: "",
     knownAllergyIssue: "",
+    conditions1: [],
+    conditions2: [],
+    conditions3: [],
   });
   const boxRef = useRef(null);
   const { setSelectedTab } = useApp();
@@ -139,6 +142,13 @@ function PeriodPainQuestion() {
           return;
         }
       }
+      if(answers.conditions1.length<=0 || answers.conditions2.length<=0 || answers.conditions3.length<=0){
+         showMessage(
+           "Please fill all details before proceeding to the next steps.",
+            "error"
+          );
+          return;
+      }
     } else if (activeStep === 1) {
       const requiredAgreements = ["agreeToTerms"];
 
@@ -152,7 +162,6 @@ function PeriodPainQuestion() {
         }
       }
     }
-
     setActiveStep((prevStep) => prevStep + 1);
     handleScroll();
   };
@@ -184,6 +193,7 @@ function PeriodPainQuestion() {
       );
       return;
     }
+    console.log('info ', answers);
     const data = localStorage.getItem("questionnaire_info");
     let parsedData = {};
     if (data) {
@@ -308,7 +318,46 @@ function PeriodPainQuestion() {
                 Do you also experience any of the following symptoms with your
                 period pain?
               </Typography>
-              <ul>
+              {/* ........... */}
+   {[
+                "Bloating",
+                "Fatigue",
+                "Nausea / Vomiting",
+                "Back pain",
+                "Other",
+              ].map((condition, index) => (
+                <FormControlLabel
+                sx={{pl:3}}
+                  className="checkbox2Col"
+                  key={index}
+                  control={
+                    <Checkbox
+                      checked={answers.conditions2?.includes(condition)}
+                      onChange={(e) => {
+                        const { value, checked } = e.target;
+                        let newConditions = [...(answers.conditions2 || [])];
+
+                        if (checked) {
+                          newConditions.push(value);
+                        } else {
+                          newConditions = newConditions.filter(
+                            (item) => item !== value
+                          );
+                        }
+
+                        setAnswers({
+                          ...answers,
+                          conditions2: newConditions,
+                        });
+                      }}
+                      value={condition}
+                    />
+                  }
+                  label={condition}
+                />
+              ))}
+              {/* /////////// */}
+              {/* <ul>
                 <FormControlLabel control={<Checkbox />} label="Bloating" />
                 <br></br>
                 <FormControlLabel control={<Checkbox />} label="Fatigue" />
@@ -321,7 +370,7 @@ function PeriodPainQuestion() {
                 <FormControlLabel control={<Checkbox />} label="Back pain" />
                 <br></br>
                 <FormControlLabel control={<Checkbox />} label="Other" />
-              </ul>
+              </ul> */}
             </FormControl>
             {/******5.	Have you experienced significant changes in the intensity or duration of your period pain in the past 6 months? *****/}
 
@@ -383,20 +432,60 @@ function PeriodPainQuestion() {
             </FormControl>
             {/******7.	Have you ever been diagnosed with any of the following conditions? *****/}
 
+             
             <FormControl
               component="fieldset"
               className="QuestionBox"
               disabled={checkDisabled("diagnosedFollowCond")}
-            >
+              >
               <Typography
                 variant="h4"
                 className="labelOne"
                 name="diagnosedFollowCond"
-              >
+                >
                 Have you ever been diagnosed with any of the following
                 conditions?
               </Typography>
-              <ul>
+                {/* ------------------ */}
+              {[
+                "Endometriosis",
+                "Pelvic inflammatory disease (PID)",
+                "Ovarian cysts",
+                "Chronic pelvic pain",
+                "Other",
+              ].map((condition, index) => (
+                <FormControlLabel
+                sx={{pl:3}}
+                  className="checkbox2Col"
+                  key={index}
+                  control={
+                    <Checkbox
+                      checked={answers.conditions1?.includes(condition)}
+                      onChange={(e) => {
+                        const { value, checked } = e.target;
+                        let newConditions = [...(answers.conditions1 || [])];
+
+                        if (checked) {
+                          newConditions.push(value);
+                        } else {
+                          newConditions = newConditions.filter(
+                            (item) => item !== value
+                          );
+                        }
+
+                        setAnswers({
+                          ...answers,
+                          conditions1: newConditions,
+                        });
+                      }}
+                      value={condition}
+                    />
+                  }
+                  label={condition}
+                />
+              ))}
+              {/* ........... */}
+              {/* <ul>
                 <FormControlLabel
                   control={<Checkbox />}
                   label="Endometriosis"
@@ -420,7 +509,7 @@ function PeriodPainQuestion() {
                 />
                 <br></br>
                 <FormControlLabel control={<Checkbox />} label="Other " />
-              </ul>
+              </ul> */}
             </FormControl>
             {/******8.	Do you have any known allergies to medications, especially pain relief medications like NSAIDs (e.g., ibuprofen, aspirin)? *****/}
 
@@ -480,7 +569,7 @@ function PeriodPainQuestion() {
               </Typography>
               <>
                 {" "}
-                <ul>
+                <ul style={{paddingLeft:"63px"}}>
                   <li>Birth control (oral contraceptives, IUD, etc.)</li>
                   <li>Hormonal therapy</li>
                   <li>Pain relief medication (e.g., ibuprofen, paracetamol)</li>
@@ -528,7 +617,45 @@ function PeriodPainQuestion() {
                 Have you used any treatments in the past for period pain, such
                 as:
               </Typography>
-              <ul>
+              {/* //////// */}
+  {[
+                "Over-the-counter pain relief (e.g., ibuprofen, paracetamol)",
+                "Prescription medication (e.g., hormonal treatments, stronger painkillers)",
+                "Surgery (e.g., laparoscopy for endometriosis)",
+                "Other treatments ",
+              ].map((condition, index) => (
+                <FormControlLabel
+                sx={{pl:3}}
+                  className="checkbox2Col"
+                  key={index}
+                  control={
+                    <Checkbox
+                      checked={answers.conditions3?.includes(condition)}
+                      onChange={(e) => {
+                        const { value, checked } = e.target;
+                        let newConditions = [...(answers.conditions3 || [])];
+
+                        if (checked) {
+                          newConditions.push(value);
+                        } else {
+                          newConditions = newConditions.filter(
+                            (item) => item !== value
+                          );
+                        }
+
+                        setAnswers({
+                          ...answers,
+                          conditions3: newConditions,
+                        });
+                      }}
+                      value={condition}
+                    />
+                  }
+                  label={condition}
+                />
+              ))}
+              {/* ///////// */}
+              {/* <ul>
                 <FormControlLabel
                   control={<Checkbox />}
                   label="Over-the-counter pain relief (e.g., ibuprofen, paracetamol)"
@@ -548,7 +675,7 @@ function PeriodPainQuestion() {
                   control={<Checkbox />}
                   label="Other treatments "
                 />
-              </ul>
+              </ul> */}
             </FormControl>
             {/******11.	Did any of the above treatments work for you? *****/}
 
@@ -648,7 +775,7 @@ function PeriodPainQuestion() {
                 Do you have any of the following conditions that could impact
                 your health or treatment options?
               </Typography>
-              <ul>
+              <ul style={{paddingLeft:"55px"}}>
                 <li>Asthma</li>
                 <li>Diabetes</li>
                 <li>Hypertension</li>

@@ -22,6 +22,7 @@ export const AppProvider = ({ children }) => {
   const [questionData, setQuestionData] = useState({});
   const [searchValue, setSearchValue] = useState("");
   const [searchBlogValue, setSearchBlogValue] = useState("");
+  const [page, setPage] = useState(1);
 
   const fetchCart = async (user) => {
     try {
@@ -286,6 +287,7 @@ export const AppProvider = ({ children }) => {
       setFilteredProducts([]);
       return;
     } else {
+      setPage(1);
       setFilteredProducts(filteredProducts);
       return;
     }
@@ -348,6 +350,8 @@ export const AppProvider = ({ children }) => {
         // setFilteredBlogs,
         // setSearchBlogValue,
         // searchBlogs,
+        page,
+        setPage,
       }}
     >
       {children}

@@ -94,7 +94,7 @@ const ProductOverview = ({ product }) => {
             paddingTop: { xs: "10px", sm: "10px", md: "15px" },
           }}
         >
-          Product Overview
+          Product Overview 
         </Typography>
       </Box>
 
@@ -295,6 +295,7 @@ const ProductOverview = ({ product }) => {
                   <EditNoteSharpIcon
                     style={{ color: "#fff" }}
                     fontSize="large"
+                    sx={{display:"flex",alignItems:"center"}}
                   />
                 }
                 label="Questions"

@@ -16,6 +16,7 @@ import {
   Select,
   MenuItem,
   Container,
+  CircularProgress,
   Grid2,
 } from "@mui/material";
 import { Rating } from "@mui/material";
@@ -34,13 +35,14 @@ const CategoryPage = () => {
   const [category, setCategory] = useState(null);
   const [categoryId, setCategoryId] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [loadingProducts, setLoadingProducts] = useState(true);
   const [notFound, setNotFound] = useState(false);
 
   const { filteredProducts, setSortOption } = useApp();
 
   const [page, setPage] = useState(1);
   const handlePageChange = (e, value) => {
-    setPage(value);
+    setPage(value); 
     // Scroll to top when page changes
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -193,6 +195,15 @@ const CategoryPage = () => {
   };
 
   useEffect(() => {
+    // Check if filteredProducts has loaded and sliced products are available
+    if (filteredProducts.length > 0 && currentProducts.length > 0) {
+      setLoadingProducts(false);
+    } else {
+      setLoadingProducts(true);
+    }
+  }, [filteredProducts, currentProducts]);
+
+  useEffect(() => {
     const fetchCategory = async () => {
       try {
         const response = await getCategoryBySlug(slug);
@@ -244,8 +255,26 @@ const CategoryPage = () => {
 
     fetchProducts();
   }, [categoryId]); // ✅ Runs when categoryId changes
+  // if (loading) {
+  //   return <Box>Loading...</Box>;
+  // }
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <Box
+        height="40vh"
+        minHeight="200px"
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        boxShadow="none"
+        border="none"
+        outline="none"
+        sx={{ flexDirection: "column" }}
+      >
+        <CircularProgress color="primary" />
+        <Typography>Loading...</Typography>
+      </Box>
+    );
   }
 
   if (notFound) {
@@ -314,173 +343,208 @@ const CategoryPage = () => {
               </Select>
             </Box>
 
-            <Grid2 container spacing={4}>
-              {currentProducts.map((product) => (
+            {/* <Grid2 container spacing={4}> */}
+            {/* {loadingProducts ? (
                 <Grid2
-                  style={shop3Grid.shopProductBox}
-                  size={{ xs: 12, sm: 6, md: 4 }}
-                  spacing={2}
-                  key={product.id} // Use a unique key like `product.id`
+                  item
+                  xs={12}
+                  sx={{
+                    height: "80vh",
+                    minHeight:"200px",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    flexDirection: "column",
+                    textAlign: "center",
+                  }}
                 >
-                  <Link
-                    to={`/product/${product.slug}`}
-                    style={{ textDecoration: "none" }}
+                  <CircularProgress />
+                  Loading...
+                </Grid2>
+              ) : (
+                currentProducts.map((product) => ( */}
+            {loadingProducts ? (
+              <Box
+                height="70vh"
+                width="100%"
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+                flexDirection="column"
+                textAlign="center"
+              >
+                <CircularProgress />
+                <Typography mt={2}>Loading...</Typography>
+              </Box>
+            ) : (
+              <Grid2 container spacing={4}>
+                {currentProducts.map((product) => (
+                  <Grid2
+                    style={shop3Grid.shopProductBox}
+                    size={{ xs: 12, sm: 6, md: 4 }}
+                    spacing={2}
+                    key={product.id} // Use a unique key like `product.id`
                   >
-                    <Card
-                      style={{
-                        ...shop3Grid.shopinBox,
-                        display: "flex",
-                        flexDirection: "column",
-                        height: "100%", // Ensure all cards have the same height
-                      }}
+                    <Link
+                      to={`/product/${product.slug}`}
+                      style={{ textDecoration: "none" }}
                     >
-                      <Box position="relative">
-                        <CardMedia
-                          style={shop3Grid.productThumb}
-                          component="img"
-                          height="235"
-                          image={
-                            product.image ||
-                            "https://admin.pillsphere.com/wp-content/uploads/2025/01/unnamed.png"
-                          } // Use product.image if available
-                          alt={product.name}
-                          sx={{
-                            objectFit: "contain",
-                          }}
-                        />
-                        {product.sale_price && (
-                          <Box
-                            style={shop3Grid.offerTag}
-                            position="absolute"
-                            top={0}
-                            left={0}
-                            bgcolor="red"
-                            color="white"
-                            px={1}
-                            py={0.5}
-                            fontSize="0.8rem"
-                          >
-                            {Math.round(
-                              ((product.regular_price - product.sale_price) /
-                                product.regular_price) *
-                                100
-                            )}
-                            % OFF
-                          </Box>
-                        )}
-                      </Box>
-                      <CardContent
-                        style={shop3Grid.titlePriceBox}
-                        sx={{
-                          flexGrow: 1, // Ensures the content expands evenly
+                      <Card
+                        style={{
+                          ...shop3Grid.shopinBox,
                           display: "flex",
                           flexDirection: "column",
-                          justifyContent: "space-between",
-                          minHeight: "180px", // Ensures all cards are equal height
+                          height: "100%", // Ensure all cards have the same height
                         }}
                       >
-                        <Typography
-                          variant="h6"
+                        <Box position="relative">
+                          <CardMedia
+                            style={shop3Grid.productThumb}
+                            component="img"
+                            height="235"
+                            image={
+                              product.image ||
+                              "https://admin.pillsphere.com/wp-content/uploads/2025/01/unnamed.png"
+                            } // Use product.image if available
+                            alt={product.name}
+                            sx={{
+                              objectFit: "contain",
+                            }}
+                          />
+                          {product.sale_price && (
+                            <Box
+                              style={shop3Grid.offerTag}
+                              position="absolute"
+                              top={0}
+                              left={0}
+                              bgcolor="red"
+                              color="white"
+                              px={1}
+                              py={0.5}
+                              fontSize="0.8rem"
+                            >
+                              {Math.round(
+                                ((product.regular_price - product.sale_price) /
+                                  product.regular_price) *
+                                  100
+                              )}
+                              % OFF
+                            </Box>
+                          )}
+                        </Box>
+                        <CardContent
+                          style={shop3Grid.titlePriceBox}
                           sx={{
-                            fontSize: { xs: "14px", sm: "16px", md: "20px" },
-                            fontWeight: { xs: "600", sm: "600", md: "700" },
-                            color: "#333333",
-                            lineHeight: "1.3em",
-                          }}
-                        >
-                          {product.name}
-                        </Typography>
-
-                        {/* Product Categories */}
-                        {product.categories?.length > 0 && (
-                          <Box>
-                            {product.categories.map((category) => (
-                              <Typography
-                                key={category.id}
-                                variant="body2"
-                                color="textSecondary"
-                                sx={{
-                                  fontSize: {
-                                    xs: "13px",
-                                    sm: "14px",
-                                    md: "16px",
-                                  },
-                                  fontWeight: "500",
-                                  whiteSpace: "nowrap",
-                                }}
-                              >
-                                {category.name}
-                              </Typography>
-                            ))}
-                          </Box>
-                        )}
-
-                        {/* Price Section Sticks at the Bottom */}
-                        <Box
-                          sx={{
+                            flexGrow: 1, // Ensures the content expands evenly
                             display: "flex",
-                            justifyContent: "flex-start", // Keeps price left-aligned
-                            alignItems: "center",
-                            gap: "10px",
-                            minHeight: "40px", // Ensures height is uniform
+                            flexDirection: "column",
+                            justifyContent: "space-between",
+                            minHeight: "180px", // Ensures all cards are equal height
                           }}
                         >
                           <Typography
-                            variant="body1"
+                            variant="h6"
                             sx={{
-                              fontSize: "18px",
-                              fontWeight: "800",
-                              color: "#FD6400",
+                              fontSize: { xs: "14px", sm: "16px", md: "20px" },
+                              fontWeight: { xs: "600", sm: "600", md: "700" },
+                              color: "#333333",
+                              lineHeight: "1.3em",
                             }}
                           >
-                            £ {product.sale_price || product.price || 0}
+                            {product.name}
                           </Typography>
 
-                          {product.sale_price && (
+                          {/* Product Categories */}
+                          {product.categories?.length > 0 && (
+                            <Box>
+                              {product.categories.map((category) => (
+                                <Typography
+                                  key={category.id}
+                                  variant="body2"
+                                  color="textSecondary"
+                                  sx={{
+                                    fontSize: {
+                                      xs: "13px",
+                                      sm: "14px",
+                                      md: "16px",
+                                    },
+                                    fontWeight: "500",
+                                    whiteSpace: "nowrap",
+                                  }}
+                                >
+                                  {category.name}
+                                </Typography>
+                              ))}
+                            </Box>
+                          )}
+
+                          {/* Price Section Sticks at the Bottom */}
+                          <Box
+                            sx={{
+                              display: "flex",
+                              justifyContent: "flex-start", // Keeps price left-aligned
+                              alignItems: "center",
+                              gap: "10px",
+                              minHeight: "40px", // Ensures height is uniform
+                            }}
+                          >
                             <Typography
                               variant="body1"
                               sx={{
-                                textDecoration: "line-through",
-                                color: "#A7A7A7",
-                                fontSize: "16px",
-                                fontWeight: "500",
+                                fontSize: "18px",
+                                fontWeight: "800",
+                                color: "#FD6400",
                               }}
                             >
-                              £{product.regular_price}
+                              £ {product.sale_price || product.price || 0}
                             </Typography>
-                          )}
-                        </Box>
-                      </CardContent>
-                      <CardActions style={shop3Grid.divCart}>
-                        <Button
-                          style={shop3Grid.proCartBtn}
-                          variant="outlined"
-                          fullWidth
-                        >
-                          View
-                          <svg
-                            style={{ marginLeft: "10px" }}
-                            width="18"
-                            height="14"
-                            viewBox="0 0 18 14"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
+
+                            {product.sale_price && (
+                              <Typography
+                                variant="body1"
+                                sx={{
+                                  textDecoration: "line-through",
+                                  color: "#A7A7A7",
+                                  fontSize: "16px",
+                                  fontWeight: "500",
+                                }}
+                              >
+                                £{product.regular_price}
+                              </Typography>
+                            )}
+                          </Box>
+                        </CardContent>
+                        <CardActions style={shop3Grid.divCart}>
+                          <Button
+                            style={shop3Grid.proCartBtn}
+                            variant="outlined"
+                            fullWidth
                           >
-                            <path
-                              d="M17 7L11 1M17 7L11 13M17 7L6.5 7M1 7L3.5 7"
-                              stroke="white"
-                              strokeWidth="1.5"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            />
-                          </svg>
-                        </Button>
-                      </CardActions>
-                    </Card>
-                  </Link>
-                </Grid2>
-              ))}
-            </Grid2>
+                            View
+                            <svg
+                              style={{ marginLeft: "10px" }}
+                              width="18"
+                              height="14"
+                              viewBox="0 0 18 14"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                d="M17 7L11 1M17 7L11 13M17 7L6.5 7M1 7L3.5 7"
+                                stroke="white"
+                                strokeWidth="1.5"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              />
+                            </svg>
+                          </Button>
+                        </CardActions>
+                      </Card>
+                    </Link>
+                  </Grid2>
+                ))}
+              </Grid2>
+            )}
             {/* Add pagination at the bottom */}
             {!loading && filteredProducts.length > 0 && (
               <PaginationComponent
