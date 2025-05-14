@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Box, IconButton, useMediaQuery, useTheme } from "@mui/material";
+import {
+  Box,
+  CircularProgress,
+  IconButton,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import {
   KeyboardArrowUp,
   KeyboardArrowDown,
@@ -122,6 +129,25 @@ const ImageGallery = ({ id }) => {
       )}
 
       {/* Main Selected Image */}
+      {isImageLoading && (
+        <Box
+          sx={{
+            width: { xs: "100%", sm: "80%", md: "100%" },
+            minHeight: 300,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            color: "black",
+            flexDirection: "column",
+            // color: "#999",
+            fontSize: "26px",
+            // paddingLeft:"20px"
+          }}
+        >
+          <CircularProgress color="primary" />
+          <Typography>Loading </Typography>
+        </Box>
+      )}
       <Box
         sx={{
           width: { xs: "100%", sm: "80%", md: "100%" },
@@ -133,27 +159,11 @@ const ImageGallery = ({ id }) => {
           },
         }}
       >
-        {isImageLoading && (
-          <Box
-            sx={{
-              width: { xs: "100%", sm: "80%", md: "100%" },
-              minHeight: 300,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              color: "black",
-              // color: "#999",
-              fontSize: "28px",
-            }}
-          >
-            Image is loading ...
-          </Box>
-        )}
         <img
           key={images[selectedImage]}
           src={images[selectedImage]}
           onLoad={() => {
-            console.log("Image loaded");
+            // console.log("Image loaded");
             setIsImageLoading(false);
           }}
           onError={() => {

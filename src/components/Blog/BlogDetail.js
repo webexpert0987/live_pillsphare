@@ -10,6 +10,7 @@ import {
   Divider,
   Grid,
   Typography,
+  CircularProgress,
 } from "@mui/material";
 
 function BlogDetail() {
@@ -51,7 +52,22 @@ function BlogDetail() {
   }, [slug]);
 
   if (loading) {
-    return <Typography>Loading...</Typography>;
+    return (
+      <Box
+        height="40vh"
+        minHeight="300px"
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        boxShadow="none"
+        border="none"
+        outline="none"
+        sx={{ flexDirection: "column" }}
+      >
+        <CircularProgress color="primary" />
+        <Typography>Loading...</Typography>
+      </Box>
+    );
   }
 
   if (!post) {

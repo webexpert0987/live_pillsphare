@@ -42,7 +42,7 @@ const CategoryPage = () => {
 
   const [page, setPage] = useState(1);
   const handlePageChange = (e, value) => {
-    setPage(value); 
+    setPage(value);
     // Scroll to top when page changes
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -194,23 +194,32 @@ const CategoryPage = () => {
     },
   };
 
+  // useEffect(() => {
+  //   // Check if filteredProducts has loaded and sliced products are available
+  //   if (filteredProducts.length > 0 && currentProducts.length > 0) {
+  //     setLoadingProducts(false);
+  //   } else {
+  //     setLoadingProducts(true);
+  //   }
+  // }, [filteredProducts, currentProducts]);
+
   useEffect(() => {
-    // Check if filteredProducts has loaded and sliced products are available
-    if (filteredProducts.length > 0 && currentProducts.length > 0) {
+    if (filteredProducts.length === 0 && products.length > 0) {
+      setLoadingProducts(false);
+    } else if (filteredProducts.length > 0) {
       setLoadingProducts(false);
     } else {
-      setLoadingProducts(true);
+      setLoadingProducts(true); 
     }
-  }, [filteredProducts, currentProducts]);
+  }, [filteredProducts, products]);
 
   useEffect(() => {
     const fetchCategory = async () => {
       try {
+        setLoadingProducts(true);
         const response = await getCategoryBySlug(slug);
-
         if (response.success) {
           setCategory(response);
-
           setCategoryId(response.category_id);
         } else {
           setNotFound(true); // If not found, show 404
@@ -221,6 +230,8 @@ const CategoryPage = () => {
         console.error("Category not found:", error);
         setNotFound(true);
         setLoading(false);
+      } finally {
+        setLoadingProducts(false);
       }
     };
 
@@ -342,28 +353,7 @@ const CategoryPage = () => {
                 <MenuItem value="priceHighLow">Price: High to Low</MenuItem>
               </Select>
             </Box>
-
-            {/* <Grid2 container spacing={4}> */}
-            {/* {loadingProducts ? (
-                <Grid2
-                  item
-                  xs={12}
-                  sx={{
-                    height: "80vh",
-                    minHeight:"200px",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    flexDirection: "column",
-                    textAlign: "center",
-                  }}
-                >
-                  <CircularProgress />
-                  Loading...
-                </Grid2>
-              ) : (
-                currentProducts.map((product) => ( */}
-            {loadingProducts ? (
+              {loadingProducts ? (
               <Box
                 height="70vh"
                 width="100%"
@@ -375,6 +365,20 @@ const CategoryPage = () => {
               >
                 <CircularProgress />
                 <Typography mt={2}>Loading...</Typography>
+              </Box>
+            ) :  filteredProducts.length === 0 && products.length > 0 ? (
+              <Box
+                height="70vh"
+                width="100%"
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+                flexDirection="column"
+                textAlign="center"
+              >
+                <Typography variant="h6" color="textSecondary">
+                  No products found in this category.
+                </Typography>
               </Box>
             ) : (
               <Grid2 container spacing={4}>

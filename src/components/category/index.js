@@ -99,6 +99,7 @@ function Category(props) {
     setPriceRange,
     shopCategories,
     clearFilters,
+    setPage,
   } = props;
   const [categoriesOpen, setCategoriesOpen] = useState(true);
   const [priceOpen, setPriceOpen] = useState(true);
@@ -121,7 +122,7 @@ function Category(props) {
       [categoryId]: !prev[categoryId],
     }));
   };
-
+  // console.log('setpage 2',typeof setPage);
   useEffect(() => {
     for (let id of selectedCategories) {
       const newData = shopCategories.find((cat) => cat.id == id);
@@ -132,6 +133,8 @@ function Category(props) {
         });
       }
     }
+    setPage(1);
+    // console.log("type -", typeof setPage);
   }, [selectedCategories]);
   // console.log('products1',categoriesOpen);
   // console.log('products2',expandedCategories);
@@ -313,7 +316,7 @@ function Category(props) {
                               alignItems: "center",
                               "@media (min-width:1080px) and (max-width:1300px)":
                                 {
-                                  maxWidth: "220px", 
+                                  maxWidth: "220px",
                                 },
                             }}
                           >
@@ -480,7 +483,7 @@ function Category(props) {
   );
 }
 
-export default function CategoryPage({ products}) {
+export default function CategoryPage({ products, page, setPage = () => {} }) {
   const isMobile = useMediaQuery("(max-width: 960px)");
   const { setFilteredProducts, sortOption } = useApp();
 
@@ -496,14 +499,14 @@ export default function CategoryPage({ products}) {
     setSelectedCategories([]);
     setPriceRange([1, 1000]);
   };
-
+  // console.log('setpage',typeof setPage);
   useEffect(() => {
     // console.log("useEffect running");
     const fetchCategories = async () => {
       const cachedCategories = localStorage.getItem("shopCategories");
       if (cachedCategories) {
         try {
-          // setPage(1);
+          setPage(1);
           setShopCategories(JSON.parse(cachedCategories));
           // console.log("shop categories ", shopCategories);
           return;
@@ -514,13 +517,14 @@ export default function CategoryPage({ products}) {
       }
       const response = await getShopCategories();
       if (Array.isArray(response)) {
+        setPage(1);
         // console.log("Fetched new categories:", response);
         setShopCategories(response);
-        // setPage(1);
+        // console.log('setpage11',typeof setPage);
         localStorage.setItem("shopCategories", JSON.stringify(response));
       }
     };
-     
+    setPage(1);
     fetchCategories();
   }, []);
 
@@ -564,6 +568,7 @@ export default function CategoryPage({ products}) {
         const response = await getCategoryBySlug(slug);
 
         if (response.success) {
+          setPage(1);
           setSelectedCategories((prev) => [response.category_id]);
         } else {
         }
@@ -586,6 +591,7 @@ export default function CategoryPage({ products}) {
         setPriceRange,
         shopCategories,
         clearFilters,
+        setPage,  // passed the setpage function here also 
       }}
     />
   ) : (
@@ -597,6 +603,7 @@ export default function CategoryPage({ products}) {
         setPriceRange,
         shopCategories,
         clearFilters,
+        setPage,
       }}
     />
   );

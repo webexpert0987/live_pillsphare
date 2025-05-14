@@ -107,6 +107,7 @@ const faqStyle = {
     fontSize: "18px",
     fontWeight: "500",
     lineHeight: "1.6",
+    // paddingLeft: "20px",
   },
 };
 

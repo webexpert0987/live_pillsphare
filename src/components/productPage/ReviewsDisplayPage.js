@@ -23,14 +23,14 @@ const ReviewsDisplayPage = ({ product }) => {
   const [review, setReview] = useState([]);
   useEffect(() => {
     if (!product || !product.id) return;
-    console.log("Review displaying useeffect");
+    // console.log("Review displaying useeffect");
     const getData = async () => {
       try {
-        console.log("try block 01");
+        // console.log("try block 01");
         const response = await reviewProductData({
           product_id: product.id,
         });
-        console.log("Full response from reviewProductData Api:", response);
+        // console.log("Full response from reviewProductData Api:", response);
         setReview(response.reviews || []);
       } catch (error) {
         console.error("Error fetching review:", {

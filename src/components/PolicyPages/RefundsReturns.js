@@ -65,12 +65,14 @@ function RefundsReturns() {
             </Typography>
             {/****** li *****/}
             <Box component="ul" sx={{ pl: 3 }}>
+              <Box sx={{pl:3}}>
               <Typography component="li" variant="body1">
                 Take it to your local pharmacy for free disposal.
               </Typography>
               <Typography component="li" variant="body1">
                 Do not return medicines to us.
               </Typography>
+               </Box>
             </Box>
             {/***********/}
             <Typography variant="h2">

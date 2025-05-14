@@ -601,9 +601,11 @@ const Product = () => {
         </Box>
         {/********* Product Overview End **********/}
       </Container>
+      {relatedProducts.length===0 ? (<div>
+      </div>) : (
       <Box backgroundColor={theme.palette.primary.main}>
         <RelatedProduct relatedProducts={relatedProducts} />
-      </Box>
+      </Box>)}
       {isQuestionModalOpen && (
         <Dialog
           open={isQuestionModalOpen}

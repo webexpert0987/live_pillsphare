@@ -14,6 +14,7 @@ import {
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import YourDetail from "../Questionnaire/YourDetails";
+import { useNavigate } from "react-router-dom";
 import {
   WeightLossQuestion,
   AcidRefluxQuestion,
@@ -132,6 +133,7 @@ function VerticalTabs() {
   const accordionRefs = useRef([]);
   const [searchParams] = useSearchParams();
   const category = searchParams.get("category"); // Get the "category" query param
+  const navigate = useNavigate();
 
   const handleAccordionChange = (index) => {
     // setSelectedTab(index);
@@ -186,6 +188,20 @@ function VerticalTabs() {
     }
   }, [category]);
 
+  // logic added to match the user url whether there is any category in url or not if not redirect to online-clinic page
+  useEffect(() => {
+    const match =
+      category &&
+      Object.keys(QuestionForm).find(
+        (key) => category === key || category.startsWith(key)
+      );
+    if (!match) navigate("/online-clinic", { replace: true });
+    else if (category !== match)
+      navigate(`/questionnaire?category=${match}`, { replace: true });
+  }, [category, navigate]);
+
+  // console.log('query parameter',category);
+  // console.log('includes or not ',Object.keys(QuestionForm).includes(category));
   return (
     <Container>
       <Box

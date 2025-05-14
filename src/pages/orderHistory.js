@@ -18,6 +18,7 @@ import {
   DialogActions,
   Rating,
   Snackbar,
+  CircularProgress,
   Alert,
 } from "@mui/material";
 import { rateProduct } from "../apis/apisList/orderApi";
@@ -38,8 +39,8 @@ const OrderHistory = () => {
   const storedUser = JSON.parse(localStorage.getItem("user"));
   const userId = storedUser ? storedUser.user_id : null;
 
-  const {showMessage}=useMessage()
-/////
+  const { showMessage } = useMessage();
+  /////
   const handleSubmit = async () => {
     if (!rating) {
       setRatingError("Please provide rating.");
@@ -58,10 +59,10 @@ const OrderHistory = () => {
       setComment("");
       setOpen(false);
       setRatingError("");
-      showMessage('Rating Successful', 'success');
+      showMessage("Rating Successful", "success");
     } catch (error) {
       // toast.error('Some toast error');
-      showMessage(error.response.data.message, 'error');
+      showMessage(error.response.data.message, "error");
       setOpen(false);
       // setRatingError(error.response.data.message);
       console.log(error.response.data.message);
@@ -121,7 +122,20 @@ const OrderHistory = () => {
   }
 
   if (loading) {
-    return <Typography variant="h6">Loading...</Typography>; // Loading state
+    return (
+      <Box
+        height="70vh"
+        width="100%"
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        flexDirection="column"
+        textAlign="center"
+      >
+        <CircularProgress />
+        <Typography mt={2}>Loading...</Typography>
+      </Box>
+    );
   }
 
   if (error) {
@@ -193,10 +207,18 @@ const OrderHistory = () => {
                   </TableCell>
                 </TableRow>
               </TableHead>
-              <TableBody >
+              <TableBody>
                 {order.line_items.map((item, index) => (
                   // <div key={index} style={{display:"flex",width:"100%"}}>
-                  <SingleOrderHistory index={index} item={item} order={order} ratingProductID={ratingProductID} setRatingProductID={setRatingProductID} open={open} setOpen={setOpen} />
+                  <SingleOrderHistory
+                    index={index}
+                    item={item}
+                    order={order}
+                    ratingProductID={ratingProductID}
+                    setRatingProductID={setRatingProductID}
+                    open={open}
+                    setOpen={setOpen}
+                  />
                   // </div>
                 ))}
                 <Dialog

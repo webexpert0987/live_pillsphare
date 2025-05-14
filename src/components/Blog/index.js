@@ -50,8 +50,8 @@ function Blog() {
       // console.log("No query entered, showing all posts:", allPosts);
       return;
     }
-      const keywords = query.split(" ");
-      const filteredBlogs = allPosts.filter((post) => {
+    const keywords = query.split(" ");
+    const filteredBlogs = allPosts.filter((post) => {
       const title = post.title.toLowerCase();
       const content = post.content.toLowerCase();
 
@@ -73,7 +73,7 @@ function Blog() {
     const fetchPosts = async () => {
       try {
         const response = await blogApi();
-        console.log("api, response ", response);
+        // console.log("api, response ", response);
         const formattedPosts = response.map((post) => ({
           id: post.id,
           title: post.title.rendered,
@@ -237,14 +237,18 @@ function Blog() {
         </Box>
         {loading ? (
           <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              minHeight: "300px",
-            }}
+            height="40vh"
+            minHeight="300px"
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            boxShadow="none"
+            border="none"
+            outline="none"
+            sx={{ flexDirection: "column" }}
           >
             <CircularProgress color="primary" />
+            <Typography>Loading...</Typography>
           </Box>
         ) : (
           <Box>
@@ -267,7 +271,7 @@ function Blog() {
                       marginBottom: "40px",
                     }}
                   >
-                    No Blogs found with this keyword...!
+                    No Blogs found with this keyword !
                   </Typography>
                 </Box>
               ) : (

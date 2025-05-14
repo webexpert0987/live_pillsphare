@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, Typography, Container } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import CustomButton from '../Button/button';
-
+import { Link } from "react-router-dom"; 
 const HowItWorksSection = () => {
   const steps = [
     {
@@ -59,8 +59,8 @@ const HowItWorksSection = () => {
                 {/* <Button variant="contained" sx={{ mt: 4, backgroundColor: 'tertiary.main', borderRadius: '20px' }}>
                     Read More <Icon icon="solar:arrow-right-broken" color="#fff" width="22" height="22" />
                 </Button> */}
-                <CustomButton  style={HowItWorks.Btn} bgColor={"tertiary.main"} txColor={"#fff"} text='Start Your Consultation Today'/>
-            </Container>
+               <Link to="/how-it-work" style={{ textDecoration: "none" }}> <CustomButton  style={HowItWorks.Btn} bgColor={"tertiary.main"} txColor={"#fff"} text='Start Your Consultation Today'/>
+           </Link> </Container>
         </Box>
   );
 };

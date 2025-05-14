@@ -38,6 +38,7 @@ function CookiesPolicy() {
             </Typography>
             {/****** li *****/}
             <Box component="ul" sx={{ pl: 3 }}>
+              <Box sx={{pl:3}}>
               <Typography component="li" variant="body1">
                 <strong>Necessary Cookies: </strong>
                 Necessary cookies allow us to offer you the best possible
@@ -60,6 +61,7 @@ function CookiesPolicy() {
                 addresses and are used to help us improve your user experience
                 of the website.
               </Typography>
+              </Box>
             </Box>
             {/***********/}
             <Typography variant="h2">How to Delete Cookies?</Typography>

@@ -166,7 +166,6 @@ function YourDetailForm() {
     if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
       age--;
     }
-
     return age;
   }
 

@@ -50,6 +50,7 @@ const weightCompStyle = {
     "@media (max-width: 767px)": {
       fontSize: "15px",
       padding: "10px 12px",
+      // padding: "7px 9px",
     },
   },
   tBody: {

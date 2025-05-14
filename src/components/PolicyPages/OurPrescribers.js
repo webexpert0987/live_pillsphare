@@ -39,6 +39,7 @@ function OurPrescribers() {
             </Typography>
             {/****** li *****/}
             <Box component="ul" sx={{ pl: 3 }}>
+              <Box sx={{pl:3}}>
               <Typography component="li" variant="body1">
                 Expert Guidance: Receive tailored advice and care from a
                 seasoned pharmacist and prescriber.
@@ -56,6 +57,7 @@ function OurPrescribers() {
                 other healthcare professionals to ensure a seamless healthcare
                 experience.
               </Typography>
+              </Box>
             </Box>
 
             {/***********/}

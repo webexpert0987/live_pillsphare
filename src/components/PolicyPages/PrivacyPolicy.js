@@ -75,6 +75,7 @@ function PrivacyPolicy() {
             </Box>
             <Box>
               <Typography variant="h2">We share Your Data :</Typography>
+             <Box sx={{pl:3}}>
               <Typography
                 component="li"
                 className="privacyPara"
@@ -98,6 +99,7 @@ function PrivacyPolicy() {
                 With other third parties to send you details of their goods and
                 services, but only if you give us permission to do so.
               </Typography>
+              </Box>
             </Box>
             {/***********/}
             <Box>
@@ -726,7 +728,7 @@ function PrivacyPolicy() {
               scenarios :
             </Typography>
             {/****** li *****/}
-            <Box component="ul" >
+            <Box >
               <Typography component="privacyPara" variant="body1">
                 if you want us to establish the data's accuracy;
               </Typography>

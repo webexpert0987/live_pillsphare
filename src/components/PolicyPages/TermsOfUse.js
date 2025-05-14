@@ -31,6 +31,8 @@ function TermsOfUse() {
             </Typography>
             {/****** li *****/}
             <Box component="ul" sx={{ pl: 3 }}>
+                            <Box sx={{ pl: 3 }}>
+              
               <Typography component="li" variant="body1">
               <strong>Content Ownership:</strong> All materials on this Website (including text, graphics, software, and code) are owned by Pill Sphere LTD or its licensors unless explicitly uploaded by Users. These materials are protected under intellectual property laws.
               </Typography>
@@ -40,6 +42,7 @@ function TermsOfUse() {
               <Typography component="li" variant="body1">
               <strong>Prohibited Use:</strong> You must not reproduce, modify, copy, distribute, or exploit any content for commercial purposes without prior written consent from Pill Sphere LTD.
               </Typography>
+              </Box>
             </Box>
             {/***********/}
             <Typography variant="h2">Prohibited Use </Typography>
@@ -47,6 +50,8 @@ function TermsOfUse() {
             <strong>You agree not to use this Website for:</strong>
             </Typography>
             <Box component="ol" sx={{ pl: 3, listStyleType: "lower-alpha" }}>
+                            <Box sx={{ pl: 3 }}>
+              
               <Typography component="li" variant="body1">
               Causing damage, disruption, or interfering with another person's use of the Website.
               </Typography>
@@ -56,11 +61,14 @@ function TermsOfUse() {
               <Typography component="li" variant="body1">
               Copying or transmitting copyright-protected materials without authorization.
               </Typography>
+              </Box>
             </Box>
             {/***********/}
             <Typography variant="h2">Registration</Typography>
             {/****** li *****/}
             <Box component="ul" sx={{ pl: 3 }}>
+                            <Box sx={{ pl: 3 }}>
+              
               <Typography component="li" variant="body1">
               All information you provide during registration must be accurate and kept up to date.
               </Typography>
@@ -73,42 +81,54 @@ function TermsOfUse() {
               <Typography component="li" variant="body1">
               You may cancel your registration by contacting us in writing.
               </Typography>
+              </Box>
             </Box>
             {/***********/}
             <Typography variant="h2">Password and Security</Typography>
             {/****** li *****/}
             <Box component="ul" sx={{ pl: 3 }}>
+                            <Box sx={{ pl: 3 }}>
+              
               <Typography component="li" variant="body1">
               You are responsible for keeping your password secure and confidential.
               </Typography>
               <Typography component="li" variant="body1">
               If misuse or security concerns arise, we may require you to change your password or suspend your account.
               </Typography>
+              </Box>
             </Box>
             {/***********/}
             <Typography variant="h2">Links to Other Websites </Typography>
             {/****** li *****/}
             <Box component="ul" sx={{ pl: 3 }}>
+                            <Box sx={{ pl: 3 }}>
+              
               <Typography component="li" variant="body1">
               This Website may link to third-party sites, but Pill Sphere LTD is not responsible for their content or any associated loss.
               </Typography>
               <Typography component="li" variant="body1">
               Links do not imply endorsement of these sites.
               </Typography>
+              </Box>
             </Box>
             {/***********/}
             <Typography variant="h2">Privacy Policy</Typography>
             {/****** li *****/}
             <Box component="ul" sx={{ pl: 3 }}>
+                            <Box sx={{ pl: 3 }}>
+              
               <Typography component="li" variant="body1">
               Your use of the Website is subject to our Privacy Policy, which is incorporated into these terms.
               </Typography>
+              </Box>
             </Box>
 
             {/***********/}
             <Typography variant="h2">Availability and Disclaimers </Typography>
             {/****** li *****/}
             <Box component="ul" sx={{ pl: 3 }}>
+                            <Box sx={{ pl: 3 }}>
+              
               <Typography component="li" variant="body1">
               The Website and its services are provided "as is" and "as available." No warranties are made regarding accuracy, compatibility, or quality.
               </Typography>
@@ -121,12 +141,15 @@ function TermsOfUse() {
               <Typography component="li" variant="body1">
               We reserve the right to modify or discontinue any aspect of the Website.
               </Typography>
+              </Box>
             </Box>
 
             {/***********/}
             <Typography variant="h2">Limitation of Liability </Typography>
             {/****** li *****/}
             <Box component="ul" sx={{ pl: 3 }}>
+                            <Box sx={{ pl: 3 }}>
+              
               <Typography component="li" variant="body1">
               Nothing in these terms excludes liability for death, personal injury, or fraud resulting from negligence.
               </Typography>
@@ -147,6 +170,7 @@ function TermsOfUse() {
                             </Typography>
                           </Box>
               </Typography>
+              </Box>
               
             </Box>
 
@@ -154,6 +178,8 @@ function TermsOfUse() {
             <Typography variant="h2">General </Typography>
             {/****** li *****/}
             <Box component="ul" sx={{ pl: 3 }}>
+                            <Box sx={{ pl: 3 }}>
+              
               <Typography component="li" variant="body1">
               Your rights under these terms cannot be transferred. We may transfer our rights where your rights remain unaffected.
               </Typography>
@@ -172,15 +198,19 @@ function TermsOfUse() {
               <Typography component="li" variant="body1">
               Delay in enforcing rights does not constitute a waiver of them.
               </Typography>
+              </Box>
             </Box>
 
             {/***********/}
             <Typography variant="h2">Governing Law </Typography>
             {/****** li *****/}
             <Box component="ul" sx={{ pl: 3 }}>
+                            <Box sx={{ pl: 3 }}>
+              
               <Typography component="li" variant="body1">
               These terms are governed by the laws of England and Wales. Disputes will be subject to the exclusive jurisdiction of the courts in these jurisdictions.
               </Typography>
+            </Box>
             </Box>
 
             {/***********/}
@@ -192,16 +222,16 @@ function TermsOfUse() {
             <Typography className="privacyPara" variant="body1">
             Registered in England and Wales, No. 16158942
             </Typography>
-            <Typography className="privacyPara" variant="body1">
+            <Typography className="privacyPara" variant="body1" >
             <strong>Registered Address:</strong> Unit 2a And Unit 2p Building B East Lane, Wembley Commercial Centre, Wembley, Middlesex, United Kingdom, HA9 7UR
             </Typography>
             <Typography className="privacyPara" variant="body1">
-            <strong>Email:</strong>
+            <strong>Email: </strong>
               <a
                 href="mailto:enquiries@pillsphere.com"
                 style={{ textDecoration: "none", color: "inherit" }}
               >
-                enquiries@pillsphere.com
+                 {" "}enquiries@pillsphere.com
               </a>
             </Typography>
             <Typography className="privacyPara" variant="body1">
@@ -209,6 +239,7 @@ function TermsOfUse() {
             </Typography>
             {/***********/}
           </Box>
+  
         </Container>
       </Box>
     </>

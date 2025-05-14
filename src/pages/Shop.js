@@ -35,6 +35,7 @@ const ProductListingPage = () => {
   } = useApp();
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [currentProducts, setCurrentProducts] = useState(1);
   const handlePageChange = (e, value) => {
     setPage(value);
     // Scroll to top when page changes
@@ -42,13 +43,28 @@ const ProductListingPage = () => {
   };
 
   // Calculate pagination values
+  useEffect(() => {
+    setCurrentProducts(filteredProducts);
+  }, []);
+
   const productsPerPage = 9;
-  const indexOfLastProduct = page * productsPerPage;
-  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = filteredProducts.slice(
-    indexOfFirstProduct,
-    indexOfLastProduct
-  );
+  useEffect(() => {
+    const indexOfLastProduct = page * productsPerPage;
+    const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+    const currProducts = filteredProducts.slice(
+      indexOfFirstProduct,
+      indexOfLastProduct
+    );
+    setCurrentProducts(currProducts);
+  }, [page, filteredProducts]);
+  // console.log('currentproducts',currentProducts);
+  // const productsPerPage = 9;
+  // const indexOfLastProduct = page * productsPerPage;
+  // const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  // const currentProducts = filteredProducts.slice(
+  //   indexOfFirstProduct,
+  //   indexOfLastProduct
+  // );
   // console.log('indexes',indexOfFirstProduct,indexOfLastProduct);
   const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
 
@@ -87,7 +103,7 @@ const ProductListingPage = () => {
     // If searchValue is empty but we have a saved search, use it
     const effectiveSearchValue = searchValue || savedSearchValue;
 
-    // setPage(1); 
+    // setPage(1);
     if (!effectiveSearchValue) {
       setFilteredProducts(products);
       return;
@@ -144,7 +160,7 @@ const ProductListingPage = () => {
       padding: "20px 20px 25px 20px",
     },
   };
-
+  //Cetirizine Dihydrochloride Film Coated Tablets 10mg
   return (
     <>
       <Box>
@@ -160,7 +176,7 @@ const ProductListingPage = () => {
           }}
         >
           {/* Left Column */}
-          <CategoryPage products={products}  />
+          <CategoryPage products={products} page={page} setPage={setPage} />
 
           {/* Right Column */}
           <Box
@@ -207,14 +223,14 @@ const ProductListingPage = () => {
                 sx={{
                   display: "flex",
                   justifyContent: "center",
-                  flexDirection:"column",
-                  alignItems:"center",
-                  width:"100%",
-                  height:"100vh",
-                  minHeight:"300px"
+                  flexDirection: "column",
+                  alignItems: "center",
+                  width: "100%",
+                  height: "100vh",
+                  minHeight: "300px",
                 }}
               >
-                <CircularProgress color="primary"/>
+                <CircularProgress color="primary" />
                 <Typography>Loading..</Typography>
               </Box>
             ) : currentProducts.length > 0 ? (
@@ -415,13 +431,14 @@ const ProductListingPage = () => {
                   alignItems: "center",
                   width: "100%",
                   height: "100%",
+                  minHeight:"300px",
                   margin: 0,
                   padding: 0,
                 }}
               >
                 <Typography
                   variant="body1"
-                  sx={{ textAlign: "center", mt: 4, color: "text.secondary" }}
+                  sx={{ textAlign: "center", mt: 4, color: "text.secondary",fontSize:"20px",fontWeight:"700" }}
                 >
                   No products available for this category.
                 </Typography>

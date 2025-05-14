@@ -22,7 +22,7 @@ export const AppProvider = ({ children }) => {
   const [questionData, setQuestionData] = useState({});
   const [searchValue, setSearchValue] = useState("");
   const [searchBlogValue, setSearchBlogValue] = useState("");
-  const [page, setPage] = useState(1);
+  // const [page, setPage] = useState(1);
 
   const fetchCart = async (user) => {
     try {
@@ -276,10 +276,12 @@ export const AppProvider = ({ children }) => {
 
   const searchProducts = (products) => {
     const search = searchValue.trim();
+    // setPage(1)
     if (!search) {
       setFilteredProducts(products);
       return;
     }
+    // setPage(1);
     const filteredProducts = products.filter((product) =>
       product?.name?.toLowerCase().includes(search.toLowerCase())
     );
@@ -287,7 +289,7 @@ export const AppProvider = ({ children }) => {
       setFilteredProducts([]);
       return;
     } else {
-      setPage(1);
+      // setPage(1);
       setFilteredProducts(filteredProducts);
       return;
     }
@@ -350,8 +352,8 @@ export const AppProvider = ({ children }) => {
         // setFilteredBlogs,
         // setSearchBlogValue,
         // searchBlogs,
-        page,
-        setPage,
+        // page,
+        // setPage,
       }}
     >
       {children}
