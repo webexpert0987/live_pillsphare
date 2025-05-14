@@ -109,15 +109,14 @@ const ShippingMethodSelector = ({ selectedMethod, onMethodSelect }) => {
                   >
                     <Typography variant="subtitle1">
                       {method?.name || "N/A"}
-                      {/* <span
+                      <span
                         style={{
-                          color: "gray",
-                          fontSize: "14px",
+                          fontSize: "16px",
                         }}
                       >
                         {" "}
                         ({method?.zoneName || "N/A"})
-                      </span> */}
+                      </span>
                     </Typography>
 
                     <Typography variant="subtitle1" sx={{ fontWeight: 500 }}>

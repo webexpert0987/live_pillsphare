@@ -7,6 +7,7 @@ import {
   InputAdornment,
 } from "@mui/material";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
+import { CalendarMonth, Password, Pin } from "@mui/icons-material";
 
 function validateCardNumber(number) {
   const cleaned = number.replace(/\s+/g, "");
@@ -14,7 +15,13 @@ function validateCardNumber(number) {
   return regex.test(cleaned);
 }
 
-function CardInputForm({ values, setValues, errors, setErrors, cardValidation }) {
+function CardInputForm({
+  values,
+  setValues,
+  errors,
+  setErrors,
+  cardValidation,
+}) {
   const handleCardNumberChange = (e) => {
     let value = e.target.value.replace(/\D/g, "").slice(0, 16);
     value = value.replace(/(.{4})/g, "$1 ").trim();
@@ -37,7 +44,10 @@ function CardInputForm({ values, setValues, errors, setErrors, cardValidation })
       const currentMonth = now.getMonth() + 1;
       if (mm < 1 || mm > 12) {
         expiryError = "Invalid month in expiry date";
-      } else if (yy < currentYear || (yy === currentYear && mm < currentMonth)) {
+      } else if (
+        yy < currentYear ||
+        (yy === currentYear && mm < currentMonth)
+      ) {
         expiryError = "Card has expired";
       }
     }
@@ -101,6 +111,13 @@ function CardInputForm({ values, setValues, errors, setErrors, cardValidation })
             placeholder="MM/YY"
             error={!!errors.expiryDate}
             helperText={errors.expiryDate}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <CalendarMonth />
+                </InputAdornment>
+              ),
+            }}
           />
         </Grid>
         <Grid item xs={6}>
@@ -112,6 +129,13 @@ function CardInputForm({ values, setValues, errors, setErrors, cardValidation })
             margin="normal"
             error={!!errors.securityCode}
             helperText={errors.securityCode}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Password />
+                </InputAdornment>
+              ),
+            }}
           />
         </Grid>
       </Grid>
