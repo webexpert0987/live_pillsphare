@@ -19,45 +19,17 @@ const ShippingMethodSelector = ({ selectedMethod, onMethodSelect }) => {
     const fetchShippingMethods = async () => {
       try {
         const response = await getShippingMethods();
-        // Transform shipping methods into required format
-        const methods = [
-          {
-            id: "tracked24",
-            name: "tracked24",
-            label: "Royal Mail Tracked 24",
-            price: "£3.95",
-            description: "Next working day tracked delivery",
-          },
-          {
-            id: "standard",
-            name: "standard",
-            label: "Standard Delivery",
-            price: "£2.95",
-            description: "3-5 working days",
-          },
-          {
-            id: "special_delivery_1pm",
-            name: "special_delivery_1pm",
-            label: "Next day by 1pm",
-            price: "£5.95",
-            description: "Next working day before 1pm",
-          },
-          {
-            id: "next_day_9am",
-            name: "next_day_9am",
-            label: "Next day by 9am",
-            price: "£13.95",
-            description: "Next working day before 9am (Monday-Saturday)",
-          },
-          {
-            id: "free_shipping",
-            name: "free_shipping",
-            label: "Free Shipping",
-            price: "FREE",
-            description: "Orders over £30 (3-5 working days)",
-          },
-        ];
-        setShippingMethods(response);
+
+        const transformed = response.flatMap((item) =>
+          item.methods.map((method) => ({
+            id: method.settings?.title,
+            zoneName: item.name,
+            name: method.settings?.title || method.title,
+            price: method.cost || "0",
+          }))
+        );
+
+        setShippingMethods(transformed);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching shipping methods:", error);
@@ -137,7 +109,17 @@ const ShippingMethodSelector = ({ selectedMethod, onMethodSelect }) => {
                   >
                     <Typography variant="subtitle1">
                       {method?.name || "N/A"}
+                      {/* <span
+                        style={{
+                          color: "gray",
+                          fontSize: "14px",
+                        }}
+                      >
+                        {" "}
+                        ({method?.zoneName || "N/A"})
+                      </span> */}
                     </Typography>
+
                     <Typography variant="subtitle1" sx={{ fontWeight: 500 }}>
                       £{method?.price || "0.00"}
                     </Typography>

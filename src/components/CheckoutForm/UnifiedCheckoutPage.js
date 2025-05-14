@@ -125,7 +125,7 @@ export default function UnifiedCheckoutPage({ isFromQA = false }) {
 
   useEffect(() => {
     setCartTotal(calculateTotal());
-    let questionAnswersMap = {};
+    const questionAnswersMap = {};
 
     // Loop through each product in the cart
     cart.forEach((item) => {
@@ -138,9 +138,7 @@ export default function UnifiedCheckoutPage({ isFromQA = false }) {
 
       // If answers exist, parse and store them in the map
       if (storedAnswers) {
-        questionAnswersMap = JSON.parse(storedAnswers);
-      } else {
-        questionAnswersMap = null;
+        questionAnswersMap[productId] = JSON.parse(storedAnswers);
       }
     });
 
@@ -150,12 +148,13 @@ export default function UnifiedCheckoutPage({ isFromQA = false }) {
 
   const handleShippingMethodSelect = (method) => {
     setSelectedShippingMethod(method);
-    setShippingCost(method?.price || 0);
+    setShippingCost(parseFloat(method?.price) || 0);
   };
 
   const calculateTotalWithShipping = () => {
     const subtotal = cartTotal;
-    return (parseFloat(subtotal) + shippingCost).toFixed(2);
+    const finalPrice = parseFloat(subtotal) + shippingCost;
+    return finalPrice.toFixed(2);
   };
   const checkOrderEligibility = async (productId, billingDetails) => {
     try {
@@ -721,8 +720,8 @@ export default function UnifiedCheckoutPage({ isFromQA = false }) {
                               <Box>
                                 <Typography variant="h4" fontWeight={600}>
                                   £
-                                  {item.selectedVariantPrice ||
-                                    item.selectedVariant.price ||
+                                  {item?.selectedVariantPrice ||
+                                    item?.selectedVariant?.price ||
                                     item?.price ||
                                     0}
                                 </Typography>
