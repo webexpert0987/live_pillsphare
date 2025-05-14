@@ -293,6 +293,9 @@ export default function UnifiedCheckoutPage({ isFromQA = false }) {
         }
       }
 
+      const getUser = localStorage.getItem("user") || "{}";
+      const userInfo = JSON.parse(getUser);
+
       const payload = {
         amount: calculateTotalWithShipping(),
         currency: "GBP",
@@ -311,8 +314,8 @@ export default function UnifiedCheckoutPage({ isFromQA = false }) {
           securityCode: cardValues.securityCode,
         },
         additionalData: {
-          user_id: userDetails.user_id,
-          token: userDetails.token,
+          user_id: userInfo.user_id,
+          token: userInfo.token,
           variation_ids: variants,
           product_ids: products,
           questionAnswers_data: questionAnswersdata
