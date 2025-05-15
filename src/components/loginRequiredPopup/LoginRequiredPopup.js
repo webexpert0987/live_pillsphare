@@ -15,12 +15,12 @@ const style = {
     textAlign: "center",
 };
 
-const LoginRequiredPopup = ({ isOpen, onClose }) => {
+const LoginRequiredPopup = ({ isOpen, onClose, redirectPath }) => {
     const navigate = useNavigate();
 
     const handleLoginRedirect = () => {
         onClose();
-        navigate("/login");
+        navigate("/login", { state: { redirectPath } });
     };
     
 

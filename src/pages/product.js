@@ -14,6 +14,7 @@ import {
 import VerticalImageSlider from "../components/productSlider/ProductSlider";
 import { useApp } from "../Context/AppContext";
 import { useNavigate, useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import {
   getProductBySlug,
   getRelatedProduct,
@@ -35,7 +36,8 @@ import {
 import { TextField } from "@mui/material";
 
 const Product = () => {
-  const { slug } = useParams();
+  const { slug } = useParams(); //getting the slug value from url here
+  const location = useLocation();
   const { showMessage } = useMessage();
   const { addToCart, userDetails } = useApp();
   const [product, setProduct] = useState({});
@@ -59,7 +61,7 @@ const Product = () => {
     medication: "",
   });
   const [currentProduct, setCurrentProduct] = useState(null);
-
+  // console.log('slug',slug);
   const [consultationLink, setConsultationLink] = useState("");
   const navigate = useNavigate();
 
@@ -700,6 +702,7 @@ const Product = () => {
       <LoginRequiredPopup
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
+        redirectPath={location.pathname}
       />
     </>
   );

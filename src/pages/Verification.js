@@ -3,7 +3,7 @@ import { Button, TextField, Typography, Box, Grid } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { loginUser, verifyOtp } from "../apis/apisList/userApi";
 import { useApp } from "../Context/AppContext";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useMessage } from "../Context/MessageContext";
 
 const OtpInput = styled(TextField)({
@@ -30,6 +30,10 @@ const VerificationPage = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const inputRefs = useRef([]);
   const navigate = useNavigate();
+  const location = useLocation();
+  //receiving the url slug value here
+  // const redirectSlug = location.state?.redirectSlug;
+  const redirectPath = location.state?.redirectPath || "/";
 
   const handleChange = (e, index) => {
     const value = e.target.value.replace(/\D/g, ""); // Allow only numbers
@@ -97,7 +101,11 @@ const VerificationPage = () => {
         showMessage("Login successful", "success");
         localStorage.removeItem("verify_user");
         setIsSubmitting(false);
-        navigate("/");
+        if (redirectPath) {
+          navigate(redirectPath);
+        } else {
+          navigate("/");
+        }
       }
     } catch (err) {
       const message =

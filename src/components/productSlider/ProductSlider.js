@@ -99,6 +99,7 @@ const ImageGallery = ({ id }) => {
           </IconButton>
 
           {/* Thumbnails */}
+           
           {images.map((img, index) => (
             <Box
               key={index}
@@ -145,7 +146,7 @@ const ImageGallery = ({ id }) => {
           }}
         >
           <CircularProgress color="primary" />
-          <Typography>Loading </Typography>
+          <Typography sx={{mt:2}}>Loading </Typography>
         </Box>
       )}
       <Box

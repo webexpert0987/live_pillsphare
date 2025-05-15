@@ -18,6 +18,7 @@ import { useMessage } from "../Context/MessageContext";
 import { useApp } from "../Context/AppContext";
 import EyeButton from "../components/Button/eyeButton";
 import { InputAdornment } from "@mui/material";
+import { useLocation } from "react-router-dom";
 
 const Text = styled(Typography)(({ theme }) => ({
   color: "#333333",
@@ -61,6 +62,9 @@ const validationSchema = Yup.object({
 
 const Login = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  // const redirectSlug = location.state?.redirectSlug;
+  const redirectPath = location.state?.redirectPath || "/";
   const { showMessage } = useMessage();
   const { login } = useApp();
   const [error, setError] = useState("");
@@ -82,8 +86,11 @@ const Login = () => {
           token: response.token,
         };
         login(userInfo);
-
-        navigate("/");
+        if (redirectPath) {
+          navigate(redirectPath);
+        } else {
+          navigate("/");
+        }
         showMessage(response.message, "success");
       }
     } catch (err) {
@@ -211,6 +218,7 @@ const Login = () => {
                         <Button sx={{ textTransform: "capitalize" }}>
                           <Link
                             to={"/registration"}
+                            state={{ redirectPath }}
                             style={{ textDecoration: "none" }}
                           >
                             <Text>Don't have an account? Sign Up</Text>

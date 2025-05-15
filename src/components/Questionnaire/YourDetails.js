@@ -14,7 +14,7 @@ import {
 import { LocalizationProvider } from "@mui/x-date-pickers";
 // import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useApp } from "../../Context/AppContext";
 import VerificationDialog from "./VerificationDialog";
 import { registerUser, loginUser } from "../../apis/apisList/userApi";
@@ -39,7 +39,8 @@ function YourDetailForm() {
     country: "",
     gender: "",
   });
-
+  const location = useLocation();
+  const currentPath = location.pathname + location.search;
   const [errors, setErrors] = useState({
     firstName: "",
     lastName: "",
@@ -355,6 +356,7 @@ function YourDetailForm() {
             Already have an account?{" "}
             <Link
               to="/login"
+                state={{ redirectPath: currentPath }}
               style={{ textDecoration: "none", color: "#FD6400" }}
             >
               Sign In

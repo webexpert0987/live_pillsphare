@@ -20,7 +20,7 @@ import { registerUser, loginUser } from "../apis/apisList/userApi";
 import { useMessage } from "../Context/MessageContext";
 import { useApp } from "../Context/AppContext";
 import EyeButton from "../components/Button/eyeButton";
-
+import { useLocation } from "react-router-dom";
 const Text = styled(Typography)(({ theme }) => ({
   color: "#333333",
   textDecoration: "none",
@@ -72,7 +72,9 @@ export default function SignUp() {
   const { showMessage } = useMessage();
   const { login } = useApp();
   const [showPassword, setShowPassword] = useState(false);
-
+  const location = useLocation();
+  // const redirectSlug = location.state?.redirectSlug;
+const redirectPath = location.state?.redirectPath || "/";
   const handleSubmit = async (values, { setSubmitting }) => {
     setError("");
     const userData = {
@@ -91,7 +93,8 @@ export default function SignUp() {
         const userData = { email: values.email, password: values.password };
         localStorage.setItem("verify_user", JSON.stringify(userData));
         showMessage("Otp sent to your email", "success");
-        navigate("/verification");
+        // navigate("/verification");
+          navigate("/verification", { state: { redirectPath } });
         // const response = await loginUser(userData);
         // if(response.status == 200) {
         //     let userInfo = {first_name: response.first_name, last_name: response.last_name, user_id: response.user_id, token: response.token}
