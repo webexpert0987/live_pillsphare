@@ -86,7 +86,7 @@ const ProfileSchema = Yup.object().shape({
 
   // modify the phone number length from 6 to 14
   phone_number: Yup.string()
-    .matches(/^[0-9]+$/, "Phone number must contain only digits")
+    .matches(/^\d+$/, "Phone must contain only numbers")
     .min(10, "Phone number must be at least 10 digits")
     .max(11, "Phone number must be at most 11 digits")
     .required("Phone number is required"),
