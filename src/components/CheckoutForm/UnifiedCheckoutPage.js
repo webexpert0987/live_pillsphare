@@ -335,7 +335,10 @@ export default function UnifiedCheckoutPage({ isFromQA = false }) {
       };
 
       await createPayment(payload);
-      showMessage("Payment submitted! (API call simulated)", "success");
+      showMessage(
+        "Thank you! Your payment was successful and your order is being processed.",
+        "success"
+      );
       if (isFromQA) {
         setQaCart([]);
       } else {
