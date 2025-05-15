@@ -154,19 +154,20 @@ function StopSmokingQuestion() {
   const checkDisabled = (name) => {
     return disabled && currentQue !== name;
   };
-
   const handleSubmit = () => {
+    // e.preventDefault();
+    // console.log('submitting the info');
     if (!answers.agreeToTerms) {
       showMessage("Please agree to the terms and conditions", "error");
       return;
     }
+      //  console.log('datass',answers);
     const data = localStorage.getItem("questionnaire_info");
-    let parsedData = {};
+    let parsedData = {}; 
     if (data) {
       parsedData = JSON.parse(data);
     }
     const { user, bmiData } = parsedData;
-
     localStorage.setItem(
       "questionnaire_info",
       JSON.stringify({
@@ -176,6 +177,7 @@ function StopSmokingQuestion() {
         ...parsedData,
       })
     );
+    // console.log('data info ',answers);
     setSelectedTab(2);
   };
 

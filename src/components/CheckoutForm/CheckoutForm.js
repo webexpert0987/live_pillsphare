@@ -81,7 +81,7 @@ const validationSchema = Yup.object({
   phone: Yup.string()
     .matches(/^\d+$/, "Phone must contain only numbers")
     .min(10, "Phone number must be at least 10 digits")
-    .max(15, "Phone number cannot exceed 15 digits")
+    .max(11, "Phone number cannot exceed 11 digits")
     .required("Phone is required"),
   shipping_method: Yup.string().required("Please select a shipping method"),
 });

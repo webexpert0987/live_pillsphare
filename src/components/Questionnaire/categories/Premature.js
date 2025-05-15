@@ -190,7 +190,7 @@ function PrematureQuestion() {
       );
       return;
     }
-    console.log("Form submitted with answers: ", answers);
+    console.log("Form submitted with answers 011: ", answers);
     const data = localStorage.getItem("questionnaire_info");
     let parsedData = {};
     if (data) {

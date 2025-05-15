@@ -48,6 +48,7 @@ import HowItWork from "../pages/HowItWork";
 import Verification from "../pages/Verification";
 import ForgotPassword from "../pages/ForgotPassword";
 import BlogDetail from "../components/Blog/BlogDetail";
+import PageNotFound from "../pages/PageNotFound";
 const routes = [
   {
     path: "/",
@@ -277,6 +278,12 @@ const routes = [
   {
     path: "/forgot",
     component: ForgotPassword,
+    exact: true,
+  },
+  // Else for any invalid page
+  {
+    path: "*",
+    component: PageNotFound,
     exact: true,
   },
 ];

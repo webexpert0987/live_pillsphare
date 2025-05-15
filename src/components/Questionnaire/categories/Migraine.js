@@ -166,6 +166,7 @@ function MigraineQuestion() {
       );
       return;
     }
+    console.log('reponse of questionnaire ',answers);
     const data = localStorage.getItem("questionnaire_info");
     let parsedData = {};
     if (data) {

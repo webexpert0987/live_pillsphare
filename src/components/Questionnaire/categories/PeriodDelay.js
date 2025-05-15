@@ -216,6 +216,7 @@ function PeriodDelayQuestion() {
       );
       return;
     }
+    console.log('answers ',answers);
     const data = localStorage.getItem("questionnaire_info");
     let parsedData = {};
     if (data) {

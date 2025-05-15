@@ -80,8 +80,15 @@ const ProfileSchema = Yup.object().shape({
   gender: Yup.string()
     .oneOf(["male", "female", "other"], "Please select a valid gender")
     .required("Gender is required"),
+  // phone_number: Yup.string()
+  //   .matches(/^[0-9]{11}$/, "Phone number must be 11 digits")
+  //   .required("Phone number is required"),
+
+  // modify the phone number length from 6 to 14
   phone_number: Yup.string()
-    .matches(/^[0-9]{11}$/, "Phone number must be 11 digits")
+    .matches(/^[0-9]+$/, "Phone number must contain only digits")
+    .min(10, "Phone number must be at least 10 digits")
+    .max(11, "Phone number must be at most 11 digits")
     .required("Phone number is required"),
 });
 

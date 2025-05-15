@@ -423,10 +423,10 @@ const TreatmentRecommendation = () => {
             sx={{ minHeight: "200px", width: "100%", display: "flex", flexDirection:"column" }}
           >
             <Typography
-              color="rgb(139, 57, 57)"
+              color="red"
               sx={{
                 textAlign: "center",
-                fontSize: "17px",
+                fontSize: "15px",
                 fontWeight: "600",
                 lineHeight: "1.2",
               }}

@@ -8,7 +8,6 @@ import Treatments from "../components/WeightLoss/Treatments";
 import ExplainHowItWorks from "../components/WeightLoss/ExplainHowItWorks";
 import AverageWeightLoss from "../components/WeightLoss/AverageWeightLoss";
 //import RelatedArticleSlider from "../components/WeightLoss/RelatedArticleSlider";
-import { useParams } from "react-router-dom";
 import AcidRefluxPage from "../components/CategoryInfoPages/AcidReflux";
 import ContraceptiveTreatment from "../components/CategoryInfoPages/ContraceptiveTreatment";
 import CystitisTreatment from "../components/CategoryInfoPages/CystitisTreatment";
@@ -21,6 +20,8 @@ import PrematurePage from "../components/CategoryInfoPages/PrematureEjaculation"
 import StopSmoking from "../components/CategoryInfoPages/StopSmoking";
 import PeriodDelay from "../components/CategoryInfoPages/PeriodDelay";
 import WeightLossPage from "../pages/WeightLoss";
+import PageNotFound from "../pages/PageNotFound";
+import { useParams, Navigate } from "react-router-dom";
 
 const onlineClinicItems = [
   {
@@ -165,7 +166,11 @@ function OnlineClinicCategory() {
   const item = onlineClinicItems.find((item) => item.link === slug);
   const title = item?.name;
   const pointList = item?.points;
-
+ 
+  // if page or category not matched then redirect to page-not-found page
+  if (!pagesMap[slug]) {
+     return <PageNotFound />;
+  }
   return pagesMap[slug];
 
   // return (

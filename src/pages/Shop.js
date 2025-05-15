@@ -34,8 +34,9 @@ const ProductListingPage = () => {
     setFilteredProducts,
   } = useApp();
   const [page, setPage] = useState(1);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [currentProducts, setCurrentProducts] = useState(1);
+  const [hasFetched, setHasFetched] = useState(false);
   const handlePageChange = (e, value) => {
     setPage(value);
     // Scroll to top when page changes
@@ -47,6 +48,8 @@ const ProductListingPage = () => {
     setCurrentProducts(filteredProducts);
   }, []);
 
+  // console.log(loading)
+
   const productsPerPage = 9;
   useEffect(() => {
     const indexOfLastProduct = page * productsPerPage;
@@ -56,15 +59,9 @@ const ProductListingPage = () => {
       indexOfLastProduct
     );
     setCurrentProducts(currProducts);
+    setHasFetched(true);
   }, [page, filteredProducts]);
   // console.log('currentproducts',currentProducts);
-  // const productsPerPage = 9;
-  // const indexOfLastProduct = page * productsPerPage;
-  // const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  // const currentProducts = filteredProducts.slice(
-  //   indexOfFirstProduct,
-  //   indexOfLastProduct
-  // );
   // console.log('indexes',indexOfFirstProduct,indexOfLastProduct);
   const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
 
@@ -92,11 +89,11 @@ const ProductListingPage = () => {
         console.error("Failed to fetch products:", error);
       }
     };
-
     fetchProducts();
   }, []);
 
   useEffect(() => {
+   
     // Get the persisted search value from localStorage (if needed)
     const savedSearchValue = localStorage.getItem("searchValue");
 
@@ -106,6 +103,7 @@ const ProductListingPage = () => {
     // setPage(1);
     if (!effectiveSearchValue) {
       setFilteredProducts(products);
+      setHasFetched(true);
       return;
     }
 
@@ -113,13 +111,9 @@ const ProductListingPage = () => {
       product?.name?.toLowerCase().includes(effectiveSearchValue.toLowerCase())
     );
 
-    // if (filteredProducts.length === 0) {
-    //   setFilteredProducts([]);
-    // } else {
-    //   setFilteredProducts(filteredProducts);
-    // }
-    // setPage(1);
     setFilteredProducts(filteredProducts);
+      setHasFetched(true);
+          setLoading(false);
   }, [searchValue, products]); // Depend on both searchValue and products
 
   const shop3Grid = {
@@ -177,7 +171,6 @@ const ProductListingPage = () => {
         >
           {/* Left Column */}
           <CategoryPage products={products} page={page} setPage={setPage} />
-
           {/* Right Column */}
           <Box
             sx={{
@@ -218,7 +211,7 @@ const ProductListingPage = () => {
                 <MenuItem value="priceHighLow">Price: High to Low</MenuItem>
               </Select>
             </Box>
-            {loading ? (
+            {loading && (
               <Box
                 sx={{
                   display: "flex",
@@ -233,7 +226,9 @@ const ProductListingPage = () => {
                 <CircularProgress color="primary" />
                 <Typography>Loading..</Typography>
               </Box>
-            ) : currentProducts.length > 0 ? (
+            )} 
+            {/* Add the products if found */}
+            {currentProducts.length > 0 && (
               <Grid2 container spacing={{ xs: 2, sm: 3, md: 4 }}>
                 {currentProducts.map((product) => (
                   <Grid2
@@ -423,7 +418,9 @@ const ProductListingPage = () => {
                   </Grid2>
                 ))}
               </Grid2>
-            ) : (
+            )}
+            {/* Add the alternate message if products are not found */}
+            {(!loading && filteredProducts.length===0) && (
               <Box
                 sx={{
                   display: "flex",
