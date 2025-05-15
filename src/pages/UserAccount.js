@@ -488,7 +488,7 @@ export default function UserAccount() {
                           helperText={
                             touched.phone_number && errors.phone_number
                           }
-                          type="number"
+                          type="text"
                           InputProps={{
                             startAdornment: (
                               <InputAdornment position="start">
