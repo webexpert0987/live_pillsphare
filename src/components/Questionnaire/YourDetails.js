@@ -9,7 +9,7 @@ import {
   Select,
   FormControl,
   FormHelperText,
-  InputLabel,
+  // InputLabel,
 } from "@mui/material";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 // import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
@@ -17,7 +17,7 @@ import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import { Link, useLocation } from "react-router-dom";
 import { useApp } from "../../Context/AppContext";
 import VerificationDialog from "./VerificationDialog";
-import { registerUser, loginUser } from "../../apis/apisList/userApi";
+import { registerUser, /*loginUser*/ } from "../../apis/apisList/userApi";
 import { useMessage } from "../../Context/MessageContext";
 import AddressSearch from "../AddressSearch";
 
@@ -186,7 +186,7 @@ function YourDetailForm() {
         try {
           setLoading(true);
           const registerRes = await registerUser(userData);
-          if (registerRes.status == 200) {
+          if (registerRes.status === 200) {
             setLoading(false);
             showMessage("Otp sent to your email", "success");
             setIsVerify(true);
@@ -248,20 +248,23 @@ function YourDetailForm() {
       backgroundColor: "#FAFAFA",
       border: "1px solid #EDEDED",
       borderRadius: "50px",
-      overflow: "hidden",
+      // overflow: "hidden",
       boxShadow: "none",
       margin: "0 0 5px 0",
       overflow: "visible",
       "& .MuiInputBase-input": {
         padding: "13px 26px",
       },
+      // "& .MuiOutlinedInput-notchedOutline": {
+      //   border: "none",
+      //   borderRadius: "50px",
+      //   overflow: "hidden",
+      //   borderWidth: "0px !important",
+      // },
       "& .MuiOutlinedInput-notchedOutline": {
-        border: "none",
+         border: "none",
         borderRadius: "50px",
         overflow: "hidden",
-        borderWidth: "0px !important",
-      },
-      "& .MuiOutlinedInput-notchedOutline": {
         borderWidth: "0px !important",
         minHeight: "auto",
       },
@@ -747,7 +750,7 @@ function YourDetailForm() {
               color: "#FFF",
               borderRadius: "50px",
               border: "none",
-              textTransform: "inherit",
+              // textTransform: "inherit",
               padding: "12px 30px",
               marginTop: "30px",
               marginBottom: "20px",

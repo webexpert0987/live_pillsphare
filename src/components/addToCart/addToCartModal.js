@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Modal,
   Box,
   Typography,
-  RadioGroup,
-  Radio,
-  FormControlLabel,
+  // RadioGroup,
+  // Radio,
+  // FormControlLabel,
   Button,
   Select,
   MenuItem,
@@ -18,23 +18,23 @@ import CloseIcon from "@mui/icons-material/Close";
 
 const AddToCartModal = ({ open, onClose }) => {
   const navigate = useNavigate();
-  const [selectedVariant, setSelectedVariant] = useState({});
+  // const [selectedVariant, setSelectedVariant] = useState({});
   const {
     cart,
     updateVariant,
     calculateTotal,
-    updateVariantInCart,
+    // updateVariantInCart,
     removeFromCart,
-    variantIds,
+    // variantIds,
   } = useApp();
 
   const handleVariantSelect = (product, variantId) => {
     updateVariant(product, variantId);
   };
 
-  const handleQuantityChange = (product, quantity) => {
-    updateVariantInCart(product, { ...product, quantity });
-  };
+  // const handleQuantityChange = (product, quantity) => {
+  //   updateVariantInCart(product, { ...product, quantity });
+  // };
 
   return (
     <Modal open={open} onClose={onClose}>
@@ -91,7 +91,7 @@ const AddToCartModal = ({ open, onClose }) => {
                   </Box>
                   <Box width={"30%"}>
                     <Typography variant="h3">{item.name}</Typography>
-                    {item.stock_status == "instock" ? (
+                    {item.stock_status === "instock" ? (
                       <Typography variant="h4" color="success">
                         {item.stock_status}
                       </Typography>

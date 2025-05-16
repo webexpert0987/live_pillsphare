@@ -9,17 +9,17 @@ import {
   Select,
   Button,
   Box,
-  IconButton,
+  // IconButton,
   TextField,
-  styled,
+  // styled,
   CircularProgress,
 } from "@mui/material";
 import { useApp } from "../../Context/AppContext";
 import { getProductByCategory } from "../../apis/apisList/productApi";
 import { useSearchParams } from "react-router-dom";
 import { Link } from "react-router-dom";
-import RemoveIcon from "@mui/icons-material/Remove";
-import AddIcon from "@mui/icons-material/Add";
+// import RemoveIcon from "@mui/icons-material/Remove";
+// import AddIcon from "@mui/icons-material/Add";
 const ProductCard = ({
   product,
   handleSubmit,
@@ -307,17 +307,17 @@ const TreatmentRecommendation = () => {
     setVisibleProducts((prev) => prev + 4); // Load 4 more products each time
   };
 
-  const handleDosingScheduleChange = (event) => {
-    setDosingSchedule(event.target.value);
-  };
+  // const handleDosingScheduleChange = (event) => {
+  //   setDosingSchedule(event.target.value);
+  // };
 
-  const handleDoseStrengthChange = (event) => {
-    setDoseStrength(event.target.value);
-  };
+  // const handleDoseStrengthChange = (event) => {
+  //   setDoseStrength(event.target.value);
+  // };
 
-  const handleSharpsBinChange = (event) => {
-    setSharpsBin(event.target.value);
-  };
+  // const handleSharpsBinChange = (event) => {
+  //   setSharpsBin(event.target.value);
+  // };
 
   const handleSubmit = (product) => {
     setQaCart([product]);
@@ -325,7 +325,7 @@ const TreatmentRecommendation = () => {
   };
   const handleVariantSelect = (product, variantId) => {
     const variantDetail = product?.variations?.find(
-      (item) => item.id == variantId
+      (item) => item.id === variantId
     );
 
     const updatedProduct = {

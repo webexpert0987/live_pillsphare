@@ -13,7 +13,7 @@ import {
   Grid2,
   CircularProgress,
 } from "@mui/material";
-import { Rating } from "@mui/material";
+// import { Rating } from "@mui/material";
 import HeroSection from "./ShopHero";
 import TrustBar from "./Trustbar";
 import {
@@ -29,19 +29,28 @@ const ProductListingPage = () => {
   const {
     filteredProducts,
     setSortOption,
-    searchProducts,
+    // searchProducts,
     searchValue,
     setFilteredProducts,
   } = useApp();
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [currentProducts, setCurrentProducts] = useState(1);
-  const [hasFetched, setHasFetched] = useState(false);
   const handlePageChange = (e, value) => {
     setPage(value);
+    // console.log('page changed',value);
     // Scroll to top when page changes
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
+  // added to change the page on products chnage 
+  useEffect(() => {
+    setPage(1);
+    // if(filteredProducts.length)
+  }, [filteredProducts]);
+
+//   useEffect(() => {
+//   handlePageChange(null, 1);
+// }, [filteredProducts]);
 
   // Calculate pagination values
   useEffect(() => {
@@ -59,7 +68,6 @@ const ProductListingPage = () => {
       indexOfLastProduct
     );
     setCurrentProducts(currProducts);
-    setHasFetched(true);
   }, [page, filteredProducts]);
   // console.log('currentproducts',currentProducts);
   // console.log('indexes',indexOfFirstProduct,indexOfLastProduct);
@@ -70,7 +78,7 @@ const ProductListingPage = () => {
       try {
         setLoading(true);
         // Check if products are already in localStorage
-        const cachedProducts = localStorage.getItem("products");
+        // const cachedProducts = localStorage.getItem("products");
         // if (cachedProducts) {
         //   setProducts(JSON.parse(cachedProducts)); // Use cached products
         // } else {
@@ -93,7 +101,6 @@ const ProductListingPage = () => {
   }, []);
 
   useEffect(() => {
-   
     // Get the persisted search value from localStorage (if needed)
     const savedSearchValue = localStorage.getItem("searchValue");
 
@@ -103,7 +110,6 @@ const ProductListingPage = () => {
     // setPage(1);
     if (!effectiveSearchValue) {
       setFilteredProducts(products);
-      setHasFetched(true);
       return;
     }
 
@@ -112,8 +118,8 @@ const ProductListingPage = () => {
     );
 
     setFilteredProducts(filteredProducts);
-      setHasFetched(true);
-          setLoading(false);
+    setLoading(false);
+
   }, [searchValue, products]); // Depend on both searchValue and products
 
   const shop3Grid = {
@@ -155,6 +161,7 @@ const ProductListingPage = () => {
     },
   };
   //Cetirizine Dihydrochloride Film Coated Tablets 10mg
+  // console.log('page No',page);
   return (
     <>
       <Box>
@@ -170,7 +177,7 @@ const ProductListingPage = () => {
           }}
         >
           {/* Left Column */}
-          <CategoryPage products={products} page={page} setPage={setPage} />
+          <CategoryPage products={products} page={page} setPage={setPage} handlePageChange={handlePageChange}/>
           {/* Right Column */}
           <Box
             sx={{
@@ -226,7 +233,7 @@ const ProductListingPage = () => {
                 <CircularProgress color="primary" />
                 <Typography>Loading..</Typography>
               </Box>
-            )} 
+            )}
             {/* Add the products if found */}
             {currentProducts.length > 0 && (
               <Grid2 container spacing={{ xs: 2, sm: 3, md: 4 }}>
@@ -420,7 +427,7 @@ const ProductListingPage = () => {
               </Grid2>
             )}
             {/* Add the alternate message if products are not found */}
-            {(!loading && filteredProducts.length===0) && (
+            {!loading && filteredProducts.length === 0 && (
               <Box
                 sx={{
                   display: "flex",
@@ -428,14 +435,20 @@ const ProductListingPage = () => {
                   alignItems: "center",
                   width: "100%",
                   height: "100%",
-                  minHeight:"300px",
+                  minHeight: "300px",
                   margin: 0,
                   padding: 0,
                 }}
               >
                 <Typography
                   variant="body1"
-                  sx={{ textAlign: "center", mt: 4, color: "text.secondary",fontSize:"20px",fontWeight:"700" }}
+                  sx={{
+                    textAlign: "center",
+                    mt: 4,
+                    color: "text.secondary",
+                    fontSize: "20px",
+                    fontWeight: "700",
+                  }}
                 >
                   No products available for this category.
                 </Typography>
@@ -447,6 +460,7 @@ const ProductListingPage = () => {
                 page={page}
                 onChange={handlePageChange}
                 count={totalPages}
+                setPage={setPage}
               />
             )}
           </Box>

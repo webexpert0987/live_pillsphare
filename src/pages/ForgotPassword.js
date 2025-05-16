@@ -184,12 +184,22 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div
-      style={{
-        height: "50vh",
+    <Box
+      // style={{
+      //   height: "50vh",
+      //   display: "flex",
+      //   justifyContent: "center",
+      //   alignItems: "center",
+      // }}
+      sx={{
+        minHeight: "50vh",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        px: 2,
+        py: 4,
+        boxSizing: "border-box",
+        overflow: "auto",
       }}
     >
       <Grid container justifyContent="center">
@@ -252,7 +262,7 @@ const ForgotPassword = () => {
         setOpen={setOpenDialog}
         formData={{ email }}
       />
-    </div>
+    </Box>
   );
 };
 

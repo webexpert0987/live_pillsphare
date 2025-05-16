@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Grid2, Typography, Button, Container } from "@mui/material";
+import { Box, Grid2, Typography, Container } from "@mui/material";
 import processImage from "../../pages/images/process-image.png";
 import howItWorksBg from "../../pages/images/how-it-works-bg.svg";
 

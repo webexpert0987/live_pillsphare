@@ -5,7 +5,7 @@ import {
   StepLabel,
   Box,
   Button,
-  Grid2,
+  // Grid2,
   TextField,
   FormControl,
   FormControlLabel,
@@ -16,7 +16,7 @@ import {
 } from "@mui/material";
 import "../../../../src/globalStyle.css";
 
-import BmiCalculate from "../Consultation"; // Import the BMI calculation component
+// import BmiCalculate from "../Consultation"; // Import the BMI calculation component
 import { useApp } from "../../../Context/AppContext";
 import { useMessage } from "../../../Context/MessageContext";
 const steps = ["1", "2"];
@@ -82,10 +82,10 @@ function HighFeverQuestion() {
     // (answers.conditions2.includes("None") && answers.conditions2.length > 1) ||
 
   const handleNext = () => {
-    const qaData = JSON.parse(
-      localStorage.getItem("questionnaire_info") || "{}"
-    );
-    const { bmiData } = qaData;
+    // const qaData = JSON.parse(
+    //   localStorage.getItem("questionnaire_info") || "{}"
+    // );
+    // const { bmiData } = qaData;
 
     // Validation logic
     if (activeStep === 0) {

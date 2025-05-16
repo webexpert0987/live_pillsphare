@@ -125,7 +125,7 @@ function Category(props) {
   // console.log('setpage 2',typeof setPage);
   useEffect(() => {
     for (let id of selectedCategories) {
-      const newData = shopCategories.find((cat) => cat.id == id);
+      const newData = shopCategories.find((cat) => cat.id === id);
       if (newData && newData.parent) {
         setExpandedCategories({
           ...expandedCategories,
@@ -134,11 +134,7 @@ function Category(props) {
       }
     }
     setPage(1);
-    // console.log("type -", typeof setPage);
-  }, [selectedCategories]);
-  // console.log('products1',categoriesOpen);
-  // console.log('products2',expandedCategories);
-  // console.log('categories',selectedCategories);
+  }, [selectedCategories,shopCategories]);
   return (
     <Box
       p={2}
@@ -483,18 +479,15 @@ function Category(props) {
   );
 }
 
-export default function CategoryPage({ products, page, setPage = () => {} }) {
+export default function CategoryPage({ products, page, setPage = () => {} , handlePageChange = () => {}}) {
   const isMobile = useMediaQuery("(max-width: 960px)");
   const { setFilteredProducts, sortOption } = useApp();
-
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [priceRange, setPriceRange] = useState([1, 1000]);
   const [shopCategories, setShopCategories] = useState([]);
   const [open, setOpen] = useState(false);
   const { slug } = useParams();
-
   const toggleDrawer = (newOpen) => () => setOpen(newOpen);
-
   const clearFilters = () => {
     setSelectedCategories([]);
     setPriceRange([1, 1000]);
@@ -503,6 +496,7 @@ export default function CategoryPage({ products, page, setPage = () => {} }) {
   useEffect(() => {
     // console.log("useEffect running");
     const fetchCategories = async () => {
+      handlePageChange(null, 1);                                                                   
       const cachedCategories = localStorage.getItem("shopCategories");
       if (cachedCategories) {
         try {
@@ -531,12 +525,14 @@ export default function CategoryPage({ products, page, setPage = () => {} }) {
   useEffect(() => {
     let filteredProducts = [...products];
     // Apply category filtering
+   handlePageChange(null, 1);
     if (selectedCategories.length > 0) {
       filteredProducts = filteredProducts.filter((product) =>
         product.categories.some((category) =>
           selectedCategories.includes(category.id)
         )
       );
+      // setPage(1);
     }
 
     // Apply sorting and price range filtering
@@ -558,12 +554,12 @@ export default function CategoryPage({ products, page, setPage = () => {} }) {
     );
 
     setFilteredProducts(filteredProducts);
-    // setPage(1);
+    setPage(1);
   }, [products, sortOption, priceRange, selectedCategories]);
-
   useEffect(() => {
     if (!slug) return;
     const fetchCategory = async () => {
+     handlePageChange(null, 1);
       try {
         const response = await getCategoryBySlug(slug);
 
@@ -574,6 +570,9 @@ export default function CategoryPage({ products, page, setPage = () => {} }) {
         }
       } catch (error) {
         console.error("Category not found:", error);
+      }
+      finally{
+        setPage(1);
       }
     };
 
@@ -591,7 +590,7 @@ export default function CategoryPage({ products, page, setPage = () => {} }) {
         setPriceRange,
         shopCategories,
         clearFilters,
-        setPage,  // passed the setpage function here also 
+        setPage, // passed the setpage function here also
       }}
     />
   ) : (

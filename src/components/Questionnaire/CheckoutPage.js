@@ -50,7 +50,7 @@ const classes = {
     width: "100%",
   },
 };
-
+// validation logic of input section/fields
 const validationSchema = Yup.object({
   first_name: Yup.string()
     .required("First name is required")

@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { blogApi } from "../../apis/apisList/userApi";
-import { useApp } from "../../Context/AppContext";
+// import { useApp } from "../../Context/AppContext";
 import ServiceProvidedDark from "../Faqs/ServiceProviderDark";
 import {
   Avatar,
   Box,
   Container,
   Divider,
-  Grid,
+  // Grid,
   Typography,
   CircularProgress,
 } from "@mui/material";
@@ -17,7 +17,7 @@ function BlogDetail() {
   const { slug } = useParams();
   const [post, setPost] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [blogs, setBlogs] = useState([]);
+  // const [blogs, setBlogs] = useState([]);
   useEffect(() => {
     const fetchPosts = async () => {
       try {

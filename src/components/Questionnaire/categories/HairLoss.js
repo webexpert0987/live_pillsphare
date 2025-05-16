@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import "../../../../src/globalStyle.css";
 
-import BmiCalculate from "../Consultation"; // Import the BMI calculation component
+// import BmiCalculate from "../Consultation"; // Import the BMI calculation component
 import { useApp } from "../../../Context/AppContext";
 import { useMessage } from "../../../Context/MessageContext";
 const steps = ["1", "2"];
@@ -61,10 +61,10 @@ function HairLossQuestionnaire() {
   };
 //  console.log('currentscroling ',handleScroll,handleScroll);
   const goToNextStep = () => {
-    const qaData = JSON.parse(
-      localStorage.getItem("questionnaire_info") || "{}"
-    );
-    const { bmiData } = qaData;
+    // const qaData = JSON.parse(
+    //   localStorage.getItem("questionnaire_info") || "{}"
+    // );
+    // const { bmiData } = qaData;
     if (currentStep === 0) {
       const requiredFields = [
         "isAgedBetween17And74",

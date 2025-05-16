@@ -3,8 +3,8 @@ import {
   Box,
   Button,
   Typography,
-  IconButton,
-  Divider,
+  // IconButton,
+  // Divider,
   Stack,
   Container,
   Select,
@@ -99,7 +99,7 @@ const Product = () => {
 
   const handleVariantSelect = (product, variantId) => {
     const variantDetail = product.variations.find((item) => {
-      if (item.variation_id == variantId) {
+      if (item.variation_id === variantId) {
         return item;
       }
     });
@@ -118,7 +118,7 @@ const Product = () => {
   };
   const handleAddProduct = (product, selectedVariant) => {
     const test = process.env.REACT_TEST_MODE || 1; //always 0 for production 
-    if (test == 0) {
+    if (test === 0) {
       // Show the error message
       showMessage(
         "Sorry, this product is currently out of stock. Please check back later.",
@@ -573,7 +573,7 @@ const Product = () => {
                   fontWeight: "700",
                 }}
               >
-                What out expert says
+                What our expert says
               </Typography>
               <Stack direction={"row"} alignItems={"center"} gap={2} my={1.8}>
                 <Box>

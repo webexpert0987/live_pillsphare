@@ -4,10 +4,10 @@ import {
   Typography,
   TextField,
   Button,
-  IconButton,
+  // IconButton,
   Container,
   Divider,
-  autocompleteClasses,
+  // autocompleteClasses,
 } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import { Link } from "react-router-dom";
@@ -152,7 +152,6 @@ export default function Footer() {
                 border: "none",
                 backgroundColor: "secondary.main",
                 borderRadius: "50px",
-                position: "relative",
                 fontWeight: "600",
                 // left: '60px',
                 whiteSpace: "nowrap",
@@ -506,6 +505,7 @@ export default function Footer() {
                 <a
                   href="https://www.pharmacyregulation.org/registers/pharmacy/9012694"
                   target="_blank"
+                  rel="noopener noreferrer"
                 >
                   9012694
                 </a>
@@ -546,6 +546,7 @@ export default function Footer() {
                 <a
                   href="https://www.pharmacyregulation.org/registers/pharmacist/2213569"
                   target="_blank"
+                  rel="noopener noreferrer"
                 >
                   2213569
                 </a>
@@ -629,7 +630,7 @@ export default function Footer() {
           <Box
             display="flex"
             justifyContent="left"
-            marginRight="50px"
+            marginRight="20px"
             width="auto"
             height="auto"
             gap={1}

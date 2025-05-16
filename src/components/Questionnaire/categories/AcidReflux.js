@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import "../../../../src/globalStyle.css";
 
-import BmiCalculate from "../Consultation"; // Import the BMI calculation component
+// import BmiCalculate from "../Consultation"; // Import the BMI calculation component
 import { useApp } from "../../../Context/AppContext";
 import { useMessage } from "../../../Context/MessageContext";
 const steps = ["1", "2"];
@@ -39,9 +39,9 @@ function AcidRefluxQuestion() {
     agree: "",
   });
   const boxRef = useRef(null);
-  const { setSelectedTab, setQuestionData } = useApp();
+  const { setSelectedTab, /*setQuestionData*/ } = useApp();
   const { showMessage } = useMessage();
-  const [stopNext, setStopNext] = useState(false);
+  // const [stopNext, setStopNext] = useState(false);
   const [disabled, setDisabled] = useState(false);
   const [currentQue, setCurrentQue] = useState("");
 
@@ -62,10 +62,10 @@ function AcidRefluxQuestion() {
   };
 
   const handleNext = () => {
-    const qaData = JSON.parse(
-      localStorage.getItem("questionnaire_info") || "{}"
-    );
-    const { bmiData } = qaData;
+    // const qaData = JSON.parse(
+    //   localStorage.getItem("questionnaire_info") || "{}"
+    // );
+    // const { bmiData } = qaData;
 
     // Validation logic
     if (activeStep === 0) {

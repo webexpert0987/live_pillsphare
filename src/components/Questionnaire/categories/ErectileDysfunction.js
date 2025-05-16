@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import "../../../../src/globalStyle.css";
 
-import BmiCalculate from "../Consultation"; // Import the BMI calculation component
+// import BmiCalculate from "../Consultation"; // Import the BMI calculation component
 import { useApp } from "../../../Context/AppContext";
 import { useMessage } from "../../../Context/MessageContext";
 const steps = ["1", "2"];
@@ -69,13 +69,13 @@ function ErectileDysfunctionQuestionnaire() {
   };
   
   const isValidSelection =
-    ( (questionnaireResponses.takesOtherMedications=="Yes" && questionnaireResponses.conditions.length == 0));
+    ( (questionnaireResponses.takesOtherMedications==="Yes" && questionnaireResponses.conditions.length === 0));
    
   const handleNext = () => {
-    const qaData = JSON.parse(
-      localStorage.getItem("questionnaire_info") || "{}"
-    );
-    const { bmiData } = qaData;
+    // const qaData = JSON.parse(
+    //   localStorage.getItem("questionnaire_info") || "{}"
+    // );
+    // const { bmiData } = qaData;
     // Validation logic
     if (currentStep === 0) {
       const requiredFields = [

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import ServiceProvidedDark from "../Faqs/ServiceProviderDark";
 import { blogApi } from "../../apis/apisList/userApi";
-import { useLocation, useNavigate } from "react-router-dom";
+// import { useLocation, useNavigate } from "react-router-dom";
 import {
   Box,
   Button,
@@ -11,7 +11,7 @@ import {
   Grid,
   Typography,
   Avatar,
-  Chip,
+  // Chip,
   IconButton,
   InputBase,
   CircularProgress,
@@ -22,12 +22,12 @@ import {
 import { Link } from "react-router-dom";
 import {
   Search as SearchIcon,
-  ShoppingCart as ShoppingCartIcon,
-  KeyboardArrowDown as KeyboardArrowDownIcon,
+  // ShoppingCart as ShoppingCartIcon,
+  // KeyboardArrowDown as KeyboardArrowDownIcon,
 } from "@mui/icons-material";
 import CloseIcon from "@mui/icons-material/Close";
 import KeyboardReturnIcon from "@mui/icons-material/KeyboardReturn"; //
-import { useApp } from "../../Context/AppContext";
+// import { useApp } from "../../Context/AppContext";
 
 function Blog() {
   const [posts, setPosts] = useState([]);
@@ -37,17 +37,13 @@ function Blog() {
   const openSearch = () => setIsSearchOpen(true);
   const closeSearch = () => setIsSearchOpen(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [filteredBlogs, setFilteredBlgs] = useState([]);
+  // const [filteredBlogs, setFilteredBlgs] = useState([]);
   const [allPosts, setAllPosts] = useState([]);
   // const { setSearchBlogValue } = useApp();
-  const navigate = useNavigate();
-  const location = useLocation();
   const searchBlogs = (search) => {
     const query = search.trim().toLowerCase().replace(/\s+/g, " ");
-    // console.log("Normalized search query:", query);
     if (!query) {
       setPosts(allPosts);
-      // console.log("No query entered, showing all posts:", allPosts);
       return;
     }
     const keywords = query.split(" ");
@@ -64,6 +60,7 @@ function Blog() {
     if (filteredBlogs.length === 0) {
       console.log("No matching posts found");
     } else {
+      // setSearchQuery("");
       console.log("Matching posts:", filteredBlogs);
     }
     setPosts(filteredBlogs);
@@ -104,6 +101,7 @@ function Blog() {
   };
   const handleSearch = () => {
     searchBlogs(searchQuery);
+    // setSearchQuery("");
     if (isMobile) closeSearch();
   };
 
@@ -164,7 +162,7 @@ function Blog() {
                         >
                           <InputBase
                             fullWidth
-                            placeholder="Search..."
+                            placeholder="Search Blogs"
                             value={searchQuery}
                             onChange={(e) => {
                               setSearchQuery(e.target.value);
@@ -205,7 +203,7 @@ function Blog() {
                   >
                     <InputBase
                       fullWidth
-                      placeholder="Search..."
+                      placeholder="Search Blogs"
                       value={searchQuery}
                       onChange={(e) => {
                         setSearchQuery(e.target.value);
@@ -259,6 +257,7 @@ function Blog() {
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
+                    flexDirection:"column"
                   }}
                 >
                   <Typography
@@ -271,8 +270,50 @@ function Blog() {
                       marginBottom: "40px",
                     }}
                   >
-                    No Blogs found with this keyword !
+                    No Matching Blogs found !
                   </Typography>
+                  {/* /////// */}
+                  {/* <Link to="/support">
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      sx={{
+                        fontSize: { xs: "14px", sm: "15px", md: "16px" },
+                        fontWeight: "600",
+                        lineHeight: "1.4",
+                        backgroundColor: "#FD6400",
+                        color: "#FFF",
+                        borderRadius: "50px",
+                        border: "none",
+                        textTransform: "inherit",
+                        padding: {
+                          xs: "10px 18px",
+                          sm: "10px 18px",
+                          md: "10px 22px",
+                        },
+                        boxShadow: "none",
+                        marginTop: { xs: "2px", sm: "4px", md: "7px" },
+                      }}
+                    >
+                      Go Back
+                      <svg
+                        style={{ marginLeft: "10px" }}
+                        width="18"
+                        height="14"
+                        viewBox="0 0 18 14"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M17 7L11 1M17 7L11 13M17 7L6.5 7M1 7L3.5 7"
+                          stroke="white"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </Button>
+                  </Link> */}
                 </Box>
               ) : (
                 <Grid container spacing={3}>

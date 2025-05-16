@@ -57,6 +57,8 @@ const OffersPage = () => {
     indexOfFirstProduct,
     indexOfLastProduct
   );
+  // console.log('filtered products offers',filteredProducts);
+  // console.log('current products offers',currentProducts);
   const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
 
   useEffect(() => {
@@ -71,8 +73,10 @@ const OffersPage = () => {
         // } else {
         const data = await getProducts();
         const filteredProduct = data.products.filter(
-          (product) => product.sale_price && product.regular_price
+          (product) => product.sale_price && product.regular_price 
+          
         );
+        // console.log(filteredProduct.regular_price, filteredProduct.sale_price);
         // setProducts(data.products);
         setProducts(filteredProduct);
         localStorage.setItem("products", JSON.stringify(data.products)); // Cache the products in localStorage

@@ -11,7 +11,7 @@ import {
   Button,
 } from "@mui/material";
 import { Link } from "react-router-dom";
-import ProDefaultImg from "../../pages/images/how-it-works.jpg"; // The same image for all products
+// import ProDefaultImg from "../../pages/images/how-it-works.jpg"; // The same image for all products
 
 import WeightLossImg from "../../pages/images/online-clinic/weight-loss.jpg";
 import AcidRefluxImg from "../../pages/images/online-clinic/Acid-Reflux.jpg";
@@ -102,7 +102,7 @@ const ConditionsWeTreat = () => {
             <Grid2 size={{ xs: 12, sm: 4, md: 3 }} key={index}>
               <Card
                 sx={{
-                  boxShadow: "10px",
+                  // boxShadow: "10px",
                   minHeight: "170px",
                   backgroundSize: "cover",
                   backgroundPosition: "center",
@@ -197,8 +197,6 @@ const ConditionsWeTreat = () => {
               color="primary"
               onClick={loadMore}
               sx={{
-                borderRadius: "50px",
-                padding: "10px 20px",
                 fontSize: "18px",
                 fontWeight: "600",
                 lineHeight: "1.4",

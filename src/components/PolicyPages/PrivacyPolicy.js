@@ -1,9 +1,10 @@
 import React from "react";
 import TrustBar from "../../pages/Trustbar";
 import { Box, Container, Typography } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 function PrivacyPolicy() {
+  const location = useLocation();
   return (
     <>
       {/************** TrustBar Section **************/}
@@ -75,30 +76,30 @@ function PrivacyPolicy() {
             </Box>
             <Box>
               <Typography variant="h2">We share Your Data :</Typography>
-             <Box sx={{pl:3}}>
-              <Typography
-                component="li"
-                className="privacyPara"
-                variant="body1"
-              >
-                With other third parties where this is necessary to deliver the
-                services.
-              </Typography>
-              <Typography
-                component="li"
-                className="privacyPara"
-                variant="body1"
-              >
-                With other business entities within the Shama Pharma group.
-              </Typography>{" "}
-              <Typography
-                component="li"
-                className="privacyPara"
-                variant="body1"
-              >
-                With other third parties to send you details of their goods and
-                services, but only if you give us permission to do so.
-              </Typography>
+              <Box sx={{ pl: 3 }}>
+                <Typography
+                  component="li"
+                  className="privacyPara"
+                  variant="body1"
+                >
+                  With other third parties where this is necessary to deliver
+                  the services.
+                </Typography>
+                <Typography
+                  component="li"
+                  className="privacyPara"
+                  variant="body1"
+                >
+                  With other business entities within the Shama Pharma group.
+                </Typography>{" "}
+                <Typography
+                  component="li"
+                  className="privacyPara"
+                  variant="body1"
+                >
+                  With other third parties to send you details of their goods
+                  and services, but only if you give us permission to do so.
+                </Typography>
               </Box>
             </Box>
             {/***********/}
@@ -167,9 +168,9 @@ function PrivacyPolicy() {
                 Wembley HA9 7UR
               </Typography>
               <Typography variant="h2">Telephone number :</Typography>
-               <Typography component="privacyPara" variant="body1">
-  <a href="tel:02039165372">02039165372</a>
-</Typography>
+              <Typography component="privacyPara" variant="body1">
+                <a href="tel:02039165372">02039165372</a>
+              </Typography>
 
               <br />
               <Typography component="privacyPara" variant="body1">
@@ -406,8 +407,8 @@ function PrivacyPolicy() {
               <Typography className="privacyPara" variant="body1">
                 You may change your mind and withdraw your permission for us to
                 contact you for marketing purposes at any time by emailing us at{" "}
-                <a href="mailto:info@pillsphere.com">info@pillsphere.com</a>
-                . This will not affect your use of our services.
+                <a href="mailto:info@pillsphere.com">info@pillsphere.com</a>.
+                This will not affect your use of our services.
               </Typography>
             </Box>
             {/* .............. */}
@@ -432,8 +433,8 @@ function PrivacyPolicy() {
                 You can change your mind and withdraw your permission for us to
                 use your Medical Data for marketing purposes at any time by
                 emailing us at{" "}
-                <a href="mailto:info@pillsphere.com">info@pillsphere.com</a>
-                . This will not affect your use of our services.
+                <a href="mailto:info@pillsphere.com">info@pillsphere.com</a>.
+                This will not affect your use of our services.
               </Typography>
             </Box>
             {/* .............. */}
@@ -448,8 +449,8 @@ function PrivacyPolicy() {
                 original purpose. If you wish to get an explanation as to how
                 the processing for the new purpose is compatible with the
                 original purpose, please email{" "}
-                <a href="mailto:info@pillsphere.com">info@pillsphere.com</a>
-                . Should we need to use Your Data for an unrelated purpose, we
+                <a href="mailto:info@pillsphere.com">info@pillsphere.com</a>.
+                Should we need to use Your Data for an unrelated purpose, we
                 will notify you and we will explain the legal basis which allows
                 us to do so.
               </Typography>
@@ -658,9 +659,9 @@ function PrivacyPolicy() {
               </Typography>
               <Typography component="privacyPara" variant="body1">
                 Please email{" "}
-                <a href="mailto:info@pillsphere.com">info@pillsphere.com</a>
-                . if you want further information on the specific mechanism used
-                by us when transferring Your Data outside the United Kingdom or
+                <a href="mailto:info@pillsphere.com">info@pillsphere.com</a>. if
+                you want further information on the specific mechanism used by
+                us when transferring Your Data outside the United Kingdom or
                 European Union.
               </Typography>
             </Box>
@@ -728,7 +729,7 @@ function PrivacyPolicy() {
               scenarios :
             </Typography>
             {/****** li *****/}
-            <Box >
+            <Box>
               <Typography component="privacyPara" variant="body1">
                 if you want us to establish the data's accuracy;
               </Typography>
@@ -770,8 +771,8 @@ function PrivacyPolicy() {
               <Typography component="privacyPara" variant="body1">
                 If you wish to exercise any of the rights set out above, please
                 email{" "}
-                <a href="mailto:info@pillsphere.com">info@pillsphere.com</a>
-                . or telephone 02039165372 and ask to speak to the DPL.
+                <a href="mailto:info@pillsphere.com">info@pillsphere.com</a>. or
+                telephone 02039165372 and ask to speak to the DPL.
               </Typography>
             </Box>
             {/* //////// */}
@@ -814,8 +815,7 @@ function PrivacyPolicy() {
               <Typography component="privacyPara" variant="body1">
                 Please do not hesitate to contact us regarding any matter
                 relating to this Policy at{" "}
-                <a href="mailto:info@pillsphere.com">info@pillsphere.com</a>
-                .
+                <a href="mailto:info@pillsphere.com">info@pillsphere.com</a>.
               </Typography>
             </Box>
           </Box>

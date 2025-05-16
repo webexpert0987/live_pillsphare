@@ -16,9 +16,9 @@ import {
 } from "@mui/material";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
-import { registerUser, loginUser } from "../apis/apisList/userApi";
+import { registerUser } from "../apis/apisList/userApi";
 import { useMessage } from "../Context/MessageContext";
-import { useApp } from "../Context/AppContext";
+// import { useApp } from "../Context/AppContext";
 import EyeButton from "../components/Button/eyeButton";
 import { useLocation } from "react-router-dom";
 const Text = styled(Typography)(({ theme }) => ({
@@ -70,7 +70,7 @@ export default function SignUp() {
   const navigate = useNavigate();
   const [error, setError] = useState("");
   const { showMessage } = useMessage();
-  const { login } = useApp();
+  // const { login } = useApp();
   const [showPassword, setShowPassword] = useState(false);
   const location = useLocation();
   // const redirectSlug = location.state?.redirectSlug;
@@ -89,7 +89,7 @@ const redirectPath = location.state?.redirectPath || "/";
       const registarRes = await registerUser(userData);
       // const registarRes = await res.json();
 
-      if (registarRes.status == 200) {
+      if (registarRes.status === 200) {
         const userData = { email: values.email, password: values.password };
         localStorage.setItem("verify_user", JSON.stringify(userData));
         showMessage("Otp sent to your email", "success");

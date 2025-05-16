@@ -11,6 +11,7 @@ function DeliveryInformation() {
       <TrustBar />
       {/************** Page Content **************/}
       <Box
+      className="PrivacyContent"
         sx={{
           padding: { xs: "30px 0", sm: "50px 0", md: "80px 0" },
           display: "flex",
@@ -20,8 +21,7 @@ function DeliveryInformation() {
         }}
       >
         <Container>
-          <Typography variant="h2">Delivery Information </Typography>
-
+          <Typography variant="h1">Delivery Information </Typography>
           <DeliveryTable />
 
           <Typography className="privacyPara" variant="body1">

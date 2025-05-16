@@ -51,7 +51,7 @@ function WhyChoosePills() {
             fontWeight: "700",
             color: "#FFF",
             lineHeight: "1.3",
-            marginBottom: "20px",
+            // marginBottom: "20px",
             textAlign: "center",
             marginBottom: { xs: "25px", sm: "35px", md: "50px" },
           }}

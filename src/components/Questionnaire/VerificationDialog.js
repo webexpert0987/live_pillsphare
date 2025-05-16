@@ -11,7 +11,7 @@ import {
   styled,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import { useMessage } from "../../Context/MessageContext";
+// import { useMessage } from "../../Context/MessageContext";
 import { useApp } from "../../Context/AppContext";
 import { verifyOtp, loginUser } from "../../apis/apisList/userApi";
 
@@ -39,7 +39,7 @@ const OtpInput = styled(TextField)(({ theme }) => ({
 
 export default function VerificationDialog({ open, setOpen, formData }) {
   const { login, setSelectedTab } = useApp();
-  const { showMessage } = useMessage();
+  // const { showMessage } = useMessage();
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
@@ -110,7 +110,7 @@ export default function VerificationDialog({ open, setOpen, formData }) {
         otp: OTP,
       });
 
-      if (verify.status == 200) {
+      if (verify.status === 200) {
         const response = await loginUser({
           email: formData.email,
           password: formData.password,

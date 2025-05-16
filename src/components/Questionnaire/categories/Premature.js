@@ -7,7 +7,7 @@ import {
   Button,
   FormControl,
   FormControlLabel,
-  FormLabel,
+  // FormLabel,
   Radio,
   TextField,
   RadioGroup,
@@ -15,10 +15,10 @@ import {
   Checkbox,
 } from "@mui/material";
 
-import BmiCalculate from "../Consultation"; // Import the BMI calculation component
+// import BmiCalculate from "../Consultation"; // Import the BMI calculation component
 import { useApp } from "../../../Context/AppContext";
 import { useMessage } from "../../../Context/MessageContext";
-import { RadioButtonChecked, RadioButtonUnchecked } from "@mui/icons-material";
+// import { RadioButtonChecked, RadioButtonUnchecked } from "@mui/icons-material";
 import "../../../../src/globalStyle.css";
 const steps = ["1", "2"];
 
@@ -68,10 +68,10 @@ function PrematureQuestion() {
     }, 0);
   };
   const handleNext = () => {
-    const qaData = JSON.parse(
-      localStorage.getItem("questionnaire_info") || "{}"
-    );
-    const { bmiData } = qaData;
+    // const qaData = JSON.parse(
+    //   localStorage.getItem("questionnaire_info") || "{}"
+    // );
+    // const { bmiData } = qaData;
 
     if (activeStep === 0) {
       const requiredFields = [

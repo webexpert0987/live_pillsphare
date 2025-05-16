@@ -1,7 +1,8 @@
 import React from "react";
 import { Box, Pagination, PaginationItem } from "@mui/material";
 
-const PaginationComponent = ({ page, onChange, count = 10 }) => {
+const PaginationComponent = ({ page, onChange, count = 10,setPage = () => {} }) => {
+  // console.log('page no',page);
   return (
     <Box
       sx={{

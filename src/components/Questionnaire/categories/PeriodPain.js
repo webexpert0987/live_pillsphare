@@ -18,7 +18,7 @@ import {
 } from "@mui/material";
 import "../../../../src/globalStyle.css";
 
-import BmiCalculate from "../Consultation"; // Import the BMI calculation component
+// import BmiCalculate from "../Consultation"; // Import the BMI calculation component
 import { useApp } from "../../../Context/AppContext";
 import { useMessage } from "../../../Context/MessageContext";
 const steps = ["1", "2"];
@@ -32,9 +32,7 @@ function PeriodPainQuestion() {
     periodPain: "",
     experienceChange: "",
     painseverity: 0,
-    periodPain: "",
     experience: "",
-    experienceChange: "",
     periodPain1: "",
     knownAllergy: "",
     otherMedication: "",
@@ -71,10 +69,10 @@ function PeriodPainQuestion() {
   };
 
   const handleNext = () => {
-    const qaData = JSON.parse(
-      localStorage.getItem("questionnaire_info") || "{}"
-    );
-    const { bmiData } = qaData;
+    // const qaData = JSON.parse(
+    //   localStorage.getItem("questionnaire_info") || "{}"
+    // );
+    // const { bmiData } = qaData;
 
     // Validation logic
     if (activeStep === 0) {

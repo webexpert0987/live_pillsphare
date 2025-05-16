@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import { Link, useNavigate } from "react-router-dom";
+import {useNavigate } from "react-router-dom";
 import Grid from "@mui/material/Grid2";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { styled } from "@mui/material/styles";
 import {
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  FormHelperText,
+  // FormControl,
+  // InputLabel,
+  // MenuItem,
+  // Select,
+  // FormHelperText,
   Divider,
   CircularProgress,
 } from "@mui/material";
@@ -20,9 +20,9 @@ import * as Yup from "yup";
 import { useMessage } from "../../Context/MessageContext";
 import Stack from "@mui/material/Stack";
 import { useApp } from "../../Context/AppContext";
-import { loadStripe } from "@stripe/stripe-js";
+// import { loadStripe } from "@stripe/stripe-js";
 import {
-  Elements,
+  // Elements,
   CardElement,
   useStripe,
   useElements,
@@ -102,7 +102,7 @@ export default function Checkout() {
   const elements = useElements();
   const [paymentStatus, setPaymentStatus] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
-  const [isCheckout, setIsCheckout] = useState(false);
+  // const [isCheckout, setIsCheckout] = useState(false);
   const [questionAnswersdata, setquestionAnswersdata] = useState();
   const [userDetails, setUserDetails] = useState(() => {
     const storedUser = localStorage.getItem("user");
@@ -187,7 +187,7 @@ export default function Checkout() {
         setCanPay(false);
       } else {
         if (event.complete) {
-          if (event.value.postalCode == "") {
+          if (event.value.postalCode === "") {
             setCardError("Enter postal code");
             setIsCardEpmty(true);
             setIsDetailComplete(false);
@@ -375,7 +375,7 @@ export default function Checkout() {
 
               const orderResponse = await createOrder(ordInfo);
 
-              if (orderResponse.status == "Order created successfully.") {
+              if (orderResponse.status === "Order created successfully.") {
                 setMakePayment(false);
                 setCanPay(false);
                 setCart([]);
@@ -402,7 +402,7 @@ export default function Checkout() {
   }, [makePayment]);
 
   const handleCheckoutSubmit = async () => {
-    if (cart.length == 0) {
+    if (cart.length === 0) {
       navigate("/");
       showMessage(
         "Your cart is empty! Add some products before checking out.",

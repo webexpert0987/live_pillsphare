@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, Component } from "react";
+import React, { useRef, useEffect, } from "react";
 import {
   Box,
   Tabs,
@@ -140,10 +140,10 @@ function VerticalTabs() {
     handleTabChange(index);
     setTimeout(() => {
       if (accordionRefs.current[index]) {
-        const element = accordionRefs.current[index];
-        const elementRect = element.getBoundingClientRect();
-        const absoluteElementTop = elementRect.top + window.scrollY;
-        const middleOfScreen = window.innerHeight / 2 - elementRect.height / 2;
+        // const element = accordionRefs.current[index];
+        // const elementRect = element.getBoundingClientRect();
+        // const absoluteElementTop = elementRect.top + window.scrollY;
+        // const middleOfScreen = window.innerHeight / 2 - elementRect.height / 2;
         window.scrollTo({
           top: 100,
           behavior: "smooth",
@@ -169,7 +169,7 @@ function VerticalTabs() {
       localStorage.getItem("questionnaire_info") || "{}"
     );
     const { user, bmiData, answers } = qaData;
-    if (tab == 0) {
+    if (tab === 0) {
       setSelectedTab(tab);
     } else if (tab === 1 && user) {
       setSelectedTab(tab);

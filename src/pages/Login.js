@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {useState } from "react";
 // import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -69,7 +69,6 @@ const Login = () => {
   const { login } = useApp();
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-
   const handleSubmit = async (values, { setSubmitting }) => {
     setError("");
     const userData = { email: values.email, password: values.password };
@@ -77,7 +76,7 @@ const Login = () => {
       const response = await loginUser(userData);
       // const response = await res.json();
 
-      if (response.status == 200) {
+      if (response.status === 200) {
         let userInfo = {
           first_name: response.first_name,
           last_name: response.last_name,

@@ -70,7 +70,7 @@ const GpSearch = ({ handleSubmit }) => {
       "Content-Type": "application/json",
       Accept: "application/json",
     };
-    if (process.env.REACT_APP_IS_PROD == "1") {
+    if (process.env.REACT_APP_IS_PROD === "1") {
       headers.Authorization = `Bearer ${token}`;
     }
     try {

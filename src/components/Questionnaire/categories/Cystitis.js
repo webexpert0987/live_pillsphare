@@ -12,13 +12,13 @@ import {
   Typography,
   Checkbox,
   TextField,
-  InputLabel,
+  // InputLabel,
   Select,
   MenuItem,
 } from "@mui/material";
 import "../../../../src/globalStyle.css";
 
-import BmiCalculate from "../Consultation"; // Import the BMI calculation component
+// import BmiCalculate from "../Consultation"; // Import the BMI calculation component
 import { useApp } from "../../../Context/AppContext";
 import { useMessage } from "../../../Context/MessageContext";
 import GpSearch from "../OdsGpSearch";
@@ -68,7 +68,7 @@ function CystitisQuestionnaire() {
   const boxRef = useRef(null);
   const { setSelectedTab } = useApp();
   const { showMessage } = useMessage();
-  const [gpResult, setGpResult] = useState(null);
+  // const [gpResult, setGpResult] = useState(null);
   const [disabled, setDisabled] = useState(false);
   const [currentQue, setCurrentQue] = useState("");
 
@@ -89,10 +89,10 @@ function CystitisQuestionnaire() {
   };
 
   const goToNextStep = () => {
-    const qaData = JSON.parse(
-      localStorage.getItem("questionnaire_info") || "{}"
-    );
-    const { bmiData } = qaData;
+    // const qaData = JSON.parse(
+    //   localStorage.getItem("questionnaire_info") || "{}"
+    // );
+    // const { bmiData } = qaData;
 
     // Validation logic
     if (currentStep === 0) {
