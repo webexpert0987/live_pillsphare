@@ -89,7 +89,7 @@ const redirectPath = location.state?.redirectPath || "/";
       const registarRes = await registerUser(userData);
       // const registarRes = await res.json();
 
-      if (registarRes.status === 200) {
+      if (registarRes.status === "200") {
         const userData = { email: values.email, password: values.password };
         localStorage.setItem("verify_user", JSON.stringify(userData));
         showMessage("Otp sent to your email", "success");

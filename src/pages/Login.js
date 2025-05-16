@@ -70,13 +70,16 @@ const Login = () => {
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const handleSubmit = async (values, { setSubmitting }) => {
+    console.log("jkjk")
     setError("");
     const userData = { email: values.email, password: values.password };
     try {
       const response = await loginUser(userData);
+console.log(response)
+
       // const response = await res.json();
 
-      if (response.status === 200) {
+      if (response.status === "200") {
         let userInfo = {
           first_name: response.first_name,
           last_name: response.last_name,
@@ -86,15 +89,18 @@ const Login = () => {
         };
         login(userInfo);
         if (redirectPath) {
+          console.log(redirectPath,"redirectPath")
           navigate(redirectPath);
         } else {
+          console.log("huuh")
           navigate("/");
         }
         showMessage(response.message, "success");
       }
     } catch (err) {
       setError(err.response.data.message);
-      console.error("Error:", err);
+      console.error("Error something:", err);
+
       // showMessage(err.response.data.message, 'error');
     } finally {
       setSubmitting(false);

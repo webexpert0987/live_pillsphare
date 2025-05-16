@@ -67,7 +67,6 @@ const OffersPage = () => {
       try {
         // Check if products are already in localStorage
         const cachedProducts = localStorage.getItem("products");
-
         // if (cachedProducts) {
         //   setProducts(JSON.parse(cachedProducts)); // Use cached products
         // } else {
