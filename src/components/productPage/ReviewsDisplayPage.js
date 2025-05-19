@@ -45,6 +45,7 @@ const ReviewsDisplayPage = ({ product }) => {
       getData();
     }
   }, [product.id]);
+  // console.log('revoews ',review); 
   return (
     <Box
       sx={{
@@ -64,11 +65,12 @@ const ReviewsDisplayPage = ({ product }) => {
             fontWeight: "700",
             borderBottom: "1px solid #D3D6D9",
             paddingBottom: { xs: "15px", sm: "15px", md: "20px" },
-            marginBottom: { xs: "15px", sm: "15px", md: "25px" },
+            marginBottom: { xs: "15px", sm: "15px", md: "20px" },
             paddingTop: { xs: "10px", sm: "10px", md: "15px" },
           }}
         >
-          Rating and <span style={{fontWeight:"600",color:"#FD6400"}}>Reviews</span>
+          Rating and{" "}
+          <span style={{ fontWeight: "600", color: "#FD6400" }}>Reviews</span>
         </Typography>
       </Box>
       <Box
@@ -78,6 +80,9 @@ const ReviewsDisplayPage = ({ product }) => {
           flexDirection: "column",
           gap: 5,
           padding: "12px",
+          height:"auto",
+          // backgroundColor: "rgba(251, 251, 251, 0.97)",
+          // color: "rgb(51, 51, 51)",
         }}
       >
         {review && review.length > 0 ? (
@@ -97,6 +102,7 @@ const ReviewsDisplayPage = ({ product }) => {
           >
             {review.map((reviewItem, index) => (
               <Card
+                key={index}
                 sx={{
                   backgroundColor: "rgba(247, 247, 247, 0.99)",
                   boxShadow: "none",
@@ -125,7 +131,7 @@ const ReviewsDisplayPage = ({ product }) => {
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "space-between",
-                        width:"100%",
+                        width: "100%",
                       }}
                     >
                       <Typography
@@ -186,7 +192,16 @@ const ReviewsDisplayPage = ({ product }) => {
             ))}
           </Box>
         ) : (
-          <Typography>No reviews available for this product.</Typography>
+          <Typography
+            sx={{
+              marginTop: "2px",
+              fontSize: "16px",
+              fontWeight: "500",
+              lineHeight: "1.4",
+            }}
+          >
+            No Reviews available for this product.
+          </Typography>
         )}
       </Box>
     </Box>

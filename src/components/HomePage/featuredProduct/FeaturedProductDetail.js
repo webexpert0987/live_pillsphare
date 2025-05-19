@@ -293,7 +293,7 @@ const OffersPage = () => {
               </Select>
             </Box>
             {currentProducts.length === 0 && (
-                <Box
+              <Box
                 height="70vh"
                 width="100%"
                 display="flex"
@@ -302,7 +302,16 @@ const OffersPage = () => {
                 flexDirection="column"
                 textAlign="center"
               >
-                <Typography mt={2}>No featured products found...!</Typography>
+                <Typography
+                  sx={{
+                    marginTop: "10px",
+                    fontSize: "16px",
+                    fontWeight: "600",
+                    lineHeight: "1.3",
+                  }}
+                >
+                  No featured products found...!
+                </Typography>
               </Box>
             )}
             {loadingProducts ? (
@@ -316,7 +325,16 @@ const OffersPage = () => {
                 textAlign="center"
               >
                 <CircularProgress />
-                <Typography mt={2}>Loading...</Typography>
+                <Typography
+                  sx={{
+                    marginTop: "10px",
+                    fontSize: "16px",
+                    fontWeight: "600",
+                    lineHeight: "1.3",
+                  }}
+                >
+                  Loading..
+                </Typography>
               </Box>
             ) : (
               <Grid2 container spacing={4}>

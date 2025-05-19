@@ -39,7 +39,7 @@ export const AppProvider = ({ children }) => {
       console.error(error);
     }
   };
-
+//  console.log('cart',cart)
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
 

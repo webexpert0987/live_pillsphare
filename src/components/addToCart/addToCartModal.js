@@ -66,7 +66,7 @@ const AddToCartModal = ({ open, onClose }) => {
         {cart.length > 0 ? (
           <Box height={"400px"} sx={{ overflowY: "scroll" }}>
             {cart.map((item, index) => (
-              <>
+              <Box key={item.id}>
                 <Box
                   display={"flex"}
                   gap={15}
@@ -158,7 +158,7 @@ const AddToCartModal = ({ open, onClose }) => {
                   </Box>
                 </Box>
                 <Divider />
-              </>
+              </Box>
             ))}
           </Box>
         ) : (

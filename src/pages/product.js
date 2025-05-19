@@ -70,7 +70,6 @@ const Product = () => {
       try {
         const response = await getProductBySlug(slug);
         setProduct(response.product);
-
         if (response.product?.id) {
           fetchRelatedProducts(response.product.id);
         }
@@ -81,7 +80,6 @@ const Product = () => {
         );
       }
     };
-
     const fetchRelatedProducts = async (productId) => {
       try {
         const relatedResponse = await getRelatedProduct(productId);
@@ -117,7 +115,7 @@ const Product = () => {
     // updateVariant(product, variantId);
   };
   const handleAddProduct = (product, selectedVariant) => {
-    const test = process.env.REACT_TEST_MODE || 1; //always 0 for production 
+    const test = process.env.REACT_TEST_MODE || 1; //always 0 for production
     if (test === 0) {
       // Show the error message
       showMessage(
@@ -237,7 +235,7 @@ const Product = () => {
       }
     }
   }, [product]);
-  // console.log('ALl Products ', product);
+  // console.log("ALl Products ", product);
   // console.log('Estimated delivery content : ',product.estimated_delivery,product.name);
   return (
     <>
@@ -419,7 +417,7 @@ const Product = () => {
                   // onClick={()=>handleAddProduct(product, product.variations[0])}
                   onClick={() => {
                     if (consultationLink) {
-                      navigate(consultationLink);
+                      navigate(consultationLink); // navigate to the consultation link 
                       return;
                     }
                     handleAddProduct(
@@ -427,13 +425,21 @@ const Product = () => {
                       product?.selectedVariantInfo
                         ? product?.selectedVariantInfo
                         : product?.variations?.length
-                        ? product?.variations?.[0]
-                        : []
+                          ? product?.variations?.[0]
+                          : []
                     );
                   }}
                 >
                   {consultationLink ? (
-                    "Start consultation"
+                    <>
+                      Start consultation &nbsp;
+                      <Icon
+                        icon="solar:arrow-right-broken"
+                        color="primary.main"
+                        width="24"
+                        height="24"
+                      />
+                    </>
                   ) : (
                     <>
                       Add To Cart &nbsp;
@@ -483,7 +489,7 @@ const Product = () => {
                 Delivery Options
               </Typography>
               <Stack direction={"row"} alignItems={"center"} gap={1} my={1.8}>
-                <Box sx={{display:"flex",alignItems:"center"}}>
+                <Box sx={{ display: "flex", alignItems: "center" }}>
                   <Icon
                     icon="material-symbols:circle"
                     width="20"
@@ -511,8 +517,8 @@ const Product = () => {
                 <Box
                   sx={{
                     marginTop: "0px",
-                    display:"flex",
-                    alignItems:"center",
+                    display: "flex",
+                    alignItems: "center",
                   }}
                 >
                   <Icon
@@ -544,22 +550,23 @@ const Product = () => {
                 }}
               >
                 {product?.estimated_delivery ? (
-                  <div
+                  <Box
                     dangerouslySetInnerHTML={{
                       __html: product?.estimated_delivery,
                     }}
                   />
                 ) : (
-                  <div>
+                  <Box>
                     Order in the next <strong>00:35:06</strong> to get
                     it tomorrow* using Express 1-2 Days (Royal Mail Tracked 24)
-                  </div>
+                  </Box>
                 )}
               </Typography>
             </Box>
-            {/******** 03. What out expert says ********/}
+            {/******** 03. What our expert says ********/}
             <Box
               sx={{
+                width: "100%",
                 borderTop: "1px solid #DDDDDD",
                 paddingTop: { xs: "15px", sm: "25px", md: "30px" },
                 marginTop: { xs: "15px", sm: "25px", md: "30px" },
@@ -575,20 +582,33 @@ const Product = () => {
               >
                 What our expert says
               </Typography>
-              <Stack direction={"row"} alignItems={"center"} gap={2} my={1.8}>
-                <Box>
-                  <Typography
-                    variant="h4"
-                    sx={{
-                      fontSize: { xs: "15px", sm: "16px", md: "16px" },
-                      fontWeight: "500",
-                      lineHeight: "1.5",
-                    }}
-                  >
-                    {product?.description}
-                  </Typography>
-                </Box>
-              </Stack>
+              {product.description ? (
+                <Stack direction={"row"} alignItems={"center"} gap={2} my={1.8}>
+                  <Box>
+                    <Typography
+                      variant="h4"
+                      sx={{
+                        fontSize: { xs: "15px", sm: "16px", md: "16px" },
+                        fontWeight: "500",
+                        lineHeight: "1.5",
+                      }}
+                    >
+                      {product?.description}
+                    </Typography>
+                  </Box>
+                </Stack>
+              ) : (
+                <Typography
+                  sx={{
+                    fontSize: "15px",
+                    fontWeight: "500",
+                    lineHeight: "1.4",
+                    marginTop: "14px",
+                  }}
+                >
+                  No Description available
+                </Typography>
+              )}
             </Box>
             {/********* End **********/}
           </CardContent>
@@ -603,11 +623,13 @@ const Product = () => {
         </Box>
         {/********* Product Overview End **********/}
       </Container>
-      {relatedProducts.length===0 ? (<div>
-      </div>) : (
-      <Box backgroundColor={theme.palette.primary.main}>
-        <RelatedProduct relatedProducts={relatedProducts} />
-      </Box>)}
+      {relatedProducts.length === 0 ? (
+        <Box></Box>
+      ) : (
+        <Box backgroundColor={theme.palette.primary.main}>
+          <RelatedProduct relatedProducts={relatedProducts} />
+        </Box>
+      )}
       {isQuestionModalOpen && (
         <Dialog
           open={isQuestionModalOpen}

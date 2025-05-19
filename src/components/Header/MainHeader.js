@@ -999,6 +999,7 @@ const MainHeader = () => {
       >
         {onlineClinicItems.map((item) => (
           <Link
+            key={item.id}
             to={item.link}
             style={{ textDecoration: "none", color: "inherit" }}
           >

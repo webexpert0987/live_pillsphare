@@ -246,7 +246,7 @@ function Blog() {
             sx={{ flexDirection: "column" }}
           >
             <CircularProgress color="primary" />
-            <Typography>Loading...</Typography>
+              <Typography sx={{marginTop:"10px",fontSize:"16px",fontWeight:"600",lineHeight:"1.3"}}>Loading..</Typography>
           </Box>
         ) : (
           <Box>

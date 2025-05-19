@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   Typography,
   Box,
@@ -35,17 +35,17 @@ const ProductListingPage = () => {
   } = useApp();
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
+  const productsRef = useRef(null);
   const [currentProducts, setCurrentProducts] = useState(1);
   const handlePageChange = (e, value) => {
     setPage(value);
-    // console.log('page changed',value);
-    // Scroll to top when page changes
+    // Scroll to top when page changes;
+    // productsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
   // added to change the page on products chnage 
   useEffect(() => {
     setPage(1);
-    // if(filteredProducts.length)
   }, [filteredProducts]);
 
 //   useEffect(() => {
@@ -69,8 +69,6 @@ const ProductListingPage = () => {
     );
     setCurrentProducts(currProducts);
   }, [page, filteredProducts]);
-  // console.log('currentproducts',currentProducts);
-  // console.log('indexes',indexOfFirstProduct,indexOfLastProduct);
   const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
 
   useEffect(() => {
@@ -161,7 +159,6 @@ const ProductListingPage = () => {
     },
   };
   //Cetirizine Dihydrochloride Film Coated Tablets 10mg
-  // console.log('page No',page);
   return (
     <>
       <Box>
@@ -170,6 +167,7 @@ const ProductListingPage = () => {
       </Box>
       <Container>
         <Box
+        //  ref={productsRef}
           sx={{
             display: "flex",
             flexWrap: { xs: "wrap", sm: "wrap", md: "nowrap" },
@@ -177,7 +175,7 @@ const ProductListingPage = () => {
           }}
         >
           {/* Left Column */}
-          <CategoryPage products={products} page={page} setPage={setPage} handlePageChange={handlePageChange}/>
+          <CategoryPage products={products} page={page} setPage={setPage} handlePageChange={handlePageChange} searchValue={searchValue}/>
           {/* Right Column */}
           <Box
             sx={{
@@ -231,7 +229,7 @@ const ProductListingPage = () => {
                 }}
               >
                 <CircularProgress color="primary" />
-                <Typography>Loading..</Typography>
+                <Typography sx={{marginTop:"10px",fontSize:"16px",fontWeight:"600",lineHeight:"1.3"}}>Loading..</Typography>
               </Box>
             )}
             {/* Add the products if found */}
@@ -300,8 +298,8 @@ const ProductListingPage = () => {
                           style={shop3Grid.titlePriceBox}
                           sx={{
                             flexGrow: 1, // Ensures the content expands evenly
-                            display: "flex",
-                            flexDirection: "column",
+                            display: "flex", // 
+                            flexDirection: "column", // Ensures card content comes row by row
                             justifyContent: "space-between",
                             minHeight: "180px", // Ensures all cards are equal height
                           }}
@@ -455,12 +453,15 @@ const ProductListingPage = () => {
               </Box>
             )}
             {/* Add pagination at the bottom */}
-            {!loading && filteredProducts.length > 0 && (
+            {(!loading && filteredProducts.length > 0 ) && (
               <PaginationComponent
                 page={page}
                 onChange={handlePageChange}
                 count={totalPages}
                 setPage={setPage}
+                // productsRef={productsRef}
+                loading={loading}
+                filteredProducts={filteredProducts}
               />
             )}
           </Box>

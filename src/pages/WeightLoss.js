@@ -13,7 +13,7 @@ import HealthSolution from "../components/WeightLoss/HealthSolution";
 function WeightLoss() {
   const weight_title = "Weight Loss";
   return (
-    <div>
+    <Box>
       <Box>
         <HeroSection
           weightLossHero={weight_title}
@@ -29,7 +29,7 @@ Explore professional obesity treatments and advice from leading specialists. Fin
         <AverageWeightLoss />
         {/** <RelatedArticleSlider /> **/}
       </Box>
-    </div>
+    </Box>
   );
 }
 

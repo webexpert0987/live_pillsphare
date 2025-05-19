@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState , useRef} from "react";
 import { useParams, Link } from "react-router-dom";
 import { getCategoryBySlug } from "../apis/apisList/productApi";
 
@@ -10,18 +10,18 @@ import {
   CardContent,
   CardActions,
   Button,
-  Slider,
-  TextField,
-  Collapse,
+  // Slider,
+  // TextField,
+  // Collapse,
   Select,
   MenuItem,
   Container,
   CircularProgress,
   Grid2,
 } from "@mui/material";
-import { Rating } from "@mui/material";
-import ExpandLessSharpIcon from "@mui/icons-material/ExpandLessSharp";
-import ExpandMoreSharpIcon from "@mui/icons-material/ExpandMoreSharp";
+// import { Rating } from "@mui/material";
+// import ExpandLessSharpIcon from "@mui/icons-material/ExpandLessSharp";
+// import ExpandMoreSharpIcon from "@mui/icons-material/ExpandMoreSharp";
 import HeroSection from "./ShopHero";
 import TrustBar from "./Trustbar";
 import { getProducts } from "../apis/apisList/productApi";
@@ -37,7 +37,8 @@ const CategoryPage = () => {
   const [loading, setLoading] = useState(true);
   const [loadingProducts, setLoadingProducts] = useState(true);
   const [notFound, setNotFound] = useState(false);
-
+// In your ShopPage or CategoryPage
+  // const productsRef = useRef(null);
   const { filteredProducts, setSortOption } = useApp();
 
   const [page, setPage] = useState(1);
@@ -555,6 +556,7 @@ const CategoryPage = () => {
                 page={page}
                 onChange={handlePageChange}
                 count={totalPages}
+                // setPage={setPage}
               />
             )}
           </Box>

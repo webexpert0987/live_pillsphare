@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Drawer from "@mui/material/Drawer";
 import {
   Typography,
@@ -100,6 +100,7 @@ function Category(props) {
     shopCategories,
     clearFilters,
     setPage,
+    // categoryRef,
   } = props;
   const [categoriesOpen, setCategoriesOpen] = useState(true);
   const [priceOpen, setPriceOpen] = useState(true);
@@ -115,6 +116,7 @@ function Category(props) {
     shopCategories.filter((cat) => cat.parent === parentId);
   const getGrandSubCategories = (subCategoryId) =>
     (shopCategories || []).filter((cat) => cat?.parent === subCategoryId);
+  // console.log('subcategory ',getSubcategories(110));
   // Toggle category expansion
   const toggleCategory = (categoryId) => {
     setExpandedCategories((prev) => ({
@@ -134,9 +136,10 @@ function Category(props) {
       }
     }
     setPage(1);
-  }, [selectedCategories,shopCategories]);
+  }, [selectedCategories, shopCategories]);
   return (
     <Box
+      // ref={categoryRef}
       p={2}
       sx={{ width: { xs: "100%", md: "27%" }, padding: { md: "0 15px 0 0" } }}
     >
@@ -177,9 +180,12 @@ function Category(props) {
             display="flex"
             justifyContent="space-between"
             alignItems="center"
+            marginRight={0}
           >
             <Typography style={sidebarStyles.sideTitle}>Categories</Typography>
             <Button
+              // display="flex"
+              // justifyContent="end"
               size="small"
               onClick={() => setCategoriesOpen(!categoriesOpen)}
             >
@@ -264,37 +270,6 @@ function Category(props) {
                       </IconButton>
                     )}
                   </Box>
-                  {/* Subcategories */}
-                  {/* <Collapse in={expandedCategories[category.id]}>
-                    <Box sx={{ pl: 3 }}>
-                      {getSubcategories(category.id).map((subCategory) => (
-                        <FormControlLabel
-                          key={subCategory.id}
-                          control={
-                            <Checkbox
-                              checked={selectedCategories.includes(
-                                subCategory.id
-                              )}
-                              onChange={(e) =>
-                                setSelectedCategories(
-                                  e.target.checked
-                                    ? [...selectedCategories, subCategory.id]
-                                    : selectedCategories.filter(
-                                        (id) => id !== subCategory.id
-                                      )
-                                )
-                              }
-                            />
-                          }
-                          label={subCategory.name}
-                          sx={{
-                            textTransform: "capitalize",
-                            display: "block",
-                          }}
-                        />
-                      ))}
-                    </Box>
-                  </Collapse> */}
                   {/* Getting Nested Subcategories */}
                   <Collapse in={expandedCategories[category.id]}>
                     {/* categories */}
@@ -479,7 +454,13 @@ function Category(props) {
   );
 }
 
-export default function CategoryPage({ products, page, setPage = () => {} , handlePageChange = () => {}}) {
+export default function CategoryPage({
+  products,
+  page,
+  setPage = () => {},
+  handlePageChange = () => {},
+  searchValue,
+}) {
   const isMobile = useMediaQuery("(max-width: 960px)");
   const { setFilteredProducts, sortOption } = useApp();
   const [selectedCategories, setSelectedCategories] = useState([]);
@@ -487,34 +468,30 @@ export default function CategoryPage({ products, page, setPage = () => {} , hand
   const [shopCategories, setShopCategories] = useState([]);
   const [open, setOpen] = useState(false);
   const { slug } = useParams();
+  const categoryRef = useRef(null);
   const toggleDrawer = (newOpen) => () => setOpen(newOpen);
   const clearFilters = () => {
     setSelectedCategories([]);
     setPriceRange([1, 1000]);
   };
-  // console.log('setpage',typeof setPage);
+
   useEffect(() => {
-    // console.log("useEffect running");
     const fetchCategories = async () => {
-      handlePageChange(null, 1);                                                                   
+      // handlePageChange(null, 1);
       const cachedCategories = localStorage.getItem("shopCategories");
       if (cachedCategories) {
         try {
           setPage(1);
           setShopCategories(JSON.parse(cachedCategories));
-          // console.log("shop categories ", shopCategories);
           return;
         } catch {
-          // console.log('catch error section',shopCategories);
           localStorage.removeItem("shopCategories");
         }
       }
       const response = await getShopCategories();
       if (Array.isArray(response)) {
         setPage(1);
-        // console.log("Fetched new categories:", response);
         setShopCategories(response);
-        // console.log('setpage11',typeof setPage);
         localStorage.setItem("shopCategories", JSON.stringify(response));
       }
     };
@@ -524,16 +501,35 @@ export default function CategoryPage({ products, page, setPage = () => {} , hand
 
   useEffect(() => {
     let filteredProducts = [...products];
+    // handlePageChange(null, 1);
+    // ✅ Search filtering on the basis on search keyword
+    if (
+      searchValue &&
+      typeof searchValue === "string" &&
+      searchValue.trim() !== ""
+    ) {
+      const searchTerm = searchValue.trim().toLowerCase();
+      filteredProducts = filteredProducts.filter((product) =>
+        product.name.toLowerCase().includes(searchTerm)
+      );
+    }
+
     // Apply category filtering
-   handlePageChange(null, 1);
     if (selectedCategories.length > 0) {
       filteredProducts = filteredProducts.filter((product) =>
         product.categories.some((category) =>
           selectedCategories.includes(category.id)
         )
       );
-      // setPage(1);
+      // console.log('filteredproducts',filteredProducts);
     }
+
+    // Apply price range filtering
+    filteredProducts = filteredProducts.filter(
+      (product) =>
+        (product.sale_price || product.price) >= priceRange[0] &&
+        (product.sale_price || product.price) <= priceRange[1]
+    );
 
     // Apply sorting and price range filtering
     if (sortOption === "priceLowHigh") {
@@ -546,20 +542,14 @@ export default function CategoryPage({ products, page, setPage = () => {} , hand
       );
     }
 
-    // Apply price range filtering
-    filteredProducts = filteredProducts.filter(
-      (product) =>
-        (product.sale_price || product.price) >= priceRange[0] &&
-        (product.sale_price || product.price) <= priceRange[1]
-    );
-
     setFilteredProducts(filteredProducts);
     setPage(1);
-  }, [products, sortOption, priceRange, selectedCategories]);
+  }, [products, sortOption, priceRange, selectedCategories, searchValue]);
+
   useEffect(() => {
     if (!slug) return;
     const fetchCategory = async () => {
-     handlePageChange(null, 1);
+      handlePageChange(null, 1);
       try {
         const response = await getCategoryBySlug(slug);
 
@@ -570,8 +560,7 @@ export default function CategoryPage({ products, page, setPage = () => {} , hand
         }
       } catch (error) {
         console.error("Category not found:", error);
-      }
-      finally{
+      } finally {
         setPage(1);
       }
     };
@@ -603,6 +592,7 @@ export default function CategoryPage({ products, page, setPage = () => {} , hand
         shopCategories,
         clearFilters,
         setPage,
+        // categoryRef,
       }}
     />
   );

@@ -94,7 +94,7 @@ const ProductOverview = ({ product }) => {
             paddingTop: { xs: "10px", sm: "10px", md: "15px" },
           }}
         >
-          Product Overview 
+          Product Overview
         </Typography>
       </Box>
 
@@ -295,7 +295,7 @@ const ProductOverview = ({ product }) => {
                   <EditNoteSharpIcon
                     style={{ color: "#fff" }}
                     fontSize="large"
-                    sx={{display:"flex",alignItems:"center"}}
+                    sx={{ display: "flex", alignItems: "center" }}
                   />
                 }
                 label="Questions"
@@ -344,12 +344,13 @@ const ProductOverview = ({ product }) => {
                 <Typography
                   sx={{
                     fontSize: { xs: "15px", sm: "16px", md: "16px" },
+                    textAlign: "center",
                     fontWeight: "500",
                     color: "#333",
                   }}
                 >
                   {product?.short_description ||
-                    "No Side Information available."}
+                    "No Side Informations available."}
                 </Typography>
               )}
               {tabIndex === 2 && (
@@ -380,9 +381,15 @@ const ProductOverview = ({ product }) => {
                   ) : (
                     <Typography
                       variant="body1"
-                      sx={{ color: "gray", textAlign: "center" }}
+                      // sx={{ color: "gray", textAlign: "center" }}
+                      sx={{
+                        fontSize: { xs: "15px", sm: "16px", md: "16px" },
+                        textAlign: "center",
+                        fontWeight: "500",
+                        color: "#333",
+                      }}
                     >
-                      No questions available.
+                      No Questions available.
                     </Typography>
                   )}
                 </Box>

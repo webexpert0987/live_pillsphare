@@ -463,9 +463,9 @@ const TreatmentRecommendation = () => {
                 <path
                   d="M17 7L11 1M17 7L11 13M17 7L6.5 7M1 7L3.5 7"
                   stroke="white"
-                  strokeWidth="1.5"
-                  strokeLinecap="round" 
-                  strokeLinejoin="round" 
+               strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                 />
               </svg>
             </Button>
@@ -519,9 +519,9 @@ const TreatmentRecommendation = () => {
               <path
                 d="M17 7L11 1M17 7L11 13M17 7L6.5 7M1 7L3.5 7"
                 stroke="white"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+               strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
               />
             </svg>
           </Button>

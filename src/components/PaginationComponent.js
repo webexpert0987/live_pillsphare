@@ -1,10 +1,16 @@
-import React from "react";
+import { React, useRef } from "react";
 import { Box, Pagination, PaginationItem } from "@mui/material";
 
-const PaginationComponent = ({ page, onChange, count = 10,setPage = () => {} }) => {
+const PaginationComponent = ({
+  page,
+  onChange,
+  count = 10,
+  setPage = () => {},
+}) => {
   // console.log('page no',page);
   return (
     <Box
+      // ref={productsRef}
       sx={{
         display: "flex",
         justifyContent: "center",

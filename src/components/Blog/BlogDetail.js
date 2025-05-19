@@ -45,6 +45,7 @@ function BlogDetail() {
         console.error("Error fetching blog posts:", error);
       } finally {
         setLoading(false);
+        // console.log('finally block executed');
       }
     };
 
@@ -65,7 +66,7 @@ function BlogDetail() {
         sx={{ flexDirection: "column" }}
       >
         <CircularProgress color="primary" />
-        <Typography>Loading...</Typography>
+           <Typography sx={{marginTop:"10px",fontSize:"16px",fontWeight:"600",lineHeight:"1.3"}}>Loading..</Typography>
       </Box>
     );
   }

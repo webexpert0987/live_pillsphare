@@ -18,7 +18,7 @@ const VerticalTabs = ({ product }) => {
   const [tabContent, setTabContent] = useState([
     {
       title: "Directions",
-      description: product?.directions || "No directions available.",
+      description: product?.directions || "No Directions available.",
     },
     {
       title: "Side Effects",
@@ -34,7 +34,7 @@ const VerticalTabs = ({ product }) => {
     setTabContent([
       {
         title: "Directions",
-        description: product?.directions || "No directions available.",
+        description: product?.directions || "No Directions available.",
       },
       {
         title: "Side Effects",
@@ -132,7 +132,7 @@ const VerticalTabs = ({ product }) => {
             {tabContent.length > 0 && (
               <>
                 <Typography variant="h6">{tabContent[value]?.title}</Typography>
-                <Typography>{tabContent[value]?.description}</Typography>
+                <Typography sx={{fontSize:"14px",fontWeight:"500",lineHeight:"1.3",marginTop:"10px"}}>{tabContent[value]?.description}</Typography>
               </>
             )}
           </Box>
