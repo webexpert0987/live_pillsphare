@@ -608,8 +608,8 @@ export default function UnifiedCheckoutPage({ isFromQA = false }) {
                       />
                       <div style={{ width: "100%" }}>
                         <ShippingMethodSelector
-                          selectedMethod={selectedShippingMethod}
                           onMethodSelect={handleShippingMethodSelect}
+                          price={calculateTotal()}
                         />
                         <Typography variant="h6">
                           Final Total: £{calculateTotalWithShipping()}

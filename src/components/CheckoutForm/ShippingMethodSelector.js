@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { getShippingMethods } from "../../apis/apisList/orderApi";
 
-const ShippingMethodSelector = ({ selectedMethod, onMethodSelect }) => {
+const ShippingMethodSelector = ({ price, onMethodSelect }) => {
   const [shippingMethods, setShippingMethods] = useState([]);
   const [loading, setLoading] = useState(true);
   const [value, setValue] = useState("");
@@ -26,10 +26,14 @@ const ShippingMethodSelector = ({ selectedMethod, onMethodSelect }) => {
             zoneName: item.name,
             name: method.settings?.title || method.title,
             price: method.cost || "0",
+            min_amount: method.settings?.min_amount || "0",
           }))
         );
 
-        setShippingMethods(transformed);
+        const filterData = transformed.filter(
+          (data) => parseFloat(data.min_amount) < price
+        );
+        setShippingMethods(filterData);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching shipping methods:", error);
@@ -38,7 +42,7 @@ const ShippingMethodSelector = ({ selectedMethod, onMethodSelect }) => {
     };
 
     fetchShippingMethods();
-  }, []);
+  }, [price]);
 
   const handleChange = (e) => {
     let methodId = e.target.value;
