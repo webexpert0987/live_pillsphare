@@ -331,6 +331,17 @@ export default function UnifiedCheckoutPage({ isFromQA = false }) {
           photoId:
             parsedData.answers?.photoId || parsedData.answers?.photoID || null,
           bodyPhoto: parsedData.answers?.bodyPhoto || null,
+          fullAddress: {
+            ...addressData,
+            first_name: userInfo?.first_name,
+            last_name: userInfo?.last_name,
+            company: values?.company,
+            state: values?.state,
+            postcode: values?.postcode,
+            country: values?.country,
+            email: userInfo?.email,
+            phone: userInfo?.phone,
+          },
         },
       };
 
