@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import { Button, TextField, Typography, Box, Grid } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { loginUser, verifyOtp } from "../apis/apisList/userApi";
+import { loginUser, loginVerify, verifyOtp } from "../apis/apisList/userApi";
 import { useApp } from "../Context/AppContext";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useMessage } from "../Context/MessageContext";
@@ -34,6 +34,7 @@ const VerificationPage = () => {
   //receiving the url slug value here
   // const redirectSlug = location.state?.redirectSlug;
   const redirectPath = location.state?.redirectPath || "/";
+  const isTwoFactor = location.state?.isTwoFactor || false;
 
   const handleChange = (e, index) => {
     const value = e.target.value.replace(/\D/g, ""); // Allow only numbers
@@ -79,14 +80,21 @@ const VerificationPage = () => {
   const handleSubmit = async () => {
     setError("");
     setIsSubmitting(true);
-    const user = JSON.parse(localStorage.getItem("verify_user") || "{}");
+
+    const key = isTwoFactor ? "verify_2fa" : "verify_user";
+    const user = JSON.parse(localStorage.getItem(key) || "{}");
+
     if (!user?.email) {
       setError("User not found");
       return;
     }
 
     try {
-      await verifyOtp({ email: user.email, otp: otp.join("") });
+      if (isTwoFactor) {
+        await loginVerify({ email: user.email, otp: otp.join("") });
+      } else {
+        await verifyOtp({ email: user.email, otp: otp.join("") });
+      }
       const response = await loginUser(user);
       // const response = await res.json();
       if (response.status == 200) {
@@ -133,7 +141,7 @@ const VerificationPage = () => {
       >
         <Box display="flex" flexDirection="column" alignItems="center">
           <Typography variant="h4" fontWeight="600" mb={2} textAlign="center">
-            Verification
+            {isTwoFactor ? "Two factor verification" : "Verification"}
           </Typography>
           <Typography mb={2} textAlign="center">
             Enter the 6-digit code sent to your email

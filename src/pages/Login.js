@@ -1,4 +1,4 @@
-import React, {useState } from "react";
+import React, { useState } from "react";
 // import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -19,6 +19,8 @@ import { useApp } from "../Context/AppContext";
 import EyeButton from "../components/Button/eyeButton";
 import { InputAdornment } from "@mui/material";
 import { useLocation } from "react-router-dom";
+
+const IS_2FA = process.env.REACT_2FA_ENABLED || "1";
 
 const Text = styled(Typography)(({ theme }) => ({
   color: "#333333",
@@ -70,15 +72,19 @@ const Login = () => {
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const handleSubmit = async (values, { setSubmitting }) => {
-    console.log("jkjk")
     setError("");
     const userData = { email: values.email, password: values.password };
+    console.log("Two factor verification status:", IS_2FA);
     try {
+      if (IS_2FA == "1") {
+        await loginUser(userData);
+        localStorage.setItem("verify_2fa", JSON.stringify(userData));
+        navigate("/verification", {
+          state: { redirectPath, isTwoFactor: true },
+        });
+        return;
+      }
       const response = await loginUser(userData);
-console.log(response)
-
-      // const response = await res.json();
-
       if (response.status === "200") {
         let userInfo = {
           first_name: response.first_name,
@@ -89,10 +95,8 @@ console.log(response)
         };
         login(userInfo);
         if (redirectPath) {
-          console.log(redirectPath,"redirectPath")
           navigate(redirectPath);
         } else {
-          console.log("huuh")
           navigate("/");
         }
         showMessage(response.message, "success");
