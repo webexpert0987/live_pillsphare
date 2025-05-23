@@ -141,7 +141,7 @@ const VerificationPage = () => {
       >
         <Box display="flex" flexDirection="column" alignItems="center">
           <Typography variant="h4" fontWeight="600" mb={2} textAlign="center">
-            {isTwoFactor ? "Two factor verification" : "Verification"}
+            {isTwoFactor ? "Two Factor Authentication" : "Verification"}
           </Typography>
           <Typography mb={2} textAlign="center">
             Enter the 6-digit code sent to your email
