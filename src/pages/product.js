@@ -130,9 +130,9 @@ const Product = () => {
         "error"
       );
     }
-    if (!isLoggedIn) {
+    /*   if (!isLoggedIn) {
       setIsModalOpen(true);
-    } else if (product.product_type === "Products with Questions") {
+    } else */ if (product.product_type === "Products with Questions") {
       setCurrentProduct({ product, selectedVariant });
       setIsQuestionModalOpen(true);
     } else {
@@ -417,7 +417,7 @@ const Product = () => {
                   // onClick={()=>handleAddProduct(product, product.variations[0])}
                   onClick={() => {
                     if (consultationLink) {
-                      navigate(consultationLink); // navigate to the consultation link 
+                      navigate(consultationLink); // navigate to the consultation link
                       return;
                     }
                     handleAddProduct(
@@ -425,8 +425,8 @@ const Product = () => {
                       product?.selectedVariantInfo
                         ? product?.selectedVariantInfo
                         : product?.variations?.length
-                          ? product?.variations?.[0]
-                          : []
+                        ? product?.variations?.[0]
+                        : []
                     );
                   }}
                 >

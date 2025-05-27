@@ -108,6 +108,7 @@ export default function UnifiedCheckoutPage({ isFromQA = false }) {
   const ipAddress = useIpAddress();
 
   const cart = isFromQA ? qaCart : cartData;
+  const isGuestUser = localStorage.getItem("user") ? false : true;
 
   const calculateQATotal = () => {
     try {
@@ -294,6 +295,7 @@ export default function UnifiedCheckoutPage({ isFromQA = false }) {
 
       const getUser = localStorage.getItem("user") || "{}";
       const userInfo = JSON.parse(getUser);
+      const guest_id = localStorage.getItem("guest_id");
 
       const payload = {
         amount: calculateTotalWithShipping(),
@@ -333,15 +335,17 @@ export default function UnifiedCheckoutPage({ isFromQA = false }) {
           bodyPhoto: parsedData.answers?.bodyPhoto || null,
           fullAddress: {
             ...addressData,
-            first_name: userInfo?.first_name,
-            last_name: userInfo?.last_name,
+            first_name: values?.first_name || userInfo?.first_name,
+            last_name: values?.lastName || userInfo?.last_name,
             company: values?.company,
             state: values?.state,
             postcode: values?.postcode,
             country: values?.country,
-            email: userInfo?.email,
-            phone: userInfo?.phone,
+            email: values?.email || userInfo?.email,
+            phone: values?.phone || userInfo.phone,
           },
+          guest_id: guest_id,
+          isGuestCheckout: localStorage.getItem("user") ? false : true,
         },
       };
 
@@ -451,7 +455,7 @@ export default function UnifiedCheckoutPage({ isFromQA = false }) {
                           }
                           helperText={touched.first_name && errors.first_name}
                           value={values.first_name}
-                          disabled
+                          disabled={!isGuestUser}
                         />
                       </Grid>
                       <Grid size={{ xs: 12, sm: 12, md: 6, lg: 6 }}>
@@ -467,7 +471,7 @@ export default function UnifiedCheckoutPage({ isFromQA = false }) {
                           error={touched.last_name && Boolean(errors.last_name)}
                           helperText={touched.last_name && errors.last_name}
                           value={values.last_name}
-                          disabled
+                          disabled={!isGuestUser}
                         />
                       </Grid>
                       <Grid size={{ xs: 12, sm: 12, md: 6, lg: 6 }}>
@@ -483,7 +487,7 @@ export default function UnifiedCheckoutPage({ isFromQA = false }) {
                           error={touched.email && Boolean(errors.email)}
                           helperText={touched.email && errors.email}
                           value={values.email}
-                          disabled
+                          disabled={!isGuestUser}
                         />
                       </Grid>
                       <Grid size={{ xs: 12, sm: 12, md: 6, lg: 6 }}>

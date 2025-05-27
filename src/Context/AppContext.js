@@ -1,5 +1,10 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
-import { addProductToCart, getUserCart } from "../apis/apisList/cartApi";
+import {
+  addProductToCart,
+  addProductToGuestCart,
+  getGustCart,
+  getUserCart,
+} from "../apis/apisList/cartApi";
 import { useMessage } from "./MessageContext";
 import { profile } from "../apis/apisList/userApi";
 // Create the app context
@@ -24,12 +29,33 @@ export const AppProvider = ({ children }) => {
   const [searchBlogValue, setSearchBlogValue] = useState("");
   // const [page, setPage] = useState(1);
 
+  const checkGuestUser = () => {
+    let guest_id = localStorage.getItem("guest_id");
+    const user = localStorage.getItem("user");
+    if (!user) {
+      if (!guest_id) {
+        localStorage.setItem("guest_id", crypto.randomUUID());
+      }
+    }
+    return { isGuest: user ? false : true, guest_id };
+  };
+
+  useEffect(() => {
+    checkGuestUser();
+  }, []);
+
   const fetchCart = async (user) => {
     try {
-      const data = await getUserCart({
-        user_id: user.user_id,
-        token: user.token,
-      });
+      const { isGuest, guest_id } = checkGuestUser();
+      let data = {};
+      if (isGuest) {
+        data = await getGustCart(guest_id);
+      } else {
+        data = await getUserCart({
+          user_id: user.user_id,
+          token: user.token,
+        });
+      }
 
       const cartData = JSON.parse(data.cart_value).cart;
 
@@ -39,16 +65,13 @@ export const AppProvider = ({ children }) => {
       console.error(error);
     }
   };
-//  console.log('cart',cart)
+  //  console.log('cart',cart)
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
 
-    if (storedUser) {
-      let user = JSON.parse(storedUser);
-      setUserDetails(user);
-
-      fetchCart(user);
-    }
+    let user = JSON.parse(storedUser);
+    setUserDetails(user);
+    fetchCart(user);
   }, []);
 
   const login = async (userInfo) => {
@@ -89,28 +112,36 @@ export const AppProvider = ({ children }) => {
 
   useEffect(() => {
     const addProducts = async () => {
-      if (userDetails) {
-        const total = calculateTotal();
-        const cartData = {
-          user_id: userDetails.user_id,
-          token: userDetails.token,
-          cart_value: JSON.stringify({ cart, cartTotalAmount: total }),
-        };
-        try {
-          const response = await addProductToCart(cartData);
+      /*   if (userDetails) { */
+      const total = calculateTotal();
+      const cartData = {
+        user_id: userDetails?.user_id,
+        token: userDetails?.token,
+        cart_value: JSON.stringify({ cart, cartTotalAmount: total }),
+      };
 
-          setIsAddingProduct(false);
-          if (response == "Cart updated successfully") {
-            showMessage("Cart updated successfully", "success");
-          }
-        } catch (err) {
-          // setError(err.response.data.message);
-          console.error("Error:", err);
-          showMessage(err.response.data.message, "error");
+      try {
+        const { isGuest, guest_id } = checkGuestUser();
+        let response = {};
+        if (isGuest) {
+          response = await addProductToGuestCart({
+            cart_value: cartData.cart_value,
+            guest_id,
+          });
+        } else {
+          response = await addProductToCart(cartData);
         }
-      } else {
+
+        setIsAddingProduct(false);
         showMessage("Cart updated successfully", "success");
+      } catch (err) {
+        // setError(err.response.data.message);
+        console.error("Error:", err);
+        showMessage(err.response.data.message, "error");
       }
+      /*  } else {
+        showMessage("Cart updated successfully", "success");
+      } */
     };
 
     if (isAddingProduct) {
@@ -262,15 +293,24 @@ export const AppProvider = ({ children }) => {
   const cartEmpty = async () => {
     setCart([]);
     const cartData = {
-      user_id: userDetails.user_id,
-      token: userDetails.token,
+      user_id: userDetails?.user_id,
+      token: userDetails?.token,
       cart_value: JSON.stringify({ cart: [], cartTotalAmount }),
     };
     try {
-      const response = await addProductToCart(cartData);
+      const { isGuest, guest_id } = checkGuestUser();
+      let response = {};
+      if (isGuest) {
+        response = await addProductToGuestCart({
+          cart_value: cartData.cart_value,
+          guest_id,
+        });
+      } else {
+        response = await addProductToCart(cartData);
+      }
     } catch (err) {
       console.error("Error:", err);
-      showMessage(err.response.data.message, "error");
+      // showMessage(err.response.data.message, "error");
     }
   };
 
@@ -294,27 +334,27 @@ export const AppProvider = ({ children }) => {
       return;
     }
   };
-// searching blogs and blog data  
+  // searching blogs and blog data
 
-// const searchBlogs = (blogs) => {
-//   const search = searchBlogValue.trim();
-//   if (!search) {
-//     setFilteredBlogs(blogs);
-//     return;
-//   }
-//   const filteredBlogs = blogs.filter((blog) =>
-//     blog?.name?.toLowerCase().includes(search.toLowerCase())
-//   );
-//   if (filteredBlogs.length === 0) {
-//     setFilteredBlogs([]);
-//     return;
-//   } else {
-//     setFilteredBlogs(filteredBlogs);
-//     return;
-//   }
-// };
+  // const searchBlogs = (blogs) => {
+  //   const search = searchBlogValue.trim();
+  //   if (!search) {
+  //     setFilteredBlogs(blogs);
+  //     return;
+  //   }
+  //   const filteredBlogs = blogs.filter((blog) =>
+  //     blog?.name?.toLowerCase().includes(search.toLowerCase())
+  //   );
+  //   if (filteredBlogs.length === 0) {
+  //     setFilteredBlogs([]);
+  //     return;
+  //   } else {
+  //     setFilteredBlogs(filteredBlogs);
+  //     return;
+  //   }
+  // };
 
-// ---------
+  // ---------
   return (
     <AppContext.Provider
       value={{
@@ -347,6 +387,7 @@ export const AppProvider = ({ children }) => {
         setSearchValue,
         searchProducts,
         setUserDetails,
+        checkGuestUser,
         // searchBlogValue,
         // filteredBlogs,
         // setFilteredBlogs,

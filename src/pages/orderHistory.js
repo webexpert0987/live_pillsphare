@@ -25,6 +25,7 @@ import { rateProduct } from "../apis/apisList/orderApi";
 import { toast } from "react-toastify";
 import { useMessage } from "../Context/MessageContext";
 import SingleOrderHistory from "../components/SingleOrderHistory";
+import { useApp } from "../Context/AppContext";
 const OrderHistory = () => {
   const [orders, setOrders] = useState([]); // State to hold the orders data
   const [loading, setLoading] = useState(true); // State for loading indicator
@@ -40,6 +41,7 @@ const OrderHistory = () => {
   const userId = storedUser ? storedUser.user_id : null;
 
   const { showMessage } = useMessage();
+  const { checkGuestUser } = useApp();
   /////
   const handleSubmit = async () => {
     if (!rating) {
@@ -70,14 +72,17 @@ const OrderHistory = () => {
   };
   // Fetch orders only if userId is available
   useEffect(() => {
-    if (!userId) {
-      return; // No need to fetch data if user is not logged in
-    }
+    // if (!userId) {
+    //   return; // No need to fetch data if user is not logged in
+    // }
+    const { isGuest, guest_id } = checkGuestUser();
     const fetchOrdersData = async () => {
+      let url = `https://admin.pillsphere.com/wp-json/wp/v2/orders/${userId}`;
+      if (isGuest) {
+        url = `https://admin.pillsphere.com/wp-json/wp/v2/guest-orders/${guest_id}`;
+      }
       try {
-        const response = await fetch(
-          `https://admin.pillsphere.com/wp-json/wp/v2/orders/${userId}`
-        );
+        const response = await fetch(url);
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
@@ -93,34 +98,33 @@ const OrderHistory = () => {
     fetchOrdersData(); // Fetch the data
   }, [userId]); // The hook runs whenever `userId` changes
 
-  if (!userId) {
-    return (
-      <Container maxWidth="md" style={{ marginTop: "20px" }}>
-        <Typography
-          variant="h4"
-          style={{
-            color: "rgb(16, 66, 57)",
-            fontWeight: "bold",
-            marginBottom: "20px",
-          }}
-        >
-          Order History
-        </Typography>
-        <Typography variant="h6">
-          You need to log in to view your order history.
-        </Typography>
-        <Button
-          variant="contained"
-          color="primary"
-          style={{ marginTop: "10px" }}
-          href="/login" // Replace with your actual login URL
-        >
-          Click here to log in
-        </Button>
-      </Container>
-    );
-  }
-
+  // if (!userId) {
+  //   return (
+  //     <Container maxWidth="md" style={{ marginTop: "20px" }}>
+  //       <Typography
+  //         variant="h4"
+  //         style={{
+  //           color: "rgb(16, 66, 57)",
+  //           fontWeight: "bold",
+  //           marginBottom: "20px",
+  //         }}
+  //       >
+  //         Order History
+  //       </Typography>
+  //       <Typography variant="h6">
+  //         You need to log in to view your order history.
+  //       </Typography>
+  //       <Button
+  //         variant="contained"
+  //         color="primary"
+  //         style={{ marginTop: "10px" }}
+  //         href="/login" // Replace with your actual login URL
+  //       >
+  //         Click here to log in
+  //       </Button>
+  //     </Container>
+  //   );
+  // }
   if (loading) {
     return (
       <Box

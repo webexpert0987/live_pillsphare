@@ -290,7 +290,7 @@ const NestedList = ({ nestedListData, setOpenDrawer }) => {
               ))}
             </List>
           </Collapse>
-        </React.Fragment>                           
+        </React.Fragment>
       ))}
     </List>
   );
@@ -356,7 +356,7 @@ const MainHeader = () => {
   const handleCategoryClick = (categoryId) => {
     setSelectedCategory(selectedCategory === categoryId ? null : categoryId);
   };
-//  console.log('shopcategoriessss ', shopCategories);
+  //  console.log('shopcategoriessss ', shopCategories);
   useEffect(() => {
     if (width > 960) {
       setCurrentSize(width);
@@ -465,6 +465,13 @@ const MainHeader = () => {
     },
   ];
 
+  if (!userDetails) {
+    nestedListData.push({
+      title: "Order history",
+      link: "/order-history",
+    });
+  }
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       {/* Top announcement bar */}
@@ -524,6 +531,7 @@ const MainHeader = () => {
                       textTransform: "capitalize",
                       marginRight: { xs: "0px", sm: "5px" },
                       marginLeft: { xs: "0px", lg: "5px !important" },
+                      whiteSpace:"nowrap"
                     }}
                   >
                     <Link
@@ -531,8 +539,8 @@ const MainHeader = () => {
                         text === "Shop"
                           ? "/shop"
                           : text === "Online Clinic"
-                            ? "/online-clinic"
-                            : "/online-clinic/weight-loss"
+                          ? "/online-clinic"
+                          : "/online-clinic/weight-loss"
                       }
                       style={{ textDecoration: "none" }}
                     >
@@ -551,6 +559,22 @@ const MainHeader = () => {
                     <Text>Support</Text>
                   </Link>
                 </Button>
+                {!userDetails && (
+                  <Button sx={{ textTransform: "capitalize" }}>
+                    <Link
+                      to={"/order-history"}
+                      style={{ textDecoration: "none" }}
+                    >
+                      <Text
+                        sx={{
+                          whiteSpace: "nowrap",
+                        }}
+                      >
+                        Order history
+                      </Text>
+                    </Link>
+                  </Button>
+                )}
               </Stack>
             )}
             {/* Logo */}
