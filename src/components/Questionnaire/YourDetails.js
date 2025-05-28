@@ -17,7 +17,7 @@ import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import { Link, useLocation } from "react-router-dom";
 import { useApp } from "../../Context/AppContext";
 import VerificationDialog from "./VerificationDialog";
-import { registerUser, /*loginUser*/ } from "../../apis/apisList/userApi";
+import { registerUser /*loginUser*/ } from "../../apis/apisList/userApi";
 import { useMessage } from "../../Context/MessageContext";
 import AddressSearch from "../AddressSearch";
 
@@ -186,7 +186,7 @@ function YourDetailForm() {
         try {
           setLoading(true);
           const registerRes = await registerUser(userData);
-          if (registerRes.status === 200) {
+          if (registerRes.status === "200") {
             setLoading(false);
             showMessage("Otp sent to your email", "success");
             setIsVerify(true);
@@ -262,7 +262,7 @@ function YourDetailForm() {
       //   borderWidth: "0px !important",
       // },
       "& .MuiOutlinedInput-notchedOutline": {
-         border: "none",
+        border: "none",
         borderRadius: "50px",
         overflow: "hidden",
         borderWidth: "0px !important",
@@ -359,7 +359,7 @@ function YourDetailForm() {
             Already have an account?{" "}
             <Link
               to="/login"
-                state={{ redirectPath: currentPath }}
+              state={{ redirectPath: currentPath }}
               style={{ textDecoration: "none", color: "#FD6400" }}
             >
               Sign In
@@ -772,9 +772,9 @@ function YourDetailForm() {
               <path
                 d="M17 7L11 1M17 7L11 13M17 7L6.5 7M1 7L3.5 7"
                 stroke="white"
-               strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               />
             </svg>
           </Button>

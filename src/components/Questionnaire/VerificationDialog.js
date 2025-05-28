@@ -110,7 +110,7 @@ export default function VerificationDialog({ open, setOpen, formData }) {
         otp: OTP,
       });
 
-      if (verify.status === 200) {
+      if (verify.status === "200") {
         const response = await loginUser({
           email: formData.email,
           password: formData.password,
