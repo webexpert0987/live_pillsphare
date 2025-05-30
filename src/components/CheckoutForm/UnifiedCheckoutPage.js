@@ -333,6 +333,8 @@ export default function UnifiedCheckoutPage({ isFromQA = false }) {
           photoId:
             parsedData.answers?.photoId || parsedData.answers?.photoID || null,
           bodyPhoto: parsedData.answers?.bodyPhoto || null,
+          previousMedicationProof:
+            parsedData.answers?.previousMedicationProof || null,
           fullAddress: {
             ...addressData,
             first_name: values?.first_name || userInfo?.first_name,
