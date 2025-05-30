@@ -24,6 +24,7 @@ const steps = ["1", "2", "3", "4", "5"];
 
 function WeightLossQuestion() {
   const [activeStep, setActiveStep] = useState(0);
+  const [uploading, setUploading] = useState(false);
   const [answers, setAnswers] = useState({
     ageRange: "",
     isPregnantOrBreastfeeding: "",
@@ -68,6 +69,10 @@ function WeightLossQuestion() {
   };
 
   const handleNext = async () => {
+    if (uploading) {
+      showMessage("File uploading...Please wait", "info");
+      return;
+    }
     const qaData = JSON.parse(
       localStorage.getItem("questionnaire_info") || "{}"
     );
@@ -119,9 +124,12 @@ function WeightLossQuestion() {
       }
       if (answers.previousMedicationProof) {
         try {
+          setUploading(true);
           const url = await uploadFile(answers.previousMedicationProof);
           answers.previousMedicationProof = url;
+          setUploading(false);
         } catch (error) {
+          setUploading(false);
           showMessage("Error uploading medication proof documents", "error");
           return;
         }
@@ -152,11 +160,14 @@ function WeightLossQuestion() {
         return;
       }
       try {
+        setUploading(true);
         const photoID = await uploadFile(answers.photoID);
         answers.photoID = photoID;
         const bodyPhoto = await uploadFile(answers.bodyPhoto);
         answers.bodyPhoto = bodyPhoto;
+        setUploading(false);
       } catch (error) {
+        setUploading(false);
         showMessage("Error uploading medication proof documents", "error");
         return;
       }
@@ -269,8 +280,8 @@ function WeightLossQuestion() {
               </RadioGroup>
               {answers.isPregnantOrBreastfeeding === "Yes" && (
                 <Typography color="error" sx={{ mt: 1, fontSize: "14px" }}>
-                Can not proceed please see GP.
-              </Typography>
+                  Can not proceed please see GP.
+                </Typography>
               )}
             </FormControl>
 
@@ -322,7 +333,7 @@ function WeightLossQuestion() {
               {answers.usesBloodSugarMedications === "Yes" && (
                 <Typography color="error" sx={{ mt: 1, fontSize: "14px" }}>
                   Can not proceed please see GP.
-              </Typography>
+                </Typography>
               )}
             </FormControl>
 
@@ -347,7 +358,8 @@ function WeightLossQuestion() {
               </RadioGroup>
               {answers.hadAllergicReaction === "Yes" && (
                 <Typography color="error" sx={{ mt: 1, fontSize: "14px" }}>
-                Can not proceed please see GP.</Typography>
+                  Can not proceed please see GP.
+                </Typography>
               )}
             </FormControl>
 
@@ -372,8 +384,9 @@ function WeightLossQuestion() {
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
               {answers.hasFamilyHistoryThyroidCancer === "Yes" && (
-                 <Typography color="error" sx={{ mt: 1, fontSize: "14px" }}>
-                Can not proceed please see GP.</Typography>
+                <Typography color="error" sx={{ mt: 1, fontSize: "14px" }}>
+                  Can not proceed please see GP.
+                </Typography>
               )}
             </FormControl>
 
@@ -827,8 +840,9 @@ function WeightLossQuestion() {
                 sx={{
                   fontSize: { xs: "13px", sm: "15px", md: "16px" },
                 }}
+                disabled={uploading}
               >
-                Next
+                {uploading ? "Processing..." : "Next"}
               </Button>
             )}
           </Box>
