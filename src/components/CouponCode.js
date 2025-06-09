@@ -22,7 +22,7 @@ const CouponCode = ({
       const response = await usedCoupons({
         user_id: userDetails.user_id,
         email: userDetails.email,
-        coupon_code: couponCode,
+        coupon_code: couponCode.toLowerCase(),
       });
       return response;
     } catch (error) {
@@ -41,7 +41,9 @@ const CouponCode = ({
         return;
       }
       // checking the coupon is valid means it exists on backend side or not ...
-      const validCoupon = coupons.find((coupon) => coupon.code === couponCode);
+      const validCoupon = coupons.find(
+        (coupon) => coupon.code.toLowerCase() === couponCode.toLowerCase()
+      );
       console.log("valid coupon", validCoupon);
       if (!validCoupon) {
         setError("Invalid coupon code.");
@@ -52,7 +54,7 @@ const CouponCode = ({
       console.log("applied coupon", checkApplied);
       // check whether the coupon code is already used earlier...
       if (checkApplied?.orders_found) {
-        if (couponCode === "new2025") {
+        if (couponCode.toLowerCase() === "new2025") {
           setError("Coupon is not applicable as it has been used earlier.");
           return;
         }

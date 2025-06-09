@@ -106,9 +106,23 @@ export default function UnifiedCheckoutPage({ isFromQA = false }) {
   const [cardErrors, setCardErrors] = useState({});
   const [questionAnswersdata, setquestionAnswersdata] = useState(null);
   const ipAddress = useIpAddress();
+  const [isWeightLoss, setIsWeightLoss] = useState(true);
 
   const cart = isFromQA ? qaCart : cartData;
   const isGuestUser = localStorage.getItem("user") ? false : true;
+
+  useEffect(() => {
+    const data = localStorage.getItem("questionnaire_info");
+    if (data) {
+      const parseData = JSON.parse(data);
+      const { category } = parseData;
+      if (category && category === "weight-loss") {
+        setIsWeightLoss(true);
+      } else {
+        setIsWeightLoss(false);
+      }
+    }
+  }, [cart]);
 
   const calculateQATotal = () => {
     try {
@@ -627,6 +641,7 @@ export default function UnifiedCheckoutPage({ isFromQA = false }) {
                         <ShippingMethodSelector
                           onMethodSelect={handleShippingMethodSelect}
                           price={calculateTotal()}
+                          isWeightLoss={isWeightLoss}
                         />
                         <Typography variant="h6">
                           Final Total: £{calculateTotalWithShipping()}
