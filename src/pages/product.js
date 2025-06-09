@@ -235,6 +235,8 @@ const Product = () => {
       }
     }
   }, [product]);
+
+  console.log(">>>>>", product);
   // console.log("ALl Products ", product);
   // console.log('Estimated delivery content : ',product.estimated_delivery,product.name);
   return (
@@ -494,7 +496,9 @@ const Product = () => {
                     icon="material-symbols:circle"
                     width="20"
                     height="20"
-                    style={{ color: "#FF0000" }}
+                    style={{
+                      color: product.in_stock === "Yes" ? "green" : "#FF0000",
+                    }}
                   />
                 </Box>
                 <Box>
@@ -506,7 +510,7 @@ const Product = () => {
                       lineHeight: "1.5",
                     }}
                   >
-                    <strong>Out of Stock</strong>
+                    <strong>{product?.stock_status}</strong>
                   </Typography>
                 </Box>
               </Stack>
