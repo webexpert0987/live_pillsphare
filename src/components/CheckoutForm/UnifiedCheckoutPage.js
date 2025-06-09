@@ -112,8 +112,10 @@ export default function UnifiedCheckoutPage({ isFromQA = false }) {
   const isGuestUser = localStorage.getItem("user") ? false : true;
 
   useEffect(() => {
+    const isConsult =
+      cart?.[0].product_type === "Recommended Products Based on Consultation";
     const data = localStorage.getItem("questionnaire_info");
-    if (data) {
+    if (data && isConsult) {
       const parseData = JSON.parse(data);
       const { category } = parseData;
       if (category && category === "weight-loss") {
@@ -121,6 +123,8 @@ export default function UnifiedCheckoutPage({ isFromQA = false }) {
       } else {
         setIsWeightLoss(false);
       }
+    } else {
+      setIsWeightLoss(false);
     }
   }, [cart]);
 

@@ -236,7 +236,6 @@ const Product = () => {
     }
   }, [product]);
 
-  console.log(">>>>>", product);
   // console.log("ALl Products ", product);
   // console.log('Estimated delivery content : ',product.estimated_delivery,product.name);
   return (
