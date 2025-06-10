@@ -113,7 +113,7 @@ export default function UnifiedCheckoutPage({ isFromQA = false }) {
 
   useEffect(() => {
     const isConsult =
-      cart?.[0].product_type === "Recommended Products Based on Consultation";
+      cart?.[0]?.product_type === "Recommended Products Based on Consultation";
     const data = localStorage.getItem("questionnaire_info");
     if (data && isConsult) {
       const parseData = JSON.parse(data);
@@ -369,7 +369,7 @@ export default function UnifiedCheckoutPage({ isFromQA = false }) {
         },
       };
 
-      await createPayment(payload);
+      const response = await createPayment(payload);
       showMessage(
         "Thank you! Your payment was successful and your order is being processed.",
         "success"
@@ -381,7 +381,14 @@ export default function UnifiedCheckoutPage({ isFromQA = false }) {
       }
       cartEmpty();
       localStorage.removeItem("questionnaire_info");
-      navigate("/thankyou");
+      const transactionData = {
+        id: response?.data?.result?.transactionId || "",
+        amount: calculateTotalWithShipping() || 0,
+        currency: response?.data?.result.currency,
+      };
+      navigate(
+        `/thankyou?transactionId=${transactionData.id}&amount=${transactionData.amount}&currency=${transactionData.currency}`
+      );
     } catch (error) {
       const message =
         error?.response?.data?.message ||
