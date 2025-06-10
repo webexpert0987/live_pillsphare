@@ -292,9 +292,11 @@ export const AppProvider = ({ children }) => {
 
   const cartEmpty = async () => {
     setCart([]);
+    const user = localStorage.getItem("user");
+    const parsed = JSON.parse(user || "{}");
     const cartData = {
-      user_id: userDetails?.user_id,
-      token: userDetails?.token,
+      user_id: parsed?.user_id,
+      token: parsed?.token,
       cart_value: JSON.stringify({ cart: [], cartTotalAmount }),
     };
     try {

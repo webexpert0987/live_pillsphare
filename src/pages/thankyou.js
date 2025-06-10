@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useApp } from "../Context/AppContext";
 
 const ThankYouPage = () => {
   const navigate = useNavigate();
@@ -16,6 +17,7 @@ const ThankYouPage = () => {
   const [transactionId, setTransactionId] = useState("");
   const [amount, setAmount] = useState(0);
   const [currency, setCurrency] = useState("GBP");
+  const { setCart, cartEmpty, setQaCart } = useApp();
 
   useEffect(() => {
     // Parse query params from URL
@@ -23,6 +25,15 @@ const ThankYouPage = () => {
     const txnId = params.get("transactionId") || "";
     const amt = parseFloat(params.get("amount")) || 0;
     const curr = params.get("currency") || "GBP";
+    const isFromQA = params.get("isFromQA") || false;
+
+    if (isFromQA) {
+      setQaCart([]);
+    } else {
+      setCart([]);
+    }
+    cartEmpty();
+    localStorage.removeItem("questionnaire_info");
 
     setTransactionId(txnId);
     setAmount(amt);

@@ -18,6 +18,7 @@ import { orderEligibility } from "../../apis/apisList/orderApi";
 import useIpAddress from "../../hooks/ipAddressHook";
 import { questionsMap } from "../../lib/questions";
 import { createPayment } from "../../apis/apisList/opayoPaymentApi";
+import ThreeDSecureRedirect from "./ThreeDSecureRedirect";
 
 const Text = styled(Typography)(({ theme }) => ({
   color: "#333333",
@@ -107,6 +108,8 @@ export default function UnifiedCheckoutPage({ isFromQA = false }) {
   const [questionAnswersdata, setquestionAnswersdata] = useState(null);
   const ipAddress = useIpAddress();
   const [isWeightLoss, setIsWeightLoss] = useState(true);
+  const [threeDSData, setThreeDSData] = useState(null);
+  const [show3DSModal, setShow3DSModal] = useState(false);
 
   const cart = isFromQA ? qaCart : cartData;
   const isGuestUser = localStorage.getItem("user") ? false : true;
@@ -366,10 +369,24 @@ export default function UnifiedCheckoutPage({ isFromQA = false }) {
           },
           guest_id: guest_id,
           isGuestCheckout: localStorage.getItem("user") ? false : true,
+          isFromQA,
         },
       };
 
       const response = await createPayment(payload);
+
+      if (
+        response?.data.success === false &&
+        response?.data?.result?.status === "3DAuth"
+      ) {
+        setThreeDSData({
+          acsUrl: response?.data?.result.acsUrl,
+          cReq: response?.data?.result?.cReq,
+        });
+        setShow3DSModal(true);
+        setIsProcessing(false);
+        return;
+      }
       showMessage(
         "Thank you! Your payment was successful and your order is being processed.",
         "success"
@@ -855,6 +872,7 @@ export default function UnifiedCheckoutPage({ isFromQA = false }) {
           </Box>
         </Grid>
       </Grid>
+      {threeDSData && <ThreeDSecureRedirect threeDSData={threeDSData} />}
     </Box>
   );
 }
