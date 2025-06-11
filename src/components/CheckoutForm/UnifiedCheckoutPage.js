@@ -219,6 +219,14 @@ export default function UnifiedCheckoutPage({ isFromQA = false }) {
     }
   };
   const handleSubmit = async (values) => {
+    const isDisabled = true;
+    if (isDisabled) {
+      showMessage(
+        "Service Unavailable We're fixing an issue and can't process orders right now. Please check back soon.",
+        "error"
+      );
+      return;
+    }
     setIsProcessing(true);
     setCardErrors({});
     const cardErrs = cardValidation(cardValues);
