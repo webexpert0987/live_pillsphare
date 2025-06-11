@@ -19,14 +19,14 @@ function PrivacyPolicy() {
         <Container>
           <Typography variant="h1">Privacy Policy</Typography>
           <Box>
-            <Typography variant="h2">Introduction</Typography>
+            <Typography variant="h2">Introduction </Typography>
             <Typography className="privacyPara" variant="body1">
               At Pill Sphere LTD we are committed to safeguarding and preserving
               the privacy of our visitors. These 'key points' summarise some of
               the more important provisions in our privacy policy. We also
               recommend that you read the full privacy policy.
             </Typography>
-            <Typography variant="h2">Information we collect</Typography>
+            <Typography variant="h2">Information we collect </Typography>
             <Box component="ul" sx={{ ml: 3 }}>
               <Typography
                 component="li"
@@ -49,10 +49,10 @@ function PrivacyPolicy() {
               </Typography>
             </Box>
             <Typography variant="h2">
-              Use of your information We use Your Data :
+              Use of your information 
             </Typography>
-            <Typography variant="h2" className="privacyPara">
-              We use Your Data :
+            <Typography variant="h2">
+              We use Your Data 
             </Typography>
             <Box component="ul" sx={{ ml: 3 }}>
               <Typography
@@ -75,7 +75,7 @@ function PrivacyPolicy() {
               </Typography>
             </Box>
             <Box>
-              <Typography variant="h2">We share Your Data :</Typography>
+              <Typography variant="h2">We share Your Data </Typography>
               <Box sx={{ pl: 3 }}>
                 <Typography
                   component="li"
@@ -104,7 +104,7 @@ function PrivacyPolicy() {
             </Box>
             {/***********/}
             <Box>
-              <Typography variant="h2"> Patient confidentiality :</Typography>
+              <Typography variant="h2"> Patient confidentiality </Typography>
               <Typography className="privacyPara" variant="body1">
                 Some of the information we collect is medical data. This
                 information is always treated confidentially. We will never
@@ -115,7 +115,7 @@ function PrivacyPolicy() {
             </Box>
             {/* ////// */}
             <Typography variant="h2">Privacy Policy - The Details</Typography>
-            <Typography variant="h2">Introduction</Typography>
+            <Typography variant="h2">Introduction </Typography>
             {/****** li *****/}
             <Box>
               <Typography className="privacyPara" variant="body1">
@@ -131,56 +131,56 @@ function PrivacyPolicy() {
                 At Pill Sphere we are committed to safeguarding and preserving
                 the privacy of our customers and website visitors.
               </Typography>
-              <Typography component="privacyPara" variant="body1">
+              <Typography className="privacyPara" variant="body1">
                 This Privacy Policy ("Policy") forms part of our website terms
                 and conditions ("Website Terms"), as set out here. This Policy
                 explains what happens to any personal information that you
                 provide to us, or that we collect from you whilst you visit our
                 site.
               </Typography>
-              <Typography component="privacyPara" variant="body1">
+              <Typography className="privacyPara" variant="body1">
                 We do update this Policy from time to time so please do review
                 this Policy regularly.
               </Typography>
             </Box>
             {/***********/}
             <Typography variant="h2">
-              Important information about who we are
+              Important information about who we are 
             </Typography>
             <Box>
-              <Typography component="privacyPara" variant="body1">
+              <Typography className="privacyPara" variant="body1">
                 Pill Sphere is a controller and responsible for all personal
                 data it receives and holds. We have appointed a data protection
                 leader ("DPL") who is responsible for overseeing questions in
                 relation to this Policy. If you have any questions about this
                 Policy, including any requests to exercise your legal rights,
-                please contact the DPL using the details set out below :
+                please contact the DPL using the details set out below 
               </Typography>
-              <Typography variant="h2">Full name of legal entity :</Typography>
-              <Typography component="privacyPara" variant="body1">
+              <Typography variant="h2">Full name of legal entity </Typography>
+              <Typography className="privacyPara" variant="body1">
                 Pill Sphere LTD
               </Typography>
-              <Typography variant="h2">Email address:</Typography>
+              <Typography variant="h2">Email address </Typography>
               <a href="mailto:info@pillsphere.com">info@pillsphere.com</a>
-              <Typography variant="h2">Postal address :</Typography>
-              <Typography component="privacyPara" variant="body1">
+              <Typography variant="h2">Postal address </Typography>
+              <Typography className="privacyPara" variant="body1">
                 Unit 2A and 2P Building B Wembley Commercial Centre East Lane
                 Wembley HA9 7UR
               </Typography>
-              <Typography variant="h2">Telephone number :</Typography>
+              <Typography variant="h2">Telephone number </Typography>
               <Typography component="privacyPara" variant="body1">
                 <a href="tel:02039165372">02039165372</a>
               </Typography>
 
               <br />
-              <Typography component="privacyPara" variant="body1">
+              <Typography className="privacyPara" variant="body1">
                 If you have any queries, concerns or complaints about the use of
                 Your Data by us, please raise them with the DPL. If this does
                 not resolve the problem to your satisfaction, or, if you prefer
                 to raise the issue with somebody else, then please speak to
                 Dwayne D'Souza who will deal with your complaint.
               </Typography>
-              <Typography component="privacyPara" variant="body1">
+              <Typography className="privacyPara" variant="body1">
                 You have the right to make a complaint at any time to the
                 Information Commissioner's Office ("
                 <a
@@ -194,23 +194,23 @@ function PrivacyPolicy() {
                 would, however, appreciate the chance to deal with your concerns
                 before you approach the ICO so please contact us in the first
                 instance.
-              </Typography>
-              <Typography component="privacyPara" variant="body1">
+              
                 Changes to the Policy and your duty to inform us of the changes
-              </Typography>
-              <Typography component="privacyPara" variant="body1">
+       
+          
                 This version was last updated in May 2018.
-              </Typography>
-              <Typography component="privacyPara" variant="body1">
+              
+              {/* <Typography component="privacyPara" variant="body1"> */}
                 It is important that the personal data we hold about you is
                 accurate and current. Please keep us informed if Your Data
                 changes during your relationship with us.
+              {/* </Typography> */}
               </Typography>
             </Box>
             {/***********/}
-            <Typography variant="h2">Information We Collect</Typography>
+            <Typography variant="h2">Information We Collect </Typography>
             <Box>
-              <Typography component="privacyPara" variant="body1">
+              <Typography className="privacyPara" variant="body1">
                 If you register with us, we will collect personal data or
                 personal information from you. Personal data or personal
                 information means any information about an individual from which
@@ -220,7 +220,7 @@ function PrivacyPolicy() {
             </Box>
             <Typography variant="h2">
               We may collect, use, store and transfer different kinds of data
-              about you which we have categorised as follows :
+              about you which we have categorised as follows 
             </Typography>
             {/****** li *****/}
             <Box component="ul" sx={{ ml: 3 }}>
@@ -254,7 +254,7 @@ function PrivacyPolicy() {
               </Typography>
             </Box>
             <Box>
-              <Typography component="privacyPara" variant="body1">
+              <Typography className="privacyPara" variant="body1">
                 We also collect and use Aggregated Data such as statistical or
                 demographic data for internal purposes. Aggregated Data may be
                 derived from Your Data but is not personal data as it does not
@@ -269,7 +269,7 @@ function PrivacyPolicy() {
               </Typography>
             </Box>
             {/***********/}
-            <Typography variant="h2">How is Your Data collected?</Typography>
+            <Typography variant="h2">How is Your Data collected </Typography>
             {/****** li *****/}
             <Box>
               <Typography className="privacyPara" variant="body1">
@@ -294,34 +294,34 @@ function PrivacyPolicy() {
               Direct interactions You may give us your Identity, Contact,
               Medical and Financial Data by filling in forms, or by
               corresponding with us by post, phone, email or otherwise. This
-              includes personal data you provide when you :
+              includes personal data you provide when you 
             </Typography>
             {/****** li *****/}
             <Box component="ul" sx={{ ml: 3 }}>
               <Typography component="li" variant="body1">
-                make an online enquiry;
+                make an online enquiry.
               </Typography>
               <Typography component="li" variant="body1">
                 completing forms and medical questionnaires on our website. This
                 includes information provided at the time of registering to use
                 our site, subscribing to our service, consultations for
-                treatments, posting material or requesting further services;
+                treatments, posting material or requesting further services.
               </Typography>
               <Typography component="li" variant="body1">
-                make an online enquiry;
+                make an online enquiry.
               </Typography>
               <Typography component="li" variant="body1">
-                subscribe to our services or publications;
+                subscribe to our services or publications.
               </Typography>
               <Typography component="li" variant="body1">
-                Request marketing material to be sent to you;
+                Request marketing material to be sent to you.
               </Typography>
               <Typography component="li" variant="body1">
                 provide us with feedback.
               </Typography>
             </Box>
             {/***********/}
-            <Typography variant="h2">Confidentiality</Typography>
+            <Typography variant="h2">Confidentiality </Typography>
             {/****** li *****/}
             <Box>
               <Typography className="privacyPara" variant="body1">
@@ -339,7 +339,7 @@ function PrivacyPolicy() {
               </Typography>
             </Box>
             {/* //////// */}
-            <Typography variant="h2">Use of Cookies</Typography>
+            <Typography variant="h2">Use of Cookies </Typography>
             <Box>
               <Typography className="privacyPara" variant="body1">
                 You can set your browser to refuse all or some browser cookies,
@@ -351,10 +351,10 @@ function PrivacyPolicy() {
               </Typography>
             </Box>
             {/* //////// */}
-            <Typography variant="h2">Use of Your Information</Typography>
+            <Typography variant="h2">Use of Your Information </Typography>
             <Typography variant="h2">
               We will only use the information that we collect from you as
-              follows:
+              follows 
             </Typography>
             {/****** li *****/}
             <Box component="ul" sx={{ ml: 3 }}>
@@ -381,7 +381,7 @@ function PrivacyPolicy() {
             </Box>
             {/***********/}
             {/* //////// */}
-            <Typography variant="h2">Marketing purposes</Typography>
+            <Typography variant="h2">Marketing purposes </Typography>
             <Typography className="privacyPara" variant="body1">
               We will only contact you for marketing purposes where you have
               given us your express consent to contact you for this purpose.
@@ -414,7 +414,7 @@ function PrivacyPolicy() {
             {/* .............. */}
 
             <Typography variant="h2">
-              Use of your Medical Data for marketing purposes
+              Use of your Medical Data for marketing purposes 
             </Typography>
             {/****** li *****/}
             <Box>
@@ -439,7 +439,7 @@ function PrivacyPolicy() {
             </Box>
             {/* .............. */}
 
-            <Typography variant="h2">Change of purpose</Typography>
+            <Typography variant="h2">Change of purpose </Typography>
             {/****** li *****/}
             <Box>
               <Typography className="privacyPara" variant="body1">
@@ -462,7 +462,7 @@ function PrivacyPolicy() {
             </Box>
             {/* .............. */}
 
-            <Typography variant="h2">Storing Your Personal Data</Typography>
+            <Typography variant="h2">Storing Your Personal Data </Typography>
             {/****** li *****/}
             <Box>
               <Typography className="privacyPara" variant="body1">
@@ -473,7 +473,7 @@ function PrivacyPolicy() {
                 other
               </Typography>
               <Typography className="privacyPara" variant="body1">
-                third parties who have a business need to know. They will only
+                Third parties who have a business need to know. They will only
                 process Your Data on our instructions and they are subject to a
                 duty of confidentiality.
               </Typography>{" "}
@@ -493,7 +493,7 @@ function PrivacyPolicy() {
 
             {/* .............. */}
 
-            <Typography variant="h2">Data retention</Typography>
+            <Typography variant="h2">Data retention </Typography>
             <Box>
               <Typography className="privacyPara" variant="body1">
                 We will only retain Your Data for as long as necessary to fulfil
@@ -531,10 +531,10 @@ function PrivacyPolicy() {
             </Box>
 
             {/* //////// */}
-            <Typography variant="h2">Disclosing Your Data</Typography>
+            <Typography variant="h2">Disclosing Your Data </Typography>
             <Typography variant="h2">
               We may disclose Your Data to third parties, in accordance with
-              this Policy, in the following circumstances :
+              this Policy, in the following circumstances 
             </Typography>
             {/****** li *****/}
             <Box component="ul" sx={{ ml: 3 }}>
@@ -633,10 +633,9 @@ function PrivacyPolicy() {
               </Typography>
             </Box>
             {/* /// */}
-            <Typography variant="h2">International transfers</Typography>
+            <Typography variant="h2">International Transfers </Typography>
             {/****** li *****/}
-            <Box component="ul" sx={{ ml: 3 }}>
-              <Typography component="privacyPara" variant="body1">
+              <Typography className="privacyPara" variant="body1">
                 In addition to the disclosures set out in "Disclosing Your Data"
                 above, some of our third parties are based outside the United
                 Kingdom or European Union so their processing of Your Data will
@@ -645,6 +644,8 @@ function PrivacyPolicy() {
                 or European Union, we ensure a similar degree of protection is
                 afforded to it by ensuring at least one of the following
                 safeguards is implemented :
+              </Typography>
+                <Box component="ul" sx={{ ml: 3 }}>
                 <Typography component="li" variant="body1">
                   We will only transfer Your Data to countries that have been
                   deemed to provide an adequate level of protection for personal
@@ -656,7 +657,7 @@ function PrivacyPolicy() {
                   Commission which give personal data the same protection it has
                   in Europe.
                 </Typography>
-              </Typography>
+            </Box>
               <Typography component="privacyPara" variant="body1">
                 Please email{" "}
                 <a href="mailto:info@pillsphere.com">info@pillsphere.com</a>. if
@@ -664,10 +665,9 @@ function PrivacyPolicy() {
                 us when transferring Your Data outside the United Kingdom or
                 European Union.
               </Typography>
-            </Box>
             {/* .............. */}
 
-            <Typography variant="h2">Third Party Links</Typography>
+            <Typography variant="h2">Third Party Links </Typography>
             <Box>
               <Typography className="privacyPara" variant="body1">
                 On occasion we include links to third-party websites, plug-ins
@@ -679,7 +679,7 @@ function PrivacyPolicy() {
                 read the privacy policy of every website you visit.
               </Typography>
             </Box>
-            <Typography variant="h2">Your legal rights</Typography>
+            <Typography variant="h2">Your legal rights </Typography>
             <Box>
               <Typography className="privacyPara" variant="body1">
                 In certain circumstances, you have the following rights under
@@ -724,25 +724,25 @@ function PrivacyPolicy() {
             </Box>
             {/* /////// */}
             <Typography variant="h2">
-              Request restriction of processing of Your Data . This enables you
+              Request restriction of processing of Your Data, This enables you
               to ask us to suspend the processing of Your Data in the following
-              scenarios :
+              scenarios 
             </Typography>
             {/****** li *****/}
             <Box>
-              <Typography component="privacyPara" variant="body1">
-                if you want us to establish the data's accuracy;
+              <Typography className="privacyPara" variant="body1">
+                If you want us to establish the data's accuracy,
               </Typography>
-              <Typography component="privacyPara" variant="body1">
+              <Typography className="privacyPara" variant="body1">
                 where our use of Your Data is unlawful, but you do not want us
-                to erase it;
+                to erase it,
               </Typography>
-              <Typography component="privacyPara" variant="body1">
+              <Typography className="privacyPara" variant="body1">
                 where you need us to hold Your Data even if we no longer require
-                it as you need it to establish, exercise or defend legal claims;
+                it as you need it to establish, exercise or defend legal claims,
                 or
               </Typography>
-              <Typography component="privacyPara" variant="body1">
+              <Typography className="privacyPara" variant="body1">
                 you have objected to our use of Your Data, but we need to verify
                 whether we have overriding legitimate and/or legal grounds to
                 use it.
@@ -750,7 +750,7 @@ function PrivacyPolicy() {
             </Box>
             {/* ///// */}
             <Box>
-              <Typography component="privacyPara" variant="body1">
+              <Typography className="privacyPara" variant="body1">
                 Request the transfer of Your Data to you or to a third party. We
                 will provide to you, or a third party you have chosen, Your Data
                 in a structured, commonly used, machine- readable format. Note
@@ -758,7 +758,7 @@ function PrivacyPolicy() {
                 initially provided consent for us to use or where we used the
                 information to perform a contract with you.
               </Typography>
-              <Typography component="privacyPara" variant="body1">
+              <Typography className="privacyPara" variant="body1">
                 Withdraw consent at any time where we are relying on consent to
                 process Your Data. However, this will not affect the lawfulness
                 of any processing carried out before you withdraw your consent.
@@ -768,7 +768,7 @@ function PrivacyPolicy() {
                 that we may not be able to comply with this request where we
                 have a legal obligation to keep Your Data.
               </Typography>
-              <Typography component="privacyPara" variant="body1">
+              <Typography className="privacyPara" variant="body1">
                 If you wish to exercise any of the rights set out above, please
                 email{" "}
                 <a href="mailto:info@pillsphere.com">info@pillsphere.com</a>. or
@@ -776,9 +776,9 @@ function PrivacyPolicy() {
               </Typography>
             </Box>
             {/* //////// */}
-            <Typography variant="h2">Data subject access request</Typography>
+            <Typography variant="h2">Data subject access request </Typography>
             <Box>
-              <Typography component="privacyPara" variant="body1">
+              <Typography className="privacyPara" variant="body1">
                 You will not have to pay a fee to access Your Data (or to
                 exercise any of the other rights set out above). However, we may
                 charge a reasonable fee if your request is clearly unfounded,
@@ -787,9 +787,9 @@ function PrivacyPolicy() {
               </Typography>
             </Box>
             {/* //////// */}
-            <Typography variant="h2">What we may need from you</Typography>
+            <Typography variant="h2">What we may need from you :</Typography>
             <Box>
-              <Typography component="privacyPara" variant="body1">
+              <Typography className="privacyPara" variant="body1">
                 We may need to request specific information from you to help us
                 confirm your identity and ensure your right to access Your Data
                 (or to exercise any of your other rights). This is a security
@@ -800,9 +800,9 @@ function PrivacyPolicy() {
               </Typography>
             </Box>
             {/* //////// */}
-            <Typography variant="h2">Time limit to respond</Typography>
+            <Typography variant="h2">Time limit to respond </Typography>
             <Box>
-              <Typography component="privacyPara" variant="body1">
+              <Typography className="privacyPara" variant="body1">
                 We try to respond to all legitimate requests within one month.
                 Occasionally it may take us longer than a month if your request
                 is particularly complex or you have made several requests. In
@@ -810,9 +810,9 @@ function PrivacyPolicy() {
               </Typography>
             </Box>
             {/* //////// */}
-            <Typography variant="h2">Contacting Us</Typography>
+            <Typography variant="h2">Contacting Us </Typography>
             <Box>
-              <Typography component="privacyPara" variant="body1">
+              <Typography className="privacyPara" variant="body1">
                 Please do not hesitate to contact us regarding any matter
                 relating to this Policy at{" "}
                 <a href="mailto:info@pillsphere.com">info@pillsphere.com</a>.

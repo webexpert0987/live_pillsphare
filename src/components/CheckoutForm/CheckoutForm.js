@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import {useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Grid from "@mui/material/Grid2";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -476,7 +476,7 @@ export default function Checkout() {
     // console.log('price1', subtotal);
     return (parseFloat(subtotal) + shippingCost).toFixed(2);
   };
-   // console.log('price', shippingCost);
+  // console.log('price', shippingCost);
   if (!userDetails) {
     return <>Loading...</>;
   }
@@ -954,10 +954,13 @@ export default function Checkout() {
                       <Box
                         display={"flex"}
                         justifyContent={"space-between"}
-                        px={2}
+                        px={1}
+                        sx={{
+                          width: "95%"
+                        }}
                       >
                         <Typography variant="body3" marginTop={1}>
-                          Subtotal:
+                          Total Amoutnt :
                         </Typography>
                         <Typography variant="body3" marginTop={1}>
                           £{calculateTotal()}

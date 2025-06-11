@@ -715,7 +715,7 @@ export default function UnifiedCheckoutPage({ isFromQA = false }) {
               Order Summary
             </Typography>
             <Box sx={{ width: "100%" }} noValidate display={"flex"}>
-              <Box>
+              <Box sx={{ width: "100%" }}>
                 {cart.length > 0 ? (
                   <>
                     <Stack
@@ -726,11 +726,14 @@ export default function UnifiedCheckoutPage({ isFromQA = false }) {
                         <>
                           <Box
                             key={item.id}
-                            sx={{ display: "flex" }}
+                            sx={{
+                              display: "flex",
+                              justifyContent: "space-between",
+                            }}
                             gap={1}
                             alignItems={"center"}
                           >
-                            <Box>
+                            <Box sx={{ display: "flex", width: "80%" }}>
                               <img
                                 src={item.image}
                                 alt={item.name}
@@ -738,12 +741,21 @@ export default function UnifiedCheckoutPage({ isFromQA = false }) {
                               />
                             </Box>
                             <Box
-                              width={"100%"}
+                              width={"20%"}
+                              maxWidth={"100%"}
                               display={"flex"}
                               justifyContent={"space-between"}
                               gap={"10px"}
+                              sx={{ display: "flex", flexDirection: "column" }}
                             >
-                              <Box width={"100%"}>
+                              <Box
+                                width={"100%"}
+                                maxWidth={"100%"}
+                                sx={{
+                                  display: "flex",
+                                  flexDirection: "column",
+                                }}
+                              >
                                 <Text> {item.name}</Text>
                                 {item.variations &&
                                   item.variations.map((variant) => {
@@ -796,14 +808,41 @@ export default function UnifiedCheckoutPage({ isFromQA = false }) {
                       ))}
                     </Stack>
                     <Box
-                      display={"flex"}
-                      justifyContent={"space-between"}
+                      display="flex"
+                      justifyContent="space-between"
+                      alignItems="center"
                       px={2}
+                      sx={{
+                        width: "100%",
+                        marginY: "10px",
+                        flexWrap: "wrap",
+                        wordBreak: "break-word",
+                        overflowWrap: "break-word",
+                        minWidth: 0,
+                        // padding: 0,
+                        // margin: 0,
+                      }}
                     >
-                      <Typography variant="body3" marginTop={1}>
+                      <Typography
+                        variant="body3"
+                        marginTop={1}
+                        sx={{
+                          whiteSpace: "nowrap",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                        }}
+                      >
                         Subtotal:
                       </Typography>
-                      <Typography variant="body3" marginTop={1}>
+                      <Typography
+                        variant="body3"
+                        marginTop={1}
+                        sx={{
+                          whiteSpace: "nowrap",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                        }}
+                      >
                         £{calculateTotal()}
                       </Typography>
                     </Box>
@@ -840,10 +879,26 @@ export default function UnifiedCheckoutPage({ isFromQA = false }) {
                         justifyContent={"space-between"}
                         px={2}
                       >
-                        <Typography variant="body3" marginTop={1}>
+                        <Typography
+                          variant="body3"
+                          marginTop={1}
+                          sx={{
+                            whiteSpace: "nowrap",
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                          }}
+                        >
                           Shipping:
                         </Typography>
-                        <Typography variant="body3" marginTop={1}>
+                        <Typography
+                          variant="body3"
+                          marginTop={1}
+                          sx={{
+                            whiteSpace: "nowrap",
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                          }}
+                        >
                           £{shippingCost.toFixed(2)}
                         </Typography>
                       </Box>
@@ -851,10 +906,26 @@ export default function UnifiedCheckoutPage({ isFromQA = false }) {
                     <Box
                       display={"flex"}
                       justifyContent={"space-between"}
+                      sx={{
+                        width: "100%",
+                        marginY: "10px",
+                        flexWrap: "wrap",
+                        wordBreak: "break-word",
+                        overflowWrap: "break-word",
+                        minWidth: 0,
+                      }}
                       px={2}
                       mt={2}
                     >
-                      <Typography variant="h6" fontWeight="bold">
+                      <Typography
+                        variant="h6"
+                        fontWeight="bold"
+                        sx={{
+                          whiteSpace: "nowrap",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                        }}
+                      >
                         Total:
                       </Typography>
                       <Typography variant="h6" fontWeight="bold">

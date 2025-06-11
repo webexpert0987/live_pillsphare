@@ -87,6 +87,7 @@ const ExplainHowItWorks = () => {
         >
           {steps.map((step, index) => (
             <Grid
+              key={index}
               sx={{
                 width: { xs: "100%", sm: "33.33%", md: "33.33%" },
               }}
@@ -133,7 +134,6 @@ const ExplainHowItWorks = () => {
             </Grid>
           ))}
         </Grid>
-
         <Box
           sx={{
             marginTop: { xs: "30px", sm: "40px", md: "60px" },
@@ -147,16 +147,18 @@ const ExplainHowItWorks = () => {
               fontSize: { xs: "14px", sm: "17px", md: "18px" },
               fontWeight: "600",
               lineHeight: "1.4",
-              backgroundColor: "none",
+              // backgroundColor: "none",
+              backgroundColor: "#FD6400",
               color: "#FFF",
               borderRadius: "50px",
-              border: "2px solid #FFFFFF",
+              // border: "2px solid #FFFFFF",
+              border: "none",
               textTransform: "inherit",
               padding: "12px 25px",
               boxShadow: "none",
             }}
           >
-            Start Your Consultation Today 
+            Start Your Consultation Today
             <svg
               style={{ marginLeft: "10px" }}
               width="18"
@@ -168,9 +170,9 @@ const ExplainHowItWorks = () => {
               <path
                 d="M17 7L11 1M17 7L11 13M17 7L6.5 7M1 7L3.5 7"
                 stroke="white"
-              strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               />
             </svg>
           </Button>

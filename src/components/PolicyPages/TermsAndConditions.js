@@ -1,7 +1,7 @@
 import React from "react";
 import TrustBar from "../../pages/Trustbar";
 import { Box, Container, Typography } from "@mui/material";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 
 function TermsAndConditions() {
   return (
@@ -73,7 +73,7 @@ function TermsAndConditions() {
             {/***********/}
             <Typography variant="h2">Prohibited Use</Typography>
             <Typography className="privacyPara" variant="body1">
-              You may not use the Website for any of the following purposes:
+              You may not use the Website for any of the following purposes :
             </Typography>
             <Box sx={{ pl: 3 }}>
               <Box component="ol" sx={{ pl: 3, listStyleType: "lower-alpha" }}>
@@ -170,7 +170,7 @@ function TermsAndConditions() {
                 <Typography component="li" variant="body1">
                   Use of the Website is also governed by our Privacy Policy,
                   which is incorporated into these terms and conditions by this
-                  reference. To view the Privacy Policy, please visit:{" "}
+                  reference. To view the Privacy Policy,  <br/>please visit:{" "}
                   <a
                     href="/privacy-policy"
                     style={{ textDecoration: "none", color: "inherit" }}
@@ -230,7 +230,7 @@ function TermsAndConditions() {
             <Box component="ul" sx={{ pl: 3 }}>
               <Box sx={{ pl: 3 }}>
                 <Typography component="li" variant="body1">
-                  <strong>Nothing in these terms and conditions will:</strong>
+                  <strong>Nothing in these terms and conditions will :</strong>
                 </Typography>
               </Box>
             </Box>
@@ -261,7 +261,7 @@ function TermsAndConditions() {
                 <Typography component="li" variant="body1">
                   <strong>
                     To the maximum extent permitted by law, we accept no
-                    liability for any of the following:
+                    liability for any of the following :
                   </strong>
                 </Typography>
               </Box>
@@ -345,7 +345,7 @@ function TermsAndConditions() {
                 Wembley Commercial Centre, Wembley, London, HA9 7UR
               </Typography>
               <Typography className="privacyPara" variant="body1">
-                <strong>Email:</strong>
+                <strong>Email: </strong>
                 <a
                   href="mailto:enquiries@pillsphere.com"
                   style={{ textDecoration: "none", color: "inherit" }}
