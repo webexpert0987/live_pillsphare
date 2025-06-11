@@ -728,12 +728,17 @@ export default function UnifiedCheckoutPage({ isFromQA = false }) {
                             key={item.id}
                             sx={{
                               display: "flex",
+                              flexDirection: {
+                                xs: "column",
+                                sm: "row",
+                                xs: "column",
+                              },
                               justifyContent: "space-between",
                             }}
                             gap={1}
                             alignItems={"center"}
                           >
-                            <Box sx={{ display: "flex", width: "80%" }}>
+                            <Box sx={{ display: "flex" }}>
                               <img
                                 src={item.image}
                                 alt={item.name}
@@ -741,7 +746,7 @@ export default function UnifiedCheckoutPage({ isFromQA = false }) {
                               />
                             </Box>
                             <Box
-                              width={"20%"}
+                              width={"50%"}
                               maxWidth={"100%"}
                               display={"flex"}
                               justifyContent={"space-between"}
@@ -754,6 +759,8 @@ export default function UnifiedCheckoutPage({ isFromQA = false }) {
                                 sx={{
                                   display: "flex",
                                   flexDirection: "column",
+                                  justifyContent: "center",
+                                  alignItems: "center",
                                 }}
                               >
                                 <Text> {item.name}</Text>
@@ -792,7 +799,13 @@ export default function UnifiedCheckoutPage({ isFromQA = false }) {
                                   </Typography>
                                 </Box>
                               </Box>
-                              <Box>
+                              <Box
+                                sx={{
+                                  display: "flex",
+                                  justifyContent: "center",
+                                  alignItems: "center",
+                                }}
+                              >
                                 <Typography variant="h4" fontWeight={600}>
                                   £
                                   {item?.selectedVariantPrice ||
