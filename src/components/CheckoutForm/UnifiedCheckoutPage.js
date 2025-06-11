@@ -375,17 +375,23 @@ export default function UnifiedCheckoutPage({ isFromQA = false }) {
 
       const response = await createPayment(payload);
 
-      if (
-        response?.data.success === false &&
-        response?.data?.result?.status === "3DAuth"
-      ) {
-        setThreeDSData({
-          acsUrl: response?.data?.result.acsUrl,
-          cReq: response?.data?.result?.cReq,
-        });
-        setShow3DSModal(true);
-        setIsProcessing(false);
-        return;
+      if (response?.data.success === false) {
+        if (response?.data?.result?.status === "3DAuth") {
+          setThreeDSData({
+            acsUrl: response?.data?.result.acsUrl,
+            cReq: response?.data?.result?.cReq,
+          });
+          setShow3DSModal(true);
+          setIsProcessing(false);
+          return;
+        } else {
+          const message =
+            response?.data?.result?.statusDetail ||
+            "There was a problem with the payment process.";
+          showMessage(message, "error");
+          setIsProcessing(false);
+          return;
+        }
       }
       showMessage(
         "Thank you! Your payment was successful and your order is being processed.",
