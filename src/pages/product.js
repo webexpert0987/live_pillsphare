@@ -34,6 +34,7 @@ import {
   DialogActions,
 } from "@mui/material";
 import { TextField } from "@mui/material";
+import ProductQuestionForm from "../components/ProductQuestionForm";
 
 const Product = () => {
   const { slug } = useParams(); //getting the slug value from url here
@@ -64,6 +65,7 @@ const Product = () => {
   // console.log('slug',slug);
   const [consultationLink, setConsultationLink] = useState("");
   const navigate = useNavigate();
+  const [isQaProduct, setIsQaProduct] = useState(false);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -71,6 +73,9 @@ const Product = () => {
         const response = await getProductBySlug(slug);
         setProduct(response.product);
         if (response.product?.id) {
+          setIsQaProduct(
+            response.product.product_type === "Products with Questions"
+          );
           fetchRelatedProducts(response.product.id);
         }
       } catch (error) {
@@ -135,6 +140,7 @@ const Product = () => {
     } else */ if (product.product_type === "Products with Questions") {
       setCurrentProduct({ product, selectedVariant });
       setIsQuestionModalOpen(true);
+      handleQuestionSubmit();
     } else {
       product.quantity = quantity;
       addToCart(product, selectedVariant);
@@ -402,6 +408,13 @@ const Product = () => {
               )}
 
               <Box>
+                {isQaProduct && (
+                  <ProductQuestionForm
+                    setQuestionAnswers={setQuestionAnswers}
+                    questionAnswers={questionAnswers}
+                    fieldErrors={fieldErrors}
+                  />
+                )}
                 {/* Add to Cart Button */}
                 <Button
                   variant="contained"
@@ -633,7 +646,7 @@ const Product = () => {
           <RelatedProduct relatedProducts={relatedProducts} />
         </Box>
       )}
-      {isQuestionModalOpen && (
+      {/* {isQuestionModalOpen && (
         <Dialog
           open={isQuestionModalOpen}
           onClose={() => setIsQuestionModalOpen(false)}
@@ -722,7 +735,7 @@ const Product = () => {
             </Button>
           </DialogActions>
         </Dialog>
-      )}
+      )} */}
 
       <LoginRequiredPopup
         isOpen={isModalOpen}

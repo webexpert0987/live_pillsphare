@@ -43,12 +43,15 @@ const ThankYouPage = () => {
 
     // Send conversion event to Google Analytics
     if (window.gtag) {
-      window.gtag("event", "conversion", {
-        send_to: "AW-17019417995/vXFyCKDt7NMaEIvrvrM_",
-        value: amt,
-        currency: curr,
-        transaction_id: txnId,
-      });
+      if (process.env.REACT_TEST_MODE == "0") {
+        console.log(">>>>>", "in gtag");
+        window.gtag("event", "conversion", {
+          send_to: "AW-17019417995/vXFyCKDt7NMaEIvrvrM_",
+          value: amt,
+          currency: curr,
+          transaction_id: txnId,
+        });
+      }
     }
   }, [location.search]);
 
