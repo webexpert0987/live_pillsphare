@@ -1,39 +1,86 @@
 import React, { useEffect } from "react";
+import { verifyPayment } from "../../apis/apisList/opayoPaymentApi";
 
-const ThreeDSecureRedirect = ({ threeDSData }) => {
-  const { acsUrl, cReq } = threeDSData || {};
+const ThreeDSecureHandler = ({ threeDSData, onComplete }) => {
+  const { jwt, url, verifyUrl } = threeDSData || {};
 
-  useEffect(() => {
-    // Only proceed if acsUrl and cReq are available
-    if (!acsUrl || !cReq) {
-      console.warn("Missing acsUrl or cReq for 3D Secure redirect.");
+  const handleVerify = async () => {
+    try {
+      const res = await verifyPayment({ url: verifyUrl });
+      const data = res.data;
+
+      if (data?.outcome === "3dsChallenged" && data?.challenge) {
+        // Redirect to challenge
+        const form = document.createElement("form");
+        form.method = "POST";
+        form.action = data.challenge.url;
+        form.target = "_self";
+
+        const input = document.createElement("input");
+        input.type = "hidden";
+        input.name = "JWT";
+        input.value = data.challenge.jwt;
+
+        form.appendChild(input);
+        document.body.appendChild(form);
+        form.submit();
+      } else {
+        // Final outcome - invoke callback
+        onComplete(data);
+      }
+    } catch (error) {
+      console.error("❌ verifyPayment failed", error);
+      onComplete(null);
+    }
+  };
+
+  const startDeviceDataCollection = async () => {
+    if (!jwt || !url) {
+      console.warn("Missing JWT or URL for device data collection");
       return;
     }
 
-    // Create a dynamic form
+    // 1. Submit DDC JWT to Cardinal iframe
     const form = document.createElement("form");
     form.method = "POST";
-    form.action = acsUrl;
+    form.action = url;
+    form.target = "threeDSIframe";
 
-    // Create and append the hidden input for 'creq'
     const input = document.createElement("input");
     input.type = "hidden";
-    input.name = "creq";
-    input.value = cReq;
+    input.name = "JWT";
+    input.value = jwt;
 
     form.appendChild(input);
-
-    // Append the form to the document body and submit it
-    // This will cause a full page redirect
     document.body.appendChild(form);
     form.submit();
 
-    // Clean up the form after submission (it's no longer needed)
-    document.body.removeChild(form);
-  }, [acsUrl, cReq]); // Re-run effect if acsUrl or cReq changes
+    // 2. Wait a few seconds and call supply3dsDeviceData
+    setTimeout(async () => {
+      try {
+        // const supplyRes = await supply3dsDeviceData(); // your wrapper for POST to `supply3dsDeviceData.href`
+        // console.log("✅ supply3dsDeviceData response:", supplyRes.data);
+        handleVerify();
+      } catch (err) {
+        console.error("❌ supply3dsDeviceData failed", err);
+        onComplete(null);
+      }
 
-  // This component doesn't render anything as it causes a redirect
-  return null;
+      document.body.removeChild(form);
+    }, 4000); // Wait ~4s to ensure iframe loads and runs
+  };
+
+  useEffect(() => {
+    startDeviceDataCollection();
+  }, [jwt, url]);
+
+  return (
+    <iframe
+      name="threeDSIframe"
+      style={{ display: "none" }}
+      title="3DS DDC Hidden Frame"
+    />
+  );
 };
 
-export default ThreeDSecureRedirect;
+export default ThreeDSecureHandler;

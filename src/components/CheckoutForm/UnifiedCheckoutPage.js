@@ -218,8 +218,9 @@ export default function UnifiedCheckoutPage({ isFromQA = false }) {
       return Object.keys(answersData).length ? answersData : null;
     }
   };
+
   const handleSubmit = async (values) => {
-    const isDisabled = true;
+    const isDisabled = false;
     if (isDisabled) {
       showMessage(
         "Service Unavailable We're fixing an issue and can't process orders right now. Please check back soon.",
@@ -384,13 +385,15 @@ export default function UnifiedCheckoutPage({ isFromQA = false }) {
       const response = await createPayment(payload);
 
       if (response?.data.success === false) {
-        if (response?.data?.result?.status === "3DAuth") {
+        if (response?.data?.result?.outcome === "3dsDeviceDataRequired") {
           setThreeDSData({
-            acsUrl: response?.data?.result.acsUrl,
-            cReq: response?.data?.result?.cReq,
+            jwt: response?.data?.result.deviceDataCollection?.jwt,
+            url: response?.data?.result?.deviceDataCollection?.url,
+            verifyUrl:
+              response?.data?.result?._actions?.supply3dsDeviceData?.href,
           });
           setShow3DSModal(true);
-          setIsProcessing(false);
+          // setIsProcessing(false);
           return;
         } else {
           const message =
@@ -970,7 +973,12 @@ export default function UnifiedCheckoutPage({ isFromQA = false }) {
           </Box>
         </Grid>
       </Grid>
-      {threeDSData && <ThreeDSecureRedirect threeDSData={threeDSData} />}
+      {threeDSData && (
+        <ThreeDSecureRedirect
+          threeDSData={threeDSData}
+          onComplete={(data) => console.log("Completed", data)}
+        />
+      )}
     </Box>
   );
 }

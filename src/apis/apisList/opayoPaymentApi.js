@@ -8,4 +8,5 @@ const apiClient = axios.create({
 });
 
 export const createPayment = (data) => apiClient.post(`payment`, data);
+export const verifyPayment = (data) => apiClient.post(`payment/verify`, data);
 export const getTransactionInfo = (id) => apiClient.get(`payment/${id}`);
