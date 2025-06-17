@@ -432,6 +432,40 @@ export default function UnifiedCheckoutPage({ isFromQA = false }) {
     setIsProcessing(false);
   };
 
+  const handlePaymentComplete = (data) => {
+    console.log(">>>data>>", data);
+    if (data && data.success) {
+      if (data.outcome === "sentForSettlement") {
+        showMessage(
+          "Thank you! Your payment was successful and your order is being processed.",
+          "success"
+        );
+        if (isFromQA) {
+          setQaCart([]);
+        } else {
+          setCart([]);
+        }
+        cartEmpty();
+        localStorage.removeItem("questionnaire_info");
+        const transactionData = {
+          id: data?.transactionReference || "",
+          amount: calculateTotalWithShipping() || 0,
+          currency: "GBP",
+        };
+        navigate(
+          `/thankyou?transactionId=${transactionData.id}&amount=${transactionData.amount}&currency=${transactionData.currency}`
+        );
+      } else {
+        showMessage(
+          "3D Secure authentication failed. Please try again with a valid card or contact your bank.",
+          "error"
+        );
+        setIsProcessing(false);
+        return;
+      }
+    }
+  };
+
   if (!userDetails) return <>Loading...</>;
 
   return (
@@ -976,7 +1010,7 @@ export default function UnifiedCheckoutPage({ isFromQA = false }) {
       {threeDSData && (
         <ThreeDSecureRedirect
           threeDSData={threeDSData}
-          onComplete={(data) => console.log("Completed", data)}
+          onComplete={(data) => handlePaymentComplete(data)}
         />
       )}
     </Box>

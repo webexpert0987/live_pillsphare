@@ -1,16 +1,20 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { verifyPayment } from "../../apis/apisList/opayoPaymentApi";
 
 const ThreeDSecureHandler = ({ threeDSData, onComplete }) => {
   const { jwt, url, verifyUrl } = threeDSData || {};
+  const hasVerifiedRef = useRef(false); // ❗ Track if verify already called
 
   const handleVerify = async () => {
+    if (hasVerifiedRef.current) return; // 🔒 Prevent duplicate call
+    hasVerifiedRef.current = true;
+
     try {
       const res = await verifyPayment({ url: verifyUrl });
       const data = res.data;
 
       if (data?.outcome === "3dsChallenged" && data?.challenge) {
-        // Redirect to challenge
+        // 🔄 Redirect to 3DS Challenge
         const form = document.createElement("form");
         form.method = "POST";
         form.action = data.challenge.url;
@@ -25,7 +29,7 @@ const ThreeDSecureHandler = ({ threeDSData, onComplete }) => {
         document.body.appendChild(form);
         form.submit();
       } else {
-        // Final outcome - invoke callback
+        // ✅ Final outcome
         onComplete(data);
       }
     } catch (error) {
@@ -40,7 +44,6 @@ const ThreeDSecureHandler = ({ threeDSData, onComplete }) => {
       return;
     }
 
-    // 1. Submit DDC JWT to Cardinal iframe
     const form = document.createElement("form");
     form.method = "POST";
     form.action = url;
@@ -55,22 +58,14 @@ const ThreeDSecureHandler = ({ threeDSData, onComplete }) => {
     document.body.appendChild(form);
     form.submit();
 
-    // 2. Wait a few seconds and call supply3dsDeviceData
-    setTimeout(async () => {
-      try {
-        // const supplyRes = await supply3dsDeviceData(); // your wrapper for POST to `supply3dsDeviceData.href`
-        // console.log("✅ supply3dsDeviceData response:", supplyRes.data);
-        handleVerify();
-      } catch (err) {
-        console.error("❌ supply3dsDeviceData failed", err);
-        onComplete(null);
-      }
-
+    setTimeout(() => {
+      handleVerify();
       document.body.removeChild(form);
-    }, 4000); // Wait ~4s to ensure iframe loads and runs
+    }, 4000); // Allow DDC to complete before verify
   };
 
   useEffect(() => {
+    hasVerifiedRef.current = false; // Reset on component mount
     startDeviceDataCollection();
   }, [jwt, url]);
 
