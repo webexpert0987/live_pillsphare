@@ -17,7 +17,10 @@ import CardInputForm from "./CardInputForm";
 import { orderEligibility } from "../../apis/apisList/orderApi";
 import useIpAddress from "../../hooks/ipAddressHook";
 import { questionsMap } from "../../lib/questions";
-import { createPayment } from "../../apis/apisList/opayoPaymentApi";
+import {
+  createPayment,
+  getSettings,
+} from "../../apis/apisList/opayoPaymentApi";
 import ThreeDSecureRedirect from "./ThreeDSecureRedirect";
 
 const Text = styled(Typography)(({ theme }) => ({
@@ -110,11 +113,22 @@ export default function UnifiedCheckoutPage({ isFromQA = false }) {
   const [isWeightLoss, setIsWeightLoss] = useState(true);
   const [threeDSData, setThreeDSData] = useState(null);
   const [show3DSModal, setShow3DSModal] = useState(false);
+  const [configSettings, setConfigSettings] = useState([]);
 
   const cart = isFromQA ? qaCart : cartData;
   const isGuestUser = localStorage.getItem("user") ? false : true;
 
+  async function getConfigSettings() {
+    try {
+      let res = await getSettings();
+      setConfigSettings(res?.data?.data || []);
+    } catch (error) {
+      setConfigSettings([]);
+    }
+  }
+
   useEffect(() => {
+    getConfigSettings();
     const isConsult =
       cart?.[0]?.product_type === "Recommended Products Based on Consultation";
     const data = localStorage.getItem("questionnaire_info");
@@ -220,7 +234,9 @@ export default function UnifiedCheckoutPage({ isFromQA = false }) {
   };
 
   const handleSubmit = async (values) => {
-    const isDisabled = false;
+    const config = configSettings?.find((item) => item?.metaKey === "checkout");
+    const isDisabled = config?.metaValue === "off";
+
     if (isDisabled) {
       showMessage(
         "Service Unavailable We're fixing an issue and can't process orders right now. Please check back soon.",
