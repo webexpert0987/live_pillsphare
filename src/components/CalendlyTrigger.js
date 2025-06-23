@@ -49,10 +49,9 @@ const CalendlyModalTrigger = ({ orderId }) => {
         open={open}
         onModalClose={() => setOpen(false)}
         utm={{
-          utm_campaign: "Checkout",
-          utm_source: "Website",
-          utm_medium: "ZoomModal",
-          orderId: orderId, // ✅ this will also get passed
+          utmCampaign: "Checkout",
+          utmSource: "Pillsphere",
+          utmContent: orderId,
         }}
         prefill={
           {
