@@ -14,6 +14,7 @@ import {
   GlobalStyles,
   useTheme,
   useMediaQuery,
+  Divider,
 } from "@mui/material";
 import {
   MeasurementsTab,
@@ -25,7 +26,7 @@ import uploadFile from "../lib/fileUpload";
 import { uploadLiveRecord, getOrderInfo } from "../apis/apisList/orderApi";
 import { useLocation, useNavigate } from "react-router-dom";
 import BackdropLoading from "../components/BackdropLoading";
-import Link from "@mui/material/Link";
+import CalendlyTrigger from "../components/CalendlyTrigger";
 const primaryColor = "#104239";
 
 /* ------------------------------------------------------------------ */
@@ -64,10 +65,6 @@ export default function LiveRecordingVerification() {
       }
     });
   }, [orderId]);
-
-  const handleClose = () => {
-    navigate("/");
-  };
 
   const handleFileUpload = async (file) => {
     try {
@@ -109,6 +106,7 @@ export default function LiveRecordingVerification() {
         order_id: orderId,
         link: measurementVideo,
         extra_url: bodyVideo,
+        source: "pillsphere",
       });
       setLoading(false);
       showMessage(
@@ -214,20 +212,41 @@ export default function LiveRecordingVerification() {
             <FullBodyTab onSubmit={onSubmit} />
           </TabPanel>
           {tab === 0 && (
-            <Link
-              component="button"
-              variant="body1"
-              color="#c86300"
-              sx={{
-                fontWeight: "bold",
-                textAlign: "center",
-                marginTop: "40px",
+            <div
+              style={{
                 width: "100%",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                marginTop: "40px",
               }}
-              onClick={handleClose}
             >
-              Close and schedule a zoom video call
-            </Link>
+              {/* OR Divider */}
+              <Box
+                sx={{
+                  width: "100%",
+                  display: "flex",
+                  alignItems: "center",
+                  my: 3,
+                }}
+              >
+                <Divider sx={{ flexGrow: 1, borderColor: "#ccc" }} />
+                <Typography
+                  sx={{
+                    mx: 2,
+                    color: "#555",
+                    fontWeight: 500,
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  OR
+                </Typography>
+                <Divider sx={{ flexGrow: 1, borderColor: "#ccc" }} />
+              </Box>
+
+              {/* Calendly Link */}
+              <CalendlyTrigger orderId={orderId} />
+            </div>
           )}
 
           <LiveRecordDialog

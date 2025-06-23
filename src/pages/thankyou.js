@@ -63,7 +63,7 @@ const ThankYouPage = () => {
         navigate(
           `/live-recording-verification?transactionId=${txnId}&orderId=${orderId}`
         );
-      }, 1000);
+      }, 4000);
     }
   }, [location.search]);
 
