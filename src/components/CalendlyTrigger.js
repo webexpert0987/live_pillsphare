@@ -5,7 +5,7 @@ import { uploadLiveRecord } from "../apis/apisList/orderApi";
 import { useNavigate } from "react-router-dom";
 import { useMessage } from "../Context/MessageContext";
 
-const CalendlyModalTrigger = (orderId) => {
+const CalendlyModalTrigger = ({ orderId }) => {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const { showMessage } = useMessage();
@@ -15,6 +15,7 @@ const CalendlyModalTrigger = (orderId) => {
       uploadLiveRecord({
         order_id: orderId,
         source: "calendly",
+        link: "",
       }).then(() => {
         showMessage("Meeting schedule successfully.", "success");
         navigate("/");
