@@ -66,23 +66,32 @@ const Product = () => {
   const [consultationLink, setConsultationLink] = useState("");
   const navigate = useNavigate();
   const [isQaProduct, setIsQaProduct] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [inStock, setInStock] = useState(true);
 
   useEffect(() => {
     const fetchProduct = async () => {
       try {
         const response = await getProductBySlug(slug);
         setProduct(response.product);
+        if (response.product.in_stock && response.product.in_stock === "Yes") {
+          setInStock(true);
+        } else {
+          setInStock(false);
+        }
         if (response.product?.id) {
           setIsQaProduct(
             response.product.product_type === "Products with Questions"
           );
           fetchRelatedProducts(response.product.id);
         }
+        setLoading(false);
       } catch (error) {
         showMessage(
           error.response?.data?.message || "Failed to fetch product",
           "error"
         );
+        setLoading(false);
       }
     };
     const fetchRelatedProducts = async (productId) => {
@@ -96,7 +105,6 @@ const Product = () => {
         );
       }
     };
-
     fetchProduct();
   }, [slug]);
 
@@ -342,9 +350,7 @@ const Product = () => {
                           : product?.variations?.[0].variation_id
                       }
                       // value={product.variations[0].variation_id}
-                      onChange={(e) =>
-                        handleVariantSelect(product, e.target.value)
-                      }
+                      onChange={(e) => (product, e.target.value)}
                       fullWidth
                       sx={{
                         ".MuiSelect-select": {
@@ -416,56 +422,65 @@ const Product = () => {
                   />
                 )}
                 {/* Add to Cart Button */}
-                <Button
-                  variant="contained"
-                  sx={{
-                    mt: 2,
-                    backgroundColor: "tertiary.main",
-                    borderRadius: "50px",
-                    padding: "12px",
-                    maxWidth: { xs: "100%", md: "250px" },
-                    width: { xs: "100%", md: "250px" },
-                    marginTop: "20px",
-                    boxShadow: "none",
-                  }}
-                  // onClick={()=>handleAddProduct(product, product.variations[0])}
-                  onClick={() => {
-                    if (consultationLink) {
-                      navigate(consultationLink); // navigate to the consultation link
-                      return;
-                    }
-                    handleAddProduct(
-                      product,
-                      product?.selectedVariantInfo
-                        ? product?.selectedVariantInfo
-                        : product?.variations?.length
-                        ? product?.variations?.[0]
-                        : []
-                    );
-                  }}
-                >
-                  {consultationLink ? (
-                    <>
-                      Start consultation &nbsp;
-                      <Icon
-                        icon="solar:arrow-right-broken"
-                        color="primary.main"
-                        width="24"
-                        height="24"
-                      />
-                    </>
-                  ) : (
-                    <>
-                      Add To Cart &nbsp;
-                      <Icon
-                        icon="solar:arrow-right-broken"
-                        color="primary.main"
-                        width="24"
-                        height="24"
-                      />
-                    </>
-                  )}
-                </Button>
+                {loading ? (
+                  <></>
+                ) : (
+                  <Button
+                    variant="contained"
+                    sx={{
+                      mt: 2,
+                      backgroundColor: "tertiary.main",
+                      borderRadius: "50px",
+                      padding: "12px",
+                      maxWidth: { xs: "100%", md: "250px" },
+                      width: { xs: "100%", md: "250px" },
+                      marginTop: "20px",
+                      boxShadow: "none",
+                    }}
+                    disabled={!inStock}
+                    // onClick={()=>handleAddProduct(product, product.variations[0])}
+                    onClick={() => {
+                      if (consultationLink) {
+                        navigate(consultationLink); // navigate to the consultation link
+                        return;
+                      }
+                      handleAddProduct(
+                        product,
+                        product?.selectedVariantInfo
+                          ? product?.selectedVariantInfo
+                          : product?.variations?.length
+                          ? product?.variations?.[0]
+                          : []
+                      );
+                    }}
+                  >
+                    {inStock ? (
+                      consultationLink ? (
+                        <>
+                          Start consultation &nbsp;
+                          <Icon
+                            icon="solar:arrow-right-broken"
+                            color="primary.main"
+                            width="24"
+                            height="24"
+                          />
+                        </>
+                      ) : (
+                        <>
+                          Add To Cart &nbsp;
+                          <Icon
+                            icon="solar:arrow-right-broken"
+                            color="primary.main"
+                            width="24"
+                            height="24"
+                          />
+                        </>
+                      )
+                    ) : (
+                      "Out of stock"
+                    )}
+                  </Button>
+                )}
               </Box>
             </Stack>
           </Box>

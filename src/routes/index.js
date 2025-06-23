@@ -49,6 +49,8 @@ import Verification from "../pages/Verification";
 import ForgotPassword from "../pages/ForgotPassword";
 import BlogDetail from "../components/Blog/BlogDetail";
 import PageNotFound from "../pages/PageNotFound";
+import LiveRecordingVerification from "../pages/LiveRecordingVerification";
+
 const routes = [
   {
     path: "/",
@@ -278,6 +280,11 @@ const routes = [
   {
     path: "/forgot",
     component: ForgotPassword,
+    exact: true,
+  },
+  {
+    path: "/live-recording-verification",
+    component: LiveRecordingVerification,
     exact: true,
   },
   // Else for any invalid page

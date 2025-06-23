@@ -10,6 +10,7 @@ import {
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useApp } from "../Context/AppContext";
+import { useMessage } from "../Context/MessageContext";
 
 const ThankYouPage = () => {
   const navigate = useNavigate();
@@ -18,16 +19,19 @@ const ThankYouPage = () => {
   const [amount, setAmount] = useState(0);
   const [currency, setCurrency] = useState("GBP");
   const { setCart, cartEmpty, setQaCart } = useApp();
+  const { showMessage } = useMessage();
 
   useEffect(() => {
     // Parse query params from URL
     const params = new URLSearchParams(location.search);
     const txnId = params.get("transactionId") || "";
+    const orderId = params.get("orderId") || "";
     const amt = parseFloat(params.get("amount")) || 0;
     const curr = params.get("currency") || "GBP";
-    const isFromQA = params.get("isFromQA") || false;
+    const isFromQA = params.get("isFromQA") || "false";
+    const isWeightLoss = params.get("isWeightLoss") || "false";
 
-    if (isFromQA) {
+    if (isFromQA == "true") {
       setQaCart([]);
     } else {
       setCart([]);
@@ -52,6 +56,14 @@ const ThankYouPage = () => {
           transaction_id: txnId,
         });
       }
+    }
+    if (isWeightLoss == "true") {
+      showMessage("Redirecting to video recording page.");
+      setTimeout(() => {
+        navigate(
+          `/live-recording-verification?transactionId=${txnId}&orderId=${orderId}`
+        );
+      }, 1000);
     }
   }, [location.search]);
 

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { verifyPayment } from "../../apis/apisList/opayoPaymentApi";
 
-const ThreeDSecureHandler = ({ threeDSData, onComplete }) => {
+const ThreeDSecureHandler = ({ threeDSData, onComplete, onError }) => {
   const { jwt, url, verifyUrl } = threeDSData || {};
   const hasVerifiedRef = useRef(false); // ❗ Track if verify already called
 
@@ -34,7 +34,7 @@ const ThreeDSecureHandler = ({ threeDSData, onComplete }) => {
       }
     } catch (error) {
       console.error("❌ verifyPayment failed", error);
-      onComplete(null);
+      onError(error);
     }
   };
 

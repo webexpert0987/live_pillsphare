@@ -1,7 +1,7 @@
 import apiClient from "../apis/api";
 import axios from "axios";
 
-const uploadFile = async (file, onProgress) => {
+const uploadFile = async (file, onProgress, videoType) => {
   if (!file) {
     console.error("No file provided for upload.");
     return null;
@@ -12,8 +12,8 @@ const uploadFile = async (file, onProgress) => {
       "/wp-json/wp/v2/generate-signed-url",
       {
         params: {
-          fileName: file.name,
-          fileType: file.type,
+          fileName: file?.name || videoType?.name,
+          fileType: file?.type || videoType?.type,
         },
       }
     );
@@ -23,8 +23,10 @@ const uploadFile = async (file, onProgress) => {
     // Step 2: Upload file directly to S3 using the signed URL
     await axios.put(decodeURIComponent(signedUrl), file, {
       headers: {
-        "Content-Type": file.type,
-        "Content-Disposition": `attachment; filename="${file.name}"`,
+        "Content-Type": file?.type || videoType?.type,
+        "Content-Disposition": `attachment; filename="${
+          file?.name || videoType?.name
+        }"`,
       },
       onUploadProgress: (progressEvent) => {
         if (onProgress) {

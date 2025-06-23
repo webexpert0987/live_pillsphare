@@ -3,12 +3,24 @@ import React, { useEffect, useState } from "react";
 import { Box, Typography, IconButton, Link, Paper, Slide } from "@mui/material";
 import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { useLocation } from "react-router-dom";
 
 const ZendeskChatWrapper = () => {
   const [open, setOpen] = useState(false);
   const [isBusinessHours, setIsBusinessHours] = useState(false);
+  const location = useLocation();
+  const pathname = location.pathname;
+  const [hide, setHide] = useState(true);
 
   useEffect(() => {
+    if (pathname === "/live-recording-verification") {
+      setHide(true);
+    } else {
+      setHide(false);
+    }
+  }, [pathname]);
+  useEffect(() => {
+    if (hide) return;
     const now = new Date();
     const day = now.getDay(); // 0 = Sunday, 6 = Saturday
     const hour = now.getHours(); // 0–23
@@ -23,11 +35,13 @@ const ZendeskChatWrapper = () => {
       zendeskScript.async = true;
       document.body.appendChild(zendeskScript);
     }
-  }, []);
+  }, [hide]);
 
   const toggleChat = () => {
     setOpen((prev) => !prev);
   };
+
+  if (hide) return null;
 
   return (
     <>

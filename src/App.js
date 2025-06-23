@@ -6,20 +6,18 @@ import StaticPaymentPage from "./StaticPaymentPage";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import routes from "./routes";
 import MainLayout from "./layout/MainLayout";
-import ZendeskWidget from "./components/ZendeskWidget";
 import Sitemap from "./components/Sitemap/Sitemap";
 
 function App() {
   return (
     <div className="App">
-      <ZendeskWidget />
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Router>
           <Routes>
             {/* Sitemap route */}
             <Route path="/sitemap.xml" element={<Sitemap />} />
-            
+
             {/* MainLayout wraps all pages */}
             <Route element={<MainLayout />}>
               {routes.map((route, index) => (

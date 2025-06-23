@@ -22,6 +22,7 @@ import {
   getSettings,
 } from "../../apis/apisList/opayoPaymentApi";
 import ThreeDSecureRedirect from "./ThreeDSecureRedirect";
+import LiveRecordAlert from "./LiveRecordAlert";
 
 const Text = styled(Typography)(({ theme }) => ({
   color: "#333333",
@@ -113,7 +114,8 @@ export default function UnifiedCheckoutPage({ isFromQA = false }) {
   const [isWeightLoss, setIsWeightLoss] = useState(true);
   const [threeDSData, setThreeDSData] = useState(null);
   const [show3DSModal, setShow3DSModal] = useState(false);
-  const [configSettings, setConfigSettings] = useState([]);
+  const [liveRecordOpen, setLiveRecordOpen] = useState(false);
+  const [formData, setFormData] = useState(null);
 
   const cart = isFromQA ? qaCart : cartData;
   const isGuestUser = localStorage.getItem("user") ? false : true;
@@ -121,14 +123,13 @@ export default function UnifiedCheckoutPage({ isFromQA = false }) {
   async function getConfigSettings() {
     try {
       let res = await getSettings();
-      setConfigSettings(res?.data?.data || []);
+      return res?.data?.data;
     } catch (error) {
-      setConfigSettings([]);
+      return [];
     }
   }
 
   useEffect(() => {
-    getConfigSettings();
     const isConsult =
       cart?.[0]?.product_type === "Recommended Products Based on Consultation";
     const data = localStorage.getItem("questionnaire_info");
@@ -233,46 +234,12 @@ export default function UnifiedCheckoutPage({ isFromQA = false }) {
     }
   };
 
-  const handleSubmit = async (values) => {
-    const config = configSettings?.find((item) => item?.metaKey === "checkout");
-    const isDisabled = config?.metaValue === "off";
-
-    if (isDisabled) {
-      showMessage(
-        "Service Unavailable We're fixing an issue and can't process orders right now. Please check back soon.",
-        "error"
-      );
-      return;
-    }
+  const handleProcess = async () => {
+    if (!formData) return;
+    const values = formData;
+    setLiveRecordOpen(false);
     setIsProcessing(true);
-    setCardErrors({});
-    const cardErrs = cardValidation(cardValues);
-    if (Object.keys(cardErrs).length > 0) {
-      setCardErrors(cardErrs);
-      setIsProcessing(false);
-      showMessage("Please enter valid card details.", "error");
-      return;
-    }
-    if (cart.length === 0) {
-      navigate("/");
-      showMessage(
-        "Your cart is empty! Add some products before checking out.",
-        "error"
-      );
-      setIsProcessing(false);
-      return;
-    }
-
-    if (!selectedShippingMethod) {
-      showMessage(
-        "Please select a shipping option to proceed with the payment.",
-        "error"
-      );
-      setIsProcessing(false);
-      return;
-    }
     // Build API payload
-
     try {
       const addressData = {
         address1: values.address_1,
@@ -395,6 +362,7 @@ export default function UnifiedCheckoutPage({ isFromQA = false }) {
           guest_id: guest_id,
           isGuestCheckout: localStorage.getItem("user") ? false : true,
           isFromQA,
+          isWeightLoss,
         },
       };
 
@@ -437,7 +405,7 @@ export default function UnifiedCheckoutPage({ isFromQA = false }) {
         currency: response?.data?.result.currency,
       };
       navigate(
-        `/thankyou?transactionId=${transactionData.id}&amount=${transactionData.amount}&currency=${transactionData.currency}`
+        `/thankyou?transactionId=${transactionData.id}&amount=${transactionData.amount}&currency=${transactionData.currency}&isWeightLoss=${isWeightLoss}`
       );
     } catch (error) {
       const message =
@@ -446,6 +414,61 @@ export default function UnifiedCheckoutPage({ isFromQA = false }) {
       showMessage(message, "error");
     }
     setIsProcessing(false);
+  };
+
+  const validateData = async () => {
+    setCardErrors({});
+    const cardErrs = cardValidation(cardValues);
+    if (Object.keys(cardErrs).length > 0) {
+      setCardErrors(cardErrs);
+      setIsProcessing(false);
+      showMessage("Please enter valid card details.", "error");
+      return false;
+    }
+    if (cart.length === 0) {
+      navigate("/");
+      showMessage(
+        "Your cart is empty! Add some products before checking out.",
+        "error"
+      );
+      setIsProcessing(false);
+      return false;
+    }
+
+    if (!selectedShippingMethod) {
+      showMessage(
+        "Please select a shipping option to proceed with the payment.",
+        "error"
+      );
+      setIsProcessing(false);
+      return false;
+    }
+
+    const settings = (await getConfigSettings()) || [];
+    const config = settings?.find((item) => item?.metaKey === "checkout");
+    const isDisabled = config?.metaValue === "off";
+
+    if (isDisabled) {
+      showMessage(
+        "Service Unavailable We're fixing an issue and can't process orders right now. Please check back soon.",
+        "error"
+      );
+      return false;
+    }
+    if (isWeightLoss) {
+      setLiveRecordOpen(true);
+    } else {
+      handleProcess();
+    }
+
+    return true;
+  };
+
+  const handleSubmit = async (values) => {
+    if (!validateData()) {
+      return;
+    }
+    setFormData(values);
   };
 
   const handlePaymentComplete = (data) => {
@@ -469,7 +492,7 @@ export default function UnifiedCheckoutPage({ isFromQA = false }) {
           currency: "GBP",
         };
         navigate(
-          `/thankyou?transactionId=${transactionData.id}&amount=${transactionData.amount}&currency=${transactionData.currency}`
+          `/thankyou?transactionId=${transactionData.id}&amount=${transactionData.amount}&currency=${transactionData.currency}&isWeightLoss=${isWeightLoss}`
         );
       } else {
         showMessage(
@@ -480,6 +503,14 @@ export default function UnifiedCheckoutPage({ isFromQA = false }) {
         return;
       }
     }
+  };
+
+  const handle3DSError = (data) => {
+    setIsProcessing(false);
+    showMessage(
+      "Something went wrong with your payment.Please try again.",
+      "error"
+    );
   };
 
   if (!userDetails) return <>Loading...</>;
@@ -1027,8 +1058,11 @@ export default function UnifiedCheckoutPage({ isFromQA = false }) {
         <ThreeDSecureRedirect
           threeDSData={threeDSData}
           onComplete={(data) => handlePaymentComplete(data)}
+          onError={(data) => handle3DSError(data)}
         />
       )}
+
+      <LiveRecordAlert open={liveRecordOpen} onClose={handleProcess} />
     </Box>
   );
 }
