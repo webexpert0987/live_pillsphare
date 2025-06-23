@@ -116,6 +116,7 @@ export default function LiveRecordingVerification() {
         "success"
       );
       navigate("/");
+      window.scrollTo({ top: 0 });
     } catch (error) {
       showMessage("Internal server error", "error");
     }
