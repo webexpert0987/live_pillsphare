@@ -493,7 +493,7 @@ const TreatmentRecommendation = () => {
           </Grid2>
         ) : (
           products.slice(0, visibleProducts).map((product, index) => (
-            <Grid2 size={{ xs: 6, sm: 6, md: 6 }} key={index}>
+            <Grid2 size={{ xs: 20, sm: 6, md: 6 }} key={index}>
               <ProductCard
                 product={product}
                 handleSubmit={handleSubmit}

@@ -516,7 +516,15 @@ export default function UnifiedCheckoutPage({ isFromQA = false }) {
   if (!userDetails) return <>Loading...</>;
 
   return (
-    <Box sx={{ margin: "20px" }}>
+    <Box
+      sx={{
+        margin: {
+          xs: "0px",
+          md: "20px",
+        },
+        width: "100%",
+      }}
+    >
       <Grid
         container
         spacing={{ xs: 2, md: 2 }}
@@ -534,7 +542,10 @@ export default function UnifiedCheckoutPage({ isFromQA = false }) {
           }
           sx={{
             border: "1px solid #d1cbcb",
-            padding: "30px",
+            padding: {
+              xs: "10px",
+              md: "30px",
+            },
             borderRadius: "10px",
             boxShadow:
               "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",

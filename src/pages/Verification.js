@@ -6,7 +6,7 @@ import { useApp } from "../Context/AppContext";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useMessage } from "../Context/MessageContext";
 
-const OtpInput = styled(TextField)({
+const OtpInput = styled(TextField)(({ theme }) => ({
   "& .MuiOutlinedInput-root": {
     "& fieldset": { borderColor: "#e0e0e0" },
     "&:hover fieldset": { borderColor: "#bdbdbd" },
@@ -15,13 +15,13 @@ const OtpInput = styled(TextField)({
   "& .MuiOutlinedInput-input": {
     textAlign: "center",
     fontSize: "1.5rem",
-    padding: "10px",
-    width: "40px",
-    height: "40px",
+    padding: "20px",
     appearance: "textfield",
+    [theme.breakpoints.down("sm")]: {
+      padding: "0", // Remove padding on small devices
+    },
   },
-});
-
+}));
 const VerificationPage = () => {
   const { login } = useApp();
   const { showMessage } = useMessage();
