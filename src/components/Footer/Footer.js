@@ -177,7 +177,6 @@ export default function Footer() {
                 },
               }}
               onChange={(e) => setEmail(e.target.value)}
-
             />
             <Button
               variant="contained"
@@ -590,6 +589,17 @@ export default function Footer() {
                 >
                   16158942
                 </a>
+              </Typography>{" "}
+              <Typography
+                sx={{
+                  // marginTop: { xs: "15px", sm: "15px", md: "20px" },
+                  fontSize: { xs: "15px", sm: "16px", md: "16px" },
+                  fontWeight: "500",
+                }}
+              >
+                Vat Number: <a 
+                  href=""
+                >490861662</a>
               </Typography>
             </Grid>
           </Grid>
@@ -655,29 +665,28 @@ export default function Footer() {
               <img src="/images/social/linkedin.png" alt="linkedin" />
             </a> */}
 
-         
-              <img
-                src={FooterLogoIcoImg}
-                alt="footer_img_logo"
-                style={{
-                  // width: "130px", 
-                  height: "55px", 
-                  objectFit: "cover",
-                  padding: "4px",
-                  borderRadius: "6px",
-                }}
-              />
-              <img
-                src={FooterNpaLogoImg}
-                alt="footer_img_logo"
-                style={{
-                  // width: "130px",  
-                  height: "55px", 
-                  objectFit: "cover", 
-                  padding: "4px",
-                  borderRadius: "6px",
-                }}
-              />
+            <img
+              src={FooterLogoIcoImg}
+              alt="footer_img_logo"
+              style={{
+                // width: "130px",
+                height: "55px",
+                objectFit: "cover",
+                padding: "4px",
+                borderRadius: "6px",
+              }}
+            />
+            <img
+              src={FooterNpaLogoImg}
+              alt="footer_img_logo"
+              style={{
+                // width: "130px",
+                height: "55px",
+                objectFit: "cover",
+                padding: "4px",
+                borderRadius: "6px",
+              }}
+            />
           </Box>
         </Box>
       </Container>
