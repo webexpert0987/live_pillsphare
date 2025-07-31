@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Grid from "@mui/material/Grid2";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -21,8 +21,8 @@ import {
   createPayment,
   getSettings,
 } from "../../apis/apisList/opayoPaymentApi";
+import ThreeDSecureRedirect from "./ThreeDSecureRedirect";
 import LiveRecordAlert from "./LiveRecordAlert";
-import OrderStatusDialog from "./OrderStatusDialog";
 
 const Text = styled(Typography)(({ theme }) => ({
   color: "#333333",
@@ -111,11 +111,11 @@ export default function UnifiedCheckoutPage({ isFromQA = false }) {
   const [cardErrors, setCardErrors] = useState({});
   const [questionAnswersdata, setquestionAnswersdata] = useState(null);
   const ipAddress = useIpAddress();
+  const [isWeightLoss, setIsWeightLoss] = useState(true);
+  const [threeDSData, setThreeDSData] = useState(null);
+  const [show3DSModal, setShow3DSModal] = useState(false);
   const [liveRecordOpen, setLiveRecordOpen] = useState(false);
   const [formData, setFormData] = useState(null);
-  const [searchParams, setSearchParams] = useSearchParams();
-  const orderId = searchParams.get("id");
-  const [dialogOpen, setDialogOpen] = useState(true);
 
   const cart = isFromQA ? qaCart : cartData;
   const isGuestUser = localStorage.getItem("user") ? false : true;
@@ -129,7 +129,7 @@ export default function UnifiedCheckoutPage({ isFromQA = false }) {
     }
   }
 
-  const checkWeightLossProduct = () => {
+  useEffect(() => {
     const isConsult =
       cart?.[0]?.product_type === "Recommended Products Based on Consultation";
     const data = localStorage.getItem("questionnaire_info");
@@ -137,14 +137,14 @@ export default function UnifiedCheckoutPage({ isFromQA = false }) {
       const parseData = JSON.parse(data);
       const { category } = parseData;
       if (category && category === "weight-loss") {
-        return true;
+        setIsWeightLoss(true);
       } else {
-        return false;
+        setIsWeightLoss(false);
       }
     } else {
-      return false;
+      setIsWeightLoss(false);
     }
-  };
+  }, [cart]);
 
   const calculateQATotal = () => {
     try {
@@ -309,7 +309,6 @@ export default function UnifiedCheckoutPage({ isFromQA = false }) {
       const getUser = localStorage.getItem("user") || "{}";
       const userInfo = JSON.parse(getUser);
       const guest_id = localStorage.getItem("guest_id");
-      const isWeightLossProduct = checkWeightLossProduct();
 
       const payload = {
         amount: calculateTotalWithShipping(),
@@ -363,16 +362,29 @@ export default function UnifiedCheckoutPage({ isFromQA = false }) {
           guest_id: guest_id,
           isGuestCheckout: localStorage.getItem("user") ? false : true,
           isFromQA,
-          isWeightLoss: isWeightLossProduct,
+          isWeightLoss,
         },
       };
 
       const response = await createPayment(payload);
 
       if (response?.data.success === false) {
-        if (response?.data?.redirectUrl) {
-          window.location.href = response?.data?.redirectUrl;
+        if (response?.data?.result?.outcome === "3dsDeviceDataRequired") {
+          setThreeDSData({
+            jwt: response?.data?.result.deviceDataCollection?.jwt,
+            url: response?.data?.result?.deviceDataCollection?.url,
+            verifyUrl:
+              response?.data?.result?._actions?.supply3dsDeviceData?.href,
+          });
+          setShow3DSModal(true);
           // setIsProcessing(false);
+          return;
+        } else {
+          const message =
+            response?.data?.result?.statusDetail ||
+            "There was a problem with the payment process.";
+          showMessage(message, "error");
+          setIsProcessing(false);
           return;
         }
       }
@@ -391,13 +403,11 @@ export default function UnifiedCheckoutPage({ isFromQA = false }) {
         id: response?.data?.result?.transactionId || "",
         amount: calculateTotalWithShipping() || 0,
         currency: response?.data?.result.currency,
-        orderId: response.data?.result?.orderId || "",
       };
       navigate(
-        `/thankyou?transactionId=${transactionData.id}&amount=${transactionData.amount}&currency=${transactionData.currency}&isWeightLoss=${isWeightLossProduct}&orderId=${transactionData.orderId}`
+        `/thankyou?transactionId=${transactionData.id}&amount=${transactionData.amount}&currency=${transactionData.currency}&isWeightLoss=${isWeightLoss}`
       );
     } catch (error) {
-      console.log(">>error>>>", error);
       const message =
         error?.response?.data?.message ||
         "There was a problem with the payment process.";
@@ -437,7 +447,6 @@ export default function UnifiedCheckoutPage({ isFromQA = false }) {
     const settings = (await getConfigSettings()) || [];
     const config = settings?.find((item) => item?.metaKey === "checkout");
     const isDisabled = config?.metaValue === "off";
-    const isWeightLossProduct = checkWeightLossProduct();
 
     if (isDisabled) {
       showMessage(
@@ -446,56 +455,57 @@ export default function UnifiedCheckoutPage({ isFromQA = false }) {
       );
       return false;
     }
-    if (isWeightLossProduct) {
+    if (isWeightLoss) {
       setLiveRecordOpen(true);
     } else {
-      await handleProcess();
+      handleProcess();
     }
+
+    return true;
   };
 
   const handleSubmit = async (values) => {
-    // if (!validateData()) {
-    //   return;
-    // }
-    validateData();
+    if (!validateData()) {
+      return;
+    }
     setFormData(values);
   };
 
-  const handleSuccess = (data) => {
+  const handlePaymentComplete = (data) => {
+    console.log(">>>data>>", data);
     if (data && data.success) {
-      showMessage(
-        "Thank you! Your payment was successful and your order is being processed.",
-        "success"
-      );
-      if (isFromQA) {
-        setQaCart([]);
+      if (data.outcome === "sentForSettlement") {
+        showMessage(
+          "Thank you! Your payment was successful and your order is being processed.",
+          "success"
+        );
+        if (isFromQA) {
+          setQaCart([]);
+        } else {
+          setCart([]);
+        }
+        cartEmpty();
+        localStorage.removeItem("questionnaire_info");
+        const transactionData = {
+          id: data?.transactionReference || "",
+          amount: calculateTotalWithShipping() || 0,
+          currency: "GBP",
+        };
+        navigate(
+          `/thankyou?transactionId=${transactionData.id}&amount=${transactionData.amount}&currency=${transactionData.currency}&isWeightLoss=${isWeightLoss}`
+        );
       } else {
-        setCart([]);
+        showMessage(
+          "3D Secure authentication failed. Please try again with a valid card or contact your bank.",
+          "error"
+        );
+        setIsProcessing(false);
+        return;
       }
-      cartEmpty();
-      localStorage.removeItem("questionnaire_info");
-      const transactionData = {
-        id: data?.result.transactionId || "",
-        amount: data?.result?.amount || 0,
-        currency: data?.result?.currency || "GBP",
-        isWeightLoss: data?.result?.isWeightLoss || false,
-        orderId: data?.result?.orderId || "",
-      };
-
-      navigate(
-        `/thankyou?transactionId=${transactionData.id}&amount=${transactionData.amount}&currency=${transactionData.currency}&isWeightLoss=${transactionData.isWeightLoss}&orderId=${transactionData.orderId}`
-      );
-    } else {
-      showMessage(
-        "3D Secure authentication failed. Please try again with a valid card or contact your bank.",
-        "error"
-      );
-      setIsProcessing(false);
-      return;
     }
   };
 
-  const handleError = (error) => {
+  const handle3DSError = (data) => {
     setIsProcessing(false);
     showMessage(
       "Something went wrong with your payment.Please try again.",
@@ -768,7 +778,7 @@ export default function UnifiedCheckoutPage({ isFromQA = false }) {
                         <ShippingMethodSelector
                           onMethodSelect={handleShippingMethodSelect}
                           price={calculateTotal()}
-                          checkWeightLossProduct={checkWeightLossProduct}
+                          isWeightLoss={isWeightLoss}
                         />
                         <Typography variant="h6">
                           Final Total: £{calculateTotalWithShipping()}
@@ -821,10 +831,10 @@ export default function UnifiedCheckoutPage({ isFromQA = false }) {
                       spacing={2}
                       sx={{ maxHeight: "530px", overflowY: "auto", padding: 2 }}
                     >
-                      {cart.map((item, idx) => (
+                      {cart.map((item) => (
                         <>
                           <Box
-                            key={idx}
+                            key={item.id}
                             sx={{
                               display: "flex",
                               flexDirection: {
@@ -1055,12 +1065,11 @@ export default function UnifiedCheckoutPage({ isFromQA = false }) {
           </Box>
         </Grid>
       </Grid>
-      {orderId && (
-        <OrderStatusDialog
-          open={dialogOpen}
-          orderId={orderId}
-          onSuccess={handleSuccess}
-          onError={handleError}
+      {threeDSData && (
+        <ThreeDSecureRedirect
+          threeDSData={threeDSData}
+          onComplete={(data) => handlePaymentComplete(data)}
+          onError={(data) => handle3DSError(data)}
         />
       )}
 

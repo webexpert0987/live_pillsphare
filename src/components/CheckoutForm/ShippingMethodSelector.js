@@ -10,7 +10,11 @@ import {
 } from "@mui/material";
 import { getShippingMethods } from "../../apis/apisList/orderApi";
 
-const ShippingMethodSelector = ({ price, onMethodSelect, isWeightLoss }) => {
+const ShippingMethodSelector = ({
+  price,
+  onMethodSelect,
+  checkWeightLossProduct,
+}) => {
   const [shippingMethods, setShippingMethods] = useState([]);
   const [loading, setLoading] = useState(true);
   const [value, setValue] = useState("");
@@ -33,6 +37,7 @@ const ShippingMethodSelector = ({ price, onMethodSelect, isWeightLoss }) => {
         const filterData = transformed.filter(
           (data) => parseFloat(data.min_amount) < price
         );
+        let isWeightLoss = checkWeightLossProduct();
         if (isWeightLoss) {
           const newData = filterData.filter(
             (data) => data.id === "Temperature controlled"
@@ -50,7 +55,7 @@ const ShippingMethodSelector = ({ price, onMethodSelect, isWeightLoss }) => {
     };
 
     fetchShippingMethods();
-  }, [price, isWeightLoss]);
+  }, [price]);
 
   const handleChange = (e) => {
     let methodId = e.target.value;
