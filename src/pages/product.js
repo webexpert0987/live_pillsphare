@@ -485,6 +485,14 @@ const Product = () => {
             </Stack>
           </Box>
         </Box>
+
+        {relatedProducts.length === 0 ? (
+          <Box></Box>
+        ) : (
+          <Box backgroundColor={theme.palette.primary.main} mt={5}>
+            <RelatedProduct relatedProducts={relatedProducts} />
+          </Box>
+        )}
         {/******** Delivery Info Row ********/}
         <Box>
           <CardContent
@@ -654,13 +662,6 @@ const Product = () => {
         </Box>
         {/********* Product Overview End **********/}
       </Container>
-      {relatedProducts.length === 0 ? (
-        <Box></Box>
-      ) : (
-        <Box backgroundColor={theme.palette.primary.main}>
-          <RelatedProduct relatedProducts={relatedProducts} />
-        </Box>
-      )}
       {/* {isQuestionModalOpen && (
         <Dialog
           open={isQuestionModalOpen}
